@@ -1,72 +1,3 @@
-# pacman allows to check, install and load packages with a single call
-if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
-pacman::p_load(ggplot2)
-
-plot_coloured_subjects <- function(
-    p, df, x, y, 
-    alpha = 0.4,
-    name = NULL
-) {
-  ggplot_elements <-
-    list(
-      geom_point(
-        data = data.frame(
-          x = x,
-          y = y,
-          color = df$vviq_group_4
-        ),
-        aes(x = x, y = y, color = color),
-        alpha = alpha,
-      ),
-      scale_discrete_manual(
-        aesthetics = c("color"),
-        name = name,
-        values = palette.colors()[1:4],
-        labels = c(
-          "aphantasia"     = "Aphantasia",
-          "hypophantasia"  = "Hypophantasia",
-          "typical"        = "Typical",
-          "hyperphantasia" = "Hyperphantasia"
-        )
-      )
-    )
-  
-  return(ggplot_elements)
-}
-
-plot_alexithymia_cutoff <- function(
-    p, 
-    color = "red",
-    linetype = "dashed",
-    linewidth = 0.3,
-    txt_x = 30,
-    txt_y = 63,
-    txt_size = 2,
-    label = "Alexithymia cut-off"
-) {
-  ggplot_elements <-
-    list(
-      geom_hline(
-        yintercept = 61,
-        linetype = linetype,
-        linewidth = linewidth,
-        color = color,
-        show.legend = FALSE
-      ),
-      annotate(
-        "text",
-        x = txt_x,
-        y = txt_y,
-        label = label,
-        color = color,
-        size = txt_size,
-        hjust = 0
-      )
-    )
-  
-  return(ggplot_elements)
-}
-
 #' Theme for elegant scientific vector figures
 #'
 #' @description
@@ -154,10 +85,10 @@ theme_pdf <- function(
     legend_relative = 1,
     ...
 ) {
-  rlang::check_installed("curl")
-  rlang::check_installed("ggplot2")
-  rlang::check_installed("sysfonts")
-  rlang::check_installed("showtext")
+  rlang::check_installed("curl", reason = "to use `theme_pdf()`.")
+  rlang::check_installed("ggplot2", reason = "to use `theme_pdf()`.")
+  rlang::check_installed("sysfonts", reason = "to use `theme_pdf()`.")
+  rlang::check_installed("showtext", reason = "to use `theme_pdf()`.")
 
   try(sysfonts::font_add_google(family), silent = TRUE)
   showtext::showtext_auto()
@@ -165,7 +96,7 @@ theme_pdf <- function(
   frac_size <- base_size / 1.5
   half_size <- base_size / 2
 
-  elegant_theme <-
+  pdf_theme <-
     base_theme(
       base_size   = base_size,
       base_family = family,
@@ -237,7 +168,7 @@ theme_pdf <- function(
       # .box.margin or .spacing (between legends, between legend box and plot)
       legend.margin = ggplot2::margin(0, 0, 0, 0),
       # Spacing between the whole legend box and the plot area
-      legend.box.spacing = grid::unit(base_size / 4, "pt"),
+      legend.box.spacing = grid::unit(base_size * 0.25, "pt"),
       # Additional margin around the whole legend box
       legend.box.margin  = ggplot2::margin(
         half_size, half_size, half_size, half_size
@@ -248,15 +179,15 @@ theme_pdf <- function(
       legend.spacing.x     = grid::unit(base_size * 2, "pt"),
       legend.spacing.y     = grid::unit(base_size, "pt"),
       # # Size of the "icon" in the key (dots, lines, etc.)
-      legend.key.height    = grid::unit(base_size * 1.25, "pt"),
-      legend.key.width     = grid::unit(base_size * 1.25, "pt"),
+      legend.key.height    = grid::unit(base_size * 0.5, "pt"),
+      legend.key.width     = grid::unit(base_size * 0.5, "pt"),
       # # Spacing around the whole keys (icon + text <----> icon + text)
       legend.key.spacing.x = grid::unit(base_size * 1.25, "pt"),
-      legend.key.spacing.y = grid::unit(base_size / 2, "pt"),
+      legend.key.spacing.y = grid::unit(base_size * 0.5, "pt"),
     ) +
     ggplot2::theme(...)
 
-  return(elegant_theme)
+  return(pdf_theme)
 }
 
 #' Custom ggsave wrapper set with Nature's formatting guidelines (width-locked)
@@ -294,13 +225,13 @@ save_ggplot <- function(
     ncol     = 1,
     width    = NULL,
     height   = 90,
-    show     = FALSE,
+    return   = FALSE,
     verbose  = TRUE,
     units    = "mm",
     dpi      = 600,
     ...
 ) {
-  rlang::check_installed("here")
+  rlang::check_installed("here", reason = "to use `save_ggplot()`.")
 
   if (!is.null(width)) {
     width <- width
@@ -332,7 +263,7 @@ save_ggplot <- function(
       "{magenta |-> {", colour, " {shape}} figure saved in {yellow {path}}.}"
     ))
   }
-  if (show) return(plot)
+  if (return) return(plot)
   invisible(plot)
 }
 
@@ -403,91 +334,4 @@ add_significance <- function(
       inherit.aes = FALSE
     )
   )
-}
-
-#' Write information about the sample on the plots
-#' 
-#' @description 
-#' This function formats the number of participants in the sample or in each 
-#' group inside a call object that can be displayed nicely on ggplot2 figures.
-#' It started as a personal fancy to learn how to put text in subscript on
-#' ggplots with plotmath, but it ended up being pretty useful.
-#'
-#' @param df       A dataframe with id and Group columns
-#' @param n_groups The number of groups to display. Must be either 0, 2 or 4.
-#' @param type  A string indicating the type of information to display. Can be
-#' either "groups" or "clusters".
-#' @param prefix   A string. Text to add before the number of participants
-#' @param suffix   A string. Text to add after the number of participants
-#' @param ...      Other arguments passed to the function. Not used.
-#'
-#' @returns A call with the number of participants in each group that can be 
-#' used in ggplot2 text elements (such as the title or subtitle).
-#' @export
-write_sample_info <- function(
-    df, 
-    n_groups = 2, 
-    prefix = "",
-    suffix = "",
-    ...
-) {
-  if (n_groups == 0) {
-    txt <- 
-      bquote(
-        .(prefix)*
-          "N"[Total] == 
-          .(nrow(df))*
-          .(suffix)
-      )
-  } else if (n_groups == 2) {
-    txt <- 
-      bquote(
-        .(prefix)*
-          "N"[Aphant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_2 == "aphantasia"))) ~
-          ", N"[Typical.] == .(nrow(dplyr::filter(df, vviq_group_2 == "typical")))*
-          .(suffix)
-      )
-  } else if (n_groups == 3) {
-    txt <- 
-      bquote(
-        .(prefix)*
-          "N"[Aphant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_3 == "aphantasia"))) ~
-          ", N"[Hypophant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_3 == "hypophantasia"))) ~
-          ", N"[Typical.] == .(nrow(dplyr::filter(df, vviq_group_3 == "typical")))*
-          .(suffix)
-      )
-  } else if (n_groups == 4) {
-    txt <- 
-      bquote(
-        .(prefix)*
-          "N"[Aphant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_4 == "aphantasia"))) ~
-          ", N"[Hypophant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_4 == "hypophantasia"))) ~
-          ", N"[Typical.] == 
-          .(nrow(dplyr::filter(df, vviq_group_4 == "typical"))) ~
-          ", N"[Hyperphant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_4 == "hyperphantasia")))*
-          .(suffix)
-      )
-  } else if (n_groups == 33) {
-    txt <- 
-      bquote(
-        .(prefix)*
-          "N"[Aphant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_monzel == "aphantasia"))) ~
-          ", N"[Hypophant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_monzel == "hypophantasia"))) ~
-          ", N"[Typical.] == .(nrow(dplyr::filter(df, vviq_group_monzel == "typical")))*
-          .(suffix)
-      )
-  } else stop(glue::glue_col(
-    "n_groups must be either '{blue 0}', '{cyan 2}', '{blue 3}', '{green 4}' ",
-    "or '{magenta 33}' (for Monzel's grouping)."
-  ))
-  
-  return(txt)
 }
