@@ -1,6 +1,4 @@
-# pacman allows to check, install and load packages with a single call
-if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
-pacman::p_load(mgcv, modelbased, performance)
+pacman::p_load(mgcv, modelbased)
 
 source(here::here("R/report_contrast.R"))
 
