@@ -1,0 +1,38 @@
+Type: Project
+Package: aphantasia-alexithymia
+Title: Aphantasia and Alexithymia Analyses
+Version: 0.0.0.9000
+Authors@R: 
+    person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0005-8518-1991"))
+Description: This project contains the code to analyse data from aphantasia and 
+    alexithymia questionnaires.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: 
+    R (>= 4.1)
+Imports: 
+    dplyr,
+    fs,
+    ggplot2,
+    here,
+    pacman,
+    patchwork,
+    purrr,
+    rlang,
+    scales,
+    tidyr
+Suggests: 
+    curl,
+    devtools,
+    emmeans,
+    ggpubr,
+    marginaleffects,
+    modelbased,
+    performance,
+    see,
+    showtext,
+    superb,
+    sysfonts
