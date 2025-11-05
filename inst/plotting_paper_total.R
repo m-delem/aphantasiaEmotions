@@ -1,10 +1,10 @@
-# pacman allows to check, install and load packages with a single call
-if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
-pacman::p_load(ggplot2, patchwork)
+pacman::p_load(ggplot2, patchwork, superb)
+
+here::here("R") |> fs::dir_ls() |> purrr::walk(source)
 
 source(here::here("inst/modelling_tas.R"))
-source(here::here("R/plot_superb.R"))
-source(here::here("R/plot_gam.R"))
+source(here::here("R/ggplot_tools.R"))
+source(here::here("R/ggplot_aphantasia.R"))
 
 load(here::here("data/tas_data.rda"))
 
@@ -106,25 +106,14 @@ p_group_total <-
       y_line = .data$y_star - 1.5
     )
   ) +
-  scale_x_discrete(
-    labels = c(
-      "aphantasia"     = "Aphantasia",
-      "hypophantasia"  = "Hypophantasia",
-      "typical"        = "Typical",
-      "hyperphantasia" = "Hyperphantasia"
-    ),
-    expand = expansion(
-      mult = 0,
-      add = c(0, 0.6))
+  scale_x_aphantasia() +
+  scale_y_continuous(breaks = scales::breaks_pretty(10)) +
+  scale_discrete_aphantasia() +
+  labs(
+    caption = write_sample_info(tas_data, n_groups = 4),
+    x = NULL, 
+    y = "Total TAS Score"
   ) +
-  scale_y_continuous(
-    breaks = scales::breaks_pretty(10),
-  ) +
-  scale_discrete_manual(
-    aesthetics = c("color", "fill"),
-    values = palette.colors()
-  ) +
-  labs(x = NULL, y = "Total TAS Score") +
   theme_pdf(
     base_theme = theme_minimal,
     axis_relative_size = 1,
@@ -138,21 +127,17 @@ p_group_total <-
       # size = rel(1),
       color = "grey40"
     ),
-    plot.margin = margin(b = 15)
+    # plot.margin = margin(b = 15)
   )
 
-q <- ggplot_build(p_group_total)
-q$plot$mapping <- 
-  aes(
-    x = vviq_group_4, 
-    y = center, 
-    colour = vviq_group_4, 
-    fill = vviq_group_4,
-    shape = NULL
+p_group_total <- 
+  fix_superb_aes(p_group_total) |> 
+  save_ggplot(
+    path = here::here("inst/figures/vviq_tas_groups.pdf"),
+    ncol = 2,
+    height = 100,
+    return = TRUE
   )
-
-p_group_total <- q$plot
-rm(q)
 
 # Combine plots -----------------------------------------------------------
 p_total <-
@@ -168,5 +153,5 @@ save_ggplot(
   path = here::here("inst/figures/fig_vviq_tas_total.pdf"),
   ncol = 2,
   height = 180,
-  show = TRUE
+  return = TRUE
 )
