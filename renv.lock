@@ -166,8 +166,7 @@
       "License": "GPL-2 | GPL-3",
       "URL": "http://www.rforge.net/base64enc",
       "NeedsCompilation": "yes",
-      "Repository": "RSPM",
-      "Encoding": "UTF-8"
+      "Repository": "CRAN"
     },
     "brew": {
       "Package": "brew",
@@ -1639,7 +1638,8 @@
         "testthat"
       ],
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "isoband": {
       "Package": "isoband",
@@ -2394,7 +2394,8 @@
       ],
       "Collate": "'adjective.R' 'adverb.R' 'exclamation.R' 'verb.R' 'rpackage.R' 'package.R'",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "prettyunits": {
       "Package": "prettyunits",
@@ -2498,7 +2499,7 @@
     },
     "promises": {
       "Package": "promises",
-      "Version": "1.5.0",
+      "Version": "1.4.0",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Abstractions for Promise-Based Asynchronous Programming",
@@ -3978,7 +3979,8 @@
       ],
       "RoxygenNote": "6.1.1",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "withr": {
       "Package": "withr",
@@ -4160,10 +4162,9 @@
         "R (>= 2.10.0)"
       ],
       "License": "GPL (>= 2)",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "NeedsCompilation": "no",
-      "Author": "David B. Dahl [aut], David Scott [aut, cre], Charles Roosen [aut], Arni Magnusson [aut], Jonathan Swinton [aut], Ajay Shah [ctb], Arne Henningsen [ctb], Benno Puetz [ctb], Bernhard Pfaff [ctb], Claudio Agostinelli [ctb], Claudius Loehnert [ctb], David Mitchell [ctb], David Whiting [ctb], Fernando da Rosa [ctb], Guido Gay [ctb], Guido Schulz [ctb], Ian Fellows [ctb], Jeff Laake [ctb], John Walker [ctb], Jun Yan [ctb], Liviu Andronic [ctb], Markus Loecher [ctb], Martin Gubri [ctb], Matthieu Stigler [ctb], Robert Castelo [ctb], Seth Falcon [ctb], Stefan Edwards [ctb], Sven Garbade [ctb], Uwe Ligges [ctb]",
-      "Encoding": "UTF-8"
+      "Author": "David B. Dahl [aut], David Scott [aut, cre], Charles Roosen [aut], Arni Magnusson [aut], Jonathan Swinton [aut], Ajay Shah [ctb], Arne Henningsen [ctb], Benno Puetz [ctb], Bernhard Pfaff [ctb], Claudio Agostinelli [ctb], Claudius Loehnert [ctb], David Mitchell [ctb], David Whiting [ctb], Fernando da Rosa [ctb], Guido Gay [ctb], Guido Schulz [ctb], Ian Fellows [ctb], Jeff Laake [ctb], John Walker [ctb], Jun Yan [ctb], Liviu Andronic [ctb], Markus Loecher [ctb], Martin Gubri [ctb], Matthieu Stigler [ctb], Robert Castelo [ctb], Seth Falcon [ctb], Stefan Edwards [ctb], Sven Garbade [ctb], Uwe Ligges [ctb]"
     },
     "yaml": {
       "Package": "yaml",
@@ -4182,7 +4183,8 @@
       "URL": "https://github.com/vubiostat/r-yaml/",
       "BugReports": "https://github.com/vubiostat/r-yaml/issues",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "zip": {
       "Package": "zip",
