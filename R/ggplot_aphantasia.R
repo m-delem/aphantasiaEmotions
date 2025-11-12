@@ -66,20 +66,8 @@ write_sample_info <- function(
           .(nrow(dplyr::filter(df, vviq_group_4 == "hyperphantasia")))*
           .(suffix)
       )
-  } else if (n_groups == 33) {
-    txt <- 
-      bquote(
-        .(prefix)*
-          "N"[Aphant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_monzel == "aphantasia"))) ~
-          ", N"[Hypophant.] == 
-          .(nrow(dplyr::filter(df, vviq_group_monzel == "hypophantasia"))) ~
-          ", N"[Typical.] == .(nrow(dplyr::filter(df, vviq_group_monzel == "typical")))*
-          .(suffix)
-      )
   } else stop(glue::glue_col(
-    "n_groups must be either '{blue 0}', '{cyan 2}', '{blue 3}', '{green 4}' ",
-    "or '{magenta 33}' (for Monzel's grouping)."
+    "n_groups must be either '{blue 0}', '{cyan 2}', '{blue 3}' or '{green 4}' "
   ))
   
   return(txt)
@@ -136,7 +124,7 @@ scale_discrete_aphantasia <- function(
 }
 
 plot_coloured_subjects <- function(
-    p, df, x, y, 
+    df, x, y, 
     alpha = 0.4,
     ...
 ) {
@@ -158,7 +146,6 @@ plot_coloured_subjects <- function(
 }
 
 plot_alexithymia_cutoff <- function(
-    p, 
     color = "red",
     linetype = "dashed",
     linewidth = 0.3,

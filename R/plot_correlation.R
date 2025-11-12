@@ -1,6 +1,7 @@
 plot_correlation <- function(
-    df, y, x = "vviq",
+    y, x = "vviq",
     grouping = "vviq_group_4",
+    df = tas_data,
     title = NULL,
     subtitle = NULL,
     caption = NULL,
@@ -22,7 +23,7 @@ plot_correlation <- function(
       mean.point      = TRUE,
       mean.point.size = 2,
       star.plot       = TRUE,
-      star.plot.lwd   = .05,
+      star.plot.lwd   = .01,
       cor.coef = TRUE,
       cor.method = "spearman",
       cor.coef.coord = coef_coords
@@ -50,7 +51,7 @@ plot_correlation <- function(
       breaks = scales::breaks_pretty(10),
     ) +
     theme_pdf(
-      theme_minimal,
+      ggplot2::theme_minimal,
       plot.caption = ggplot2::element_text(
         margin = ggplot2::margin(t = 8), 
         size = ggplot2::rel(1),

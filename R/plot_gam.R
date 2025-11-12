@@ -10,7 +10,7 @@ gam_style <- function(
       ),
       ggplot2::scale_y_continuous(breaks = scales::breaks_pretty(10)),
       theme_pdf(
-        base_theme = theme_minimal,
+        base_theme = ggplot2::theme_minimal,
         plot.caption = ggplot2::element_text(
           hjust  = h_caption,
           margin = ggplot2::margin(t = 8), 

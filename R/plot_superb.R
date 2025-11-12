@@ -45,7 +45,7 @@ customise_superb_plot <- function(p, title = NULL, y_label = "Score", ...) {
       y = y_label,
     ) +
     theme_pdf(
-      base_theme = theme_minimal,
+      base_theme = ggplot2::theme_minimal,
       axis_relative_size = 0.7,
       axis_relative_x = 1,
       axis_relative_y = 0.9,
