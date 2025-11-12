@@ -1,3 +1,5 @@
+# pacman allows to check, install and load packages with a single call
+if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(dplyr, here, openxlsx, readr, readxl, tidyr)
 
 # Burns -------------------------------------------------------------
@@ -162,6 +164,46 @@ df_kvamme <-
   ) |> 
   ungroup()
 
+
+# D'Argembeau ------------------------------------------------------
+df_darg <-
+  read_xlsx(here("data-raw/data_dargembeau.xlsx")) |> 
+  mutate(
+    study = "dargembeau",
+    id = paste0("subj_dargembeau_", row_number()),
+    gender = NA,
+    sex = ifelse(SEXE == "M", 0, 1)
+  ) |> 
+  rename_with(
+    .fn = ~ stringr::str_replace(., "-", "_") |> stringr::str_to_lower(),
+    .cols = everything()
+  ) |> 
+  select(
+    "study", "id", "sex", "gender", "age",
+    "vviq" = "vviq_tot",
+    "erq_r", "erq_s"
+  )
+
+# Ji -----------------------------------------------------------------
+df_ji <-
+  read_csv(here("data-raw/data_ji.csv")) |> 
+  rename_with(
+    .fn = 
+      ~ stringr::str_replace_all(., stringr::fixed("."), "_") |> 
+      stringr::str_to_lower(),
+    .cols = everything()
+  ) |> 
+  mutate(
+    study = "ji",
+    id = paste0("subj_ji_", row_number()),
+    sex = NA
+  ) |> 
+  select(
+    "study", "id", "sex", "gender", "age",
+    "vviq" = "vviq_score",
+    "paq" = "paq_score"
+  )
+
 # Merging and creating groups ---------------------------------------------
 create_vviq_groups <- function(df) {
   df |> 
@@ -210,4 +252,16 @@ tas_data <-
   ) |> 
   create_vviq_groups()
 
-usethis::use_data(tas_data, overwrite = TRUE)
+erq_data <- 
+  df_darg |> 
+  mutate(across("study":"gender", as.factor)) |> 
+  create_vviq_groups()
+
+paq_data <- 
+  df_ji |> 
+  mutate(across("study":"gender", as.factor)) |> 
+  create_vviq_groups()
+
+save(tas_data, file = here("data/tas_data.rda"))
+save(erq_data, file = here("data/erq_data.rda"))
+save(paq_data, file = here("data/paq_data.rda"))
