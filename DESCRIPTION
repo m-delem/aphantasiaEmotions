@@ -1,12 +1,11 @@
-Type: Project
-Package: aphantasia-alexithymia
-Title: Aphantasia and Alexithymia Analyses
+Package: aphantasiaEmotions
+Title: VVIQ and TAS Analyses in Aphantasia and Alexithymia Studies
 Version: 0.0.0.9000
 Authors@R: 
     person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0005-8518-1991"))
-Description: This project contains the code to analyse data from aphantasia and 
-    alexithymia questionnaires.
+Description: This project contains the code to analyse VVIQ and TAS data from
+    studies on aphantasia and alexithymia.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
