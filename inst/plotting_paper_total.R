@@ -22,6 +22,7 @@ pm_total <-
     y = tas_data$tas
   ) + 
   plot_alexithymia_cutoff(txt_x = 26) +
+  scale_discrete_aphantasia() +
   gam_style(
     plot_margin = margin(3.5, 15, 3.5, 3.5)
   )
@@ -52,7 +53,7 @@ p_group_total <-
     tibble::tibble(
       x_star = 1.5,
       y_star = 105,
-      stars  = "*",
+      stars  = "***",
       x_line = 1,
       x_line_end = 2,
       y_line = .data$y_star - 1.5
@@ -64,7 +65,7 @@ p_group_total <-
     tibble::tibble(
       x_star = 3.5,
       y_star = 103.5,
-      stars  = "*",
+      stars  = "***",
       x_line = 1,
       x_line_end = 4,
       y_line = .data$y_star - 1.5
@@ -76,7 +77,7 @@ p_group_total <-
     tibble::tibble(
       x_star = 2.5,
       y_star = 97,
-      stars  = "*",
+      stars  = "***",
       x_line = 2,
       x_line_end = 3,
       y_line = .data$y_star - 1.5
@@ -100,7 +101,7 @@ p_group_total <-
     tibble::tibble(
       x_star = 3.5,
       y_star = 88,
-      stars  = "**",
+      stars  = "***",
       x_line = .data$x_star - 0.5,
       x_line_end = .data$x_star + 0.5,
       y_line = .data$y_star - 1.5
@@ -110,7 +111,7 @@ p_group_total <-
   scale_y_continuous(breaks = scales::breaks_pretty(10)) +
   scale_discrete_aphantasia() +
   labs(
-    caption = write_sample_info(tas_data, n_groups = 4),
+    # caption = write_sample_info(tas_data, n_groups = 4),
     x = NULL, 
     y = "Total TAS Score"
   ) +

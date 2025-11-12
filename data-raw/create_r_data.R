@@ -125,7 +125,47 @@ df_ruby <-
     "tas_external" = "EOT"
   )
 
-# D'Argembeau --------------------------------------------------------
+# Kvamme -----------------------------------------------------------
+df_kvamme <-
+  read_csv(here("data-raw/data_kvamme.csv"))  |> 
+  mutate(
+    study = "kvamme",
+    id = paste0("subj_kvamme_", row_number()),
+    sex = NA,
+    # Kvamme mistakenly reversed TAS items 11, 15 & 16 and forgot to reverse 18
+    tas_11 = 6 - tas_11,
+    tas_15 = 6 - tas_15,
+    tas_16 = 6 - tas_16,
+    tas_18 = 6 - tas_18
+  ) |>
+  rowwise() |> 
+  mutate(
+    tas = sum(c_across(contains("tas_"))),
+    tas_identify = sum(
+      c_across(
+        c("tas_1", "tas_3", "tas_6", "tas_7", "tas_9", "tas_13", "tas_14")
+      )
+    ),
+    tas_describe = sum(
+      c_across(c("tas_2", "tas_4", "tas_11", "tas_12", "tas_17"))
+    ),
+    tas_external = sum(
+      c_across(
+        c(
+          "tas_5", "tas_8", "tas_10", "tas_15",
+          "tas_16", "tas_18", "tas_19", "tas_20"
+        )
+      )
+    )
+  ) |> 
+  select(
+    "study", "id", "sex", "gender", "age", "vviq", "tas",
+    "tas_identify":"tas_external"
+  ) |> 
+  ungroup()
+
+
+# D'Argembeau ------------------------------------------------------
 df_darg <-
   read_xlsx(here("data-raw/data_dargembeau.xlsx")) |> 
   mutate(
@@ -199,9 +239,13 @@ create_vviq_groups <- function(df) {
 }
 
 tas_data <- 
-  bind_rows(df_burns, df_monzel, df_ruby) |> 
+  bind_rows(df_burns, df_monzel, df_ruby, df_kvamme) |> 
   mutate(
     across("study":"gender", as.factor),
+    study = factor(
+      study, 
+      levels = c("burns", "monzel", "ruby", "kvamme")
+    ),
     tas_group = 
       ifelse(tas >= 61, "alexithymia", "typical_tas") |> 
       factor(levels = c("alexithymia", "typical_tas"))

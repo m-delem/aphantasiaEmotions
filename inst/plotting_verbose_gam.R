@@ -28,6 +28,7 @@ pm_total <-
     y = tas_data$tas
   ) + 
   plot_alexithymia_cutoff() +
+  scale_discrete_aphantasia() +
   gam_style(plot_margin = margin(3.5, 10, 3.5, 3.5))
 
 ps_total <-
@@ -59,6 +60,7 @@ pm_dif <-
     x = tas_data$vviq, 
     y = tas_data$tas_identify
   ) +
+  scale_discrete_aphantasia() +
   gam_style(axis_relative_size = 0.7)
 
 pm_ddf <- 
@@ -71,6 +73,7 @@ pm_ddf <-
     x = tas_data$vviq, 
     y = tas_data$tas_describe
   ) +
+  scale_discrete_aphantasia() +
   gam_style(axis_relative_size = 0.7)
 
 pm_eot <- 
@@ -83,6 +86,7 @@ pm_eot <-
     x = tas_data$vviq, 
     y = tas_data$tas_external
   ) +
+  scale_discrete_aphantasia() +
   gam_style(axis_relative_size = 0.7)
 
 pm_gam_subscales <-

@@ -1,7 +1,7 @@
 # pacman allows to check, install and load packages with a single call
 if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(dplyr, ggplot2, scales, tidyr)
-source("R/ggplot_utils.R")
+source("R/ggplot_tools.R")
 
 load(here::here("data/tas_data.rda"))
 
@@ -27,6 +27,12 @@ p_props <-
         prop = n / n_group
       )
   ) |>
+  mutate(
+    study = factor(
+      study, 
+      levels = c("burns", "monzel", "ruby", "kvamme", "total")
+    )
+  ) |> 
   ggplot(
     aes(
       x = vviq_group_4,
@@ -43,21 +49,22 @@ p_props <-
   geom_text(
     # aes(label = n),
     aes(label = ifelse(
-      prop >= 0.1,
+      prop >= 0.16,
       paste0(round(prop * 100, 1), "%"),
       ""
     )),
     color = "black",
-    size = 2,
+    size = 1.75,
     position = ggplot2::position_fill(vjust = 0.5)
   ) +
   facet_wrap(
     vars(study),
-    ncol = 4,
+    ncol = 5,
     labeller = as_labeller(c(
       "burns"  = "Ale & Burns (2024)",
       "monzel" = "Monzel et al. (2024)",
       "ruby"   = "Ruby (2025)",
+      "kvamme" = "Kvamme et al. (2025)",
       "total"  = "All studies combined"
     )),
     axes = "all_x"
@@ -117,5 +124,5 @@ save_ggplot(
   path = here::here("inst/figures/alexithymia_proportions.pdf"),
   ncol = 2,
   height = 50,
-  show = TRUE
+  return = TRUE
 )
