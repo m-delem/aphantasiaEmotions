@@ -1,1 +1,51 @@
-# Aphantasia and alexithymia data analyses
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# aphantasiaEmotions
+
+<!-- badges: start -->
+
+[<img alt="alt_text" src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf"/>](https://osf.io/b837s/)
+<!-- badges: end -->
+
+aphantasiaEmotions is a data analysis project wrapped in an R package
+for reproducibility[^1]. It contains the code and data to reproduce the
+analyses presented in the article “*Non-linear Relationship Between
+Visual Imagery and Emotion Processing in Aphantasia and Alexithymia*”.
+You can read the preprint [here](https://osf.io/b837s/). All study
+materials are available on the Open Science Framework
+[here](https://osf.io/b837s/).
+
+## Installation
+
+You can install the development version of aphantasiaEmotions from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("m-delem/aphantasiaEmotions")
+```
+
+Alternatively, you can clone the repository, launch the R project in
+RStudio by opening the `aphantasiaEmotions.Rproj` file and run the
+following command:
+
+``` r
+devtools::load_all()
+#> ℹ Loading aphantasiaEmotions
+#> Welcome to aphantasiaEmotions.
+#> See https://osf.io/b837s/ for the associated study.
+```
+
+… Which will load the package and make all its functions and data
+available in your R session.
+
+[^1]: The R package structure was chosen to facilitate the sharing of
+    the code and data with the scientific community, and to make it easy
+    to reproduce the analyses. It is not intended to be a
+    general-purpose package, but rather a collection of functions and
+    data specific to this study (although many functions are reusable in
+    their own right). The package development workflow (see [this
+    reference book](https://r-pkgs.org/)) is also a good way to ensure
+    that the code is well-documented and tested, which is important for
+    reproducibility in scientific research.

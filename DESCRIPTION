@@ -13,16 +13,20 @@ RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1)
 Imports: 
+    crayon,
     devtools,
     dplyr,
     fs,
     ggplot2,
+    glue,
     here,
+    mgcv,
     pacman,
     patchwork,
     purrr,
     rlang,
     scales,
+    stats,
     tidyr
 Suggests: 
     curl,
@@ -34,4 +38,7 @@ Suggests:
     see,
     showtext,
     superb,
-    sysfonts
+    sysfonts,
+    testthat (>= 3.0.0)
+LazyData: true
+Config/testthat/edition: 3
