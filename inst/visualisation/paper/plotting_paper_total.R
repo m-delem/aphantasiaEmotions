@@ -1,12 +1,7 @@
+devtools::load_all()
 pacman::p_load(ggplot2, patchwork, superb)
 
-here::here("R") |> fs::dir_ls() |> purrr::walk(source)
-
 source(here::here("inst/modelling_tas.R"))
-source(here::here("R/ggplot_tools.R"))
-source(here::here("R/ggplot_aphantasia.R"))
-
-load(here::here("data/tas_data.rda"))
 
 # Plotting total TAS results without surrounding text for the paper ---------
 

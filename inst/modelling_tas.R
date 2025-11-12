@@ -1,8 +1,4 @@
-pacman::p_load(mgcv, modelbased)
-
-source(here::here("R/report_contrast.R"))
-
-load(here::here("data/tas_data.rda"))
+devtools::load_all()
 
 # Total TAS score linear (group) model ---------------------
 m_total <- lm(tas ~ vviq_group_4, data = tas_data)
@@ -21,16 +17,13 @@ m_external <- lm(tas_external ~ vviq_group_4, data = tas_data)
 report_contrast(m_external, ~vviq_group_4)
 
 # Generalized additive modelling with mgcv (non-linear) ---------
-family <- gaussian()
-# family <- ziP()
-
-m_gam_total <- gam(tas ~ s(vviq, bs = "tp"), data = tas_data, family = family)
-m_gam_identify <- gam(tas_identify ~ s(vviq), data = tas_data, family = family)
-m_gam_describe <- gam(tas_describe ~ s(vviq), data = tas_data, family = family)
-m_gam_external <- gam(tas_external ~ s(vviq), data = tas_data, family = family)
+m_gam_total    <- fit_vviq_gam(vd = "tas")
+m_gam_identify <- fit_vviq_gam(vd = "tas_identify")
+m_gam_describe <- fit_vviq_gam(vd = "tas_describe")
+m_gam_external <- fit_vviq_gam(vd = "tas_external")
 
 # Numerical description
-describe_nonlinear(
-  estimate_means(m_gam_total, by = "vviq", length = 75),
+modelbased::describe_nonlinear(
+  modelbased::estimate_means(m_gam_total, by = "vviq", length = 75),
   x = "vviq", y = "Mean"
 )

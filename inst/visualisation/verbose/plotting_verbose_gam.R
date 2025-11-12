@@ -1,11 +1,7 @@
-# pacman allows to check, install and load packages with a single call
-if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
+devtools::load_all()
 pacman::p_load(ggplot2, patchwork)
 
 source(here::here("inst/modelling_tas.R"))
-source(here::here("R/plot_gam.R"))
-
-load(here::here("data/tas_data.rda"))
 
 # Plotting results of GAM models with titles, captions, etc. --------------
 
@@ -29,7 +25,7 @@ pm_total <-
   ) + 
   plot_alexithymia_cutoff() +
   scale_discrete_aphantasia() +
-  gam_style(plot_margin = margin(3.5, 10, 3.5, 3.5))
+  gam_style(plot.margin = margin(3.5, 10, 3.5, 3.5))
 
 ps_total <-
   plot_gam_slopes(
@@ -42,13 +38,15 @@ ps_total <-
       "A slope below 0 indicates that as VVIQ increases, TAS scores decrease."
     )
   ) +
-  gam_style(plot_margin = margin(3.5, 8, 3.5, 10), h_caption = 1)
+  gam_style(plot.margin = margin(3.5, 8, 3.5, 10), h_caption = 1)
 
 p_gam_total <- 
   pm_total + ps_total &
   theme(plot.caption = element_text(size = 5.5))
 
 # Subscales
+dot_size <- 0.5
+
 # Means
 pm_dif <-
   plot_gam_means(
@@ -58,7 +56,8 @@ pm_dif <-
   plot_coloured_subjects(
     df = tas_data,
     x = tas_data$vviq, 
-    y = tas_data$tas_identify
+    y = tas_data$tas_identify,
+    size = dot_size
   ) +
   scale_discrete_aphantasia() +
   gam_style(axis_relative_size = 0.7)
@@ -71,7 +70,8 @@ pm_ddf <-
   plot_coloured_subjects(
     df = tas_data,
     x = tas_data$vviq, 
-    y = tas_data$tas_describe
+    y = tas_data$tas_describe,
+    size = dot_size
   ) +
   scale_discrete_aphantasia() +
   gam_style(axis_relative_size = 0.7)
@@ -84,7 +84,8 @@ pm_eot <-
   plot_coloured_subjects(
     df = tas_data,
     x = tas_data$vviq, 
-    y = tas_data$tas_external
+    y = tas_data$tas_external,
+    size = dot_size
   ) +
   scale_discrete_aphantasia() +
   gam_style(axis_relative_size = 0.7)
@@ -142,9 +143,9 @@ ps_gam_subscales <-
   plot_annotation(
     title = "Non-linear variations of TAS subscale scores by VVIQ",
     caption = paste0(
-      "A slope above 0 indicates that as VVIQ increases, TAS subscale scores ",
+      "Slopes above 0 indicates that as VVIQ increases, TAS subscale scores ",
       "also increase.\n",
-      "A slope below 0 indicates that as VVIQ increases, TAS subscale scores ",
+      "Slopes below 0 indicates that as VVIQ increases, TAS subscale scores ",
       "decrease."
     ),
     theme = theme_pdf(

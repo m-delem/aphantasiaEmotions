@@ -1,30 +1,12 @@
-# pacman allows to check, install and load packages with a single call
-if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
-pacman::p_load(dplyr, ggplot2, scales, tidyr)
-
-source(here::here("R/plot_correlation.R"))
-source("R/ggplot_utils.R")
-
-load(here::here("data/tas_data.rda"))
-
 # Plot correlations --------------------------------
-
-grouping <- "vviq_group_4"
-n_groups <- 4
 
 p_combined <-
   plot_correlation(
-    df = tas_data,
-    grouping = grouping,
-    n_groups = n_groups,
-    data_name = paste0(
-      "Combined data from Burns et al. (2024), Monzel et al. (2024) & Ruby ",
-      "(2025).\n",
-      "The dotted line represents a non-linear LOESS modelling of the ",
-      "VVIQ-TAS relationship."
-    ),
+    y = "tas",
     title = "Spearman correlation between VVIQ and TAS scores"
-  )
+  ) +
+  scale_discrete_aphantasia() +
+  theme_pdf()
 
 p_per_study <-
   plot_correlation(
