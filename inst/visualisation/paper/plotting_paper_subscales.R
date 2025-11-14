@@ -112,7 +112,7 @@ pg_ddf <-
     size_star = size_star,
     tibble::tibble(
       x_star = 2.5,
-      y_star = 29,
+      y_star = 29.5,
       stars  = "***",
       x_line = 2,
       x_line_end = 3,
@@ -124,7 +124,7 @@ pg_ddf <-
     size_star = size_star,
     tibble::tibble(
       x_star = 3.5,
-      y_star = 28,
+      y_star = 28.5,
       stars  = "***",
       x_line = 2,
       x_line_end = 4,

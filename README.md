@@ -5,16 +5,17 @@
 
 <!-- badges: start -->
 
-[<img alt="alt_text" src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf"/>](https://osf.io/b837s/)
+<a href="https://osf.io/b837s/" target="_blank"><img alt="OSF badge" src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf"/></a>
 <!-- badges: end -->
 
 aphantasiaEmotions is a data analysis project wrapped in an R package
 for reproducibility[^1]. It contains the code and data to reproduce the
 analyses presented in the article “*Non-linear Relationship Between
 Visual Imagery and Emotion Processing in Aphantasia and Alexithymia*”.
-You can read the preprint [here](https://osf.io/b837s/). All study
+You can read the preprint
+<a href="https://osf.io/b837s/" target="_blank">here</a>. All study
 materials are available on the Open Science Framework
-[here](https://osf.io/b837s/).
+<a href="https://osf.io/b837s/" target="_blank">here</a>.
 
 ## Installation
 
@@ -45,7 +46,8 @@ available in your R session.
     to reproduce the analyses. It is not intended to be a
     general-purpose package, but rather a collection of functions and
     data specific to this study (although many functions are reusable in
-    their own right). The package development workflow (see [this
-    reference book](https://r-pkgs.org/)) is also a good way to ensure
-    that the code is well-documented and tested, which is important for
-    reproducibility in scientific research.
+    their own right). The package development workflow (see
+    <a href="https://r-pkgs.org/" target="_blank">this reference
+    book</a>) is also a good way to ensure that the code is
+    well-documented and tested, which is important for reproducibility
+    in scientific research.
