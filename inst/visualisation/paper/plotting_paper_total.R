@@ -18,16 +18,14 @@ pm_total <-
   ) + 
   plot_alexithymia_cutoff(txt_x = 26) +
   scale_discrete_aphantasia() +
-  gam_style(
-    plot_margin = margin(3.5, 15, 3.5, 3.5)
-  )
+  gam_style()
 
 ps_total <-
   plot_gam_slopes(
     m_gam_total,
     y_title = "Slope (TAS variation per unit change in VVIQ)"
   ) +
-  gam_style(plot_margin = margin(3.5, 8, 3.5, 15), h_caption = 1)
+  gam_style()
 
 p_gam_total <- 
   pm_total + ps_total &
@@ -39,7 +37,8 @@ p_gam_total <-
 
 # Group comparison plot
 p_group_total <- 
-  superb_with_params(tas ~ vviq_group_4, data = tas_data) + 
+  superb_with_params(tas ~ vviq_group_4, data = tas_data) |> 
+  fix_superb_aes() + 
   plot_alexithymia_cutoff(txt_x = 1.5, label = "Alexithymia") +
   # Significance annotations for contrasts ---
   # Aphantasia vs. Hypophantasia
@@ -126,15 +125,6 @@ p_group_total <-
     # plot.margin = margin(b = 15)
   )
 
-p_group_total <- 
-  fix_superb_aes(p_group_total) |> 
-  save_ggplot(
-    path = here::here("inst/figures/vviq_tas_groups.pdf"),
-    ncol = 2,
-    height = 100,
-    return = TRUE
-  )
-
 # Combine plots -----------------------------------------------------------
 p_total <-
   p_group_total / p_gam_total + 
@@ -146,7 +136,7 @@ p_total <-
 
 save_ggplot(
   plot = p_total, 
-  path = here::here("inst/figures/fig_vviq_tas_total.pdf"),
+  path = here::here("inst/visualisation/paper/fig_vviq_tas_total.pdf"),
   ncol = 2,
   height = 180,
   return = TRUE

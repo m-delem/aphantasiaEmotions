@@ -9,9 +9,13 @@ NULL
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(glue::glue_col(
+    # "{blue
+    # Welcome to {cyan aphantasiaEmotions}.
+    # See {magenta https://osf.io/b837s/} for the associated study.
+    # }
+    # ",
     "{blue
     Welcome to {cyan aphantasiaEmotions}.
-    See {magenta https://osf.io/b837s/} for the associated study.
     }
     ",
     .literal = TRUE))

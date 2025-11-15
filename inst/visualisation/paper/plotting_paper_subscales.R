@@ -80,7 +80,7 @@ m_describe <- lm(tas_describe ~ vviq_group_4, data = tas_data)
 report_contrast(m_describe, ~vviq_group_4)
 pg_ddf <-
   superb_with_params(tas_describe ~ vviq_group_4, data = tas_data) |>
-  customise_superb_plot(title = "Difficulty identifying feelings") |> 
+  customise_superb_plot(title = "Difficulty describing feelings") |> 
   fix_superb_aes() +
   scale_discrete_aphantasia() +
   # Aphantasia vs. Hypophantasia
@@ -149,7 +149,7 @@ m_external <- lm(tas_external ~ vviq_group_4, data = tas_data)
 report_contrast(m_external, ~vviq_group_4)
 pg_eot <-
   superb_with_params(tas_external ~ vviq_group_4, data = tas_data) |>
-  customise_superb_plot(title = "Difficulty identifying feelings") |> 
+  customise_superb_plot(title = "Externally oriented thinking") |> 
   fix_superb_aes() +
   scale_discrete_aphantasia()
 
@@ -255,12 +255,12 @@ ps_gam_subscales <-
 # Combine plots -----------------------------------------------------------
 p_subscales <-
   ggpubr::ggarrange(
-      p_group_subscales,
-      pm_gam_subscales,
-      ps_gam_subscales,
-      ncol = 1,
-      labels = "AUTO",
-      font.label = list(size = 11, face = "bold")
+    p_group_subscales,
+    pm_gam_subscales,
+    ps_gam_subscales,
+    ncol = 1,
+    labels = "AUTO",
+    font.label = list(size = 11, face = "bold")
   )
   
 save_ggplot(

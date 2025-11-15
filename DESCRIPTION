@@ -32,6 +32,7 @@ Suggests:
     curl,
     emmeans,
     ggpubr,
+    latex2exp,
     marginaleffects,
     modelbased,
     performance,

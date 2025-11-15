@@ -176,3 +176,28 @@ plot_alexithymia_cutoff <- function(
   
   return(alexithymia_cutoff)
 }
+
+create_evidence_groups <- function(layer, color = FALSE) {
+  layer$data <-
+    layer$data |> 
+    mutate(
+      evidence = ifelse(
+        (CI_low > 0 & CI_high > 0) | (CI_low < 0 & CI_high < 0), 
+        "substantial",
+        "insufficient"
+      ),
+      .group = case_when(
+        vviq <= 23 ~ 1,
+        vviq <= 33 ~ 2,
+        vviq <= 36 ~ 3,
+        vviq <= 47 ~ 4,
+        vviq <= 71 ~ 5,
+        vviq <= 80 ~ 6
+      )
+    )
+  
+  if (color) layer$aes$color <- "evidence"
+  layer$aes$fill  <- "evidence"
+  
+  return(layer)
+}

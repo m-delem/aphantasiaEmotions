@@ -1,11 +1,93 @@
-# pacman allows to check, install and load packages with a single call
-if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
-pacman::p_load(dplyr, ggplot2, scales, tidyr)
-source("R/ggplot_tools.R")
-
-load(here::here("data/tas_data.rda"))
+devtools::load_all()
+pacman::p_load(dplyr, ggplot2, patchwork)
 
 m <- 8
+
+p_counts <-
+  tas_data |>
+  bind_rows(tas_data |> mutate(study = "total")) |>
+  mutate(
+    study = factor(
+      study, 
+      levels = c("burns", "monzel", "ruby", "kvamme", "total")
+    )
+  ) |> 
+  ggplot(
+    aes(
+      x = 1,
+      fill = vviq_group_4,
+      colour = vviq_group_4
+    )
+  ) +
+  geom_bar(
+    position = "fill",
+    alpha = 0.3
+  ) +
+  geom_text(
+    data = 
+      tas_data |>
+      bind_rows(tas_data |> mutate(study = "total")) |>
+      mutate(
+        study = factor(
+          study, 
+          levels = c("burns", "monzel", "ruby", "kvamme", "total")
+        )
+      ) |> 
+      group_by(vviq_group_4, study) |>
+      count() |>
+      group_by(study) |>
+      mutate(
+        n_group = sum(n),
+        prop = n / n_group
+      ),
+    aes(
+      y = prop,
+      label = ifelse(
+        prop >= 0,
+        # paste0(round(prop * 100, 1), "%"),
+        n,
+        ""
+      )
+    ),
+    color = "black",
+    size = 1.75,
+    position = ggplot2::position_fill(vjust = 0.5)
+  ) +
+  facet_wrap(
+    vars(study),
+    ncol = 5,
+    labeller = as_labeller(c(
+      "burns"  = "Ale & Burns (2024)\nN = 192",
+      "monzel" = "Monzel et al. (2024)\nN = 105",
+      "ruby"   = "Ruby (2025)\nN = 205",
+      "kvamme" = "Kvamme et al. (2025)\nN = 833",
+      "total"  = "All studies combined\nN = 1,335"
+    )),
+    axes = "all_x"
+  ) +
+  labs(x = NULL, y = NULL) +
+  scale_discrete_aphantasia() +
+  theme_pdf(
+    theme_minimal,
+    axis_relative_size = 1,
+    axis_relative_y = 0.85,
+    axis.text.x = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_blank(),
+    axis.ticks.y = ggplot2::element_blank(),
+    panel.grid.major.y = ggplot2::element_blank(),
+    panel.grid.minor.y = ggplot2::element_blank(),
+    panel.grid.major.x = ggplot2::element_blank(),
+    panel.grid.minor.x = ggplot2::element_blank(),
+    plot.margin = margin(m, m, m, m),
+    plot.caption = ggplot2::element_text(
+      margin = margin(t = m), 
+      color = "grey40"
+    ),
+    legend.position = "left",
+    legend.text = element_text(hjust = 1),
+    legend.text.position = "left",
+    # panel.spacing.x = grid::unit(8, "mm")
+  )
 
 p_props <- 
   tas_data |> 
@@ -93,7 +175,7 @@ p_props <-
       "alexithymia" = "Alexithymia",
       "typical_tas" = "No Alexithymia"
     ),
-    values = palette.colors()[c(2, 3)]
+    values = palette.colors()[c(7, 6)]
   ) +
   labs(
     # title = "Proportions of alexithymia (TAS > 60) within VVIQ groups",
@@ -106,7 +188,11 @@ p_props <-
     axis_relative_size = 1,
     axis_relative_y = 0.85,
     axis.text.x = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_text(angle = 0, hjust = 1),
+    axis.text.y = ggplot2::element_text(
+      size = 7, 
+      color = "black",
+      angle = 0, hjust = 1
+    ),
     panel.grid.major.y = ggplot2::element_blank(),
     panel.grid.minor.y = ggplot2::element_blank(),
     panel.grid.major.x = ggplot2::element_blank(),
@@ -119,10 +205,19 @@ p_props <-
     legend.position = "bottom"
   )
 
+p <- 
+  ggpubr::ggarrange(
+    p_counts, p_props, 
+    ncol = 1,
+    heights = c(1.1, 1),
+    labels = "AUTO",
+    font.label = list(size = 11, face = "bold")
+  )
+
 save_ggplot(
-  plot = p_props, 
-  path = here::here("inst/figures/alexithymia_proportions.pdf"),
+  plot = p,
+  path = here::here("inst/visualisation/paper/fig_sample_description.pdf"),
   ncol = 2,
-  height = 50,
+  height = 110,
   return = TRUE
 )
