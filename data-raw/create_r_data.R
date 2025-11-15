@@ -105,27 +105,139 @@ df_monzel <-
   )
 
 # Ruby -------------------------------------------------------------
-df_ruby <- 
+df_ruby_raw <- 
   read_xlsx(here("data-raw/data_ruby.xlsx")) |> 
+  select(
+    "age" = 1,
+    "sex" = 2,
+    "vviq_q1" = 3,
+    "vviq_q2" = 4,
+    "vviq_q3" = 5,
+    "vviq_q4" = 6,
+    # "vviq_scale_1" = 7,
+    "vviq_q5" = 8,
+    "vviq_q6" = 9,
+    "vviq_q7" = 10,
+    "vviq_q8" = 11,
+    # "vviq_scale_2" = 12,
+    "vviq_q9" = 13,
+    "vviq_q10" = 14,
+    "vviq_q11" = 15,
+    "vviq_q12" = 16,
+    # "vviq_scale_3" = 17,
+    "vviq_q13" = 18,
+    "vviq_q14" = 19,
+    "vviq_q15" = 20,
+    "vviq_q16" = 21,
+    "vviq_score" = 22,
+    "tas_q1" = 23,
+    "tas_q2" = 24,
+    "tas_q3" = 25,
+    "tas_q4" = 26,
+    "tas_q5" = 27,
+    "tas_q6" = 28,
+    "tas_q7" = 29,
+    "tas_q8" = 30,
+    "tas_q9" = 31,
+    "tas_q10" = 32,
+    "tas_q11" = 33,
+    "tas_q12" = 34,
+    "tas_q13" = 35,
+    "tas_q14" = 36,
+    "tas_q15" = 37,
+    "tas_q16" = 38,
+    "tas_q17" = 39,
+    "tas_q18" = 40,
+    "tas_q19" = 41,
+    "tas_q20" = 42,
+    "tas_dif" = 43,
+    "tas_ddf" = 44,
+    "tas_eot" = 45,
+    "tas_tot" = 46
+  ) |> 
+  mutate(
+    # Converting TAS items from text to numeric
+    across(
+      starts_with("tas_q"),
+      ~case_when(
+        . == "Désaccord complet" ~ 1,
+        . == "Désaccord relatif" ~ 2,
+        . == "Ni accord ni désaccord" ~ 3,
+        . == "Accord relatif" ~ 4,
+        . == "Accord complet" ~ 5,
+        TRUE ~ NA
+      )
+    ),
+    # Reverse coding TAS items
+    tas_q4  = 6 - tas_q4,
+    tas_q5  = 6 - tas_q5,
+    tas_q10 = 6 - tas_q10,
+    tas_q18 = 6 - tas_q18,
+    tas_q19 = 6 - tas_q19
+  ) |>
+  rowwise() |> 
+  mutate(
+    vviq = sum(c_across(starts_with("vviq_q"))),
+    tas  = sum(c_across(contains("tas_q"))),
+    tas_identify = sum(
+      c_across(
+        c(
+          "tas_q1", "tas_q3", "tas_q6", 
+          "tas_q7", "tas_q9", "tas_q13", "tas_q14"
+        )
+      )
+    ),
+    tas_describe = sum(
+      c_across(c("tas_q2", "tas_q4", "tas_q11", "tas_q12", "tas_q17"))
+    ),
+    tas_external = sum(
+      c_across(
+        c(
+          "tas_q5", "tas_q8", "tas_q10", "tas_q15",
+          "tas_q16", "tas_q18", "tas_q19", "tas_q20"
+        )
+      )
+    )
+  ) |>
+  ungroup() |> 
+  suppressMessages()
+
+openxlsx::write.xlsx(
+  x = df_ruby_raw |> 
+    select(
+      age, sex, vviq, tas,
+      tas_identify, tas_describe, tas_external,
+      starts_with("vviq_q"),
+      starts_with("tas_q")
+    ),
+  file       = here("data-raw/data_ruby_raw.xlsx"),
+  asTable    = TRUE,
+  colNames   = TRUE,
+  colWidths  = "auto",
+  borders    = "all",
+  tableStyle = "TableStyleMedium16"
+)
+
+df_ruby <-
+  df_ruby_raw |> 
   mutate(
     study = "ruby",
     id = paste0("subj_ruby_", row_number()),
-    sex = NA,
+    sex = case_when(
+      .data$sex == "Féminin" ~ 1, 
+      .data$sex == "Masculin" ~ 0,
+      TRUE ~ 2
+    ),
     gender = NA,
-    age = NA
   ) |> 
   select(
-    "study":"age",
-    "vviq" = "VVIQ",
-    "tas" = "TAS20 - tot",
-    "tas_identify" = "DIF",
-    "tas_describe" = "DDF",
-    "tas_external" = "EOT"
+    "study", "id", "sex", "gender", "age", "vviq", "tas",
+    "tas_identify":"tas_external"
   )
 
 # Kvamme -----------------------------------------------------------
 df_kvamme <-
-  read_csv(here("data-raw/data_kvamme.csv"))  |> 
+  read_csv(here("data-raw/data_kvamme.csv"), show_col_types = FALSE)  |> 
   mutate(
     study = "kvamme",
     id = paste0("subj_kvamme_", row_number()),
