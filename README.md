@@ -10,9 +10,9 @@
 
 aphantasiaEmotions is a data analysis project wrapped in an R package
 for reproducibility[^1]. It contains the code and data to reproduce the
-analyses presented in the article “*Non-linear Relationship Between
-Visual Imagery and Emotion Processing in Aphantasia and Alexithymia*”.
-You can read the preprint
+analyses presented in the article “*Aphantasics Process Emotions
+Differently: Evidence of a Non-linear Relationship Between Visual
+Imagery and Emotional Processing Abilities*”. You can read the preprint
 <a href="https://osf.io/b837s/" target="_blank">here</a>. All study
 materials are available on the Open Science Framework
 <a href="https://osf.io/b837s/" target="_blank">here</a>.
@@ -35,7 +35,6 @@ following command:
 devtools::load_all()
 #> ℹ Loading aphantasiaEmotions
 #> Welcome to aphantasiaEmotions.
-#> See https://osf.io/b837s/ for the associated study.
 ```
 
 … Which will load the package and make all its functions and data
