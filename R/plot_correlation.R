@@ -1,7 +1,7 @@
 plot_correlation <- function(
     y, x = "vviq",
     grouping = "vviq_group_4",
-    df = tas_data,
+    df = all_data,
     title = NULL,
     subtitle = NULL,
     caption = NULL,

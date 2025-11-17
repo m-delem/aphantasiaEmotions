@@ -1,6 +1,6 @@
 fit_vviq_gam <- function(
     vd = "tas", 
-    data = tas_data,
+    data = all_data,
     family = stats::gaussian()
 ) {
   model_formula <- stats::formula(glue::glue("{vd} ~ s(vviq)"))

@@ -4,8 +4,8 @@ pacman::p_load(dplyr, ggplot2, patchwork)
 m <- 8
 
 p_counts <-
-  tas_data |>
-  bind_rows(tas_data |> mutate(study = "total")) |>
+  all_data |>
+  bind_rows(all_data |> mutate(study = "total")) |>
   mutate(
     study = factor(
       study, 
@@ -21,12 +21,13 @@ p_counts <-
   ) +
   geom_bar(
     position = "fill",
-    alpha = 0.3
+    alpha = 0.3,
+    linewidth = 0.1
   ) +
   geom_text(
     data = 
-      tas_data |>
-      bind_rows(tas_data |> mutate(study = "total")) |>
+      all_data |>
+      bind_rows(all_data |> mutate(study = "total")) |>
       mutate(
         study = factor(
           study, 
@@ -90,7 +91,7 @@ p_counts <-
   )
 
 p_props <- 
-  tas_data |> 
+  all_data |> 
   group_by(vviq_group_4, tas_group, study) |> 
   count() |>
   group_by(vviq_group_4, study) |>
@@ -99,7 +100,7 @@ p_props <-
     prop = n / n_group
   ) |> 
   bind_rows(
-    tas_data |> 
+    all_data |> 
       group_by(vviq_group_4, tas_group) |> 
       count() |>
       group_by(vviq_group_4)  |>
@@ -126,7 +127,8 @@ p_props <-
   geom_bar(
     stat = "identity", 
     position = "fill",
-    alpha = 0.3
+    alpha = 0.3,
+    linewidth = 0.1
   ) +
   geom_text(
     # aes(label = n),
@@ -172,14 +174,14 @@ p_props <-
     aes = c("fill", "colour"),
     name = NULL,
     labels = c(
-      "alexithymia" = "Alexithymia",
+      "alexithymia" = "Alexithymia (TAS > 60)",
       "typical_tas" = "No Alexithymia"
     ),
     values = palette.colors()[c(7, 6)]
   ) +
   labs(
     # title = "Proportions of alexithymia (TAS > 60) within VVIQ groups",
-    # subtitle = write_sample_info(tas_data, n_groups = 4),
+    # subtitle = write_sample_info(all_data, n_groups = 4),
     x = NULL,
     y = "Proportion within the VVIQ group"
   ) +
@@ -205,7 +207,7 @@ p_props <-
     legend.position = "bottom"
   )
 
-p <- 
+p_sample <- 
   ggpubr::ggarrange(
     p_counts, p_props, 
     ncol = 1,
@@ -215,9 +217,9 @@ p <-
   )
 
 save_ggplot(
-  plot = p,
+  plot = p_sample,
   path = here::here("inst/visualisation/paper/fig_sample_description.pdf"),
   ncol = 2,
-  height = 110,
+  height = 100,
   return = TRUE
 )

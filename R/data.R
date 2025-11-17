@@ -22,6 +22,10 @@
 #'   (aphantasia, hypophantasia, typical/hyperphantasia)
 #' - `vviq_group_2`: categorical variable indicating VVIQ group with 2 levels
 #'   (aphantasia/hypophantasia, typical/hyperphantasia)   
+#' - `items`: nested list-column with individual VVIQ and TAS item responses
+#'   when available
+#' - `other_data`: nested list-column with other questionnaire data collected
+#'   in the studies that are not used in the current analyses 
 #'
 #' @source Data collected by various teams in online experiments:
 #' - Ale & Burns (2024): https://doi.org/10.31234/osf.io/kj5d3 
@@ -32,4 +36,4 @@
 #'   Recherche en Neurosciences de Lyon (study name "ruby") 
 #' - Kvamme et al. (2025): https://doi.org/10.31234/osf.io/6fhj4_v1   
 #'   (study name "kvamme")
-"tas_data"
+"all_data"

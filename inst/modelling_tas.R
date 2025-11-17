@@ -1,19 +1,19 @@
 devtools::load_all()
 
 # Total TAS score linear (group) model ---------------------
-m_total <- lm(tas ~ vviq_group_4, data = tas_data)
+m_total <- lm(tas ~ vviq_group_4, data = all_data)
 report_contrast(m_total, ~vviq_group_4)
 
 # DIF
-m_identify <- lm(tas_identify ~ vviq_group_4, data = tas_data)
+m_identify <- lm(tas_identify ~ vviq_group_4, data = all_data)
 report_contrast(m_identify, ~vviq_group_4)
 
 # DDF
-m_describe <- lm(tas_describe ~ vviq_group_4, data = tas_data)
+m_describe <- lm(tas_describe ~ vviq_group_4, data = all_data)
 report_contrast(m_describe, ~vviq_group_4)
 
 # EOT
-m_external <- lm(tas_external ~ vviq_group_4, data = tas_data)
+m_external <- lm(tas_external ~ vviq_group_4, data = all_data)
 report_contrast(m_external, ~vviq_group_4)
 
 # Generalized additive modelling with mgcv (non-linear) ---------

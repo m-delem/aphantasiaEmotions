@@ -50,7 +50,7 @@
 #' }
 brm_contrasts <- function(
     fit = NULL,
-    predictor,
+    predictor = "vviq_group_4",
     level.sep = " - ",
     xlab = "Effect size (TAS score difference)",
     gsub.pattern = NULL,
@@ -59,13 +59,13 @@ brm_contrasts <- function(
     fill = "#6DCD59FF",
     html.table  = FALSE,
     read.file = NULL,
-    plot = FALSE,
+    plot = TRUE,
     plot.area.prop = 1,
     highlight = FALSE,
     non.zero = FALSE,
-    nudge_mult = 2.2
+    nudge_mult = 2.2,
+    exp_mult = 0.4
 ) {
-    
     variables <- posterior::variables(fit)
     incl_classes <- c(
       "b", "bs", "bcs", "bsp", "bmo", "bme", "bmi", "bm",
@@ -235,7 +235,13 @@ brm_contrasts <- function(
       posteriors <- do.call(rbind, out)
       posteriors$Hypothesis <-
         factor(posteriors$variable, levels = sort(unique(posteriors$variable)))
-  
+      
+      hyp_table$value <- hyp_table$Estimate
+      hyp_table$significance <-
+        ifelse(hyp_table$CI_low * hyp_table$CI_high > 0, "sig", "non-sig")
+      hyp_table$significance <-
+        factor(hyp_table$significance, levels = c("non-sig", "sig"))
+      
       posteriors$significance <-
         sapply(posteriors$Hypothesis, function(x)
           hyp_table$significance[hyp_table$Hypothesis == x])
@@ -250,7 +256,7 @@ brm_contrasts <- function(
         factor(
           posteriors$Hypothesis, 
           levels = hyp_table$Hypothesis[nrow(hyp_table):1])
-  
+      
       gg_distribution <-
         ggplot2::ggplot(
           data = posteriors,
@@ -260,31 +266,49 @@ brm_contrasts <- function(
           )
         ) +
         ggplot2::geom_vline(
-          xintercept = bayestestR::rope_range(fit),
+          xintercept = 0,
+          # xintercept = bayestestR::rope_range(fit),
           color = viridis::viridis(100)[1],
           linetype = "dashed",
           linewidth = 0.2
         ) +
+        # ggplot2::annotate(
+        #   x = 0,
+        #   y = 6.75,
+        #   geom = "text",
+        #   label = "ROPE",,
+        #   color = viridis::viridis(100)[1],
+        #   size = 2,
+        # ) +
         ggdist::stat_slabinterval(
           mapping = ggplot2::aes(
-            fill = ggplot2::after_stat(
-              abs(x) < abs(bayestestR::rope_range(fit)[1])
-            )
+            # fill = ggplot2::after_stat(
+            #   abs(x) < abs(bayestestR::rope_range(fit)[1])
+            # )
+            fill = significance
           ),
-          point_size = 0.5,
+          point_size = 0.3,
           color = "black",
           # color = viridis::viridis(100)[1],
           .width = .95,
-          linewidth = 0.2,
+          # interval_size = 0.1,
           # .width = c(.5, .75, .89, .95),
-          # interval_size_range = c(0.1, 1),
+          interval_size_range = c(0.2, 0.2),
           slab_alpha = 0.3,
           scale = 0.70,
           na.rm = TRUE,
           show.legend = FALSE,
         ) +
         ggplot2::geom_text(
-          data = hyp_table,
+          data = 
+            hyp_table |> 
+            dplyr::mutate(
+              text = ifelse(
+                BF_10 < 0.001 | BF_10 > 1000, 
+                format(BF_10, digits = 3, scientific = TRUE), 
+                as.character(round(BF_10, 2))
+              )
+            ),
           mapping = ggplot2::aes(
             x = Estimate,
             y = Hypothesis,
@@ -292,14 +316,18 @@ brm_contrasts <- function(
               latex2exp::TeX(
                 sprintf(
                   r"($\BF_{10}$: \ %s)",
-                  format(BF_10, digits = 3, scientific = TRUE)
+                  text
                 ),
                 output = "character"
               )
           ),
           parse = TRUE,
           hjust = ifelse(hyp_table$Estimate < 0, 1, 0),
-          nudge_x = ifelse(hyp_table$Estimate < 0, -1 * nudge_mult, 1 * nudge_mult),
+          nudge_x = ifelse(
+            hyp_table$Estimate < 0, 
+            -1 * nudge_mult, 
+            1 * nudge_mult
+          ),
           vjust = 0,
           nudge_y = 0.2,
           size = 2,
@@ -312,29 +340,22 @@ brm_contrasts <- function(
         ) +
         ggplot2::scale_fill_manual(
           values = c(
-            viridis::viridis(100)[55],
-            viridis::viridis(100)[5]
+            viridis::viridis(100)[5],
+            viridis::viridis(100)[55]
           )
         ) +
         ggplot2::scale_x_continuous(
           # limits = range(c(posteriors$value, 0)) * plot.area.prop,
           breaks = scales::breaks_pretty(15),
+          expand = ggplot2::expansion(mult = c(exp_mult, exp_mult))
         ) +
         ggplot2::scale_y_discrete(
           labels = function(x) stringr::str_to_title(x)
         ) +
-        ggplot2::annotate(
-          x = 0,
-          y = 6.75,
-          geom = "text",
-          label = "ROPE",,
-          color = viridis::viridis(100)[1],
-          size = 2,
-        ) +
         theme_pdf(
           base_theme = ggplot2::theme_minimal,
           axis.text.y = ggplot2::element_text(
-            size = 7,
+            size = 6,
             color = "black",
             margin = ggplot2::margin(r = 50)
           )

@@ -119,12 +119,30 @@ scale_discrete_aphantasia <- function(
       ),
       ...
     )
+  
+  return(scale)
+}
 
+scale_x_vviq <- function(
+    breaks = seq(16, 80, by = 4),
+    expand = ggplot2::expansion(mult = c(0.02, 0.02)),
+    ...
+) {
+  scale <-
+    list(
+      ggplot2::scale_x_continuous(
+        breaks = breaks,
+        expand = expand,
+        ...
+      )
+    )
+  
   return(scale)
 }
 
 plot_coloured_subjects <- function(
-    df, x, y, 
+    x, y, 
+    df = all_data, 
     alpha = 0.4,
     ...
 ) {
@@ -151,7 +169,7 @@ plot_alexithymia_cutoff <- function(
     linewidth = 0.3,
     txt_x = 30,
     txt_y = 63,
-    txt_size = 2,
+    txt_size = 1.75,
     label = "Alexithymia cut-off"
 ) {
   alexithymia_cutoff <-
@@ -177,27 +195,88 @@ plot_alexithymia_cutoff <- function(
   return(alexithymia_cutoff)
 }
 
-create_evidence_groups <- function(layer, color = FALSE) {
-  layer$data <-
-    layer$data |> 
-    mutate(
-      evidence = ifelse(
-        (CI_low > 0 & CI_high > 0) | (CI_low < 0 & CI_high < 0), 
-        "substantial",
-        "insufficient"
+check_slope_evidence <- function(slopes) {
+  
+  recipe <- modelbased::visualisation_recipe(slopes)
+  
+  for (i in seq_along(recipe)) {
+    if (
+      !is.null(recipe[[i]]$data) && 
+      all(c("CI_low", "CI_high") %in% colnames(recipe[[i]]$data))
+    ) {
+      data <- 
+        recipe[[i]]$data |> 
+        dplyr::mutate(
+          evidence = ifelse(
+            (CI_low > 0 & CI_high > 0) | (CI_low < 0 & CI_high < 0), 
+            "non_null",
+            "uncertain"
+          )
+        ) |> 
+        dplyr::select(vviq, CI_low, CI_high, evidence)
+    }
+  }
+  
+  return(data)
+}
+
+plot_brm_slopes <- function(
+    slopes, 
+    .f_groups = 1,
+    x_lab = "VVIQ score",
+    y_lab = "Slope (score variation per unit change in VVIQ)",
+    base_theme = ggplot2::theme_minimal,
+    ...
+) {
+  .f_groups <- substitute(.f_groups)
+  
+  recipe <- modelbased::visualisation_recipe(slopes)
+  
+  for (i in seq_along(recipe)) {
+    if (
+      !is.null(recipe[[i]]$data) && 
+      all(c("CI_low", "CI_high") %in% colnames(recipe[[i]]$data))
+      ) {
+      recipe[[i]]$data <-
+        recipe[[i]]$data |> 
+        dplyr::mutate(
+          evidence = ifelse(
+            (CI_low > 0 & CI_high > 0) | (CI_low < 0 & CI_high < 0), 
+            "non_null",
+            "uncertain"
+          ),
+          .group = eval(.f_groups)
+        )
+      
+      if (i == 3) recipe[[i]]$aes$color <- "evidence"
+      recipe[[i]]$aes$fill  <- "evidence"
+      }
+  }
+  
+  p <- 
+    plot(recipe) +
+    scale_x_vviq() +
+    ggplot2::scale_discrete_manual(
+      aesthetics = c("color", "fill"),
+      name = NULL,
+      values = c(
+        "uncertain" = viridis::viridis(100)[5],
+        "non_null" = viridis::viridis(100)[55]
       ),
-      .group = case_when(
-        vviq <= 23 ~ 1,
-        vviq <= 33 ~ 2,
-        vviq <= 36 ~ 3,
-        vviq <= 47 ~ 4,
-        vviq <= 71 ~ 5,
-        vviq <= 80 ~ 6
+      labels = c(
+        "uncertain" = "95% CI includes 0",
+        "non_null" = "95% CI excludes 0"
       )
+    ) +
+    ggplot2::labs(
+      x = x_lab,
+      y = y_lab
+    ) +
+    theme_pdf(
+      base_theme = ggplot2::theme_minimal,
+      legend.key.width = grid::unit(7, "pt"),
+      ...
     )
   
-  if (color) layer$aes$color <- "evidence"
-  layer$aes$fill  <- "evidence"
-  
-  return(layer)
+  return(p)
 }
