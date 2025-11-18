@@ -1,3 +1,9 @@
+if(!requireNamespace("cmdstanr", quietly = TRUE)) {
+  install.packages(
+    "cmdstanr",
+    repos = c('https://stan-dev.r-universe.dev', getOption("repos"))
+  )
+}
 devtools::load_all()
 pacman::p_load(brms, patchwork)
 

@@ -170,7 +170,8 @@ plot_alexithymia_cutoff <- function(
     txt_x = 30,
     txt_y = 63,
     txt_size = 1.75,
-    label = "Alexithymia cut-off"
+    label = "Alexithymia cut-off",
+    ...
 ) {
   alexithymia_cutoff <-
     list(
@@ -188,7 +189,8 @@ plot_alexithymia_cutoff <- function(
         label = label,
         color = color,
         size = txt_size,
-        hjust = 0
+        hjust = 0,
+        ...
       )
     )
   

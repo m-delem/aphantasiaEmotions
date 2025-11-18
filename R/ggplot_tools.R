@@ -127,18 +127,18 @@ theme_pdf <- function(
       ),
 
       # Axes titles and text
-      axis.title.x       = ggplot2::element_text(
-        margin = ggplot2::margin(t = frac_size)
-      ),
-      axis.title.y       = ggplot2::element_text(
-        margin = ggplot2::margin(r = frac_size)
-      ),
-      axis.title.x.top   = ggplot2::element_text(
-        margin = ggplot2::margin(b = frac_size)
-      ),
-      axis.title.y.right = ggplot2::element_text(
-        margin = ggplot2::margin(l = frac_size)
-      ),
+      # axis.title.x       = ggplot2::element_text(
+      #   # margin = ggplot2::margin(t = frac_size)
+      # ),
+      # axis.title.y       = ggplot2::element_text(
+      #   # margin = ggplot2::margin(r = frac_size)
+      # ),
+      # axis.title.x.top   = ggplot2::element_text(
+      #   # margin = ggplot2::margin(b = frac_size)
+      # ),
+      # axis.title.y.right = ggplot2::element_text(
+      #   # margin = ggplot2::margin(l = frac_size)
+      # ),
 
       axis.text =
         ggplot2::element_text(size = ggplot2::rel(axis_relative_size)),
@@ -152,11 +152,11 @@ theme_pdf <- function(
         ggplot2::element_text(size = ggplot2::rel(axis_relative_y)),
 
       # Facets (using both "strip" and "panel" is confusing...)
-      panel.spacing = grid::unit(frac_size, "pt"),
+      # panel.spacing = grid::unit(frac_size, "pt"),
       strip.text    = ggplot2::element_text(
         size = ggplot2::rel(1),
         face = "bold",
-        margin = ggplot2::margin(half_size, half_size, half_size, half_size)
+        # margin = ggplot2::margin(half_size, half_size, half_size, half_size)
       ),
 
       # Legends
@@ -170,20 +170,20 @@ theme_pdf <- function(
       # Spacing between the whole legend box and the plot area
       legend.box.spacing = grid::unit(base_size * 0.25, "pt"),
       # Additional margin around the whole legend box
-      legend.box.margin  = ggplot2::margin(
-        half_size, half_size, half_size, half_size
-      ),
+      # legend.box.margin  = ggplot2::margin(
+      #   half_size, half_size, half_size, half_size
+      # ),
       # Arrangement of multiple legends
       legend.box = "vertical",
       # Spacing around each separate legend (colour, fill, etc.)
-      legend.spacing.x     = grid::unit(base_size * 2, "pt"),
-      legend.spacing.y     = grid::unit(base_size, "pt"),
+      # legend.spacing.x     = grid::unit(base_size * 2, "pt"),
+      # legend.spacing.y     = grid::unit(base_size, "pt"),
       # # Size of the "icon" in the key (dots, lines, etc.)
       legend.key.height    = grid::unit(base_size * 0.5, "pt"),
       legend.key.width     = grid::unit(base_size * 0.5, "pt"),
       # # Spacing around the whole keys (icon + text <----> icon + text)
-      legend.key.spacing.x = grid::unit(base_size * 1.25, "pt"),
-      legend.key.spacing.y = grid::unit(base_size * 0.5, "pt"),
+      # legend.key.spacing.x = grid::unit(base_size * 1.25, "pt"),
+      # legend.key.spacing.y = grid::unit(base_size * 0.5, "pt"),
     ) +
     ggplot2::theme(...)
 
