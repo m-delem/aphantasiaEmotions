@@ -10,7 +10,7 @@ p_groups <-
   plot_group_violins(
     tas ~ vviq_group_4, 
     title = "Categorical model",
-    x_lab = "VVIQ group",
+    x_lab = "Visual imagery group",
     y_lab = "Alexithymia score",
     dot_size = 0.1,
     middle.linewidth = 0.3,
@@ -29,7 +29,7 @@ p_groups <-
     axis.title.x = 
       ggplot2::element_text(margin = ggplot2::margin(t = 2)),
     axis.text.x.bottom = 
-      ggplot2::element_text(margin = ggplot2::margin(t = 2)),
+      ggplot2::element_text(margin = ggplot2::margin(t = 2), color = "black"),
     axis.title.y = 
       ggplot2::element_text(margin = ggplot2::margin(r = 2)),
     axis.text.y.left = 
@@ -79,6 +79,7 @@ p_gam <-
   plot_gam_means(
     m_gam,
     title = "Continuous model",
+    x_title = "Visual imagery vividness (16 = no imagery)",
     y_title = "Alexithymia score",
     base_size = base_size,
     axis_relative_size = 1,
@@ -96,7 +97,7 @@ p_gam <-
     axis.title.x = 
       ggplot2::element_text(margin = ggplot2::margin(t = 2)),
     axis.text.x.bottom = 
-      ggplot2::element_text(margin = ggplot2::margin(t = 2)),
+      ggplot2::element_text(margin = ggplot2::margin(t = 2), color = "black"),
     axis.title.y = 
       ggplot2::element_text(margin = ggplot2::margin(r = 2)),
     axis.text.y.left = 
@@ -115,8 +116,9 @@ p_gam <-
   ) + 
   plot_alexithymia_cutoff(
     linewidth = 0.1,
-    txt_size = 5,
+    txt_size = 4,
     txt_x = 26,
+    txt_y = 65,
     label = "",
     lineheight = 0.2
   ) +
