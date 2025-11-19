@@ -8,14 +8,21 @@
 <a href="https://osf.io/b837s/" target="_blank"><img alt="OSF badge" src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf"/></a>
 <!-- badges: end -->
 
+## Overview
+
 aphantasiaEmotions is a data analysis project wrapped in an R package
 for reproducibility[^1]. It contains the code and data to reproduce the
 analyses presented in the article “*Aphantasics Process Emotions
 Differently: Evidence of a Non-linear Relationship Between Visual
 Imagery and Emotional Processing Abilities*”. You can read the preprint
-<a href="https://osf.io/b837s/" target="_blank">here</a>. All study
-materials are available on the Open Science Framework
-<a href="https://osf.io/b837s/" target="_blank">here</a>.
+<a href="https://osf.io/b837s/" target="_blank">here</a>. All
+supplementary study materials are available on the Open Science
+Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
+
+Below is the graphical abstract of this study, which summarises the main
+finding that came out of the analyses.
+
+![](inst/visualisation/graphical_abstract.png)
 
 ## Installation
 
@@ -39,6 +46,25 @@ devtools::load_all()
 
 … Which will load the package and make all its functions and data
 available in your R session.
+
+## Citation
+
+This GitHub repository is archived in the OSF project, which allowed to
+assign a permanent DOI to the code and data. Thus, if you use this code
+or data in your research, please cite the OSF project with one of the
+following:
+
+**APA**
+
+> Delem, M., … \[WIP\]
+
+**MLA**
+
+> Delem, Maël, et al., … \[WIP\]
+
+**Chicago**
+
+> Delem, Maël,, … \[WIP\]
 
 [^1]: The R package structure was chosen to facilitate the sharing of
     the code and data with the scientific community, and to make it easy
