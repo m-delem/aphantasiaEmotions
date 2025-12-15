@@ -176,14 +176,14 @@ theme_pdf <- function(
       # Arrangement of multiple legends
       legend.box = "vertical",
       # Spacing around each separate legend (colour, fill, etc.)
-      # legend.spacing.x     = grid::unit(base_size * 2, "pt"),
-      # legend.spacing.y     = grid::unit(base_size, "pt"),
+      legend.spacing.x     = grid::unit(base_size * 2, "pt"),
+      legend.spacing.y     = grid::unit(base_size, "pt"),
       # # Size of the "icon" in the key (dots, lines, etc.)
       legend.key.height    = grid::unit(base_size * 0.5, "pt"),
       legend.key.width     = grid::unit(base_size * 0.5, "pt"),
       # # Spacing around the whole keys (icon + text <----> icon + text)
-      # legend.key.spacing.x = grid::unit(base_size * 1.25, "pt"),
-      # legend.key.spacing.y = grid::unit(base_size * 0.5, "pt"),
+      legend.key.spacing.x = grid::unit(base_size * 1.25, "pt"),
+      legend.key.spacing.y = grid::unit(base_size * 0.5, "pt"),
     ) +
     ggplot2::theme(...)
 

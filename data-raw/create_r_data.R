@@ -5,7 +5,7 @@ select_and_sum_scales <- function(df) {
   df <-
     df |> 
     select(
-      "study", "id", "sex", "gender", "age",
+      "study", "lang", "id", "sex", "gender", "age",
       "vviq_q1":"vviq_q16",
       "tas_q1":"tas_q20",
       "other_data"
@@ -53,6 +53,7 @@ df_burns <-
   ) |>
   mutate(
     study = "burns",
+    lang = "en",
     id = paste0("subj_burns_", row_number()),
     sex = ifelse(.data$sexatbirth == 1, "male", "female"),
     gender = case_when(
@@ -83,6 +84,7 @@ df_monzel <-
   read_xlsx(here("data-raw/data_monzel.xlsx"), sheet = "raw_data") |> 
   mutate(
     study = "monzel",
+    lang = "en",
     id = paste0("subj_monzel_", row_number()), 
     gender = ifelse(.data$gender == 1, "male", "female"),
     sex = .data$gender,
@@ -94,7 +96,7 @@ df_monzel <-
   ) |> 
   nest(other_data = c("brt_priming":"ert_sad_rt")) |> 
   select(
-    "study", "id", "sex", "gender", "age",
+    "study", "lang", "id", "sex", "gender", "age",
     "vviq" = "vviq_score",
     "tas"  = "tas_score",
     "tas_identify":"tas_external",
@@ -154,6 +156,7 @@ df_ruby <-
   ) |> 
   mutate(
     study = "ruby",
+    lang = "fr",
     id = paste0("subj_ruby_", row_number()),
     age = ifelse(age == 1 | age == 99, NA, age),
     sex = case_when(
@@ -211,6 +214,7 @@ df_kvamme <-
   ) |> 
   mutate(
     study = "kvamme",
+    lang = "en",
     id = paste0("subj_kvamme_", row_number()),
     gender = case_when(
       .data$gender == 1 ~ "male",
@@ -236,16 +240,62 @@ df_kvamme <-
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
   relocate("vviq":"tas_external", "items", .after = "age")
 
+# Mas -----------------------------------------------------
+df_mas <- 
+  read_xlsx(here("data-raw/data_mas.xlsx")) |> 
+  mutate(
+    study = "mas",
+    lang = "fr",
+    id = paste0("subj_mas_", row_number()), 
+    age = NA,
+    gender = NA,
+    sex = NA
+  ) |> 
+  rename_with(
+    .fn = 
+      ~ .x |> 
+      str_replace_all("TAS-20_", "tas_q") |> 
+      str_to_lower()
+    ) |> 
+  rename(
+    "vviq_q1" = "vviq1_1",
+    "vviq_q2" = "vviq1_2",
+    "vviq_q3" = "vviq1_3",
+    "vviq_q4" = "vviq1_4",
+    "vviq_q5" = "vviq2_1",
+    "vviq_q6" = "vviq2_2",
+    "vviq_q7" = "vviq2_3",
+    "vviq_q8" = "vviq2_4",
+    "vviq_q9" = "q43_1",
+    "vviq_q10" = "q43_2",
+    "vviq_q11" = "q43_3",
+    "vviq_q12" = "q43_4",
+    "vviq_q13" = "q44_1",
+    "vviq_q14" = "q44_2",
+    "vviq_q15" = "q44_3",
+    "vviq_q16" = "q44_4"
+  ) |> 
+  select(!c("startdate":"q4_4_text")) |> 
+  nest(other_data = c(
+    "panas_1":"panas_20", 
+    "paq_1":"hads14", 
+    "vviq_tot":"tas20cat"
+  )) |> 
+  select_and_sum_scales() |> 
+  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
+  relocate("vviq":"tas_external", "items", .after = "age")
+
 # Merging and creating groups ---------------------------------------------
 all_data <- 
-  bind_rows(df_burns, df_monzel, df_ruby, df_kvamme) |> 
+  bind_rows(df_burns, df_monzel, df_mas, df_ruby, df_kvamme) |> 
   filter(vviq >= 16 & vviq <= 80) |>
   mutate(
     across("study":"gender", as.factor),
     study = factor(
       .data$study, 
-      levels = c("burns", "monzel", "ruby", "kvamme")
+      levels = c("burns", "monzel", "mas", "ruby", "kvamme")
     ),
+    lang = factor(.data$lang, levels = c("en", "fr")),
     tas_group = 
       ifelse(.data$tas >= 61, "alexithymia", "typical_tas") |> 
       factor(levels = c("alexithymia", "typical_tas")),

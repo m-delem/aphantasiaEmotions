@@ -9,7 +9,7 @@ p_counts <-
   mutate(
     study = factor(
       study, 
-      levels = c("burns", "monzel", "ruby", "kvamme", "total")
+      levels = c("burns", "monzel", "mas", "ruby", "kvamme", "total")
     )
   ) |> 
   ggplot(
@@ -31,7 +31,7 @@ p_counts <-
       mutate(
         study = factor(
           study, 
-          levels = c("burns", "monzel", "ruby", "kvamme", "total")
+          levels = c("burns", "monzel", "mas", "ruby", "kvamme", "total")
         )
       ) |> 
       group_by(vviq_group_4, study) |>
@@ -56,22 +56,23 @@ p_counts <-
   ) +
   facet_wrap(
     vars(study),
-    ncol = 5,
+    ncol = 6,
     labeller = as_labeller(c(
       "burns"  = "Ale & Burns (2024)\nN = 192",
       "monzel" = "Monzel et al. (2024)\nN = 105",
+      "mas"    = "Mas et al. (2025)\nN = 123",
       "ruby"   = "Ruby (2025)\nN = 205",
       "kvamme" = "Kvamme et al. (2025)\nN = 833",
-      "total"  = "All studies combined\nN = 1,335"
+      "total"  = "All studies combined\nN = 1,458"
     )),
     axes = "all_x"
   ) +
   labs(x = NULL, y = NULL) +
   scale_discrete_aphantasia() +
+  # scale_y_reverse(expand = c(0.025, 0)) +
+  # coord_flip() +
   theme_pdf(
     theme_minimal,
-    axis_relative_size = 1,
-    axis_relative_y = 0.85,
     axis.text.x = ggplot2::element_blank(),
     axis.text.y = ggplot2::element_blank(),
     axis.ticks.y = ggplot2::element_blank(),
@@ -88,9 +89,10 @@ p_counts <-
     legend.text = element_text(hjust = 1),
     legend.text.position = "left",
     # panel.spacing.x = grid::unit(8, "mm")
+    strip.text = ggplot2::element_text(size = 6)
   )
 
-p_props <- 
+p_props <-
   all_data |> 
   group_by(vviq_group_4, tas_group, study) |> 
   count() |>
@@ -113,7 +115,7 @@ p_props <-
   mutate(
     study = factor(
       study, 
-      levels = c("burns", "monzel", "ruby", "kvamme", "total")
+      levels = c("burns", "monzel", "mas", "ruby", "kvamme", "total")
     )
   ) |> 
   ggplot(
@@ -138,15 +140,16 @@ p_props <-
       ""
     )),
     color = "black",
-    size = 1.75,
+    size = 1.5,
     position = ggplot2::position_fill(vjust = 0.5)
   ) +
   facet_wrap(
     vars(study),
-    ncol = 5,
+    ncol = 6,
     labeller = as_labeller(c(
       "burns"  = "Ale & Burns (2024)",
       "monzel" = "Monzel et al. (2024)",
+      "mas"    = "Mas et al. (2025)",
       "ruby"   = "Ruby (2025)",
       "kvamme" = "Kvamme et al. (2025)",
       "total"  = "All studies combined"
@@ -187,8 +190,6 @@ p_props <-
   ) +
   theme_pdf(
     theme_minimal,
-    axis_relative_size = 1,
-    axis_relative_y = 0.85,
     axis.text.x = ggplot2::element_blank(),
     axis.text.y = ggplot2::element_text(
       size = 7, 
@@ -204,7 +205,9 @@ p_props <-
       margin = margin(t = m), 
       color = "grey40"
     ),
-    legend.position = "bottom"
+    legend.position = "bottom",
+    legend.box.spacing = grid::unit(7, "pt"),
+    strip.text = ggplot2::element_text(size = 6)
   )
 
 p_sample <- 

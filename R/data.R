@@ -5,6 +5,7 @@
 #' across various studies. It
 #' contains the following:
 #' - `study`: the study from which the data originates (see source below)
+#' - `lang`: language of the study (English or French)
 #' - `id`: unique identifier for each participant
 #' - `sex` 
 #' - `gender` (if distinct from sex)
@@ -34,6 +35,8 @@
 #'   (study name "monzel")
 #' - Ruby (2025): Original data collected by Perrine Ruby at the Centre de
 #'   Recherche en Neurosciences de Lyon (study name "ruby") 
+#' - Mas (2025): Original data collected by Marine Mas et al. at Louvain
+#'   (study name "mas")
 #' - Kvamme et al. (2025): https://doi.org/10.31234/osf.io/6fhj4_v1   
 #'   (study name "kvamme")
 "all_data"
