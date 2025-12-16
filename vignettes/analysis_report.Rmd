@@ -1,0 +1,421 @@
+---
+title: "Analysis Report"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Analysis Report}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+library(patchwork)
+```
+
+# Sample description
+
+```{r}
+#| label: plot-proportions
+#| fig.width: 10
+#| fig.height: 6
+#| warning: false
+
+p_counts <-
+  all_data |>
+  dplyr::bind_rows(all_data |> dplyr::mutate(study = "total")) |>
+  dplyr::mutate(
+    study = factor(
+      study, 
+      levels = c("burns", "monzel", "mas", "ruby", "kvamme", "total")
+    )
+  ) |> 
+  plot_vviq_group_proportions(vviq_group_4, base_size = 10, prop_txt_size = 3)
+
+p_props <-
+  all_data |>  
+  summarise_aph_and_alexi(vviq_group_4) |> 
+  plot_alexithymia_proportions(
+    vviq_group_4, ncol = 6, 
+    base_size = 10, prop_txt_size = 2
+)
+
+ggpubr::ggarrange(
+  p_counts, p_props, 
+  ncol = 1,
+  heights = c(1.1, 1),
+  labels = "AUTO",
+  font.label = list(size = 11, face = "bold")
+)
+```
+
+# Total TAS score analysis
+
+## Linear categorical model
+
+```{r}
+#| label: plot-tot-contrasts
+#| fig.width: 10
+#| fig.height: 5
+#| warning: false
+
+# Group model
+lm_tot <- 
+  fit_brms_model(
+    formula = tas ~ vviq_group_4, 
+    data = all_data,
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = "models/lm_tot.rds"
+  )
+
+# Group plot
+p_tot <- 
+  plot_group_violins(
+    tas ~ vviq_group_4, 
+    y_lab = "Total TAS Score",
+    base_size = 10
+  ) + 
+  plot_alexithymia_cutoff(txt_size = 2, txt_x = 1.4, label = "Alexithymia") +
+  scale_discrete_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7))
+
+contrasts_tot <- 
+  marginaleffects::comparisons(
+    lm_tot,
+    variables = list("vviq_group_4" = "pairwise"),
+    draw_ids = 1:4000
+  )
+
+report_rope(contrasts_tot, contrast) |> knitr::kable()
+p_contr_tot <- 
+  plot_posterior_contrasts(
+    contrasts_tot, lm_tot, 
+    base_size = 10,
+    rope_txt = 3,
+    dot_size = 1,
+    x_lab = "Effect size (TAS score difference)",
+    axis_relative_x = 0.7
+  )
+
+plot(p_tot + p_contr_tot)
+```
+
+## Nonlinear continuous model
+
+```{r}
+#| label: plot-tot-gam
+#| fig.width: 10
+#| fig.height: 5
+#| warning: false
+
+gam_tot <- 
+  fit_brms_model(
+    formula = tas ~ s(vviq), 
+    data = all_data,
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = "models/gam_tot.rds"
+  )
+
+p_gam_tot <-
+  plot_gam_means(
+    gam_tot,
+    y_title = "Total TAS score",
+    legend_relative = 0.85,
+    base_size = 10
+  ) +
+  plot_coloured_subjects(
+    x = all_data$vviq, 
+    y = all_data$tas,
+    size = 1
+  ) + 
+  plot_alexithymia_cutoff(txt_x = 26, label = "Alexithymia") +
+  scale_discrete_aphantasia() +
+  scale_x_vviq() 
+
+slopes_tot <-
+  modelbased::estimate_slopes(
+    gam_tot, 
+    trend = "vviq", by = "vviq", length = 75,
+    rope_ci = 1
+  )
+
+check_slope_evidence(slopes_tot) |> knitr::kable()
+p_slopes_tot <-
+  plot_gam_slopes(
+    slopes_tot,
+    .f_groups = dplyr::case_when(
+      vviq <= 24 ~ 1,
+      vviq <= 34 ~ 2,
+      vviq <= 36 ~ 3,
+      vviq <= 45 ~ 4,
+      vviq <= 76 ~ 5,
+      vviq <= 80 ~ 6
+    ),
+    y_lab = "TAS variation per unit change in VVIQ",
+    base_size = 10
+  )
+
+plot(p_gam_tot + p_slopes_tot)
+```
+
+# Subscale TAS score analyses
+
+## Linear categorical models
+
+```{r}
+#| label: plot-sub-contrasts
+#| fig.width: 10
+#| fig.height: 10
+#| warning: false
+
+# Subscale group models
+lm_dif <- 
+  fit_brms_model(
+    formula = tas_identify ~ vviq_group_4, 
+    data = all_data,
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = "models/lm_dif.rds"
+  )
+lm_ddf <-
+  fit_brms_model(
+    formula = tas_describe ~ vviq_group_4, 
+    data = all_data,
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = "models/lm_ddf.rds"
+  )
+lm_eot <-
+  fit_brms_model(
+    formula = tas_external ~ vviq_group_4,
+    data = all_data,
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = "models/lm_eot.rds"
+  )
+
+# Subscale group plots
+p_dif <- 
+  plot_group_violins(
+    tas_identify ~ vviq_group_4, 
+    y_lab = "TAS DIF Score",
+    base_size = 10
+  ) +
+  scale_discrete_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7))
+p_ddf <- 
+  plot_group_violins(
+    tas_describe ~ vviq_group_4, 
+    y_lab = "TAS DDF Score",
+    base_size = 10
+  ) +
+  scale_discrete_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7))
+p_eot <- 
+  plot_group_violins(
+    tas_external ~ vviq_group_4, 
+    y_lab = "TAS EOT Score",
+    base_size = 10
+  ) +
+  scale_discrete_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7))
+
+contrasts_dif <- 
+  marginaleffects::comparisons(
+    lm_dif,
+    variables = list("vviq_group_4" = "pairwise"),
+    draw_ids = 1:4000
+  )
+
+report_rope(contrasts_dif, contrast) |> knitr::kable()
+contrasts_ddf <-
+  marginaleffects::comparisons(
+    lm_ddf,
+    variables = list("vviq_group_4" = "pairwise"),
+    draw_ids = 1:4000
+  )
+
+report_rope(contrasts_ddf, contrast) |> knitr::kable()
+contrasts_eot <-
+  marginaleffects::comparisons(
+    lm_eot,
+    variables = list("vviq_group_4" = "pairwise"),
+    draw_ids = 1:4000
+  )
+
+report_rope(contrasts_eot, contrast) |> knitr::kable()
+
+p_dif_contr <- 
+  plot_posterior_contrasts(
+    contrasts_dif, lm_dif,
+    xlab = "Effect size (DIF score difference)", 
+    base_size = 10,
+    dot_size = 1,
+    axis_relative_x = 0.7
+  )
+p_ddf_contr <- 
+  plot_posterior_contrasts(
+    contrasts_ddf, lm_ddf,
+    xlab = "Effect size (DDF score difference)", 
+    base_size = 10,
+    dot_size = 1,
+    axis_relative_x = 0.7
+  )
+p_eot_contr <- 
+  plot_posterior_contrasts(
+    contrasts_eot, lm_eot,
+    xlab = "Effect size (EOT score difference)", 
+    base_size = 10,
+    dot_size = 1,
+    axis_relative_x = 0.7
+  )
+
+((p_dif + p_dif_contr) + plot_layout(tag_level = "new")) / 
+  ((p_ddf + p_ddf_contr) + plot_layout(tag_level = "new")) / 
+  ((p_eot + p_eot_contr) + plot_layout(tag_level = "new")) + 
+  plot_annotation(tag_levels = c("A", "1")) &
+  ggplot2::theme(plot.tag = ggplot2::element_text(size = 10, face = "bold"))
+```
+
+## Nonlinear continuous models
+
+```{r}
+#| label: plot-sub-gam
+#| fig.width: 10
+#| fig.height: 10
+#| warning: false
+
+# Subscale GAM models
+gam_dif <- fit_brms_model(
+  formula = tas_identify ~ s(vviq), 
+  data = all_data,
+  file = "models/gam_dif.rds"
+  )
+gam_ddf <- fit_brms_model(
+  formula = tas_describe ~ s(vviq), 
+  data = all_data,
+  file = "models/gam_ddf.rds"
+  )
+gam_eot <- fit_brms_model(
+  formula = tas_external ~ s(vviq),
+  data = all_data,
+  file = "models/gam_eot.rds"
+  )
+
+# Subscale GAM plots
+p_gam_dif <-
+  plot_gam_means(
+    gam_dif,
+    y_title = "TAS DIF score",
+    legend_relative = 0.85,
+    base_size = 10
+  ) +
+  plot_coloured_subjects(
+    x = all_data$vviq, 
+    y = all_data$tas_identify,
+    size = 1
+  ) + 
+  scale_discrete_aphantasia() +
+  scale_x_vviq() 
+p_gam_ddf <-
+  plot_gam_means(
+    gam_ddf,
+    y_title = "TAS DDF score",
+    legend.position = "none",
+    base_size = 10
+  ) +
+  plot_coloured_subjects(
+    x = all_data$vviq, 
+    y = all_data$tas_describe,
+    size = 1
+  ) + 
+  scale_discrete_aphantasia() +
+  scale_x_vviq() 
+p_gam_eot <-
+  plot_gam_means(
+    gam_eot,
+    y_title = "TAS EOT score",
+    legend.position = "none",
+    base_size = 10
+  ) +
+  plot_coloured_subjects(
+    x = all_data$vviq, 
+    y = all_data$tas_external,
+    size = 1
+  ) + 
+  scale_discrete_aphantasia() +
+  scale_x_vviq() 
+  
+slopes_dif <-
+  modelbased::estimate_slopes(gam_dif, trend = "vviq", by = "vviq", length = 75)
+
+check_slope_evidence(slopes_dif) |> knitr::kable()
+slopes_ddf <-
+  modelbased::estimate_slopes(gam_ddf, trend = "vviq", by = "vviq", length = 75)
+
+check_slope_evidence(slopes_ddf) |> knitr::kable()
+slopes_eot <-
+  modelbased::estimate_slopes(gam_eot, trend = "vviq", by = "vviq", length = 75)
+
+check_slope_evidence(slopes_eot) |> knitr::kable()
+
+p_slopes_dif <-
+  plot_gam_slopes(
+    slopes_dif,
+    .f_groups = dplyr::case_when(
+      vviq <= 23 ~ 1,
+      vviq <= 31 ~ 2,
+      vviq <= 38 ~ 3,
+      vviq <= 62 ~ 4,
+      vviq <= 73 ~ 5,
+      vviq <= 80 ~ 6
+    ),
+    y_lab = "DIF variation per unit change in VVIQ",
+    axis.title.y = ggplot2::element_text(size = 9),
+    base_size = 10
+  )
+p_slopes_ddf <-
+  plot_gam_slopes(
+    slopes_ddf,
+    .f_groups = dplyr::case_when(
+      vviq <= 23 ~ 1,
+      vviq <= 46 ~ 2,
+      vviq <= 61 ~ 3,
+      vviq <= 63 ~ 4,
+      vviq <= 73 ~ 5,
+      vviq <= 80 ~ 6
+    ),
+    y_lab = "DDF variation per unit change in VVIQ",
+    legend.position = "none",
+    axis.title.y = ggplot2::element_text(size = 9),
+    base_size = 10
+  )
+p_slopes_eot <-
+  plot_gam_slopes(
+    slopes_eot,
+    .f_groups = dplyr::case_when(
+      vviq <= 23 ~ 1,
+      vviq <= 42 ~ 2,
+      vviq <= 69 ~ 3,
+      vviq <= 80 ~ 4
+    ),
+    y_lab = "EOT variation per unit change in VVIQ",
+    legend.position = "none",
+    axis.title.y = ggplot2::element_text(size = 9),
+    base_size = 10
+  )
+
+((p_gam_dif + p_slopes_dif) + plot_layout(tag_level = "new")) / 
+  ((p_gam_ddf + p_slopes_ddf) + plot_layout(tag_level = "new")) / 
+  ((p_gam_eot + p_slopes_eot) + plot_layout(tag_level = "new")) + 
+  plot_layout(heights = c(1, 1, 1)) +
+  plot_annotation(tag_levels = c("A", "1")) &
+  ggplot2::theme(
+    plot.tag = ggplot2::element_text(size = 10, face = "bold")
+  )
+```
+
+
