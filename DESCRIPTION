@@ -27,20 +27,24 @@ Imports:
     rlang,
     scales,
     stats,
+    stringr,
     tidyr
 Suggests: 
+    bayestestR,
     curl,
     emmeans,
+    ggdist,
     ggpubr,
-    latex2exp,
+    knitr,
     marginaleffects,
     modelbased,
     performance,
+    rmarkdown,
     see,
     showtext,
-    superb,
     sysfonts,
     testthat (>= 3.0.0),
     viridis
 LazyData: true
 Config/testthat/edition: 3
+VignetteBuilder: knitr

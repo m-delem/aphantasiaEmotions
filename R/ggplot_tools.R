@@ -267,71 +267,197 @@ save_ggplot <- function(
   invisible(plot)
 }
 
-#' Add significance label and line to a plot
+#' Custom x-axis scale for Aphantasia groups
+#' 
+#' @description
+#' This function creates a custom x-axis scale for Aphantasia groups in ggplot2
+#' plots.
 #'
-#' @param df A dataframe containing one column per variable in the
-#' desired aesthetics (x, y, colour, etc.) and the following columns:
-#' - `x_star`: x position of the star label
-#' - `y_star`: y position of the star label
-#' - `stars`: the star label (e.g., "*", "**", "***")
-#' - `x_line`: x position of the start of the line
-#' - `x_line_end`: x position of the end of the line
-#' - `y_line`: y position of the line
-#' @param size_star Size of the star label. Default is 2.5.
-#' @param lw Line width of the significance line. Default is 0.2.
-#' @param color Color of the star label and line. Default is "black".
-#' @param linetype Line type of the significance line. Default is "solid".
+#' @param name Name of the x-axis.
+#' @param mult Multiplier for [ggplot2::expansion()].
+#' @param add Additive for [ggplot2::expansion()].
+#' @param ... Additional arguments passed to `ggplot2::scale_x_discrete()`.
 #'
-#' @returns A list of ggplot2 layers that can be added to a ggplot object.
+#' @returns A ggplot2 scale object for the x-axis.
 #' @export
-#'
-#' @examples
-#' group_effect <-
-#'  tibble::tibble(
-#'     x_star     = 1.5,
-#'     y_star     = 1.08,
-#'     stars      = "**",
-#'     x_line     = x_star - 0.5,
-#'     x_line_end = x_star + 0.5,
-#'     y_line     = 1.05
-#'   )
-#'
-#' ggplot2::ggplot() +
-#'   ggplot2::scale_x_discrete(limits = factor(c(1, 2))) +
-#'   ggplot2::scale_y_continuous(limits = c(0, 1.1)) +
-#'   ggplot2::labs(x = NULL, y = NULL) +
-#'   add_significance(group_effect, size_star = 4)
-add_significance <- function(
-    df,
-    size_star = 2.5,
-    lw = 0.2,
-    color = "black",
-    linetype = "solid"
-){
-  list(
-    ggplot2::geom_text(
-      data = df,
-      ggplot2::aes(
-        x     = .data$x_star,
-        y     = .data$y_star,
-        label = .data$stars
+scale_x_aphantasia <- function(
+    name = NULL,
+    mult = 0,
+    add = c(0, 0.7),
+    ...
+) {
+  scale <-
+    ggplot2::scale_x_discrete(
+      name = name,
+      labels = c(
+        "aphantasia"     = "Aphantasia",
+        "hypophantasia"  = "Hypophantasia",
+        "typical"        = "Typical",
+        "hyperphantasia" = "Hyperphantasia"
       ),
-      size        = size_star,
-      color       = color,
-      inherit.aes = FALSE
-    ),
-    ggplot2::geom_segment(
-      data = df,
-      ggplot2::aes(
-        x    = .data$x_line,
-        xend = .data$x_line_end,
-        y    = .data$y_line,
-        yend = .data$y_line,
+      expand = ggplot2::expansion(
+        mult = mult,
+        add  = add
       ),
-      color       = color,
-      linewidth   = lw,
-      linetype    = linetype,
-      inherit.aes = FALSE
+      ...
     )
-  )
+}
+
+#' Custom discrete scale for Aphantasia groups
+#' 
+#' @description
+#' This function creates a custom discrete colour scale for Aphantasia groups in 
+#' ggplot2 plots.
+#' 
+#' @param aesthetics Aesthetics to apply the scale to. Default is 
+#' `c("color", "fill")`.
+#' @param name Name of the scale. Default is `NULL`.
+#' @param ... Additional arguments passed to `ggplot2::scale_discrete_manual()`.
+#'
+#' @returns A ggplot2 scale object for discrete aesthetics.
+#' @export
+scale_discrete_aphantasia <- function(
+    aesthetics = c("color", "fill"),
+    name = NULL,
+    ...
+) {
+  scale <-
+    ggplot2::scale_discrete_manual(
+      aesthetics = aesthetics,
+      name = name,
+      values = c(
+        "aphantasia"     = palette.colors()[1],
+        "hypophantasia"  = palette.colors()[2],
+        "typical"        = palette.colors()[3],
+        "hyperphantasia" = palette.colors()[4]
+      ),
+      labels = c(
+        "aphantasia"     = "Aphantasia",
+        "hypophantasia"  = "Hypophantasia",
+        "typical"        = "Typical",
+        "hyperphantasia" = "Hyperphantasia"
+      ),
+      ...
+    )
+  
+  return(scale)
+}
+
+#' Custom x-axis scale for VVIQ scores
+#' 
+#' @description
+#' This function creates a custom x-axis scale for VVIQ scores in ggplot2
+#' plots.
+#'
+#' @param breaks Breaks for the x-axis. Default is `seq(16, 80, by = 4)` (which
+#' covers the full range of VVIQ scores).
+#' @param expand Expansion for the x-axis. Default is 
+#' `ggplot2::expansion(mult = c(0.02, 0.02))`.
+#' @param ... Additional arguments passed to `ggplot2::scale_x_continuous()`.
+#'
+#' @returns A list containing a ggplot2 scale object for the x-axis.
+#' @export
+scale_x_vviq <- function(
+    breaks = seq(16, 80, by = 4),
+    expand = ggplot2::expansion(mult = c(0.02, 0.02)),
+    ...
+) {
+  scale <-
+    list(
+      ggplot2::scale_x_continuous(
+        breaks = breaks,
+        expand = expand,
+        ...
+      )
+    )
+  
+  return(scale)
+}
+
+#' Plot individual participants coloured by VVIQ group
+#' 
+#' @description
+#' This function adds a layer to a ggplot object that plots individual data
+#' points coloured by VVIQ group.
+#'
+#' @param x Variable for the x-axis.
+#' @param y Variable for the y-axis.
+#' @param df Data frame containing the data. Default is `all_data`.
+#' @param alpha Transparency level of the points. Default is 0.4.
+#' @param ... Additional arguments passed to `geom_point()`.
+#'
+#' @returns A list containing a `geom_point` layer for ggplot2.
+#' @export
+plot_coloured_subjects <- function(
+    x, y, 
+    df = all_data, 
+    alpha = 0.4,
+    ...
+) {
+  coloured_subjects <-
+    list(
+      ggplot2::geom_point(
+        data = data.frame(
+          x = x,
+          y = y,
+          color = df$vviq_group_4
+        ),
+        ggplot2::aes(x = x, y = y, color = color),
+        alpha = alpha,
+        ...
+      )
+    )
+  
+  return(coloured_subjects)
+}
+
+#' Plot Alexithymia cut-off line
+#' 
+#' @description
+#' This function adds a horizontal line to a ggplot object indicating the
+#' clinical Alexithymia cut-off score, along with a text annotation.
+#'
+#' @param color Color of the line and text. Default is "red".
+#' @param linetype Type of the line. Default is "dashed".
+#' @param linewidth Width of the line. Default is 0.3.
+#' @param txt_x X-coordinate for the text annotation. Default is 30.
+#' @param txt_y Y-coordinate for the text annotation. Default is 63.
+#' @param txt_size Size of the text annotation. Default is 1.75.
+#' @param label Text label for the annotation. Default is "Alexithymia cut-off".
+#' @param ... Additional arguments passed to `ggplot2::annotate()`.
+#'
+#' @returns A list containing a horizontal line and text annotation for ggplot2.
+#' @export
+plot_alexithymia_cutoff <- function(
+    color = "red",
+    linetype = "dashed",
+    linewidth = 0.3,
+    txt_x = 30,
+    txt_y = 63,
+    txt_size = 1.75,
+    label = "Alexithymia cut-off",
+    ...
+) {
+  alexithymia_cutoff <-
+    list(
+      ggplot2::geom_hline(
+        yintercept = 61,
+        linetype = linetype,
+        linewidth = linewidth,
+        color = color,
+        show.legend = FALSE
+      ),
+      ggplot2::annotate(
+        "text",
+        x = txt_x,
+        y = txt_y,
+        label = label,
+        color = color,
+        size = txt_size,
+        hjust = 0,
+        ...
+      )
+    )
+  
+  return(alexithymia_cutoff)
 }
