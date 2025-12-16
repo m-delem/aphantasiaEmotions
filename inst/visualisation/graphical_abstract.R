@@ -72,7 +72,7 @@ m_gam <-
   fit_brms_model(
     formula = tas ~ s(vviq), 
     data = all_data,
-    file = here::here("inst/models/gam_tot.rds")
+    file = here::here("vignettes/models/gam_tot.rds")
   )
 
 p_gam <-

@@ -5,17 +5,17 @@ pacman::p_load(brms, patchwork)
 gam_dif <- fit_brms_model(
   formula = tas_identify ~ s(vviq), 
   data = all_data,
-  file = here::here("inst/models/gam_dif.rds")
+  file = here::here("vignettes/models/gam_dif.rds")
   )
 gam_ddf <- fit_brms_model(
   formula = tas_describe ~ s(vviq), 
   data = all_data,
-  file = here::here("inst/models/gam_ddf.rds")
+  file = here::here("vignettes/models/gam_ddf.rds")
   )
 gam_eot <- fit_brms_model(
   formula = tas_external ~ s(vviq),
   data = all_data,
-  file = here::here("inst/models/gam_eot.rds")
+  file = here::here("vignettes/models/gam_eot.rds")
   )
 
 slopes_dif <-
@@ -68,16 +68,15 @@ p_gam_eot <-
   
 check_slope_evidence(slopes_dif)
 p_slopes_dif <-
-  plot_brm_slopes(
+  plot_gam_slopes(
     slopes_dif,
     .f_groups = dplyr::case_when(
-      vviq <= 30 ~ 1,
-      vviq <= 38 ~ 2,
-      vviq <= 56 ~ 3,
-      vviq <= 60 ~ 4,
-      vviq <= 64 ~ 5,
-      vviq <= 68 ~ 6,
-      vviq <= 80 ~ 7
+      vviq <= 22 ~ 1,
+      vviq <= 31 ~ 2,
+      vviq <= 37 ~ 3,
+      vviq <= 62 ~ 4,
+      vviq <= 73 ~ 5,
+      vviq <= 80 ~ 6
     ),
     y_lab = "DIF variation per unit change in VVIQ",
     axis.title.y = ggplot2::element_text(size = 6)
@@ -85,14 +84,14 @@ p_slopes_dif <-
 
 check_slope_evidence(slopes_ddf)
 p_slopes_ddf <-
-  plot_brm_slopes(
+  plot_gam_slopes(
     slopes_ddf,
     .f_groups = dplyr::case_when(
       vviq <= 22 ~ 1,
-      vviq <= 32 ~ 2,
-      vviq <= 36 ~ 3,
-      vviq <= 46 ~ 4,
-      vviq <= 67 ~ 5,
+      vviq <= 46 ~ 2,
+      vviq <= 60 ~ 3,
+      vviq <= 64 ~ 4,
+      vviq <= 73 ~ 5,
       vviq <= 80 ~ 6
     ),
     y_lab = "DDF variation per unit change in VVIQ",
@@ -102,13 +101,13 @@ p_slopes_ddf <-
 
 check_slope_evidence(slopes_eot)
 p_slopes_eot <-
-  plot_brm_slopes(
+  plot_gam_slopes(
     slopes_eot,
     .f_groups = dplyr::case_when(
       vviq <= 17 ~ 1,
       vviq <= 23 ~ 2,
-      vviq <= 43 ~ 3,
-      vviq <= 70 ~ 4,
+      vviq <= 42 ~ 3,
+      vviq <= 68 ~ 4,
       vviq <= 80 ~ 5
     ),
     y_lab = "EOT variation per unit change in VVIQ",

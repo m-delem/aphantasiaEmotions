@@ -8,35 +8,48 @@ devtools::load_all()
 pacman::p_load(brms, patchwork)
 
 # Models -------------------------------------
-m_tot <- 
+lm_tot <- 
   fit_brms_model(
     formula = tas ~ vviq_group_4, 
     data = all_data,
-    prior = c(prior(normal(0, 20), class = "b")),
-    file = here::here("inst/models/lm_tot.rds")
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = here::here("vignettes/models/lm_tot.rds")
   )
 
-m_gam <- 
+gam_tot <- 
   fit_brms_model(
     formula = tas ~ s(vviq), 
     data = all_data,
-    file = here::here("inst/models/gam_tot.rds")
+    prior = c(brms::prior(normal(0, 20), class = "b")),
+    file = here::here("vignettes/models/gam_tot.rds")
   )
 slopes <-
-  modelbased::estimate_slopes(m_gam, trend = "vviq", by = "vviq", length = 75)
+  modelbased::estimate_slopes(gam_tot, trend = "vviq", by = "vviq", length = 75)
 
 # Visualisation -------------------------------
 p_group <- 
   plot_group_violins(
     tas ~ vviq_group_4, 
-    y_lab = "Total TAS Score",
-    axis_relative_x = 0.8
+    y_lab = "Total TAS Score"
   ) + 
   plot_alexithymia_cutoff(txt_x = 1.4, label = "Alexithymia") +
   scale_discrete_aphantasia() +
   scale_x_aphantasia(add = c(0.4, 0.7))
 
-p_contr <- brm_contrasts(m_tot, plot = TRUE)
+contrasts <- 
+  marginaleffects::comparisons(
+    lm_tot,
+    variables = list("vviq_group_4" = "pairwise"),
+    draw_ids = 1:4000
+  )
+
+p_contr <- 
+  plot_posterior_contrasts(
+    contrasts, lm_tot, 
+    x_lab = "Effect size (TAS score difference)",
+    rope_txt = 1.25,
+    axis_relative_x = 0.7
+  )
 
 p_gam <-
   plot_gam_means(
@@ -56,15 +69,13 @@ p_gam <-
 check_slope_evidence(slopes)
 
 p_slopes <-
-  plot_brm_slopes(
+  plot_gam_slopes(
     slopes,
     .f_groups = dplyr::case_when(
-      vviq <= 23 ~ 1,
-      vviq <= 33 ~ 2,
-      vviq <= 36 ~ 3,
-      vviq <= 47 ~ 4,
-      vviq <= 71 ~ 5,
-      vviq <= 80 ~ 6
+      vviq <= 24 ~ 1,
+      vviq <= 45 ~ 2,
+      vviq <= 76 ~ 3,
+      vviq <= 80 ~ 4
     ),
     y_lab = "TAS variation per unit change in VVIQ",
   )
