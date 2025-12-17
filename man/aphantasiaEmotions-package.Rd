@@ -8,6 +8,14 @@
 \description{
 This project contains the code to analyse VVIQ and TAS data from studies on aphantasia and alexithymia.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://m-delem.github.io/aphantasiaEmotions/}
+  \item \url{https://github.com/m-delem/aphantasiaEmotions}
+}
+
+}
 \author{
 \strong{Maintainer}: Maël Delem \email{mael.delem@pm.me} (\href{https://orcid.org/0009-0005-8518-1991}{ORCID})
 

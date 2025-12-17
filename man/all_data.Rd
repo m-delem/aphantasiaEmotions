@@ -5,7 +5,7 @@
 \alias{all_data}
 \title{VVIQ and TAS data from various studies}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1458 rows and 17 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1458 rows and 16 columns.
 }
 \source{
 Data collected by various teams in online experiments:

@@ -175,7 +175,7 @@ p <-
 
 save_ggplot(
   p,
-  path = here::here("inst/visualisation/graphical_abstract.png"),
+  path = here::here("man/figures/graphical_abstract.png"),
   width = 1200,
   height = 800,
   dpi = 600,

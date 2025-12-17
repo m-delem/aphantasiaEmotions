@@ -1,0 +1,12 @@
+bibentry(
+  bibtype  = "Misc",
+  title    = "Supplementary materials for 'Aphantasics Process Emotions Differently'",
+  author   = c(
+      person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
+             comment = c(ORCID = "0009-0005-8518-1991")),
+      person("Perrine", "Ruby", role = c("ctb")),
+      person("Gaën", "Plancher", role = c("ctb"))
+     ),
+  year     = 2025,
+  doi      = "https://doi.org/10.17605/OSF.IO/B837S"
+)

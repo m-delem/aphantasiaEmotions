@@ -141,7 +141,7 @@ plot_alexithymia_proportions <- function(
       labeller = ggplot2::as_labeller(c(
         "burns"  = "Ale & Burns (2024)",
         "monzel" = "Monzel et al. (2024)",
-        "mas"    = "Mas et al. (2025)",
+        "mas"    = "Mas & Luminet (2025)",
         "ruby"   = "Ruby (2025)",
         "kvamme" = "Kvamme et al. (2025)",
         "total"  = "All studies combined"
@@ -277,7 +277,7 @@ plot_vviq_group_proportions <- function(
       labeller = ggplot2::as_labeller(c(
         "burns"  = "Ale & Burns (2024)\nN = 192",
         "monzel" = "Monzel et al. (2024)\nN = 105",
-        "mas"    = "Mas et al. (2025)\nN = 123",
+        "mas"    = "Mas & Luminet (2025)\nN = 123",
         "ruby"   = "Ruby (2025)\nN = 205",
         "kvamme" = "Kvamme et al. (2025)\nN = 833",
         "total"  = "All studies combined\nN = 1,458"
