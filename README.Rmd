@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 <a href="https://osf.io/b837s/" target="_blank"><img src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf" alt="OSF badge"/></a>
 <a href="https://m-delem.github.io/aphantasiaEmotions/" target="_blank"><img alt="Docs badge" src="https://img.shields.io/badge/Documentation-website-009e73?style=flat&logo=Google%20Docs&logoColor=009e73&logoSize=auto"/></a>
-<a href="https://app.codecov.io/gh/m-delem/aphantasia-alexithymia" target="_blank"><img alt="Codecov test coverage" src="https://codecov.io/gh/m-delem/aphantasia-alexithymia/graph/badge.svg" /></a>
+<a href="https://app.codecov.io/gh/m-delem/aphantasiaEmotions" target="_blank"><img alt="Codecov test coverage" src="https://codecov.io/gh/m-delem/aphantasiaEmotions/graph/badge.svg" /></a>
 
 <!-- badges: end -->
 

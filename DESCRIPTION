@@ -30,6 +30,7 @@ Imports:
     tidyr
 Suggests: 
     bayestestR,
+    brms,
     curl,
     ggdist,
     ggpubr,
