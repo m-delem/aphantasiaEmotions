@@ -166,7 +166,7 @@ performance::check_predictions(lm_prior, draw_ids = 1:12) |>
 
 Here we go!
 
-## Total TAS score analysis
+## Analysis of total TAS-20 scores
 
 ### Linear categorical model
 
@@ -289,7 +289,7 @@ p_gam_tot <-
 plot(p_gam_tot + p_slopes_tot)
 ```
 
-## Subscale TAS score analyses
+## Analysis of TAS-20 sub-scale scores
 
 ### Linear categorical models
 
@@ -594,4 +594,16 @@ p_gam_eot <-
   )
 ```
 
+--------------------------------------------------------------------------------
+
+```{r}
+#| label: session_info
+#| echo: false
+
+sessioninfo::session_info()
+```
+
+--------------------------------------------------------------------------------
+
 # References
+

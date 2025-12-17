@@ -43,7 +43,7 @@ fit_brms_model <- function(
   # options(cmdstanr_write_stan_file_dir = paste0(model_folder, "stan/"))
   
   # Create a folder for the models if necessary
-  fs::dir_create(model_folder)
+  # fs::dir_create(model_folder)
   
   # Parallel processing setup for 40k samples
   n_cores <- parallel::detectCores()
