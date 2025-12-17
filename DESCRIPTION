@@ -1,6 +1,6 @@
 Package: aphantasiaEmotions
-Title: VVIQ and TAS Analyses in Aphantasia and Alexithymia Studies
-Version: 0.0.0.9000
+Title: Data Analysis for "Aphantasics Process Emotions Differently: Evidence of a Non-linear Relationship Between Visual Imagery and Emotional Processing Abilities"
+Version: 1.0
 Authors@R: 
     person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0005-8518-1991"))
@@ -20,7 +20,6 @@ Imports:
     ggplot2,
     glue,
     here,
-    mgcv,
     pacman,
     patchwork,
     purrr,
@@ -32,7 +31,6 @@ Imports:
 Suggests: 
     bayestestR,
     curl,
-    emmeans,
     ggdist,
     ggpubr,
     knitr,
@@ -48,3 +46,5 @@ Suggests:
 LazyData: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://m-delem.github.io/aphantasiaEmotions/, https://github.com/m-delem/aphantasiaEmotions
+Config/Needs/website: rmarkdown

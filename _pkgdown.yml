@@ -1,0 +1,34 @@
+url: https://m-delem.github.io/aphantasiaEmotions/
+template:
+  bootstrap: 5
+  light-switch: yes
+  bslib:
+    base_font:
+      google: Montserrat
+    heading_font:
+      google: DM Sans
+reference:
+- title: Raw data
+  contents: all_data
+- title: Modelling
+  contents:
+  - fit_brms_model
+  - report_rope
+  - check_slope_evidence
+- title: Visualisation
+  contents:
+  - summarise_aph_and_alexi
+  - plot_alexithymia_proportions
+  - plot_vviq_group_proportions
+  - plot_group_violins
+  - plot_posterior_contrasts
+  - plot_gam_means
+  - plot_gam_slopes
+  - plot_coloured_subjects
+  - plot_alexithymia_cutoff
+  - scale_discrete_aphantasia
+  - scale_x_aphantasia
+  - scale_x_vviq
+  - theme_pdf
+  - save_ggplot
+
