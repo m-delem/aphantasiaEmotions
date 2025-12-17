@@ -5,16 +5,19 @@ pacman::p_load(brms, patchwork)
 gam_dif <- fit_brms_model(
   formula = tas_identify ~ s(vviq), 
   data = all_data,
+  prior = c(brms::prior(normal(0, 20), class = "b")),
   file = here::here("vignettes/models/gam_dif.rds")
   )
 gam_ddf <- fit_brms_model(
   formula = tas_describe ~ s(vviq), 
   data = all_data,
+  prior = c(brms::prior(normal(0, 20), class = "b")),
   file = here::here("vignettes/models/gam_ddf.rds")
   )
 gam_eot <- fit_brms_model(
   formula = tas_external ~ s(vviq),
   data = all_data,
+  prior = c(brms::prior(normal(0, 20), class = "b")),
   file = here::here("vignettes/models/gam_eot.rds")
   )
 
@@ -73,14 +76,15 @@ p_slopes_dif <-
     .f_groups = dplyr::case_when(
       vviq <= 22 ~ 1,
       vviq <= 31 ~ 2,
-      vviq <= 37 ~ 3,
-      vviq <= 62 ~ 4,
-      vviq <= 73 ~ 5,
+      vviq <= 38 ~ 3,
+      vviq <= 57 ~ 4,
+      vviq <= 74 ~ 5,
       vviq <= 80 ~ 6
     ),
     y_lab = "DIF variation per unit change in VVIQ",
     axis.title.y = ggplot2::element_text(size = 6)
   )
+
 
 check_slope_evidence(slopes_ddf)
 p_slopes_ddf <-
@@ -89,10 +93,8 @@ p_slopes_ddf <-
     .f_groups = dplyr::case_when(
       vviq <= 22 ~ 1,
       vviq <= 46 ~ 2,
-      vviq <= 60 ~ 3,
-      vviq <= 64 ~ 4,
-      vviq <= 73 ~ 5,
-      vviq <= 80 ~ 6
+      vviq <= 74 ~ 3,
+      vviq <= 80 ~ 4
     ),
     y_lab = "DDF variation per unit change in VVIQ",
     legend.position = "none",
@@ -104,11 +106,10 @@ p_slopes_eot <-
   plot_gam_slopes(
     slopes_eot,
     .f_groups = dplyr::case_when(
-      vviq <= 17 ~ 1,
-      vviq <= 23 ~ 2,
-      vviq <= 42 ~ 3,
-      vviq <= 68 ~ 4,
-      vviq <= 80 ~ 5
+      vviq <= 23 ~ 1,
+      vviq <= 42 ~ 2,
+      vviq <= 69 ~ 3,
+      vviq <= 80 ~ 4
     ),
     y_lab = "EOT variation per unit change in VVIQ",
     legend.position = "none",

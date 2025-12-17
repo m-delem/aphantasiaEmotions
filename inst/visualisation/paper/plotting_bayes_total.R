@@ -1,9 +1,3 @@
-if(!requireNamespace("cmdstanr", quietly = TRUE)) {
-  install.packages(
-    "cmdstanr",
-    repos = c('https://stan-dev.r-universe.dev', getOption("repos"))
-  )
-}
 devtools::load_all()
 pacman::p_load(brms, patchwork)
 
@@ -70,14 +64,16 @@ check_slope_evidence(slopes)
 
 p_slopes <-
   plot_gam_slopes(
-    slopes,
+    slopes_tot,
     .f_groups = dplyr::case_when(
       vviq <= 24 ~ 1,
-      vviq <= 45 ~ 2,
-      vviq <= 76 ~ 3,
-      vviq <= 80 ~ 4
+      vviq <= 35 ~ 2,
+      vviq <= 36 ~ 3,
+      vviq <= 45 ~ 4,
+      vviq <= 76 ~ 5,
+      vviq <= 80 ~ 6
     ),
-    y_lab = "TAS variation per unit change in VVIQ",
+    y_lab = "TAS variation per unit change in VVIQ"
   )
 
 p_tot <-

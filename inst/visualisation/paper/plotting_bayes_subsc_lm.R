@@ -7,21 +7,21 @@ lm_dif <-
     formula = tas_identify ~ vviq_group_4, 
     data = all_data,
     prior = c(prior(normal(0, 20), class = "b")),
-    file = here::here("inst/models/lm_dif.rds")
+    file = here::here("vignettes/models/lm_dif.rds")
   )
 lm_ddf <-
   fit_brms_model(
     formula = tas_describe ~ vviq_group_4, 
     data = all_data,
     prior = c(prior(normal(0, 20), class = "b")),
-    file = here::here("inst/models/lm_ddf.rds")
+    file = here::here("vignettes/models/lm_ddf.rds")
   )
 lm_eot <-
   fit_brms_model(
     formula = tas_external ~ vviq_group_4,
     data = all_data,
     prior = c(prior(normal(0, 20), class = "b")),
-    file = here::here("inst/models/lm_eot.rds")
+    file = here::here("vignettes/models/lm_eot.rds")
   )
 
 # Contrasts -----------------------------------
