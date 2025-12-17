@@ -7,8 +7,7 @@ select_and_sum_scales <- function(df) {
     select(
       "study", "lang", "id", "sex", "gender", "age",
       "vviq_q1":"vviq_q16",
-      "tas_q1":"tas_q20",
-      "other_data"
+      "tas_q1":"tas_q20"
     ) |>
     rowwise() |> 
     mutate(
@@ -68,13 +67,6 @@ df_burns <-
     tas_q18 = 6 - tas_q18,
     tas_q19 = 6 - tas_q19
   ) |> 
-  nest(
-    other_data = c(
-      contains("ptsd"),
-      contains("traum"),
-      contains("itq"),
-      contains("pcl5"))
-  ) |> 
   select_and_sum_scales() |> 
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
   relocate("vviq":"tas_external", "items", .after = "age")
@@ -94,13 +86,12 @@ df_monzel <-
     .fn = ~ .x |> str_replace_all(stringr::fixed("."), "_"),
     .cols = contains(".")
   ) |> 
-  nest(other_data = c("brt_priming":"ert_sad_rt")) |> 
   select(
     "study", "lang", "id", "sex", "gender", "age",
     "vviq" = "vviq_score",
     "tas"  = "tas_score",
     "tas_identify":"tas_external",
-    "items", "other_data"
+    "items"
   )
 
 # Ruby -------------------------------------------------------------
@@ -165,7 +156,6 @@ df_ruby <-
       TRUE ~ "other"
     ),
     gender = .data$sex,
-    other_data = list(NULL),
     # Converting TAS items from text to numeric
     across(
       starts_with("tas_q"),
@@ -192,7 +182,7 @@ df_ruby <-
 
 # Kvamme -----------------------------------------------------------
 df_kvamme <-
-  read_csv(here("data-raw/data_kvamme.csv"), show_col_types = FALSE) |> 
+  read_xlsx(here("data-raw/data_kvamme.xlsx")) |> 
   rename_with(.fn = ~ .x |> str_replace_all("tas_", "tas_q")) |> 
   rename(
     "vviq_q1" = "vviq_q_2_1_1",
@@ -228,13 +218,6 @@ df_kvamme <-
     tas_q15 = 6 - .data$tas_q15,
     tas_q16 = 6 - .data$tas_q16,
     tas_q18 = 6 - .data$tas_q18
-  ) |> 
-  nest(
-    other_data = c(
-      "duration (in seconds)",
-      "userlanguage",
-      "ias_1":"stai_20"
-    )
   ) |> 
   select_and_sum_scales() |> 
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
@@ -275,12 +258,6 @@ df_mas <-
     "vviq_q15" = "q44_3",
     "vviq_q16" = "q44_4"
   ) |> 
-  select(!c("startdate":"q4_4_text")) |> 
-  nest(other_data = c(
-    "panas_1":"panas_20", 
-    "paq_1":"hads14", 
-    "vviq_tot":"tas20cat"
-  )) |> 
   select_and_sum_scales() |> 
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
   relocate("vviq":"tas_external", "items", .after = "age")
@@ -327,6 +304,17 @@ all_data <-
     vviq_group_2 = factor(
       .data$vviq_group_2, levels = c("aphantasia", "typical"))
   ) |> 
-  relocate("items", "other_data", .after = last_col())
+  relocate("items", .after = last_col())
 
 usethis::use_data(all_data, overwrite = TRUE)
+
+# Exporting as Excel for OSF
+openxlsx::write.xlsx(
+  x = all_data |> unnest(items, keep_empty = TRUE),
+  file       = here::here("data-raw/merged_data.xlsx"),
+  asTable    = TRUE,
+  colNames   = TRUE,
+  colWidths  = "auto",
+  borders    = "all",
+  tableStyle = "TableStyleMedium16"
+)

@@ -58,9 +58,9 @@ p_groups <-
   ggplot2::scale_x_discrete(
     labels = c(
       "aphantasia"     = "Aphantasia\nN = 146",
-      "hypophantasia"  = "Hypophantasia\nN = 137",
-      "typical"        = "Typical\nN = 981",
-      "hyperphantasia" = "Hyperphantasia\nN = 71"
+      "hypophantasia"  = "Hypophantasia\nN = 139",
+      "typical"        = "Typical\nN = 1101",
+      "hyperphantasia" = "Hyperphantasia\nN = 72"
     ),
     expand = ggplot2::expansion(
       mult = 0,
@@ -72,6 +72,7 @@ m_gam <-
   fit_brms_model(
     formula = tas ~ s(vviq), 
     data = all_data,
+    prior = c(brms::prior(normal(0, 20), class = "b")),
     file = here::here("vignettes/models/gam_tot.rds")
   )
 
