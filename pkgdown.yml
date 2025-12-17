@@ -1,0 +1,9 @@
+pandoc: 3.1.11
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  aphantasiaEmotions: aphantasiaEmotions.html
+last_built: 2025-12-17T16:10Z
+urls:
+  reference: https://m-delem.github.io/aphantasiaEmotions/reference
+  article: https://m-delem.github.io/aphantasiaEmotions/articles
