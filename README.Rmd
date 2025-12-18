@@ -2,6 +2,7 @@
 output: github_document
 bibliography: vignettes/references.bib
 csl: vignettes/apa.csl
+fig.cap: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -45,7 +46,9 @@ Science Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
 Below is the graphical abstract of this study, which summarises the main finding
 that came out of the analyses.
 
-![Graphical abstract for the study.](man/figures/graphical_abstract.png)
+```{r, fig.alt="Graphical abstract for the study.", echo=FALSE}
+knitr::include_graphics("man/figures/graphical_abstract.png")
+```
 
 ## What exactly is in this R package?
 

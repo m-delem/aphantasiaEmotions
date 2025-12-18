@@ -23,12 +23,7 @@ archived with a permanent DOI on the Open Science Framework
 Below is the graphical abstract of this study, which summarises the main
 finding that came out of the analyses.
 
-<figure>
-<img src="man/figures/graphical_abstract.png"
-alt="Graphical abstract for the study." />
-<figcaption aria-hidden="true">Graphical abstract for the
-study.</figcaption>
-</figure>
+<img src="man/figures/graphical_abstract.png" alt="Graphical abstract for the study." width="100%" />
 
 ## What exactly is in this R package?
 
