@@ -6,19 +6,22 @@ gam_dif <- fit_brms_model(
   formula = tas_identify ~ s(vviq), 
   data = all_data,
   prior = c(brms::prior(normal(0, 20), class = "b")),
-  file = here::here("vignettes/models/gam_dif.rds")
+  file_refit = "never",
+  file = here::here("inst/models/gam_dif.rds")
   )
 gam_ddf <- fit_brms_model(
   formula = tas_describe ~ s(vviq), 
   data = all_data,
   prior = c(brms::prior(normal(0, 20), class = "b")),
-  file = here::here("vignettes/models/gam_ddf.rds")
+  file_refit = "never",
+  file = here::here("inst/models/gam_ddf.rds")
   )
 gam_eot <- fit_brms_model(
   formula = tas_external ~ s(vviq),
   data = all_data,
   prior = c(brms::prior(normal(0, 20), class = "b")),
-  file = here::here("vignettes/models/gam_eot.rds")
+  file_refit = "never",
+  file = here::here("inst/models/gam_eot.rds")
   )
 
 slopes_dif <-
