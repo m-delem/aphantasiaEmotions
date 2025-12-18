@@ -202,14 +202,14 @@ contrasts_tot <-
 report_rope(contrasts_tot, contrast) |> knitr::kable()
 ```
 
-| contrast                       | Estimate | 95% CI               |    PD | Below ROPE | Inside ROPE | Above ROPE |
-|:-------------------------------|---------:|:---------------------|------:|-----------:|------------:|-----------:|
-| hyperphantasia - aphantasia    |   -8.751 | \[-12.1, -5.227\]    | 1.000 |      1.000 |        0.00 |      0.000 |
-| hyperphantasia - hypophantasia |  -14.839 | \[-18.183, -11.479\] | 1.000 |      1.000 |        0.00 |      0.000 |
-| hyperphantasia - typical       |   -7.212 | \[-10.184, -4.466\]  | 1.000 |      1.000 |        0.00 |      0.000 |
-| hypophantasia - aphantasia     |    6.156 | \[3.257, 8.951\]     | 1.000 |      0.000 |        0.00 |      1.000 |
-| typical - aphantasia           |   -1.446 | \[-3.552, 0.654\]    | 0.913 |      0.574 |        0.42 |      0.006 |
-| typical - hypophantasia        |   -7.605 | \[-9.772, -5.404\]   | 1.000 |      1.000 |        0.00 |      0.000 |
+| contrast                       | Estimate | 95% CI               |    d |    PD | Below ROPE | Inside ROPE | Above ROPE |
+|:-------------------------------|---------:|:---------------------|-----:|------:|-----------:|------------:|-----------:|
+| hyperphantasia - aphantasia    |   -8.751 | \[-12.1, -5.227\]    | 0.70 | 1.000 |      1.000 |        0.00 |      0.000 |
+| hyperphantasia - hypophantasia |  -14.839 | \[-18.183, -11.479\] | 1.19 | 1.000 |      1.000 |        0.00 |      0.000 |
+| hyperphantasia - typical       |   -7.212 | \[-10.184, -4.466\]  | 0.58 | 1.000 |      1.000 |        0.00 |      0.000 |
+| hypophantasia - aphantasia     |    6.156 | \[3.257, 8.951\]     | 0.49 | 1.000 |      0.000 |        0.00 |      1.000 |
+| typical - aphantasia           |   -1.446 | \[-3.552, 0.654\]    | 0.12 | 0.913 |      0.574 |        0.42 |      0.006 |
+| typical - hypophantasia        |   -7.605 | \[-9.772, -5.404\]   | 0.61 | 1.000 |      1.000 |        0.00 |      0.000 |
 
 ``` r
 p_contr_tot <-
@@ -454,14 +454,14 @@ contrasts_dif <-
 report_rope(contrasts_dif, contrast) |> knitr::kable()
 ```
 
-| contrast                       | Estimate | 95% CI             |    PD | Below ROPE | Inside ROPE | Above ROPE |
-|:-------------------------------|---------:|:-------------------|------:|-----------:|------------:|-----------:|
-| hyperphantasia - aphantasia    |   -3.548 | \[-5.329, -1.764\] | 1.000 |      0.999 |       0.001 |      0.000 |
-| hyperphantasia - hypophantasia |   -6.312 | \[-8.152, -4.484\] | 1.000 |      1.000 |       0.000 |      0.000 |
-| hyperphantasia - typical       |   -2.969 | \[-4.473, -1.417\] | 1.000 |      0.998 |       0.002 |      0.000 |
-| hypophantasia - aphantasia     |    2.753 | \[1.283, 4.181\]   | 1.000 |      0.000 |       0.003 |      0.997 |
-| typical - aphantasia           |   -0.607 | \[-1.673, 0.486\]  | 0.866 |      0.476 |       0.511 |      0.014 |
-| typical - hypophantasia        |   -3.362 | \[-4.461, -2.25\]  | 1.000 |      1.000 |       0.000 |      0.000 |
+| contrast                       | Estimate | 95% CI             |    d |    PD | Below ROPE | Inside ROPE | Above ROPE |
+|:-------------------------------|---------:|:-------------------|-----:|------:|-----------:|------------:|-----------:|
+| hyperphantasia - aphantasia    |   -3.548 | \[-5.329, -1.764\] | 0.56 | 1.000 |      0.999 |       0.001 |      0.000 |
+| hyperphantasia - hypophantasia |   -6.312 | \[-8.152, -4.484\] | 0.99 | 1.000 |      1.000 |       0.000 |      0.000 |
+| hyperphantasia - typical       |   -2.969 | \[-4.473, -1.417\] | 0.47 | 1.000 |      0.998 |       0.002 |      0.000 |
+| hypophantasia - aphantasia     |    2.753 | \[1.283, 4.181\]   | 0.43 | 1.000 |      0.000 |       0.003 |      0.997 |
+| typical - aphantasia           |   -0.607 | \[-1.673, 0.486\]  | 0.10 | 0.866 |      0.476 |       0.511 |      0.014 |
+| typical - hypophantasia        |   -3.362 | \[-4.461, -2.25\]  | 0.53 | 1.000 |      1.000 |       0.000 |      0.000 |
 
 ``` r
 contrasts_ddf <-
@@ -474,14 +474,14 @@ contrasts_ddf <-
 report_rope(contrasts_ddf, contrast) |> knitr::kable()
 ```
 
-| contrast                       | Estimate | 95% CI             |    PD | Below ROPE | Inside ROPE | Above ROPE |
-|:-------------------------------|---------:|:-------------------|------:|-----------:|------------:|-----------:|
-| hyperphantasia - aphantasia    |   -3.026 | \[-4.355, -1.729\] | 1.000 |      1.000 |       0.000 |      0.000 |
-| hyperphantasia - hypophantasia |   -5.191 | \[-6.544, -3.879\] | 1.000 |      1.000 |       0.000 |      0.000 |
-| hyperphantasia - typical       |   -2.509 | \[-3.645, -1.393\] | 1.000 |      1.000 |       0.000 |      0.000 |
-| hypophantasia - aphantasia     |    2.163 | \[1.029, 3.268\]   | 1.000 |      0.000 |       0.002 |      0.999 |
-| typical - aphantasia           |   -0.515 | \[-1.309, 0.278\]  | 0.897 |      0.534 |       0.457 |      0.009 |
-| typical - hypophantasia        |   -2.688 | \[-3.541, -1.855\] | 1.000 |      1.000 |       0.000 |      0.000 |
+| contrast                       | Estimate | 95% CI             |    d |    PD | Below ROPE | Inside ROPE | Above ROPE |
+|:-------------------------------|---------:|:-------------------|-----:|------:|-----------:|------------:|-----------:|
+| hyperphantasia - aphantasia    |   -3.026 | \[-4.355, -1.729\] | 0.63 | 1.000 |      1.000 |       0.000 |      0.000 |
+| hyperphantasia - hypophantasia |   -5.191 | \[-6.544, -3.879\] | 1.09 | 1.000 |      1.000 |       0.000 |      0.000 |
+| hyperphantasia - typical       |   -2.509 | \[-3.645, -1.393\] | 0.53 | 1.000 |      1.000 |       0.000 |      0.000 |
+| hypophantasia - aphantasia     |    2.163 | \[1.029, 3.268\]   | 0.45 | 1.000 |      0.000 |       0.002 |      0.999 |
+| typical - aphantasia           |   -0.515 | \[-1.309, 0.278\]  | 0.11 | 0.897 |      0.534 |       0.457 |      0.009 |
+| typical - hypophantasia        |   -2.688 | \[-3.541, -1.855\] | 0.56 | 1.000 |      1.000 |       0.000 |      0.000 |
 
 ``` r
 contrasts_eot <-
@@ -494,14 +494,14 @@ contrasts_eot <-
 report_rope(contrasts_eot, contrast) |> knitr::kable()
 ```
 
-| contrast                       | Estimate | 95% CI             |    PD | Below ROPE | Inside ROPE | Above ROPE |
-|:-------------------------------|---------:|:-------------------|------:|-----------:|------------:|-----------:|
-| hyperphantasia - aphantasia    |   -2.131 | \[-3.473, -0.819\] | 0.999 |      0.993 |       0.007 |      0.000 |
-| hyperphantasia - hypophantasia |   -3.391 | \[-4.698, -2.104\] | 1.000 |      1.000 |       0.000 |      0.000 |
-| hyperphantasia - typical       |   -1.820 | \[-2.951, -0.711\] | 0.999 |      0.991 |       0.009 |      0.000 |
-| hypophantasia - aphantasia     |    1.265 | \[0.143, 2.356\]   | 0.988 |      0.001 |       0.082 |      0.916 |
-| typical - aphantasia           |   -0.304 | \[-1.156, 0.499\]  | 0.769 |      0.342 |       0.627 |      0.031 |
-| typical - hypophantasia        |   -1.567 | \[-2.348, -0.783\] | 1.000 |      0.997 |       0.004 |      0.000 |
+| contrast                       | Estimate | 95% CI             |    d |    PD | Below ROPE | Inside ROPE | Above ROPE |
+|:-------------------------------|---------:|:-------------------|-----:|------:|-----------:|------------:|-----------:|
+| hyperphantasia - aphantasia    |   -2.131 | \[-3.473, -0.819\] | 0.46 | 0.999 |      0.993 |       0.007 |      0.000 |
+| hyperphantasia - hypophantasia |   -3.391 | \[-4.698, -2.104\] | 0.73 | 1.000 |      1.000 |       0.000 |      0.000 |
+| hyperphantasia - typical       |   -1.820 | \[-2.951, -0.711\] | 0.39 | 0.999 |      0.991 |       0.009 |      0.000 |
+| hypophantasia - aphantasia     |    1.265 | \[0.143, 2.356\]   | 0.27 | 0.988 |      0.001 |       0.082 |      0.916 |
+| typical - aphantasia           |   -0.304 | \[-1.156, 0.499\]  | 0.07 | 0.769 |      0.342 |       0.627 |      0.031 |
+| typical - hypophantasia        |   -1.567 | \[-2.348, -0.783\] | 0.34 | 1.000 |      0.997 |       0.004 |      0.000 |
 
 ``` r
 # Subscale group plots

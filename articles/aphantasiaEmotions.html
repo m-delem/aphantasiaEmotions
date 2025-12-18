@@ -300,18 +300,20 @@ values.</p>
 <span><span class="fu"><a href="../reference/report_rope.html">report_rope</a></span><span class="op">(</span><span class="va">contrasts_tot</span>, <span class="va">contrast</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="31%">
-<col width="9%">
-<col width="19%">
-<col width="6%">
+<col width="29%">
+<col width="8%">
+<col width="18%">
+<col width="4%">
+<col width="5%">
+<col width="10%">
 <col width="11%">
-<col width="12%">
-<col width="11%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">contrast</th>
 <th align="right">Estimate</th>
 <th align="left">95% CI</th>
+<th align="right">d</th>
 <th align="right">PD</th>
 <th align="right">Below ROPE</th>
 <th align="right">Inside ROPE</th>
@@ -322,6 +324,7 @@ values.</p>
 <td align="left">hyperphantasia - aphantasia</td>
 <td align="right">-8.751</td>
 <td align="left">[-12.1, -5.227]</td>
+<td align="right">0.70</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.00</td>
@@ -331,6 +334,7 @@ values.</p>
 <td align="left">hyperphantasia - hypophantasia</td>
 <td align="right">-14.839</td>
 <td align="left">[-18.183, -11.479]</td>
+<td align="right">1.19</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.00</td>
@@ -340,6 +344,7 @@ values.</p>
 <td align="left">hyperphantasia - typical</td>
 <td align="right">-7.212</td>
 <td align="left">[-10.184, -4.466]</td>
+<td align="right">0.58</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.00</td>
@@ -349,6 +354,7 @@ values.</p>
 <td align="left">hypophantasia - aphantasia</td>
 <td align="right">6.156</td>
 <td align="left">[3.257, 8.951]</td>
+<td align="right">0.49</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
 <td align="right">0.00</td>
@@ -358,6 +364,7 @@ values.</p>
 <td align="left">typical - aphantasia</td>
 <td align="right">-1.446</td>
 <td align="left">[-3.552, 0.654]</td>
+<td align="right">0.12</td>
 <td align="right">0.913</td>
 <td align="right">0.574</td>
 <td align="right">0.42</td>
@@ -367,6 +374,7 @@ values.</p>
 <td align="left">typical - hypophantasia</td>
 <td align="right">-7.605</td>
 <td align="left">[-9.772, -5.404]</td>
+<td align="right">0.61</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.00</td>
@@ -1067,20 +1075,22 @@ values.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/report_rope.html">report_rope</a></span><span class="op">(</span><span class="va">contrasts_dif</span>, <span class="va">contrast</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="31%">
-<col width="9%">
-<col width="17%">
-<col width="6%">
+<col width="30%">
+<col width="8%">
+<col width="16%">
+<col width="4%">
+<col width="5%">
+<col width="10%">
 <col width="11%">
-<col width="12%">
-<col width="11%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">contrast</th>
 <th align="right">Estimate</th>
 <th align="left">95% CI</th>
+<th align="right">d</th>
 <th align="right">PD</th>
 <th align="right">Below ROPE</th>
 <th align="right">Inside ROPE</th>
@@ -1091,6 +1101,7 @@ values.</p>
 <td align="left">hyperphantasia - aphantasia</td>
 <td align="right">-3.548</td>
 <td align="left">[-5.329, -1.764]</td>
+<td align="right">0.56</td>
 <td align="right">1.000</td>
 <td align="right">0.999</td>
 <td align="right">0.001</td>
@@ -1100,6 +1111,7 @@ values.</p>
 <td align="left">hyperphantasia - hypophantasia</td>
 <td align="right">-6.312</td>
 <td align="left">[-8.152, -4.484]</td>
+<td align="right">0.99</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1109,6 +1121,7 @@ values.</p>
 <td align="left">hyperphantasia - typical</td>
 <td align="right">-2.969</td>
 <td align="left">[-4.473, -1.417]</td>
+<td align="right">0.47</td>
 <td align="right">1.000</td>
 <td align="right">0.998</td>
 <td align="right">0.002</td>
@@ -1118,6 +1131,7 @@ values.</p>
 <td align="left">hypophantasia - aphantasia</td>
 <td align="right">2.753</td>
 <td align="left">[1.283, 4.181]</td>
+<td align="right">0.43</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
 <td align="right">0.003</td>
@@ -1127,6 +1141,7 @@ values.</p>
 <td align="left">typical - aphantasia</td>
 <td align="right">-0.607</td>
 <td align="left">[-1.673, 0.486]</td>
+<td align="right">0.10</td>
 <td align="right">0.866</td>
 <td align="right">0.476</td>
 <td align="right">0.511</td>
@@ -1136,6 +1151,7 @@ values.</p>
 <td align="left">typical - hypophantasia</td>
 <td align="right">-3.362</td>
 <td align="left">[-4.461, -2.25]</td>
+<td align="right">0.53</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1152,20 +1168,22 @@ values.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/report_rope.html">report_rope</a></span><span class="op">(</span><span class="va">contrasts_ddf</span>, <span class="va">contrast</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="31%">
-<col width="9%">
-<col width="17%">
-<col width="6%">
+<col width="30%">
+<col width="8%">
+<col width="16%">
+<col width="4%">
+<col width="5%">
+<col width="10%">
 <col width="11%">
-<col width="12%">
-<col width="11%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">contrast</th>
 <th align="right">Estimate</th>
 <th align="left">95% CI</th>
+<th align="right">d</th>
 <th align="right">PD</th>
 <th align="right">Below ROPE</th>
 <th align="right">Inside ROPE</th>
@@ -1176,6 +1194,7 @@ values.</p>
 <td align="left">hyperphantasia - aphantasia</td>
 <td align="right">-3.026</td>
 <td align="left">[-4.355, -1.729]</td>
+<td align="right">0.63</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1185,6 +1204,7 @@ values.</p>
 <td align="left">hyperphantasia - hypophantasia</td>
 <td align="right">-5.191</td>
 <td align="left">[-6.544, -3.879]</td>
+<td align="right">1.09</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1194,6 +1214,7 @@ values.</p>
 <td align="left">hyperphantasia - typical</td>
 <td align="right">-2.509</td>
 <td align="left">[-3.645, -1.393]</td>
+<td align="right">0.53</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1203,6 +1224,7 @@ values.</p>
 <td align="left">hypophantasia - aphantasia</td>
 <td align="right">2.163</td>
 <td align="left">[1.029, 3.268]</td>
+<td align="right">0.45</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
 <td align="right">0.002</td>
@@ -1212,6 +1234,7 @@ values.</p>
 <td align="left">typical - aphantasia</td>
 <td align="right">-0.515</td>
 <td align="left">[-1.309, 0.278]</td>
+<td align="right">0.11</td>
 <td align="right">0.897</td>
 <td align="right">0.534</td>
 <td align="right">0.457</td>
@@ -1221,6 +1244,7 @@ values.</p>
 <td align="left">typical - hypophantasia</td>
 <td align="right">-2.688</td>
 <td align="left">[-3.541, -1.855]</td>
+<td align="right">0.56</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1237,20 +1261,22 @@ values.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/report_rope.html">report_rope</a></span><span class="op">(</span><span class="va">contrasts_eot</span>, <span class="va">contrast</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="31%">
-<col width="9%">
-<col width="17%">
-<col width="6%">
+<col width="30%">
+<col width="8%">
+<col width="16%">
+<col width="4%">
+<col width="5%">
+<col width="10%">
 <col width="11%">
-<col width="12%">
-<col width="11%">
+<col width="10%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">contrast</th>
 <th align="right">Estimate</th>
 <th align="left">95% CI</th>
+<th align="right">d</th>
 <th align="right">PD</th>
 <th align="right">Below ROPE</th>
 <th align="right">Inside ROPE</th>
@@ -1261,6 +1287,7 @@ values.</p>
 <td align="left">hyperphantasia - aphantasia</td>
 <td align="right">-2.131</td>
 <td align="left">[-3.473, -0.819]</td>
+<td align="right">0.46</td>
 <td align="right">0.999</td>
 <td align="right">0.993</td>
 <td align="right">0.007</td>
@@ -1270,6 +1297,7 @@ values.</p>
 <td align="left">hyperphantasia - hypophantasia</td>
 <td align="right">-3.391</td>
 <td align="left">[-4.698, -2.104]</td>
+<td align="right">0.73</td>
 <td align="right">1.000</td>
 <td align="right">1.000</td>
 <td align="right">0.000</td>
@@ -1279,6 +1307,7 @@ values.</p>
 <td align="left">hyperphantasia - typical</td>
 <td align="right">-1.820</td>
 <td align="left">[-2.951, -0.711]</td>
+<td align="right">0.39</td>
 <td align="right">0.999</td>
 <td align="right">0.991</td>
 <td align="right">0.009</td>
@@ -1288,6 +1317,7 @@ values.</p>
 <td align="left">hypophantasia - aphantasia</td>
 <td align="right">1.265</td>
 <td align="left">[0.143, 2.356]</td>
+<td align="right">0.27</td>
 <td align="right">0.988</td>
 <td align="right">0.001</td>
 <td align="right">0.082</td>
@@ -1297,6 +1327,7 @@ values.</p>
 <td align="left">typical - aphantasia</td>
 <td align="right">-0.304</td>
 <td align="left">[-1.156, 0.499]</td>
+<td align="right">0.07</td>
 <td align="right">0.769</td>
 <td align="right">0.342</td>
 <td align="right">0.627</td>
@@ -1306,6 +1337,7 @@ values.</p>
 <td align="left">typical - hypophantasia</td>
 <td align="right">-1.567</td>
 <td align="left">[-2.348, -0.783]</td>
+<td align="right">0.34</td>
 <td align="right">1.000</td>
 <td align="right">0.997</td>
 <td align="right">0.004</td>
