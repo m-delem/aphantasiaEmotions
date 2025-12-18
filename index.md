@@ -14,8 +14,6 @@ finding that came out of the analyses.
 ![Graphical abstract for the
 study.](reference/figures/graphical_abstract.png)
 
-Graphical abstract for the study.
-
 ## What exactly is in this R package?
 
 The package includes the raw data used in the analyses in the form of a
