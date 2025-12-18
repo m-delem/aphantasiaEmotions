@@ -16,9 +16,9 @@ all_data |>
     N = paste0(
       dplyr::n(),
       " (",
-      sum(gender == "female"),
+      sum(gender == "female", na.rm = TRUE),
       " F, ",
-      sum(gender == "other"),
+      sum(gender == "other", na.rm = TRUE),
       " O)"
     ),
     M_age = mean(age, na.rm = TRUE),
@@ -33,7 +33,7 @@ all_data |>
 |:-------|:---------|:-----------------|------:|-------:|--------:|--------:|
 | burns  | en       | 192 (122 F, 3 O) | 38.69 |  11.44 |      18 |      86 |
 | monzel | en       | 105 (74 F, 0 O)  | 27.87 |   9.29 |      18 |      59 |
-| mas    | fr       | 123 (NA F, NA O) | 19.78 |   1.15 |      18 |      24 |
+| mas    | fr       | 123 (110 F, 0 O) | 19.78 |   1.15 |      18 |      24 |
 | ruby   | fr       | 205 (162 F, 4 O) | 35.39 |  15.47 |      10 |      80 |
 | kvamme | en       | 833 (426 F, 5 O) | 40.45 |  13.44 |      18 |      83 |
 
@@ -192,7 +192,6 @@ performance::check_predictions(lm_tot, draw_ids = 1:12) |>
 groups.](aphantasiaEmotions_files/figure-html/plot-tot-lm-1.png)
 
 ``` r
-
 contrasts_tot <-
   marginaleffects::comparisons(
     lm_tot,
@@ -265,7 +264,6 @@ performance::check_predictions(gam_tot, draw_ids = 1:12) |>
 scores](aphantasiaEmotions_files/figure-html/plot-tot-gam-1.png)
 
 ``` r
-
 slopes_tot <-
   modelbased::estimate_slopes(
     gam_tot,
@@ -506,7 +504,6 @@ report_rope(contrasts_eot, contrast) |> knitr::kable()
 | typical - hypophantasia        |   -1.567 | \[-2.348, -0.783\] | 1.000 |      0.997 |       0.004 |      0.000 |
 
 ``` r
-
 # Subscale group plots
 p_dif <-
   plot_group_violins(
@@ -857,7 +854,6 @@ check_slope_evidence(slopes_eot) |> knitr::kable()
 |   80 | -0.023 | \[-0.166, 0.175\]  | 0.611 |       0.794 | Uncertain |
 
 ``` r
-
 p_slopes_dif <-
   plot_gam_slopes(
     slopes_dif,

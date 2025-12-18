@@ -84,9 +84,9 @@
 <span>    N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>      <span class="st">" ("</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"female"</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"female"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>      <span class="st">" F, "</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"other"</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"other"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>      <span class="st">" O)"</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    M_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -127,7 +127,7 @@
 <tr class="odd">
 <td align="left">mas</td>
 <td align="left">fr</td>
-<td align="left">123 (NA F, NA O)</td>
+<td align="left">123 (110 F, 0 O)</td>
 <td align="right">19.78</td>
 <td align="right">1.15</td>
 <td align="right">18</td>
@@ -290,8 +290,7 @@ values.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-tot-lm-1.png" class="r-plt" alt="Results of the linear modelling of the total TAS-20 with the VVIQ groups." width="672"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">contrasts_tot</span> <span class="op">&lt;-</span></span>
+<code class="sourceCode R"><span><span class="va">contrasts_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_tot</span>,</span>
 <span>    variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"vviq_group_4"</span> <span class="op">=</span> <span class="st">"pairwise"</span><span class="op">)</span>,</span>
@@ -422,8 +421,7 @@ values.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-tot-gam-1.png" class="r-plt" alt="Results of the non-linear modelling of the total TAS-20 with the VVIQ scores" width="672"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">slopes_tot</span> <span class="op">&lt;-</span></span>
+<code class="sourceCode R"><span><span class="va">slopes_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">modelbased</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/modelbased/reference/estimate_slopes.html" class="external-link">estimate_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">gam_tot</span>,</span>
 <span>    trend <span class="op">=</span> <span class="st">"vviq"</span>,</span>
@@ -1316,8 +1314,7 @@ values.</p>
 </tbody>
 </table>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Subscale group plots</span></span>
+<code class="sourceCode R"><span><span class="co"># Subscale group plots</span></span>
 <span><span class="va">p_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
 <span>    <span class="va">tas_identify</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
@@ -3047,8 +3044,7 @@ values.</p>
 </tbody>
 </table>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">p_slopes_dif</span> <span class="op">&lt;-</span></span>
+<code class="sourceCode R"><span><span class="va">p_slopes_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_slopes.html">plot_gam_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">slopes_dif</span>,</span>
 <span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
