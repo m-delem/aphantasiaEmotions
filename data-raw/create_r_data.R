@@ -1,23 +1,35 @@
-pacman::p_load(dplyr, here, openxlsx, readr, readxl, stringr, tidyr)
+library(dplyr)
+library(tidyr)
+library(readxl)
 
 # Quick helper
 select_and_sum_scales <- function(df) {
   df <-
-    df |> 
+    df |>
     select(
-      "study", "lang", "id", "sex", "gender", "age",
+      "study",
+      "lang",
+      "id",
+      "sex",
+      "gender",
+      "age",
       "vviq_q1":"vviq_q16",
       "tas_q1":"tas_q20"
     ) |>
-    rowwise() |> 
+    rowwise() |>
     mutate(
       vviq = sum(c_across(starts_with("vviq_q"))),
-      tas  = sum(c_across(starts_with("tas_q"))),
+      tas = sum(c_across(starts_with("tas_q"))),
       tas_identify = sum(
         c_across(
           c(
-            "tas_q1", "tas_q3", "tas_q6", 
-            "tas_q7", "tas_q9", "tas_q13", "tas_q14"
+            "tas_q1",
+            "tas_q3",
+            "tas_q6",
+            "tas_q7",
+            "tas_q9",
+            "tas_q13",
+            "tas_q14"
           )
         )
       ),
@@ -27,14 +39,20 @@ select_and_sum_scales <- function(df) {
       tas_external = sum(
         c_across(
           c(
-            "tas_q5", "tas_q8", "tas_q10", "tas_q15",
-            "tas_q16", "tas_q18", "tas_q19", "tas_q20"
+            "tas_q5",
+            "tas_q8",
+            "tas_q10",
+            "tas_q15",
+            "tas_q16",
+            "tas_q18",
+            "tas_q19",
+            "tas_q20"
           )
         )
       )
     ) |>
     ungroup()
-  
+
   return(df)
 }
 
@@ -43,11 +61,11 @@ df_burns <-
   bind_cols(
     read_xlsx(here("data-raw/data_burns.xlsx")),
     read_xlsx(here("data-raw/data_burns_items.xlsx")) |> select("VVIQ1":"TAS20")
-  ) |> 
+  ) |>
   rename_with(
-    .fn = ~ .x |> 
-      str_to_lower() |> 
-      str_replace_all("tas", "tas_q") |> 
+    .fn = ~ .x |>
+      str_to_lower() |>
+      str_replace_all("tas", "tas_q") |>
       str_replace_all("vviq", "vviq_q")
   ) |>
   mutate(
@@ -61,42 +79,47 @@ df_burns <-
       .data$currentgender == 3 ~ "other"
     ),
     # Reverse coding TAS items
-    tas_q4  = 6 - tas_q4,
-    tas_q5  = 6 - tas_q5,
+    tas_q4 = 6 - tas_q4,
+    tas_q5 = 6 - tas_q5,
     tas_q10 = 6 - tas_q10,
     tas_q18 = 6 - tas_q18,
     tas_q19 = 6 - tas_q19
-  ) |> 
-  select_and_sum_scales() |> 
-  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
+  ) |>
+  select_and_sum_scales() |>
+  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age")
 
 # Monzel -------------------------------------------------------------
-df_monzel <- 
-  read_xlsx(here("data-raw/data_monzel.xlsx"), sheet = "raw_data") |> 
+df_monzel <-
+  read_xlsx(here("data-raw/data_monzel.xlsx"), sheet = "raw_data") |>
   mutate(
     study = "monzel",
     lang = "en",
-    id = paste0("subj_monzel_", row_number()), 
+    id = paste0("subj_monzel_", row_number()),
     gender = ifelse(.data$gender == 1, "male", "female"),
     sex = .data$gender,
     items = list(NULL)
-  ) |> 
+  ) |>
   rename_with(
     .fn = ~ .x |> str_replace_all(stringr::fixed("."), "_"),
     .cols = contains(".")
-  ) |> 
+  ) |>
   select(
-    "study", "lang", "id", "sex", "gender", "age",
+    "study",
+    "lang",
+    "id",
+    "sex",
+    "gender",
+    "age",
     "vviq" = "vviq_score",
-    "tas"  = "tas_score",
+    "tas" = "tas_score",
     "tas_identify":"tas_external",
     "items"
   )
 
 # Ruby -------------------------------------------------------------
-df_ruby <- 
-  read_xlsx(here("data-raw/data_ruby.xlsx")) |> 
+df_ruby <-
+  read_xlsx(here("data-raw/data_ruby.xlsx")) |>
   select(
     "age" = 1,
     "sex" = 2,
@@ -144,14 +167,14 @@ df_ruby <-
     "tas_ddf" = 44,
     "tas_eot" = 45,
     "tas_tot" = 46
-  ) |> 
+  ) |>
   mutate(
     study = "ruby",
     lang = "fr",
     id = paste0("subj_ruby_", row_number()),
     age = ifelse(age == 1 | age == 99, NA, age),
     sex = case_when(
-      .data$sex == "Féminin" ~ "female", 
+      .data$sex == "Féminin" ~ "female",
       .data$sex == "Masculin" ~ "male",
       TRUE ~ "other"
     ),
@@ -159,7 +182,7 @@ df_ruby <-
     # Converting TAS items from text to numeric
     across(
       starts_with("tas_q"),
-      ~case_when(
+      ~ case_when(
         . == "Désaccord complet" ~ 1,
         . == "Désaccord relatif" ~ 2,
         . == "Ni accord ni désaccord" ~ 3,
@@ -169,21 +192,21 @@ df_ruby <-
       )
     ),
     # Reverse coding TAS items
-    tas_q4  = 6 - tas_q4,
-    tas_q5  = 6 - tas_q5,
+    tas_q4 = 6 - tas_q4,
+    tas_q5 = 6 - tas_q5,
     tas_q10 = 6 - tas_q10,
     tas_q18 = 6 - tas_q18,
     tas_q19 = 6 - tas_q19
-  ) |> 
-  select_and_sum_scales() |> 
-  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
+  ) |>
+  select_and_sum_scales() |>
+  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age") |>
   suppressMessages()
 
 # Kvamme -----------------------------------------------------------
 df_kvamme <-
-  read_xlsx(here("data-raw/data_kvamme.xlsx")) |> 
-  rename_with(.fn = ~ .x |> str_replace_all("tas_", "tas_q")) |> 
+  read_xlsx(here("data-raw/data_kvamme.xlsx")) |>
+  rename_with(.fn = ~ .x |> str_replace_all("tas_", "tas_q")) |>
   rename(
     "vviq_q1" = "vviq_q_2_1_1",
     "vviq_q2" = "vviq_q_2_1_2",
@@ -201,7 +224,7 @@ df_kvamme <-
     "vviq_q14" = "vviq_q2_4_2",
     "vviq_q15" = "vviq_q2_4_3",
     "vviq_q16" = "vviq_q2_4_4"
-  ) |> 
+  ) |>
   mutate(
     study = "kvamme",
     lang = "en",
@@ -218,28 +241,32 @@ df_kvamme <-
     tas_q15 = 6 - .data$tas_q15,
     tas_q16 = 6 - .data$tas_q16,
     tas_q18 = 6 - .data$tas_q18
-  ) |> 
-  select_and_sum_scales() |> 
-  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
+  ) |>
+  select_and_sum_scales() |>
+  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age")
 
 # Mas -----------------------------------------------------
-df_mas <- 
-  read_xlsx(here("data-raw/data_mas.xlsx")) |> 
+df_mas <-
+  read_xlsx(here("data-raw/data_mas.xlsx")) |>
   mutate(
     study = "mas",
     lang = "fr",
-    id = paste0("subj_mas_", row_number()), 
-    age = NA,
-    gender = NA,
-    sex = NA
-  ) |> 
+    id = paste0("subj_mas_", row_number()),
+    age = as.numeric(.data$AGE),
+    gender = case_when(
+      .data$GENRE == "Masculin" ~ "male",
+      .data$GENRE == "Féminin" ~ "female",
+      TRUE ~ NA
+    ),
+    sex = gender,
+    .keep = "unused"
+  ) |>
   rename_with(
-    .fn = 
-      ~ .x |> 
-      str_replace_all("TAS-20_", "tas_q") |> 
+    .fn = ~ .x |>
+      str_replace_all("TAS-20_", "tas_q") |>
       str_to_lower()
-    ) |> 
+  ) |>
   rename(
     "vviq_q1" = "vviq1_1",
     "vviq_q2" = "vviq1_2",
@@ -257,24 +284,23 @@ df_mas <-
     "vviq_q14" = "q44_2",
     "vviq_q15" = "q44_3",
     "vviq_q16" = "q44_4"
-  ) |> 
-  select_and_sum_scales() |> 
-  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |> 
+  ) |>
+  select_and_sum_scales() |>
+  nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age")
 
 # Merging and creating groups ---------------------------------------------
-all_data <- 
-  bind_rows(df_burns, df_monzel, df_mas, df_ruby, df_kvamme) |> 
+all_data <-
+  bind_rows(df_burns, df_monzel, df_mas, df_ruby, df_kvamme) |>
   filter(vviq >= 16 & vviq <= 80) |>
   mutate(
     across("study":"gender", as.factor),
     study = factor(
-      .data$study, 
+      .data$study,
       levels = c("burns", "monzel", "mas", "ruby", "kvamme")
     ),
     lang = factor(.data$lang, levels = c("en", "fr")),
-    tas_group = 
-      ifelse(.data$tas >= 61, "alexithymia", "typical_tas") |> 
+    tas_group = ifelse(.data$tas >= 61, "alexithymia", "typical_tas") |>
       factor(levels = c("alexithymia", "typical_tas")),
     vviq_group_4 = case_when(
       .data$vviq == 16 ~ "aphantasia",
@@ -294,16 +320,18 @@ all_data <-
       .data$vviq_group_3
     ),
     vviq_group_4 = factor(
-      .data$vviq_group_4, 
+      .data$vviq_group_4,
       levels = c("aphantasia", "hypophantasia", "typical", "hyperphantasia")
     ),
     vviq_group_3 = factor(
-      .data$vviq_group_3, 
+      .data$vviq_group_3,
       levels = c("aphantasia", "hypophantasia", "typical")
     ),
     vviq_group_2 = factor(
-      .data$vviq_group_2, levels = c("aphantasia", "typical"))
-  ) |> 
+      .data$vviq_group_2,
+      levels = c("aphantasia", "typical")
+    )
+  ) |>
   relocate("items", .after = last_col())
 
 usethis::use_data(all_data, overwrite = TRUE)
@@ -311,10 +339,10 @@ usethis::use_data(all_data, overwrite = TRUE)
 # Exporting as Excel for OSF
 openxlsx::write.xlsx(
   x = all_data |> unnest(items, keep_empty = TRUE),
-  file       = here::here("data-raw/merged_data.xlsx"),
-  asTable    = TRUE,
-  colNames   = TRUE,
-  colWidths  = "auto",
-  borders    = "all",
+  file = here::here("data-raw/merged_data.xlsx"),
+  asTable = TRUE,
+  colNames = TRUE,
+  colWidths = "auto",
+  borders = "all",
   tableStyle = "TableStyleMedium16"
 )
