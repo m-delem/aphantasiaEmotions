@@ -77,27 +77,24 @@
 <h2 id="sample-description">Sample description<a class="anchor" aria-label="anchor" href="#sample-description"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">all_data</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">all_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html" class="external-link">reframe</a></span><span class="op">(</span></span>
 <span>    Language <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">lang</span><span class="op">)</span>,</span>
 <span>    N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, </span>
-<span>      <span class="st">" ("</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"female"</span><span class="op">)</span>, <span class="st">" F, "</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"other"</span><span class="op">)</span>, <span class="st">" O)"</span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      <span class="st">" ("</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"female"</span><span class="op">)</span>,</span>
+<span>      <span class="st">" F, "</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"other"</span><span class="op">)</span>,</span>
+<span>      <span class="st">" O)"</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    M_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    SD_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    min_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    max_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 2 warnings in `dplyr::reframe()`.</span></span>
-<span><span class="co">#&gt; The first warning was:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `min_age = min(age, na.rm = TRUE)`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 3: `study = mas`.</span></span>
-<span><span class="co">#&gt; Caused by warning in `min()`:</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> no non-missing arguments to min; returning Inf</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span></span></code></pre></div>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">study</th>
@@ -131,10 +128,10 @@
 <td align="left">mas</td>
 <td align="left">fr</td>
 <td align="left">123 (NA F, NA O)</td>
-<td align="right">NaN</td>
-<td align="right">NA</td>
-<td align="right">Inf</td>
-<td align="right">-Inf</td>
+<td align="right">19.78</td>
+<td align="right">1.15</td>
+<td align="right">18</td>
+<td align="right">24</td>
 </tr>
 <tr class="even">
 <td align="left">ruby</td>
@@ -162,26 +159,29 @@
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">all_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>study <span class="op">=</span> <span class="st">"total"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    study <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
-<span>      <span class="va">study</span>, </span>
+<span>      <span class="va">study</span>,</span>
 <span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"burns"</span>, <span class="st">"monzel"</span>, <span class="st">"mas"</span>, <span class="st">"ruby"</span>, <span class="st">"kvamme"</span>, <span class="st">"total"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_vviq_group_proportions.html">plot_vviq_group_proportions</a></span><span class="op">(</span><span class="va">vviq_group_4</span>, base_size <span class="op">=</span> <span class="fl">12</span>, prop_txt_size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_props</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">all_data</span> <span class="op">|&gt;</span>  </span>
-<span>  <span class="fu"><a href="../reference/summarise_aph_and_alexi.html">summarise_aph_and_alexi</a></span><span class="op">(</span><span class="va">vviq_group_4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="va">all_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/summarise_aph_and_alexi.html">summarise_aph_and_alexi</a></span><span class="op">(</span><span class="va">vviq_group_4</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_alexithymia_proportions.html">plot_alexithymia_proportions</a></span><span class="op">(</span></span>
-<span>    <span class="va">vviq_group_4</span>, ncol <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>    base_size <span class="op">=</span> <span class="fl">12</span>, prop_txt_size <span class="op">=</span> <span class="fl">2</span></span>
-<span><span class="op">)</span></span>
+<span>    <span class="va">vviq_group_4</span>,</span>
+<span>    ncol <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>    base_size <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>    prop_txt_size <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html" class="external-link">ggarrange</a></span><span class="op">(</span></span>
-<span>  <span class="va">p_counts</span>, <span class="va">p_props</span>, </span>
+<span>  <span class="va">p_counts</span>,</span>
+<span>  <span class="va">p_props</span>,</span>
 <span>  ncol <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  labels <span class="op">=</span> <span class="st">"AUTO"</span>,</span>
-<span>  font.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">11</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
+<span>  font.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">14</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-proportions-1.png" class="r-plt" alt="Proportions of alexithymia within the VVIQ groups in the sample." width="768"></p>
 </div>
@@ -209,8 +209,8 @@ from <em>brms</em> were used for other model parameters. The adequacy of
 these priors were assessed using a prior predictive check, which is
 presented below. To avoid having to refit the models each time the
 vignette is built and improve reproducibility, fitted models are saved
-in the <code>vignettes/models</code> folder and loaded in the R
-chunks.</p>
+in the <code>models/</code> folder (or <code>inst/models/</code> in the
+source code on GitHub) and loaded in the R chunks.</p>
 <p>After model fit, we checked model performance using posterior
 predictive checks with the <code><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">performance::check_predictions()</a></code>
 function to ensure that the models were able to reproduce the data
@@ -239,7 +239,8 @@ done in the chunk below.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"marginaleffects_safe"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4000</span>, <span class="fl">1</span><span class="op">)</span> <span class="co"># To limit draws that will be used for marginaleffects</span></span>
 <span></span>
-<span><span class="va">priors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">priors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">refit</span>  <span class="op">&lt;-</span> <span class="st">"never"</span></span></code></pre></div>
 <p>Prior predictive check were performed to ensure that the priors set
 on the models were adequate. This was done by fitting a model with the
 same structure as the planned analyses but sampling only from the prior
@@ -247,17 +248,18 @@ distributions. The posterior predictive distributions of this prior-only
 model were then plotted to check that they covered a reasonable range of
 values.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lm_prior</span> <span class="op">&lt;-</span> </span>
+<code class="sourceCode R"><span><span class="va">lm_prior</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
 <span>    sample_prior <span class="op">=</span> <span class="st">"only"</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/lm_prior.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/lm_prior.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_prior</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_prior</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Prior Predictive Check"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/test_prior-1.png" class="r-plt" alt="Prior predictive distributions." width="672"></p>
@@ -271,24 +273,25 @@ values.</p>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Group model</span></span>
-<span><span class="va">lm_tot</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">lm_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/lm_tot.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/lm_tot.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Posterior predictive check</span></span>
-<span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_tot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_tot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-tot-lm-1.png" class="r-plt" alt="Results of the linear modelling of the total TAS-20 with the VVIQ groups." width="672"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">contrasts_tot</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">contrasts_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_tot</span>,</span>
 <span>    variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"vviq_group_4"</span> <span class="op">=</span> <span class="st">"pairwise"</span><span class="op">)</span>,</span>
@@ -373,9 +376,10 @@ values.</p>
 </tbody>
 </table>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">p_contr_tot</span> <span class="op">&lt;-</span> </span>
+<code class="sourceCode R"><span><span class="va">p_contr_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_posterior_contrasts.html">plot_posterior_contrasts</a></span><span class="op">(</span></span>
-<span>    <span class="va">contrasts_tot</span>, <span class="va">lm_tot</span>, </span>
+<span>    <span class="va">contrasts_tot</span>,</span>
+<span>    <span class="va">lm_tot</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>    rope_txt <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>    dot_size <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -384,12 +388,12 @@ values.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Group plot</span></span>
-<span><span class="va">p_tot</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
-<span>    <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    y_lab <span class="op">=</span> <span class="st">"Total TAS Score"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_alexithymia_cutoff.html">plot_alexithymia_cutoff</a></span><span class="op">(</span>txt_size <span class="op">=</span> <span class="fl">2</span>, txt_x <span class="op">=</span> <span class="fl">1.4</span>, label <span class="op">=</span> <span class="st">"Alexithymia"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
@@ -401,17 +405,18 @@ values.</p>
 <h4 id="nonlinear-continuous-model">Nonlinear continuous model<a class="anchor" aria-label="anchor" href="#nonlinear-continuous-model"></a>
 </h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gam_tot</span> <span class="op">&lt;-</span> </span>
+<code class="sourceCode R"><span><span class="va">gam_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/gam_tot.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/gam_tot.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Posterior predictive check</span></span>
-<span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_tot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_tot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
@@ -420,8 +425,10 @@ values.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="va">slopes_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">modelbased</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/modelbased/reference/estimate_slopes.html" class="external-link">estimate_slopes</a></span><span class="op">(</span></span>
-<span>    <span class="va">gam_tot</span>, </span>
-<span>    trend <span class="op">=</span> <span class="st">"vviq"</span>, by <span class="op">=</span> <span class="st">"vviq"</span>, length <span class="op">=</span> <span class="fl">75</span>,</span>
+<span>    <span class="va">gam_tot</span>,</span>
+<span>    trend <span class="op">=</span> <span class="st">"vviq"</span>,</span>
+<span>    by <span class="op">=</span> <span class="st">"vviq"</span>,</span>
+<span>    length <span class="op">=</span> <span class="fl">75</span>,</span>
 <span>    rope_ci <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
@@ -982,13 +989,13 @@ values.</p>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_coloured_subjects.html">plot_coloured_subjects</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>, </span>
+<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">tas</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">1</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_alexithymia_cutoff.html">plot_alexithymia_cutoff</a></span><span class="op">(</span>txt_x <span class="op">=</span> <span class="fl">26</span>, label <span class="op">=</span> <span class="st">"Alexithymia"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">p_gam_tot</span> <span class="op">+</span> <span class="va">p_slopes_tot</span><span class="op">)</span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-tot-gam-2.png" class="r-plt" alt="Results of the non-linear modelling of the total TAS-20 with the VVIQ scores" width="672"></p>
@@ -1002,20 +1009,22 @@ values.</p>
 </h4>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subscale group models</span></span>
-<span><span class="va">lm_dif</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">lm_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas_identify</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas_identify</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/lm_dif.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/lm_dif.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">lm_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas_describe</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas_describe</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/lm_ddf.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/lm_ddf.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">lm_eot</span> <span class="op">&lt;-</span></span>
@@ -1023,23 +1032,24 @@ values.</p>
 <span>    formula <span class="op">=</span> <span class="va">tas_external</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/lm_eot.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/lm_eot.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Posterior predictive checks</span></span>
 <span><span class="va">pp_dif_lm</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_dif</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_dif</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pp_ddf_lm</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_ddf</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_ddf</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pp_eot_lm</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_eot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">lm_eot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pp_dif_lm</span> <span class="op">/</span> <span class="va">pp_ddf_lm</span> <span class="op">/</span> <span class="va">pp_eot_lm</span><span class="op">)</span></span>
@@ -1051,7 +1061,7 @@ values.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-sub-lm-1.png" class="r-plt" alt="Results of the linear modelling of the TAS-20 subscales with the VVIQ groups." width="672"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">contrasts_dif</span> <span class="op">&lt;-</span> </span>
+<code class="sourceCode R"><span><span class="va">contrasts_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_dif</span>,</span>
 <span>    variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"vviq_group_4"</span> <span class="op">=</span> <span class="st">"pairwise"</span><span class="op">)</span>,</span>
@@ -1308,25 +1318,25 @@ values.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Subscale group plots</span></span>
-<span><span class="va">p_dif</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
-<span>    <span class="va">tas_identify</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    <span class="va">tas_identify</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    y_lab <span class="op">=</span> <span class="st">"TAS DIF Score"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p_ddf</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
-<span>    <span class="va">tas_describe</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    <span class="va">tas_describe</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    y_lab <span class="op">=</span> <span class="st">"TAS DDF Score"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p_eot</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_eot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
-<span>    <span class="va">tas_external</span> <span class="op">~</span> <span class="va">vviq_group_4</span>, </span>
+<span>    <span class="va">tas_external</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
 <span>    y_lab <span class="op">=</span> <span class="st">"TAS EOT Score"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -1334,34 +1344,37 @@ values.</p>
 <span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Subscale contrast plots</span></span>
-<span><span class="va">p_dif_contr</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_dif_contr</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_posterior_contrasts.html">plot_posterior_contrasts</a></span><span class="op">(</span></span>
-<span>    <span class="va">contrasts_dif</span>, <span class="va">lm_dif</span>,</span>
-<span>    xlab <span class="op">=</span> <span class="st">"Effect size (DIF score difference)"</span>, </span>
+<span>    <span class="va">contrasts_dif</span>,</span>
+<span>    <span class="va">lm_dif</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">"Effect size (DIF score difference)"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>    dot_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    axis_relative_x <span class="op">=</span> <span class="fl">0.7</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="va">p_ddf_contr</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_ddf_contr</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_posterior_contrasts.html">plot_posterior_contrasts</a></span><span class="op">(</span></span>
-<span>    <span class="va">contrasts_ddf</span>, <span class="va">lm_ddf</span>,</span>
-<span>    xlab <span class="op">=</span> <span class="st">"Effect size (DDF score difference)"</span>, </span>
+<span>    <span class="va">contrasts_ddf</span>,</span>
+<span>    <span class="va">lm_ddf</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">"Effect size (DDF score difference)"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>    dot_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    axis_relative_x <span class="op">=</span> <span class="fl">0.7</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="va">p_eot_contr</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">p_eot_contr</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_posterior_contrasts.html">plot_posterior_contrasts</a></span><span class="op">(</span></span>
-<span>    <span class="va">contrasts_eot</span>, <span class="va">lm_eot</span>,</span>
-<span>    xlab <span class="op">=</span> <span class="st">"Effect size (EOT score difference)"</span>, </span>
+<span>    <span class="va">contrasts_eot</span>,</span>
+<span>    <span class="va">lm_eot</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">"Effect size (EOT score difference)"</span>,</span>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>    dot_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>    axis_relative_x <span class="op">=</span> <span class="fl">0.7</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="op">(</span><span class="op">(</span><span class="va">p_dif</span> <span class="op">+</span> <span class="va">p_dif_contr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> </span>
-<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_ddf</span> <span class="op">+</span> <span class="va">p_ddf_contr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> </span>
-<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_eot</span> <span class="op">+</span> <span class="va">p_eot_contr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="op">(</span><span class="op">(</span><span class="va">p_dif</span> <span class="op">+</span> <span class="va">p_dif_contr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
+<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_ddf</span> <span class="op">+</span> <span class="va">p_ddf_contr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
+<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_eot</span> <span class="op">+</span> <span class="va">p_eot_contr</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.tag <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-sub-lm-2.png" class="r-plt" alt="Results of the linear modelling of the TAS-20 subscales with the VVIQ groups." width="672"></p>
@@ -1371,44 +1384,47 @@ values.</p>
 </h4>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subscale GAM models</span></span>
-<span><span class="va">gam_dif</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">gam_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas_identify</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas_identify</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/gam_dif.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/gam_dif.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">gam_ddf</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">gam_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
-<span>    formula <span class="op">=</span> <span class="va">tas_describe</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>, </span>
+<span>    formula <span class="op">=</span> <span class="va">tas_describe</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/gam_ddf.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/gam_ddf.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">gam_eot</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">gam_eot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
 <span>    formula <span class="op">=</span> <span class="va">tas_external</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">all_data</span>,</span>
 <span>    prior <span class="op">=</span> <span class="va">priors</span>,</span>
-<span>    file <span class="op">=</span> <span class="st">"models/gam_eot.rds"</span></span>
+<span>    file_refit <span class="op">=</span> <span class="va">refit</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models/gam_eot.rds"</span>, package <span class="op">=</span> <span class="st">"aphantasiaEmotions"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Posterior predictive checks</span></span>
 <span><span class="va">pp_dif_gam</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_dif</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_dif</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pp_ddf_gam</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_ddf</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_ddf</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pp_eot_gam</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_eot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_predictions.html" class="external-link">check_predictions</a></span><span class="op">(</span><span class="va">gam_eot</span>, draw_ids <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pp_dif_gam</span> <span class="op">/</span> <span class="va">pp_ddf_gam</span> <span class="op">/</span> <span class="va">pp_eot_gam</span><span class="op">)</span></span>
@@ -3087,12 +3103,12 @@ values.</p>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_coloured_subjects.html">plot_coloured_subjects</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>, </span>
+<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">tas_identify</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">1</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_gam_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_means.html">plot_gam_means</a></span><span class="op">(</span></span>
@@ -3102,12 +3118,12 @@ values.</p>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_coloured_subjects.html">plot_coloured_subjects</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>, </span>
+<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">tas_describe</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">1</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_gam_eot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_means.html">plot_gam_means</a></span><span class="op">(</span></span>
@@ -3117,16 +3133,16 @@ values.</p>
 <span>    base_size <span class="op">=</span> <span class="fl">12</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_coloured_subjects.html">plot_coloured_subjects</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>, </span>
+<span>    x <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">vviq</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">all_data</span><span class="op">$</span><span class="va">tas_external</span>,</span>
 <span>    size <span class="op">=</span> <span class="fl">1</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span> </span>
-<span>  </span>
-<span><span class="op">(</span><span class="op">(</span><span class="va">p_gam_dif</span> <span class="op">+</span> <span class="va">p_slopes_dif</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> </span>
-<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_gam_ddf</span> <span class="op">+</span> <span class="va">p_slopes_ddf</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> </span>
-<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_gam_eot</span> <span class="op">+</span> <span class="va">p_slopes_eot</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="op">(</span><span class="va">p_gam_dif</span> <span class="op">+</span> <span class="va">p_slopes_dif</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
+<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_gam_ddf</span> <span class="op">+</span> <span class="va">p_slopes_ddf</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span></span>
+<span>  <span class="op">(</span><span class="op">(</span><span class="va">p_gam_eot</span> <span class="op">+</span> <span class="va">p_slopes_eot</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>tag_level <span class="op">=</span> <span class="st">"new"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
@@ -3144,14 +3160,14 @@ values.</p>
 <span><span class="co">#&gt;  collate  C.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       UTC</span></span>
-<span><span class="co">#&gt;  date     2025-12-17</span></span>
+<span><span class="co">#&gt;  date     2025-12-18</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt;  quarto   NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">!</span> <span style="color: #555555; font-style: italic;">package           </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
 <span><span class="co">#&gt;    abind                1.4-8    <span style="color: #555555;">2024-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    aphantasiaEmotions * 1.0      <span style="color: #555555;">2025-12-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;    aphantasiaEmotions * 1.0      <span style="color: #555555;">2025-12-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;    backports            1.5.0    <span style="color: #555555;">2024-05-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bayesplot            1.15.0   <span style="color: #555555;">2025-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bayestestR           0.17.0   <span style="color: #555555;">2025-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>

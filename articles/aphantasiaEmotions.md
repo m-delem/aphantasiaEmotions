@@ -9,34 +9,31 @@ library(patchwork)
 ## Sample description
 
 ``` r
-all_data |> 
-  dplyr::group_by(study) |> 
+all_data |>
+  dplyr::group_by(study) |>
   dplyr::reframe(
     Language = unique(lang),
     N = paste0(
-      dplyr::n(), 
-      " (", sum(gender == "female"), " F, ", sum(gender == "other"), " O)"
+      dplyr::n(),
+      " (",
+      sum(gender == "female"),
+      " F, ",
+      sum(gender == "other"),
+      " O)"
     ),
     M_age = mean(age, na.rm = TRUE),
     SD_age = sd(age, na.rm = TRUE),
     min_age = min(age, na.rm = TRUE),
     max_age = max(age, na.rm = TRUE),
-  ) |> 
+  ) |>
   knitr::kable(digits = 2)
-#> Warning: There were 2 warnings in `dplyr::reframe()`.
-#> The first warning was:
-#> ℹ In argument: `min_age = min(age, na.rm = TRUE)`.
-#> ℹ In group 3: `study = mas`.
-#> Caused by warning in `min()`:
-#> ! no non-missing arguments to min; returning Inf
-#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
 ```
 
 | study  | Language | N                | M_age | SD_age | min_age | max_age |
 |:-------|:---------|:-----------------|------:|-------:|--------:|--------:|
 | burns  | en       | 192 (122 F, 3 O) | 38.69 |  11.44 |      18 |      86 |
 | monzel | en       | 105 (74 F, 0 O)  | 27.87 |   9.29 |      18 |      59 |
-| mas    | fr       | 123 (NA F, NA O) |   NaN |     NA |     Inf |    -Inf |
+| mas    | fr       | 123 (NA F, NA O) | 19.78 |   1.15 |      18 |      24 |
 | ruby   | fr       | 205 (162 F, 4 O) | 35.39 |  15.47 |      10 |      80 |
 | kvamme | en       | 833 (426 F, 5 O) | 40.45 |  13.44 |      18 |      83 |
 
@@ -46,26 +43,29 @@ p_counts <-
   dplyr::bind_rows(all_data |> dplyr::mutate(study = "total")) |>
   dplyr::mutate(
     study = factor(
-      study, 
+      study,
       levels = c("burns", "monzel", "mas", "ruby", "kvamme", "total")
     )
-  ) |> 
+  ) |>
   plot_vviq_group_proportions(vviq_group_4, base_size = 12, prop_txt_size = 3)
 
 p_props <-
-  all_data |>  
-  summarise_aph_and_alexi(vviq_group_4) |> 
+  all_data |>
+  summarise_aph_and_alexi(vviq_group_4) |>
   plot_alexithymia_proportions(
-    vviq_group_4, ncol = 6, 
-    base_size = 12, prop_txt_size = 2
-)
+    vviq_group_4,
+    ncol = 6,
+    base_size = 12,
+    prop_txt_size = 2
+  )
 
 ggpubr::ggarrange(
-  p_counts, p_props, 
+  p_counts,
+  p_props,
   ncol = 1,
   heights = c(1.1, 1),
   labels = "AUTO",
-  font.label = list(size = 11, face = "bold")
+  font.label = list(size = 14, face = "bold")
 )
 ```
 
@@ -92,7 +92,8 @@ priors from *brms* were used for other model parameters. The adequacy of
 these priors were assessed using a prior predictive check, which is
 presented below. To avoid having to refit the models each time the
 vignette is built and improve reproducibility, fitted models are saved
-in the `vignettes/models` folder and loaded in the R chunks.
+in the `models/` folder (or `inst/models/` in the source code on GitHub)
+and loaded in the R chunks.
 
 After model fit, we checked model performance using posterior predictive
 checks with the
@@ -132,6 +133,7 @@ options("marginaleffects_safe" = FALSE)
 draws <- seq(1, 4000, 1) # To limit draws that will be used for marginaleffects
 
 priors <- c(brms::prior(normal(0, 20), class = "b"))
+refit  <- "never"
 ```
 
 Prior predictive check were performed to ensure that the priors set on
@@ -142,17 +144,18 @@ model were then plotted to check that they covered a reasonable range of
 values.
 
 ``` r
-lm_prior <- 
+lm_prior <-
   fit_brms_model(
-    formula = tas ~ vviq_group_4, 
+    formula = tas ~ vviq_group_4,
     data = all_data,
     prior = priors,
     sample_prior = "only",
-    file = "models/lm_prior.rds"
+    file_refit = refit,
+    file = system.file("models/lm_prior.rds", package = "aphantasiaEmotions")
   )
 
-performance::check_predictions(lm_prior, draw_ids = 1:12) |> 
-  plot() + 
+performance::check_predictions(lm_prior, draw_ids = 1:12) |>
+  plot() +
   ggplot2::labs(title = "Prior Predictive Check") +
   theme_pdf(base_size = 12)
 ```
@@ -168,17 +171,18 @@ Here we go!
 
 ``` r
 # Group model
-lm_tot <- 
+lm_tot <-
   fit_brms_model(
-    formula = tas ~ vviq_group_4, 
+    formula = tas ~ vviq_group_4,
     data = all_data,
     prior = priors,
-    file = "models/lm_tot.rds"
+    file_refit = refit,
+    file = system.file("models/lm_tot.rds", package = "aphantasiaEmotions")
   )
 
 # Posterior predictive check
-performance::check_predictions(lm_tot, draw_ids = 1:12) |> 
-  plot() + 
+performance::check_predictions(lm_tot, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 #> Ignoring unknown labels:
 #> • size : ""
@@ -189,7 +193,7 @@ groups.](aphantasiaEmotions_files/figure-html/plot-tot-lm-1.png)
 
 ``` r
 
-contrasts_tot <- 
+contrasts_tot <-
   marginaleffects::comparisons(
     lm_tot,
     variables = list("vviq_group_4" = "pairwise"),
@@ -209,9 +213,10 @@ report_rope(contrasts_tot, contrast) |> knitr::kable()
 | typical - hypophantasia        |   -7.605 | \[-9.772, -5.404\]   | 1.000 |      1.000 |        0.00 |      0.000 |
 
 ``` r
-p_contr_tot <- 
+p_contr_tot <-
   plot_posterior_contrasts(
-    contrasts_tot, lm_tot, 
+    contrasts_tot,
+    lm_tot,
     base_size = 12,
     rope_txt = 3,
     dot_size = 1,
@@ -220,12 +225,12 @@ p_contr_tot <-
   )
 
 # Group plot
-p_tot <- 
+p_tot <-
   plot_group_violins(
-    tas ~ vviq_group_4, 
+    tas ~ vviq_group_4,
     y_lab = "Total TAS Score",
     base_size = 12
-  ) + 
+  ) +
   plot_alexithymia_cutoff(txt_size = 2, txt_x = 1.4, label = "Alexithymia") +
   scale_discrete_aphantasia() +
   scale_x_aphantasia(add = c(0.4, 0.7))
@@ -239,17 +244,18 @@ groups.](aphantasiaEmotions_files/figure-html/plot-tot-lm-2.png)
 #### Nonlinear continuous model
 
 ``` r
-gam_tot <- 
+gam_tot <-
   fit_brms_model(
-    formula = tas ~ s(vviq), 
+    formula = tas ~ s(vviq),
     data = all_data,
     prior = priors,
-    file = "models/gam_tot.rds"
+    file_refit = refit,
+    file = system.file("models/gam_tot.rds", package = "aphantasiaEmotions")
   )
 
 # Posterior predictive check
-performance::check_predictions(gam_tot, draw_ids = 1:12) |> 
-  plot() + 
+performance::check_predictions(gam_tot, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 #> Ignoring unknown labels:
 #> • size : ""
@@ -262,8 +268,10 @@ scores](aphantasiaEmotions_files/figure-html/plot-tot-gam-1.png)
 
 slopes_tot <-
   modelbased::estimate_slopes(
-    gam_tot, 
-    trend = "vviq", by = "vviq", length = 75,
+    gam_tot,
+    trend = "vviq",
+    by = "vviq",
+    length = 75,
     rope_ci = 1
   )
 
@@ -362,13 +370,13 @@ p_gam_tot <-
     base_size = 12
   ) +
   plot_coloured_subjects(
-    x = all_data$vviq, 
+    x = all_data$vviq,
     y = all_data$tas,
     size = 1
-  ) + 
+  ) +
   plot_alexithymia_cutoff(txt_x = 26, label = "Alexithymia") +
   scale_discrete_aphantasia() +
-  scale_x_vviq() 
+  scale_x_vviq()
 
 plot(p_gam_tot + p_slopes_tot)
 ```
@@ -382,20 +390,22 @@ scores](aphantasiaEmotions_files/figure-html/plot-tot-gam-2.png)
 
 ``` r
 # Subscale group models
-lm_dif <- 
+lm_dif <-
   fit_brms_model(
-    formula = tas_identify ~ vviq_group_4, 
+    formula = tas_identify ~ vviq_group_4,
     data = all_data,
     prior = priors,
-    file = "models/lm_dif.rds"
+    file_refit = refit,
+    file = system.file("models/lm_dif.rds", package = "aphantasiaEmotions")
   )
 
 lm_ddf <-
   fit_brms_model(
-    formula = tas_describe ~ vviq_group_4, 
+    formula = tas_describe ~ vviq_group_4,
     data = all_data,
     prior = priors,
-    file = "models/lm_ddf.rds"
+    file_refit = refit,
+    file = system.file("models/lm_ddf.rds", package = "aphantasiaEmotions")
   )
 
 lm_eot <-
@@ -403,23 +413,24 @@ lm_eot <-
     formula = tas_external ~ vviq_group_4,
     data = all_data,
     prior = priors,
-    file = "models/lm_eot.rds"
+    file_refit = refit,
+    file = system.file("models/lm_eot.rds", package = "aphantasiaEmotions")
   )
 
 # Posterior predictive checks
 pp_dif_lm <-
-  performance::check_predictions(lm_dif, draw_ids = 1:12) |> 
-  plot() + 
+  performance::check_predictions(lm_dif, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 
 pp_ddf_lm <-
-  performance::check_predictions(lm_ddf, draw_ids = 1:12) |> 
-  plot() + 
+  performance::check_predictions(lm_ddf, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 
 pp_eot_lm <-
-  performance::check_predictions(lm_eot, draw_ids = 1:12) |> 
-  plot() + 
+  performance::check_predictions(lm_eot, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 
 plot(pp_dif_lm / pp_ddf_lm / pp_eot_lm)
@@ -435,7 +446,7 @@ plot(pp_dif_lm / pp_ddf_lm / pp_eot_lm)
 groups.](aphantasiaEmotions_files/figure-html/plot-sub-lm-1.png)
 
 ``` r
-contrasts_dif <- 
+contrasts_dif <-
   marginaleffects::comparisons(
     lm_dif,
     variables = list("vviq_group_4" = "pairwise"),
@@ -497,25 +508,25 @@ report_rope(contrasts_eot, contrast) |> knitr::kable()
 ``` r
 
 # Subscale group plots
-p_dif <- 
+p_dif <-
   plot_group_violins(
-    tas_identify ~ vviq_group_4, 
+    tas_identify ~ vviq_group_4,
     y_lab = "TAS DIF Score",
     base_size = 12
   ) +
   scale_discrete_aphantasia() +
   scale_x_aphantasia(add = c(0.4, 0.7))
-p_ddf <- 
+p_ddf <-
   plot_group_violins(
-    tas_describe ~ vviq_group_4, 
+    tas_describe ~ vviq_group_4,
     y_lab = "TAS DDF Score",
     base_size = 12
   ) +
   scale_discrete_aphantasia() +
   scale_x_aphantasia(add = c(0.4, 0.7))
-p_eot <- 
+p_eot <-
   plot_group_violins(
-    tas_external ~ vviq_group_4, 
+    tas_external ~ vviq_group_4,
     y_lab = "TAS EOT Score",
     base_size = 12
   ) +
@@ -523,34 +534,37 @@ p_eot <-
   scale_x_aphantasia(add = c(0.4, 0.7))
 
 # Subscale contrast plots
-p_dif_contr <- 
+p_dif_contr <-
   plot_posterior_contrasts(
-    contrasts_dif, lm_dif,
-    xlab = "Effect size (DIF score difference)", 
+    contrasts_dif,
+    lm_dif,
+    xlab = "Effect size (DIF score difference)",
     base_size = 12,
     dot_size = 1,
     axis_relative_x = 0.7
   )
-p_ddf_contr <- 
+p_ddf_contr <-
   plot_posterior_contrasts(
-    contrasts_ddf, lm_ddf,
-    xlab = "Effect size (DDF score difference)", 
+    contrasts_ddf,
+    lm_ddf,
+    xlab = "Effect size (DDF score difference)",
     base_size = 12,
     dot_size = 1,
     axis_relative_x = 0.7
   )
-p_eot_contr <- 
+p_eot_contr <-
   plot_posterior_contrasts(
-    contrasts_eot, lm_eot,
-    xlab = "Effect size (EOT score difference)", 
+    contrasts_eot,
+    lm_eot,
+    xlab = "Effect size (EOT score difference)",
     base_size = 12,
     dot_size = 1,
     axis_relative_x = 0.7
   )
 
-((p_dif + p_dif_contr) + plot_layout(tag_level = "new")) / 
-  ((p_ddf + p_ddf_contr) + plot_layout(tag_level = "new")) / 
-  ((p_eot + p_eot_contr) + plot_layout(tag_level = "new")) + 
+((p_dif + p_dif_contr) + plot_layout(tag_level = "new")) /
+  ((p_ddf + p_ddf_contr) + plot_layout(tag_level = "new")) /
+  ((p_eot + p_eot_contr) + plot_layout(tag_level = "new")) +
   plot_annotation(tag_levels = c("A", "1")) &
   ggplot2::theme(plot.tag = ggplot2::element_text(size = 10, face = "bold"))
 ```
@@ -562,44 +576,47 @@ groups.](aphantasiaEmotions_files/figure-html/plot-sub-lm-2.png)
 
 ``` r
 # Subscale GAM models
-gam_dif <- 
+gam_dif <-
   fit_brms_model(
-    formula = tas_identify ~ s(vviq), 
+    formula = tas_identify ~ s(vviq),
     data = all_data,
     prior = priors,
-    file = "models/gam_dif.rds"
+    file_refit = refit,
+    file = system.file("models/gam_dif.rds", package = "aphantasiaEmotions")
   )
 
-gam_ddf <- 
+gam_ddf <-
   fit_brms_model(
-    formula = tas_describe ~ s(vviq), 
+    formula = tas_describe ~ s(vviq),
     data = all_data,
     prior = priors,
-    file = "models/gam_ddf.rds"
+    file_refit = refit,
+    file = system.file("models/gam_ddf.rds", package = "aphantasiaEmotions")
   )
 
-gam_eot <- 
+gam_eot <-
   fit_brms_model(
     formula = tas_external ~ s(vviq),
     data = all_data,
     prior = priors,
-    file = "models/gam_eot.rds"
+    file_refit = refit,
+    file = system.file("models/gam_eot.rds", package = "aphantasiaEmotions")
   )
 
 # Posterior predictive checks
 pp_dif_gam <-
-  performance::check_predictions(gam_dif, draw_ids = 1:12) |> 
-  plot() + 
+  performance::check_predictions(gam_dif, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 
 pp_ddf_gam <-
-  performance::check_predictions(gam_ddf, draw_ids = 1:12) |> 
-  plot() + 
+  performance::check_predictions(gam_ddf, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 
 pp_eot_gam <-
-  performance::check_predictions(gam_eot, draw_ids = 1:12) |> 
-  plot() + 
+  performance::check_predictions(gam_eot, draw_ids = 1:12) |>
+  plot() +
   theme_pdf(base_size = 12)
 
 plot(pp_dif_gam / pp_ddf_gam / pp_eot_gam)
@@ -896,12 +913,12 @@ p_gam_dif <-
     base_size = 12
   ) +
   plot_coloured_subjects(
-    x = all_data$vviq, 
+    x = all_data$vviq,
     y = all_data$tas_identify,
     size = 1
-  ) + 
+  ) +
   scale_discrete_aphantasia() +
-  scale_x_vviq() 
+  scale_x_vviq()
 
 p_gam_ddf <-
   plot_gam_means(
@@ -911,12 +928,12 @@ p_gam_ddf <-
     base_size = 12
   ) +
   plot_coloured_subjects(
-    x = all_data$vviq, 
+    x = all_data$vviq,
     y = all_data$tas_describe,
     size = 1
-  ) + 
+  ) +
   scale_discrete_aphantasia() +
-  scale_x_vviq() 
+  scale_x_vviq()
 
 p_gam_eot <-
   plot_gam_means(
@@ -926,16 +943,16 @@ p_gam_eot <-
     base_size = 12
   ) +
   plot_coloured_subjects(
-    x = all_data$vviq, 
+    x = all_data$vviq,
     y = all_data$tas_external,
     size = 1
-  ) + 
+  ) +
   scale_discrete_aphantasia() +
-  scale_x_vviq() 
-  
-((p_gam_dif + p_slopes_dif) + plot_layout(tag_level = "new")) / 
-  ((p_gam_ddf + p_slopes_ddf) + plot_layout(tag_level = "new")) / 
-  ((p_gam_eot + p_slopes_eot) + plot_layout(tag_level = "new")) + 
+  scale_x_vviq()
+
+((p_gam_dif + p_slopes_dif) + plot_layout(tag_level = "new")) /
+  ((p_gam_ddf + p_slopes_ddf) + plot_layout(tag_level = "new")) /
+  ((p_gam_eot + p_slopes_eot) + plot_layout(tag_level = "new")) +
   plot_layout(heights = c(1, 1, 1)) +
   plot_annotation(tag_levels = c("A", "1")) &
   ggplot2::theme(
@@ -958,14 +975,14 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2025-12-17
+    #>  date     2025-12-18
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2025-12-17 [1] local
+    #>    aphantasiaEmotions * 1.0      2025-12-18 [1] local
     #>    backports            1.5.0    2024-05-23 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.17.0   2025-08-29 [1] RSPM
