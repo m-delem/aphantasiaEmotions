@@ -85,8 +85,10 @@ report_rope <- function(
 ) {
   rlang::check_installed("bayestestR", reason = "to compute ROPE ranges")
   rlang::check_installed("marginaleffects", reason = "to extract draws")
-
-  range <- bayestestR::rope_range(attr(marg_effects, "marginaleffects")@model)
+  
+  model <- attr(marg_effects, "marginaleffects")@model
+  range <- bayestestR::rope_range(model)
+  sigma <- sd(model$data[, 1])
 
   rope_report <-
     marg_effects |>
@@ -101,6 +103,7 @@ report_rope <- function(
         round(unique(.data$conf.high), digits),
         "]"
       ),
+      d = abs(unique(.data$estimate) / sigma) |> round(2),
       PD = bayestestR::p_direction(.data$draw)$pd |> round(digits),
       "Below ROPE" = mean(.data$draw < range[1]) |> round(digits),
       "Inside ROPE" = mean(.data$draw > range[1] & .data$draw < range[2]) |>
