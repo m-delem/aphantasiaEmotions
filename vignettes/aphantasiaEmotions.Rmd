@@ -37,9 +37,9 @@ all_data |>
     N = paste0(
       dplyr::n(),
       " (",
-      sum(gender == "female"),
+      sum(gender == "female", na.rm = TRUE),
       " F, ",
-      sum(gender == "other"),
+      sum(gender == "other", na.rm = TRUE),
       " O)"
     ),
     M_age = mean(age, na.rm = TRUE),
@@ -205,7 +205,6 @@ lm_tot <-
 performance::check_predictions(lm_tot, draw_ids = 1:12) |>
   plot() +
   theme_pdf(base_size = 12)
-
 contrasts_tot <-
   marginaleffects::comparisons(
     lm_tot,
@@ -262,7 +261,6 @@ gam_tot <-
 performance::check_predictions(gam_tot, draw_ids = 1:12) |>
   plot() +
   theme_pdf(base_size = 12)
-
 slopes_tot <-
   modelbased::estimate_slopes(
     gam_tot,
@@ -388,7 +386,6 @@ contrasts_eot <-
   )
 
 report_rope(contrasts_eot, contrast) |> knitr::kable()
-
 # Subscale group plots
 p_dif <-
   plot_group_violins(
@@ -518,7 +515,6 @@ slopes_eot <-
   modelbased::estimate_slopes(gam_eot, trend = "vviq", by = "vviq", length = 75)
 
 check_slope_evidence(slopes_eot) |> knitr::kable()
-
 p_slopes_dif <-
   plot_gam_slopes(
     slopes_dif,
