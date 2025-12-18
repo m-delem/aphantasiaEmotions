@@ -1,5 +1,5 @@
 devtools::load_all()
-pacman::p_load(brms, ggplot2, patchwork)
+library(patchwork)
 
 base_size <- 20
 ax_titles <- 0.8
@@ -19,8 +19,8 @@ p_groups <-
     axis_relative_x = ax_rel_x,
     axis_relative_y = ax_rel_y,
     text = ggplot2::element_text(lineheight = 0.2),
-    plot.title = element_text(
-      size = rel(ax_titles), 
+    plot.title = ggplot2::element_text(
+      size = ggplot2::rel(ax_titles), 
       color = "grey50",
       margin = ggplot2::margin(b = 1)
     ),
@@ -73,23 +73,24 @@ m_gam <-
     formula = tas ~ s(vviq), 
     data = all_data,
     prior = c(brms::prior(normal(0, 20), class = "b")),
-    file = here::here("vignettes/models/gam_tot.rds")
+    file_refit = "never",
+    file = here::here("inst/models/gam_tot.rds")
   )
 
 p_gam <-
   plot_gam_means(
     m_gam,
     title = "Continuous model",
-    x_title = "Visual imagery vividness (16 = no imagery)",
-    y_title = "Alexithymia score",
+    x_lab = "Visual imagery vividness (16 = no imagery)",
+    y_lab = "Alexithymia score",
     base_size = base_size,
     axis_relative_size = 1,
     axis_relative_x = ax_rel_x,
     axis_relative_y = ax_rel_y,
     legend.position = "none",
     text = ggplot2::element_text(lineheight = 0.2),
-    plot.title = element_text(
-      size = rel(ax_titles), 
+    plot.title = ggplot2::element_text(
+      size = ggplot2::rel(ax_titles), 
       color = "grey50",
       margin = ggplot2::margin(b = 1)
     ),
