@@ -971,14 +971,14 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2025-12-18
+    #>  date     2025-12-21
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2025-12-18 [1] local
+    #>    aphantasiaEmotions * 1.0      2025-12-21 [1] local
     #>    backports            1.5.0    2024-05-23 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.17.0   2025-08-29 [1] RSPM
@@ -1025,7 +1025,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    insight              1.4.4    2025-12-06 [1] RSPM
     #>    jquerylib            0.1.4    2021-04-26 [1] RSPM
     #>    jsonlite             2.0.0    2025-03-27 [1] RSPM
-    #>    knitr                1.50     2025-03-16 [1] RSPM
+    #>    knitr                1.51     2025-12-20 [1] RSPM
     #>    labeling             0.4.3    2023-08-29 [1] RSPM
     #>  P lattice              0.22-7   2025-04-02 [?] CRAN (R 4.5.2)
     #>    lifecycle            1.0.4    2023-11-07 [1] RSPM
@@ -1039,6 +1039,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    modelbased           0.13.1   2025-12-08 [1] RSPM
     #>    mvtnorm              1.3-3    2025-01-10 [1] RSPM
     #>  P nlme                 3.1-168  2025-03-31 [?] CRAN (R 4.5.2)
+    #>    otel                 0.2.0    2025-08-29 [1] RSPM
     #>    parameters           0.28.3   2025-11-25 [1] RSPM
     #>    patchwork          * 1.3.2    2025-08-25 [1] RSPM
     #>    performance          0.15.3   2025-12-01 [1] RSPM
@@ -1079,7 +1080,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    tensorA              0.36.2.1 2023-12-13 [1] RSPM
     #>    textshaping          1.0.4    2025-10-10 [1] RSPM
     #>    tibble               3.3.0    2025-06-08 [1] RSPM
-    #>    tidyr                1.3.1    2024-01-24 [1] RSPM
+    #>    tidyr                1.3.2    2025-12-19 [1] RSPM
     #>    tidyselect           1.2.1    2024-03-11 [1] RSPM
     #>    usethis            * 3.2.1    2025-09-06 [1] RSPM
     #>    vctrs                0.6.5    2023-12-01 [1] RSPM
