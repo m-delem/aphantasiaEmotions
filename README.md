@@ -73,9 +73,9 @@ assign a permanent DOI to the code and data. Thus, if you use this code
 or data in your research, please cite the OSF project with the
 following:
 
-> Delem M, Ruby P, Plancher G (2025). “Supplementary materials for
-> ‘Aphantasics Process Emotions Differently’.”
-> <https://doi.org/10.17605/OSF.IO/B837S>.
+> Delem, M., Mas, M., Luminet, O., Ruby, P., & Plancher, G. (2025).
+> “Supplementary materials for ‘Aphantasics Process Emotions
+> Differently’.” <https://doi.org/10.17605/OSF.IO/B837S>.
 
 ### References
 

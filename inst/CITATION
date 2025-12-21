@@ -4,6 +4,8 @@ bibentry(
   author   = c(
       person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
              comment = c(ORCID = "0009-0005-8518-1991")),
+      person("Mas", "Marine", role = c("ctb")),
+      person("Luminet", "Olivier", role = c("ctb")),
       person("Perrine", "Ruby", role = c("ctb")),
       person("Gaën", "Plancher", role = c("ctb"))
      ),
