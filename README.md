@@ -77,7 +77,7 @@ following:
 > “Supplementary materials for ‘Aphantasics Process Emotions
 > Differently’.” <https://doi.org/10.17605/OSF.IO/B837S>.
 
-### References
+## References
 
 <div id="refs" class="references csl-bib-body hanging-indent"
 entry-spacing="0" line-spacing="2">
