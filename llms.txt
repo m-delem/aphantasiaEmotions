@@ -66,7 +66,7 @@ following:
 > “Supplementary materials for ‘Aphantasics Process Emotions
 > Differently’.” <https://doi.org/10.17605/OSF.IO/B837S>.
 
-### References
+## References
 
 Ale, E., & Burns, E. (2024, March 5). *Aphantasia and alexithymia
 predict complex PTSD symptoms*. <https://doi.org/10.31234/osf.io/kj5d3>

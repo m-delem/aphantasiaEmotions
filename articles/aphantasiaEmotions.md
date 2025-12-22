@@ -971,14 +971,14 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2025-12-21
+    #>  date     2025-12-22
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2025-12-21 [1] local
+    #>    aphantasiaEmotions * 1.0      2025-12-22 [1] local
     #>    backports            1.5.0    2024-05-23 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.17.0   2025-08-29 [1] RSPM
