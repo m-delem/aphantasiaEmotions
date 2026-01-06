@@ -971,14 +971,14 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2025-12-22
+    #>  date     2026-01-06
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2025-12-22 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-01-06 [1] local
     #>    backports            1.5.0    2024-05-23 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.17.0   2025-08-29 [1] RSPM
@@ -998,7 +998,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    cowplot              1.2.0    2025-07-07 [1] RSPM
     #>    crayon               1.5.3    2024-06-20 [1] RSPM
     #>    curl                 7.0.0    2025-08-19 [1] RSPM
-    #>    data.table           1.17.8   2025-07-10 [1] RSPM
+    #>    data.table           1.18.0   2025-12-24 [1] RSPM
     #>    datawizard           1.3.0    2025-10-11 [1] RSPM
     #>    desc                 1.4.3    2023-12-10 [1] RSPM
     #>    devtools           * 2.4.6    2025-10-03 [1] RSPM
@@ -1029,7 +1029,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    labeling             0.4.3    2023-08-29 [1] RSPM
     #>  P lattice              0.22-7   2025-04-02 [?] CRAN (R 4.5.2)
     #>    lifecycle            1.0.4    2023-11-07 [1] RSPM
-    #>    loo                  2.8.0    2024-07-03 [1] RSPM
+    #>    loo                  2.9.0    2025-12-23 [1] RSPM
     #>    magrittr             2.0.4    2025-09-12 [1] RSPM
     #>    marginaleffects      0.31.0   2025-11-15 [1] RSPM
     #>  P Matrix               1.7-4    2025-08-28 [?] CRAN (R 4.5.2)
