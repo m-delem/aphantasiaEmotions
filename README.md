@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# aphantasiaEmotions
+# aphantasiaEmotions <a href="https://m-delem.github.io/aphantasiaEmotions/"><img src="man/figures/logo.png" align="right" height="139" alt="aphantasiaEmotions website" /></a>
 
 <!-- badges: start -->
 

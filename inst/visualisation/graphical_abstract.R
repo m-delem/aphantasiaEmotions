@@ -74,7 +74,7 @@ m_gam <-
     data = all_data,
     prior = c(brms::prior(normal(0, 20), class = "b")),
     file_refit = "never",
-    file = here::here("inst/models/gam_tot.rds")
+    file = system.file("models/gam_tot.rds", package = "aphantasiaEmotions")
   )
 
 p_gam <-
