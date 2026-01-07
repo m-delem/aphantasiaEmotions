@@ -212,7 +212,7 @@ check_slope_evidence <- function(slopes, digits = 3) {
           VVIQ = vviq, 
           Median, CI, 
           PD = pd, 
-          `Inside ROPE` = ROPE_Percentage, 
+          # `Inside ROPE` = ROPE_Percentage, 
           Evidence
         )
     }

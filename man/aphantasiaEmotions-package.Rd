@@ -4,8 +4,10 @@
 \name{aphantasiaEmotions-package}
 \alias{aphantasiaEmotions}
 \alias{aphantasiaEmotions-package}
-\title{aphantasiaEmotions: VVIQ and TAS Analyses in Aphantasia and Alexithymia Studies}
+\title{aphantasiaEmotions: Data Analysis for "Aphantasics Process Emotions Differently: Evidence of a Non-linear Relationship Between Visual Imagery and Emotional Processing Abilities"}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 This project contains the code to analyse VVIQ and TAS data from studies on aphantasia and alexithymia.
 }
 \seealso{
