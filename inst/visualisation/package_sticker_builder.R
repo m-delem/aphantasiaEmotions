@@ -61,3 +61,4 @@ ggplot2::ggsave(
 )
 
 usethis::use_logo(here::here("inst/visualisation/package_sticker.png"))
+pkgdown::build_favicons()
