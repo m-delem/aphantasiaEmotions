@@ -1,13 +1,15 @@
 devtools::load_all()
 pacman::p_load(patchwork)
 
+refit  <- "always"
+
 # Models -------------------------------------
 lm_tot <-
   fit_brms_model(
     formula = tas ~ vviq_group_4,
     data = all_data,
     prior = c(brms::prior(normal(0, 20), class = "b")),
-    file_refit = "never",
+    file_refit = refit,
     file = here::here("inst/models/lm_tot.rds")
   )
 
@@ -16,7 +18,7 @@ gam_tot <-
     formula = tas ~ s(vviq),
     data = all_data,
     prior = c(brms::prior(normal(0, 20), class = "b")),
-    file_refit = "never",
+    file_refit = refit,
     file = here::here("inst/models/gam_tot.rds")
   )
 slopes_tot <-
@@ -70,7 +72,7 @@ p_slopes <-
     slopes_tot,
     .f_groups = dplyr::case_when(
       vviq <= 24 ~ 1,
-      vviq <= 35 ~ 2,
+      vviq <= 34 ~ 2,
       vviq <= 36 ~ 3,
       vviq <= 45 ~ 4,
       vviq <= 76 ~ 5,
