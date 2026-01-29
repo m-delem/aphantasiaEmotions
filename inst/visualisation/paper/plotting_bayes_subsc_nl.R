@@ -77,10 +77,10 @@ p_slopes_dif <-
   plot_gam_slopes(
     slopes_dif,
     .f_groups = dplyr::case_when(
-      vviq <= 22 ~ 1,
+      vviq <= 23 ~ 1,
       vviq <= 31 ~ 2,
       vviq <= 38 ~ 3,
-      vviq <= 57 ~ 4,
+      vviq <= 60 ~ 4,
       vviq <= 74 ~ 5,
       vviq <= 80 ~ 6
     ),
@@ -94,10 +94,12 @@ p_slopes_ddf <-
   plot_gam_slopes(
     slopes_ddf,
     .f_groups = dplyr::case_when(
-      vviq <= 22 ~ 1,
-      vviq <= 46 ~ 2,
-      vviq <= 74 ~ 3,
-      vviq <= 80 ~ 4
+      vviq <= 23 ~ 1,
+      vviq <= 45 ~ 2,
+      vviq <= 60 ~ 3,
+      vviq <= 64 ~ 4,
+      vviq <= 72 ~ 5,
+      vviq <= 80 ~ 6
     ),
     y_lab = "DDF variation per unit change in VVIQ",
     legend.position = "none",
@@ -109,10 +111,11 @@ p_slopes_eot <-
   plot_gam_slopes(
     slopes_eot,
     .f_groups = dplyr::case_when(
-      vviq <= 23 ~ 1,
-      vviq <= 42 ~ 2,
-      vviq <= 69 ~ 3,
-      vviq <= 80 ~ 4
+      vviq <= 19 ~ 1,
+      vviq <= 23 ~ 2,
+      vviq <= 42 ~ 3,
+      vviq <= 69 ~ 4,
+      vviq <= 80 ~ 5
     ),
     y_lab = "EOT variation per unit change in VVIQ",
     legend.position = "none",
