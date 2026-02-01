@@ -40,7 +40,7 @@ summarise_aph_and_alexi(all_data, vviq_group_4) |> head()
 #> 3 aphantasia   alexithymia kvamme    17      54 0.315
 #> 4 aphantasia   typical_tas burns     42      60 0.7  
 #> 5 aphantasia   typical_tas monzel    15      20 0.75 
-#> 6 aphantasia   typical_tas ruby      12      12 1    
+#> 6 aphantasia   typical_tas ruby      13      13 1    
 summarise_aph_and_alexi(all_data, vviq_group_2) |> head()
 #> # A tibble: 6 × 6
 #> # Groups:   vviq_group_2, study [5]
@@ -49,7 +49,7 @@ summarise_aph_and_alexi(all_data, vviq_group_2) |> head()
 #> 1 aphantasia   alexithymia burns     23      75 0.307
 #> 2 aphantasia   alexithymia monzel     9      30 0.3  
 #> 3 aphantasia   alexithymia mas        1       2 0.5  
-#> 4 aphantasia   alexithymia ruby       5      25 0.2  
+#> 4 aphantasia   alexithymia ruby       6      28 0.214
 #> 5 aphantasia   alexithymia kvamme    61     153 0.399
 #> 6 aphantasia   typical_tas burns     52      75 0.693
 ```

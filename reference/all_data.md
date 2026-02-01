@@ -53,7 +53,7 @@ all_data
 ## Format
 
 An object of class `tbl_df` (inherits from `tbl`, `data.frame`) with
-1458 rows and 16 columns.
+1478 rows and 16 columns.
 
 ## Source
 
