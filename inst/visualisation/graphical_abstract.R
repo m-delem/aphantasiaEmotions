@@ -57,10 +57,10 @@ p_groups <-
   ) +
   ggplot2::scale_x_discrete(
     labels = c(
-      "aphantasia"     = "Aphantasia\nN = 146",
-      "hypophantasia"  = "Hypophantasia\nN = 139",
-      "typical"        = "Typical\nN = 1101",
-      "hyperphantasia" = "Hyperphantasia\nN = 72"
+      "aphantasia"     = "Aphantasia\nN = 147",
+      "hypophantasia"  = "Hypophantasia\nN = 141",
+      "typical"        = "Typical\nN = 1115",
+      "hyperphantasia" = "Hyperphantasia\nN = 75"
     ),
     expand = ggplot2::expansion(
       mult = 0,

@@ -278,7 +278,7 @@ plot_vviq_group_proportions <- function(
         "burns"  = "Ale & Burns (2024)\nN = 192",
         "monzel" = "Monzel et al. (2024)\nN = 105",
         "mas"    = "Mas & Luminet (2025)\nN = 123",
-        "ruby"   = "Ruby (2025)\nN = 205",
+        "ruby"   = "Ruby (2025)\nN = 225",
         "kvamme" = "Kvamme et al. (2025)\nN = 833",
         "total"  = "All studies combined\nN = 1,458"
       )),

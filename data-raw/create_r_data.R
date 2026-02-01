@@ -1,6 +1,10 @@
-library(dplyr)
-library(tidyr)
-library(readxl)
+pacman::p_load(
+  dplyr,
+  here,
+  tidyr,
+  readxl,
+  stringr
+)
 
 # Quick helper
 select_and_sum_scales <- function(df) {

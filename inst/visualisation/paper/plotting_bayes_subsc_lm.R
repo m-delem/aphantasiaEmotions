@@ -1,13 +1,15 @@
 devtools::load_all()
 pacman::p_load(brms, patchwork)
 
+refit <- "never"
+
 # Models -------------------------------------
 lm_dif <- 
   fit_brms_model(
     formula = tas_identify ~ vviq_group_4, 
     data = all_data,
     prior = c(prior(normal(0, 20), class = "b")),
-    file_refit = "never",
+    file_refit = refit,
     file = here::here("inst/models/lm_dif.rds")
   )
 lm_ddf <-
@@ -15,7 +17,7 @@ lm_ddf <-
     formula = tas_describe ~ vviq_group_4, 
     data = all_data,
     prior = c(prior(normal(0, 20), class = "b")),
-    file_refit = "never",
+    file_refit = refit,
     file = here::here("inst/models/lm_ddf.rds")
   )
 lm_eot <-
@@ -23,7 +25,7 @@ lm_eot <-
     formula = tas_external ~ vviq_group_4,
     data = all_data,
     prior = c(prior(normal(0, 20), class = "b")),
-    file_refit = "never",
+    file_refit = refit,
     file = here::here("inst/models/lm_eot.rds")
   )
 
