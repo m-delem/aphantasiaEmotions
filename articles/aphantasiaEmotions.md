@@ -8,6 +8,8 @@ library(patchwork)
 
 ## Sample description
 
+### By dataset
+
 ``` r
 all_data |>
   dplyr::group_by(study) |>
@@ -36,6 +38,40 @@ all_data |>
 | mas    | fr       | 123 (110 F, 0 O) | 19.78 |   1.15 |      18 |      24 |
 | ruby   | fr       | 225 (180 F, 3 O) | 35.96 |  16.07 |      10 |      82 |
 | kvamme | en       | 833 (426 F, 5 O) | 40.45 |  13.44 |      18 |      83 |
+
+### By VVIQ group
+
+``` r
+all_data |>
+  dplyr::group_by(vviq_group_4) |>
+  dplyr::reframe(
+    N = paste0(
+      dplyr::n(),
+      " (",
+      sum(gender == "female", na.rm = TRUE),
+      " F, ",
+      sum(gender == "other", na.rm = TRUE),
+      " O)"
+    ),
+    M_age = mean(age, na.rm = TRUE),
+    SD_age = sd(age, na.rm = TRUE),
+    min_age = min(age, na.rm = TRUE),
+    max_age = max(age, na.rm = TRUE),
+    M_vviq = mean(vviq, na.rm = TRUE),
+    SD_vviq = sd(vviq, na.rm = TRUE)
+  ) |>
+  dplyr::rename("VVIQ group" = 1) |> 
+  knitr::kable(digits = 2)
+```
+
+| VVIQ group     | N                 | M_age | SD_age | min_age | max_age | M_vviq | SD_vviq |
+|:---------------|:------------------|------:|-------:|--------:|--------:|-------:|--------:|
+| aphantasia     | 147 (102 F, 5 O)  | 40.27 |  12.90 |      19 |      86 |  16.00 |    0.00 |
+| hypophantasia  | 141 (87 F, 1 O)   | 36.40 |  12.21 |      17 |      64 |  24.33 |    4.61 |
+| typical        | 1115 (675 F, 4 O) | 36.34 |  14.47 |      10 |      82 |  55.33 |   10.05 |
+| hyperphantasia | 75 (48 F, 1 O)    | 40.48 |  14.95 |      16 |      83 |  77.31 |    1.90 |
+
+### By dataset, VVIQ and TAS-20 (alexithymia) group
 
 ``` r
 p_counts <-
@@ -974,14 +1010,14 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-02-01
+    #>  date     2026-02-16
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-02-01 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-02-16 [1] local
     #>    backports            1.5.0    2024-05-23 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.17.0   2025-08-29 [1] RSPM
@@ -991,9 +1027,9 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    broom                1.0.12   2026-01-27 [1] RSPM
     #>    bslib                0.10.0   2026-01-26 [1] RSPM
     #>    cachem               1.1.0    2024-05-16 [1] RSPM
-    #>    car                  3.1-3    2024-09-27 [1] RSPM
+    #>    car                  3.1-5    2026-02-03 [1] RSPM
     #>    carData              3.0-6    2026-01-30 [1] RSPM
-    #>    checkmate            2.3.3    2025-08-18 [1] RSPM
+    #>    checkmate            2.3.4    2026-02-03 [1] RSPM
     #>    cli                  3.6.5    2025-04-23 [1] RSPM
     #>    coda                 0.19-4.1 2024-01-31 [1] RSPM
     #>  P codetools            0.2-20   2024-03-31 [?] CRAN (R 4.5.2)
@@ -1007,7 +1043,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    devtools           * 2.4.6    2025-10-03 [1] RSPM
     #>    digest               0.6.39   2025-11-19 [1] RSPM
     #>    distributional       0.6.0    2026-01-14 [1] RSPM
-    #>    dplyr                1.1.4    2023-11-17 [1] RSPM
+    #>    dplyr                1.2.0    2026-02-03 [1] RSPM
     #>    ellipsis             0.3.2    2021-04-29 [1] RSPM
     #>    evaluate             1.0.5    2025-08-27 [1] RSPM
     #>    farver               2.1.2    2024-05-13 [1] RSPM
@@ -1016,7 +1052,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    fs                   1.6.6    2025-04-12 [1] RSPM
     #>    generics             0.1.4    2025-05-09 [1] RSPM
     #>    ggdist               3.3.3    2025-04-23 [1] RSPM
-    #>    ggplot2              4.0.1    2025-11-14 [1] RSPM
+    #>    ggplot2              4.0.2    2026-02-03 [1] RSPM
     #>    ggpubr               0.6.2    2025-10-17 [1] RSPM
     #>    ggsignif             0.6.4    2022-10-13 [1] RSPM
     #>    glue                 1.8.0    2024-09-30 [1] RSPM
@@ -1025,7 +1061,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    htmltools            0.5.9    2025-12-04 [1] RSPM
     #>    htmlwidgets          1.6.4    2023-12-06 [1] RSPM
     #>    inline               0.3.21   2025-01-09 [1] RSPM
-    #>    insight              1.4.5    2026-01-26 [1] RSPM
+    #>    insight              1.4.6    2026-02-04 [1] RSPM
     #>    jquerylib            0.1.4    2021-04-26 [1] RSPM
     #>    jsonlite             2.0.0    2025-03-27 [1] RSPM
     #>    knitr                1.51     2025-12-20 [1] RSPM
@@ -1034,7 +1070,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    lifecycle            1.0.5    2026-01-08 [1] RSPM
     #>    loo                  2.9.0    2025-12-23 [1] RSPM
     #>    magrittr             2.0.4    2025-09-12 [1] RSPM
-    #>    marginaleffects      0.31.0   2025-11-15 [1] RSPM
+    #>    marginaleffects      0.32.0   2026-02-14 [1] RSPM
     #>  P Matrix               1.7-4    2025-08-28 [?] CRAN (R 4.5.2)
     #>    matrixStats          1.5.0    2025-01-07 [1] RSPM
     #>    memoise              2.0.1    2021-11-26 [1] RSPM
@@ -1045,12 +1081,12 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    otel                 0.2.0    2025-08-29 [1] RSPM
     #>    parameters           0.28.3   2025-11-25 [1] RSPM
     #>    patchwork          * 1.3.2    2025-08-25 [1] RSPM
-    #>    performance          0.15.3   2025-12-01 [1] RSPM
+    #>    performance          0.16.0   2026-02-04 [1] RSPM
     #>    pillar               1.11.1   2025-09-17 [1] RSPM
     #>    pkgbuild             1.4.8    2025-05-26 [1] RSPM
     #>    pkgconfig            2.0.3    2019-09-22 [1] RSPM
     #>    pkgdown              2.2.0    2025-11-06 [1] RSPM
-    #>    pkgload              1.4.1    2025-09-23 [1] RSPM
+    #>    pkgload              1.5.0    2026-02-03 [1] RSPM
     #>    plyr                 1.8.9    2023-10-02 [1] RSPM
     #>    posterior            1.6.1    2025-02-27 [1] RSPM
     #>    purrr                1.2.1    2026-01-09 [1] RSPM
@@ -1088,7 +1124,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    usethis            * 3.2.1    2025-09-06 [1] RSPM
     #>    vctrs                0.7.1    2026-01-23 [1] RSPM
     #>    viridis              0.6.5    2024-01-29 [1] RSPM
-    #>    viridisLite          0.4.2    2023-05-02 [1] RSPM
+    #>    viridisLite          0.4.3    2026-02-04 [1] RSPM
     #>    withr                3.0.2    2024-10-28 [1] RSPM
     #>    xfun                 0.56     2026-01-18 [1] RSPM
     #>    yaml                 2.3.12   2025-12-10 [1] RSPM

@@ -80,6 +80,9 @@
 <div class="section level2">
 <h2 id="sample-description">Sample description<a class="anchor" aria-label="anchor" href="#sample-description"></a>
 </h2>
+<div class="section level3">
+<h3 id="by-dataset">By dataset<a class="anchor" aria-label="anchor" href="#by-dataset"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -157,7 +160,100 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level3">
+<h3 id="by-vviq-group">By VVIQ group<a class="anchor" aria-label="anchor" href="#by-vviq-group"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">vviq_group_4</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html" class="external-link">reframe</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      <span class="st">" ("</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"female"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      <span class="st">" F, "</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"other"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      <span class="st">" O)"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    M_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    SD_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    min_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    max_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    M_vviq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">vviq</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    SD_vviq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">vviq</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="st">"VVIQ group"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="19%">
+<col width="23%">
+<col width="7%">
+<col width="9%">
+<col width="10%">
+<col width="10%">
+<col width="9%">
+<col width="10%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">VVIQ group</th>
+<th align="left">N</th>
+<th align="right">M_age</th>
+<th align="right">SD_age</th>
+<th align="right">min_age</th>
+<th align="right">max_age</th>
+<th align="right">M_vviq</th>
+<th align="right">SD_vviq</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">aphantasia</td>
+<td align="left">147 (102 F, 5 O)</td>
+<td align="right">40.27</td>
+<td align="right">12.90</td>
+<td align="right">19</td>
+<td align="right">86</td>
+<td align="right">16.00</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">hypophantasia</td>
+<td align="left">141 (87 F, 1 O)</td>
+<td align="right">36.40</td>
+<td align="right">12.21</td>
+<td align="right">17</td>
+<td align="right">64</td>
+<td align="right">24.33</td>
+<td align="right">4.61</td>
+</tr>
+<tr class="odd">
+<td align="left">typical</td>
+<td align="left">1115 (675 F, 4 O)</td>
+<td align="right">36.34</td>
+<td align="right">14.47</td>
+<td align="right">10</td>
+<td align="right">82</td>
+<td align="right">55.33</td>
+<td align="right">10.05</td>
+</tr>
+<tr class="even">
+<td align="left">hyperphantasia</td>
+<td align="left">75 (48 F, 1 O)</td>
+<td align="right">40.48</td>
+<td align="right">14.95</td>
+<td align="right">16</td>
+<td align="right">83</td>
+<td align="right">77.31</td>
+<td align="right">1.90</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="by-dataset-vviq-and-tas-20-alexithymia-group">By dataset, VVIQ and TAS-20 (alexithymia) group<a class="anchor" aria-label="anchor" href="#by-dataset-vviq-and-tas-20-alexithymia-group"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_counts</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">all_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">all_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>study <span class="op">=</span> <span class="st">"total"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -188,6 +284,7 @@
 <span>  font.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">14</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-proportions-1.png" class="r-plt" alt="Proportions of alexithymia within the VVIQ groups in the sample." width="768"></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="modelling">Modelling<a class="anchor" aria-label="anchor" href="#modelling"></a>
@@ -239,7 +336,7 @@ a custom <code><a href="../reference/check_slope_evidence.html">check_slope_evid
 PD and ROPE proportions of the slope estimates.</p>
 <p>The setup of <em>marginaleffects</em> options and model priors is
 done in the chunk below.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"marginaleffects_safe"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4000</span>, <span class="fl">1</span><span class="op">)</span> <span class="co"># To limit draws that will be used for marginaleffects</span></span>
 <span></span>
@@ -251,7 +348,7 @@ same structure as the planned analyses but sampling only from the prior
 distributions. The posterior predictive distributions of this prior-only
 model were then plotted to check that they covered a reasonable range of
 values.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lm_prior</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
 <span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_4</span>,</span>
@@ -275,7 +372,7 @@ values.</p>
 <div class="section level4">
 <h4 id="linear-categorical-model">Linear categorical model<a class="anchor" aria-label="anchor" href="#linear-categorical-model"></a>
 </h4>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Group model</span></span>
 <span><span class="va">lm_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
@@ -293,7 +390,7 @@ values.</p>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-tot-lm-1.png" class="r-plt" alt="Results of the linear modelling of the total TAS-20 with the VVIQ groups." width="672"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contrasts_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_tot</span>,</span>
@@ -386,7 +483,7 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_contr_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_posterior_contrasts.html">plot_posterior_contrasts</a></span><span class="op">(</span></span>
 <span>    <span class="va">contrasts_tot</span>,</span>
@@ -415,7 +512,7 @@ values.</p>
 <div class="section level4">
 <h4 id="nonlinear-continuous-model">Nonlinear continuous model<a class="anchor" aria-label="anchor" href="#nonlinear-continuous-model"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gam_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
 <span>    formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">vviq</span><span class="op">)</span>,</span>
@@ -432,7 +529,7 @@ values.</p>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-tot-gam-1.png" class="r-plt" alt="Results of the non-linear modelling of the total TAS-20 with the VVIQ scores" width="672"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">slopes_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">modelbased</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/modelbased/reference/estimate_slopes.html" class="external-link">estimate_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">gam_tot</span>,</span>
@@ -909,11 +1006,11 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_slopes_tot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_slopes.html">plot_gam_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">slopes_tot</span>,</span>
-<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">24</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">34</span> <span class="op">~</span> <span class="fl">2</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">36</span> <span class="op">~</span> <span class="fl">3</span>,</span>
@@ -951,7 +1048,7 @@ values.</p>
 <div class="section level4">
 <h4 id="linear-categorical-models">Linear categorical models<a class="anchor" aria-label="anchor" href="#linear-categorical-models"></a>
 </h4>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subscale group models</span></span>
 <span><span class="va">lm_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
@@ -1004,7 +1101,7 @@ values.</p>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-sub-lm-1.png" class="r-plt" alt="Results of the linear modelling of the TAS-20 subscales with the VVIQ groups." width="672"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contrasts_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_dif</span>,</span>
@@ -1097,7 +1194,7 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contrasts_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_ddf</span>,</span>
@@ -1190,7 +1287,7 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contrasts_eot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://marginaleffects.com/man/r/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
 <span>    <span class="va">lm_eot</span>,</span>
@@ -1283,7 +1380,7 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subscale group plots</span></span>
 <span><span class="va">p_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
@@ -1349,7 +1446,7 @@ values.</p>
 <div class="section level4">
 <h4 id="nonlinear-continuous-models">Nonlinear continuous models<a class="anchor" aria-label="anchor" href="#nonlinear-continuous-models"></a>
 </h4>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subscale GAM models</span></span>
 <span><span class="va">gam_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
@@ -1402,7 +1499,7 @@ values.</p>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> <span style="color: #00BB00;">size</span> : <span style="color: #0000BB;">""</span></span></span></code></pre></div>
 <p><img src="aphantasiaEmotions_files/figure-html/plot-sub-gam-1.png" class="r-plt" alt="Results of the non-linear modelling of the TAS-20 sub-scales with the VVIQ scores." width="672"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">slopes_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">modelbased</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/modelbased/reference/estimate_slopes.html" class="external-link">estimate_slopes</a></span><span class="op">(</span><span class="va">gam_dif</span>, trend <span class="op">=</span> <span class="st">"vviq"</span>, by <span class="op">=</span> <span class="st">"vviq"</span>, length <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span>
 <span></span>
@@ -1873,7 +1970,7 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">slopes_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">modelbased</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/modelbased/reference/estimate_slopes.html" class="external-link">estimate_slopes</a></span><span class="op">(</span><span class="va">gam_ddf</span>, trend <span class="op">=</span> <span class="st">"vviq"</span>, by <span class="op">=</span> <span class="st">"vviq"</span>, length <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span>
 <span></span>
@@ -2344,7 +2441,7 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">slopes_eot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">modelbased</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/modelbased/reference/estimate_slopes.html" class="external-link">estimate_slopes</a></span><span class="op">(</span><span class="va">gam_eot</span>, trend <span class="op">=</span> <span class="st">"vviq"</span>, by <span class="op">=</span> <span class="st">"vviq"</span>, length <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span>
 <span></span>
@@ -2815,11 +2912,11 @@ values.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_slopes_dif</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_slopes.html">plot_gam_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">slopes_dif</span>,</span>
-<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">23</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">31</span> <span class="op">~</span> <span class="fl">2</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">38</span> <span class="op">~</span> <span class="fl">3</span>,</span>
@@ -2835,7 +2932,7 @@ values.</p>
 <span><span class="va">p_slopes_ddf</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_slopes.html">plot_gam_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">slopes_ddf</span>,</span>
-<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">23</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">45</span> <span class="op">~</span> <span class="fl">2</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">60</span> <span class="op">~</span> <span class="fl">3</span>,</span>
@@ -2852,7 +2949,7 @@ values.</p>
 <span><span class="va">p_slopes_eot</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/plot_gam_slopes.html">plot_gam_slopes</a></span><span class="op">(</span></span>
 <span>    <span class="va">slopes_eot</span>,</span>
-<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    .f_groups <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">19</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">23</span> <span class="op">~</span> <span class="fl">2</span>,</span>
 <span>      <span class="va">vviq</span> <span class="op">&lt;=</span> <span class="fl">42</span> <span class="op">~</span> <span class="fl">3</span>,</span>
@@ -2931,14 +3028,14 @@ values.</p>
 <span><span class="co">#&gt;  collate  C.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       UTC</span></span>
-<span><span class="co">#&gt;  date     2026-02-01</span></span>
+<span><span class="co">#&gt;  date     2026-02-16</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt;  quarto   NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">!</span> <span style="color: #555555; font-style: italic;">package           </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
 <span><span class="co">#&gt;    abind                1.4-8    <span style="color: #555555;">2024-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    aphantasiaEmotions * 1.0      <span style="color: #555555;">2026-02-01</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;    aphantasiaEmotions * 1.0      <span style="color: #555555;">2026-02-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;    backports            1.5.0    <span style="color: #555555;">2024-05-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bayesplot            1.15.0   <span style="color: #555555;">2025-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bayestestR           0.17.0   <span style="color: #555555;">2025-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2948,9 +3045,9 @@ values.</p>
 <span><span class="co">#&gt;    broom                1.0.12   <span style="color: #555555;">2026-01-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bslib                0.10.0   <span style="color: #555555;">2026-01-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    cachem               1.1.0    <span style="color: #555555;">2024-05-16</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    car                  3.1-3    <span style="color: #555555;">2024-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    car                  3.1-5    <span style="color: #555555;">2026-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    carData              3.0-6    <span style="color: #555555;">2026-01-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    checkmate            2.3.3    <span style="color: #555555;">2025-08-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    checkmate            2.3.4    <span style="color: #555555;">2026-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    cli                  3.6.5    <span style="color: #555555;">2025-04-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    coda                 0.19-4.1 <span style="color: #555555;">2024-01-31</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #BBBBBB; background-color: #BB0000;">P</span> codetools            0.2-20   <span style="color: #555555;">2024-03-31</span> <span style="color: #555555;">[?]</span> <span style="color: #555555;">CRAN (R 4.5.2)</span></span></span>
@@ -2964,7 +3061,7 @@ values.</p>
 <span><span class="co">#&gt;    devtools           * 2.4.6    <span style="color: #555555;">2025-10-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    digest               0.6.39   <span style="color: #555555;">2025-11-19</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    distributional       0.6.0    <span style="color: #555555;">2026-01-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    dplyr                1.1.4    <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    dplyr                1.2.0    <span style="color: #555555;">2026-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    ellipsis             0.3.2    <span style="color: #555555;">2021-04-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    evaluate             1.0.5    <span style="color: #555555;">2025-08-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    farver               2.1.2    <span style="color: #555555;">2024-05-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2973,7 +3070,7 @@ values.</p>
 <span><span class="co">#&gt;    fs                   1.6.6    <span style="color: #555555;">2025-04-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    generics             0.1.4    <span style="color: #555555;">2025-05-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    ggdist               3.3.3    <span style="color: #555555;">2025-04-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    ggplot2              4.0.1    <span style="color: #555555;">2025-11-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    ggplot2              4.0.2    <span style="color: #555555;">2026-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    ggpubr               0.6.2    <span style="color: #555555;">2025-10-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    ggsignif             0.6.4    <span style="color: #555555;">2022-10-13</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    glue                 1.8.0    <span style="color: #555555;">2024-09-30</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2982,7 +3079,7 @@ values.</p>
 <span><span class="co">#&gt;    htmltools            0.5.9    <span style="color: #555555;">2025-12-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    htmlwidgets          1.6.4    <span style="color: #555555;">2023-12-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    inline               0.3.21   <span style="color: #555555;">2025-01-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    insight              1.4.5    <span style="color: #555555;">2026-01-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    insight              1.4.6    <span style="color: #555555;">2026-02-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    jquerylib            0.1.4    <span style="color: #555555;">2021-04-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    jsonlite             2.0.0    <span style="color: #555555;">2025-03-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    knitr                1.51     <span style="color: #555555;">2025-12-20</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -2991,7 +3088,7 @@ values.</p>
 <span><span class="co">#&gt;    lifecycle            1.0.5    <span style="color: #555555;">2026-01-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    loo                  2.9.0    <span style="color: #555555;">2025-12-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    magrittr             2.0.4    <span style="color: #555555;">2025-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    marginaleffects      0.31.0   <span style="color: #555555;">2025-11-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    marginaleffects      0.32.0   <span style="color: #555555;">2026-02-14</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #BBBBBB; background-color: #BB0000;">P</span> Matrix               1.7-4    <span style="color: #555555;">2025-08-28</span> <span style="color: #555555;">[?]</span> <span style="color: #555555;">CRAN (R 4.5.2)</span></span></span>
 <span><span class="co">#&gt;    matrixStats          1.5.0    <span style="color: #555555;">2025-01-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    memoise              2.0.1    <span style="color: #555555;">2021-11-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -3002,12 +3099,12 @@ values.</p>
 <span><span class="co">#&gt;    otel                 0.2.0    <span style="color: #555555;">2025-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    parameters           0.28.3   <span style="color: #555555;">2025-11-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    patchwork          * 1.3.2    <span style="color: #555555;">2025-08-25</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    performance          0.15.3   <span style="color: #555555;">2025-12-01</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    performance          0.16.0   <span style="color: #555555;">2026-02-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    pillar               1.11.1   <span style="color: #555555;">2025-09-17</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    pkgbuild             1.4.8    <span style="color: #555555;">2025-05-26</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    pkgconfig            2.0.3    <span style="color: #555555;">2019-09-22</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    pkgdown              2.2.0    <span style="color: #555555;">2025-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    pkgload              1.4.1    <span style="color: #555555;">2025-09-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    pkgload              1.5.0    <span style="color: #555555;">2026-02-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    plyr                 1.8.9    <span style="color: #555555;">2023-10-02</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    posterior            1.6.1    <span style="color: #555555;">2025-02-27</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    purrr                1.2.1    <span style="color: #555555;">2026-01-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
@@ -3045,7 +3142,7 @@ values.</p>
 <span><span class="co">#&gt;    usethis            * 3.2.1    <span style="color: #555555;">2025-09-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    vctrs                0.7.1    <span style="color: #555555;">2026-01-23</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    viridis              0.6.5    <span style="color: #555555;">2024-01-29</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    viridisLite          0.4.2    <span style="color: #555555;">2023-05-02</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
+<span><span class="co">#&gt;    viridisLite          0.4.3    <span style="color: #555555;">2026-02-04</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    withr                3.0.2    <span style="color: #555555;">2024-10-28</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    xfun                 0.56     <span style="color: #555555;">2026-01-18</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    yaml                 2.3.12   <span style="color: #555555;">2025-12-10</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
