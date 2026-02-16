@@ -27,8 +27,10 @@ library(patchwork)
 
 # Sample description
 
+## By dataset
+
 ```{r}
-#| label: descriptive-stats
+#| label: study-stats
 
 all_data |>
   dplyr::group_by(study) |>
@@ -49,6 +51,35 @@ all_data |>
   ) |>
   knitr::kable(digits = 2)
 ```
+
+## By VVIQ group
+
+```{r}
+#| label: group-stats
+
+all_data |>
+  dplyr::group_by(vviq_group_4) |>
+  dplyr::reframe(
+    N = paste0(
+      dplyr::n(),
+      " (",
+      sum(gender == "female", na.rm = TRUE),
+      " F, ",
+      sum(gender == "other", na.rm = TRUE),
+      " O)"
+    ),
+    M_age = mean(age, na.rm = TRUE),
+    SD_age = sd(age, na.rm = TRUE),
+    min_age = min(age, na.rm = TRUE),
+    max_age = max(age, na.rm = TRUE),
+    M_vviq = mean(vviq, na.rm = TRUE),
+    SD_vviq = sd(vviq, na.rm = TRUE)
+  ) |>
+  dplyr::rename("VVIQ group" = 1) |> 
+  knitr::kable(digits = 2)
+```
+
+## By dataset, VVIQ and TAS-20 (alexithymia) group
 
 ```{r}
 #| label: plot-proportions
