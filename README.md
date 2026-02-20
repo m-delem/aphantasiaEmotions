@@ -8,17 +8,17 @@
 <a href="https://osf.io/b837s/" target="_blank"><img src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf" alt="OSF badge"/></a>
 <a href="https://m-delem.github.io/aphantasiaEmotions/" target="_blank"><img alt="Docs badge" src="https://img.shields.io/badge/Documentation-website-009e73?style=flat&logo=Google%20Docs&logoColor=009e73&logoSize=auto"/></a>
 <a href="https://app.codecov.io/gh/m-delem/aphantasiaEmotions" target="_blank"><img alt="Codecov test coverage" src="https://codecov.io/gh/m-delem/aphantasiaEmotions/graph/badge.svg" /></a>
-
+<a href="https://doi.org/10.31234/osf.io/es425_v1" target="_blank"><img alt="DOI badge" src="https://img.shields.io/badge/Preprint-white?style=flat&logo=osf&logoColor=337AB7&logoSize=auto"/></a>
 <!-- badges: end -->
 
 aphantasiaEmotions is a data analysis project wrapped in an R package
 for reproducibility[^1]. It contains the code and data to reproduce the
 analyses presented in the article “*Aphantasics Process Emotions
 Differently: Evidence of a Non-linear Relationship Between Visual
-Imagery and Emotional Processing Abilities*”. This repository is
-archived with a permanent DOI on the Open Science Framework
-<a href="https://osf.io/b837s/" target="_blank">here</a>.
-<!-- You can read the preprint <a href="https://osf.io/b837s/" target="_blank">here</a>. -->
+Imagery and Emotional Processing Abilities*”. You can read the preprint
+<a href="https://doi.org/10.31234/osf.io/es425_v1" target="_blank">here</a>.
+This repository is archived with a permanent DOI on the Open Science
+Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
 
 Below is the graphical abstract of this study, which summarises the main
 finding that came out of the analyses.

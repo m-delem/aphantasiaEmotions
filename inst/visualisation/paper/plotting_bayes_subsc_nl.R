@@ -35,7 +35,7 @@ slopes_eot <-
 p_gam_dif <-
   plot_gam_means(
     gam_dif,
-    y_title = "TAS DIF score",
+    y_lab = "TAS DIF score",
     legend_relative = 0.85
   ) +
   plot_coloured_subjects(
@@ -48,7 +48,7 @@ p_gam_dif <-
 p_gam_ddf <-
   plot_gam_means(
     gam_ddf,
-    y_title = "TAS DDF score",
+    y_lab = "TAS DDF score",
     legend.position = "none"
   ) +
   plot_coloured_subjects(
@@ -61,7 +61,7 @@ p_gam_ddf <-
 p_gam_eot <-
   plot_gam_means(
     gam_eot,
-    y_title = "TAS EOT score",
+    y_lab = "TAS EOT score",
     legend.position = "none"
   ) +
   plot_coloured_subjects(
