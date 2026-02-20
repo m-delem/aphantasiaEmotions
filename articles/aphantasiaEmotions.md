@@ -399,7 +399,7 @@ p_slopes_tot <-
 p_gam_tot <-
   plot_gam_means(
     gam_tot,
-    y_title = "Total TAS score",
+    y_lab = "Total TAS score",
     legend_relative = 0.85,
     base_size = 12
   ) +
@@ -943,7 +943,7 @@ p_slopes_eot <-
 p_gam_dif <-
   plot_gam_means(
     gam_dif,
-    y_title = "TAS DIF score",
+    y_lab = "TAS DIF score",
     legend_relative = 0.85,
     base_size = 12
   ) +
@@ -958,7 +958,7 @@ p_gam_dif <-
 p_gam_ddf <-
   plot_gam_means(
     gam_ddf,
-    y_title = "TAS DDF score",
+    y_lab = "TAS DDF score",
     legend.position = "none",
     base_size = 12
   ) +
@@ -973,7 +973,7 @@ p_gam_ddf <-
 p_gam_eot <-
   plot_gam_means(
     gam_eot,
-    y_title = "TAS EOT score",
+    y_lab = "TAS EOT score",
     legend.position = "none",
     base_size = 12
   ) +
@@ -1010,14 +1010,14 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-02-16
+    #>  date     2026-02-20
     #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-02-16 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-02-20 [1] local
     #>    backports            1.5.0    2024-05-23 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.17.0   2025-08-29 [1] RSPM
@@ -1075,7 +1075,7 @@ VVIQ scores.](aphantasiaEmotions_files/figure-html/plot-sub-gam-2.png)
     #>    matrixStats          1.5.0    2025-01-07 [1] RSPM
     #>    memoise              2.0.1    2021-11-26 [1] RSPM
     #>  P mgcv                 1.9-3    2025-04-04 [?] CRAN (R 4.5.2)
-    #>    modelbased           0.13.1   2025-12-08 [1] RSPM
+    #>    modelbased           0.14.0   2026-02-17 [1] RSPM
     #>    mvtnorm              1.3-3    2025-01-10 [1] RSPM
     #>  P nlme                 3.1-168  2025-03-31 [?] CRAN (R 4.5.2)
     #>    otel                 0.2.0    2025-08-29 [1] RSPM

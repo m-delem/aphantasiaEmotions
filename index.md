@@ -4,7 +4,8 @@ aphantasiaEmotions is a data analysis project wrapped in an R package
 for reproducibility[¹](#fn1). It contains the code and data to reproduce
 the analyses presented in the article “*Aphantasics Process Emotions
 Differently: Evidence of a Non-linear Relationship Between Visual
-Imagery and Emotional Processing Abilities*”. This repository is
+Imagery and Emotional Processing Abilities*”. You can read the preprint
+[here](https://doi.org/10.31234/osf.io/es425_v1). This repository is
 archived with a permanent DOI on the Open Science Framework
 [here](https://osf.io/b837s/).
 
