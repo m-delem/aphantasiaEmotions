@@ -2,11 +2,17 @@
 #'
 #' @param ... Arguments passed to brms::brm(), such as formula, data, family,
 #' priors, etc.
-#' @param iterations Total number of iterations. This number is divided by the
-#' number of cores for parallel processing. Default is 20000 (40k recommended
-#' if Bayes Factors are needed).
-#' @param warmup Number of warmup iterations added for each chain. Default is
-#' 2000.
+#' @param chains Number of MCMC chains. Default is 4 (standard convention:
+#' enough for reliable Rhat/ESS convergence diagnostics on typical models,
+#' without the overhead of running far more chains than needed). Increase for
+#' models with tricky posteriors, not as a routine choice.
+#' @param iterations Number of POST-WARMUP iterations PER CHAIN (not divided
+#' by anything, not a total across chains). Default is 2000. Total post-warmup
+#' draws across all chains = iterations * chains.
+#' @param warmup Number of warmup iterations per chain. Default is 1000.
+#' @param cores Number of cores to use for parallel processing. Default is
+#' `chains`, i.e. one core per chain (fully parallel). Set lower only if the
+#' machine has fewer cores than chains requested.
 #' @param refresh Frequency of progress updates. Default is 500.
 #' @param backend Backend to use for fitting the model. Default is "rstan".
 #' @param file_refit Condition for refitting the model. Default is "on_change".
@@ -19,41 +25,48 @@
 #' @param save_pars Parameters to save. Default is NULL.
 #' @param adapt_delta Target acceptance rate for the NUTS sampler. Default is
 #' 0.95.
+#' @param max_treedepth Maximum treedepth for the NUTS sampler. Default is 10
+#' (brms/Stan default). Increase (e.g. 12-15) if you see "maximum treedepth
+#' exceeded" warnings — this doesn't fix an underlying geometry problem, it
+#' just lets the sampler take more steps per iteration before giving up,
+#' which is often sufficient for models with awkward but not pathological
+#' posteriors (e.g. nonlinear/hinge models with a weakly identified parameter).
 #' @param seed Random seed for reproducibility. Default is 667.
 #'
 #' @returns A fitted brms model object.
 #' @export
 fit_brms_model <- function(
-  ...,
-  iterations = 24000, # 40k recommended if BFs needed
-  warmup = 2000,
-  refresh = 500,
-  backend = "rstan", # or rstan, cmdstanr conflicts with pkgdown
-  file_refit = "on_change",
-  file_compress = "xz",
-  model_folder = "models/",
-  sample_prior = FALSE, # TRUE if BFs needed
-  save_pars = NULL, # brms::save_pars(all = TRUE) if BFs needed
-  adapt_delta = 0.95,
-  seed = 667
+    ...,
+    chains = 4,
+    iterations = 2000, # post-warmup draws PER CHAIN
+    warmup = 1000,
+    cores = chains,
+    refresh = 500,
+    backend = "rstan", # or rstan, cmdstanr conflicts with pkgdown
+    file_refit = "on_change",
+    file_compress = "xz",
+    model_folder = "models/",
+    sample_prior = FALSE, # TRUE if BFs needed
+    save_pars = NULL, # brms::save_pars(all = TRUE) if BFs needed
+    adapt_delta = 0.95,
+    max_treedepth = 10,
+    seed = 667
 ) {
   # rlang::check_installed("fs", reason = "to create folders")
-
+  
   # Set the folder to save the cmdstanr parameters
   # options(cmdstanr_write_stan_file_dir = paste0(model_folder, "stan/"))
-
+  
   # Create a folder for the models if necessary
   # fs::dir_create(model_folder)
-
-  # Parallel processing setup for 40k samples
-  n_cores <- parallel::detectCores()
-  n_iter <- ceiling(iterations / n_cores) + warmup
-
+  
+  n_iter <- iterations + warmup
+  
   # Fit a brms model with the arguments in `...` and my default options
   brms::brm(
     ...,
-    chains = n_cores,
-    cores = n_cores,
+    chains = chains,
+    cores = cores,
     iter = n_iter,
     warmup = warmup,
     refresh = refresh,
@@ -62,7 +75,7 @@ fit_brms_model <- function(
     file_compress = file_compress,
     sample_prior = sample_prior,
     save_pars = save_pars,
-    control = list(adapt_delta = adapt_delta),
+    control = list(adapt_delta = adapt_delta, max_treedepth = max_treedepth),
     seed = seed
   )
 }
@@ -79,9 +92,9 @@ fit_brms_model <- function(
 #' 95% CIs, and proportions of draws within, below, and above the ROPE.
 #' @export
 report_rope <- function(
-  marg_effects,
-  ...,
-  digits = 3
+    marg_effects,
+    ...,
+    digits = 3
 ) {
   rlang::check_installed("bayestestR", reason = "to compute ROPE ranges")
   rlang::check_installed("marginaleffects", reason = "to extract draws")
@@ -89,7 +102,7 @@ report_rope <- function(
   model <- attr(marg_effects, "marginaleffects")@model
   range <- bayestestR::rope_range(model)
   sigma <- sd(model$data[, 1])
-
+  
   rope_report <-
     marg_effects |>
     marginaleffects::posterior_draws() |>
@@ -111,6 +124,6 @@ report_rope <- function(
       "Above ROPE" = mean(.data$draw > range[2]) |> round(digits)
     ) |>
     dplyr::ungroup()
-
+  
   return(rope_report)
 }
