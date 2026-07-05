@@ -8,8 +8,12 @@ plot_floor_group(
   model,
   data,
   y_lab = "Total TAS score",
-  base_size = 12,
-  violin_width = 3
+  base_theme = ggplot2::theme_minimal,
+  limits = c(8, 81),
+  vviq_breaks = seq(16, 80, 4),
+  tas_breaks = seq(20, 100, 20),
+  violin_width = 3,
+  ...
 )
 }
 \arguments{
@@ -21,10 +25,10 @@ plot_floor_group(
 
 \item{y_lab}{Label for the y-axis. Default "Total TAS score".}
 
-\item{base_size}{Base font size, passed to theme_pdf(). Default 12.}
-
 \item{violin_width}{Half-width of the floor-group violin, in VVIQ-scale
 units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).}
+
+\item{base_size}{Base font size, passed to theme_pdf(). Default 12.}
 }
 \value{
 A ggplot2 object.

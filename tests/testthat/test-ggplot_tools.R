@@ -20,18 +20,18 @@ test_that("ggplot2 helpers work properly", {
   
   save_path <- withr::local_tempfile(fileext = ".pdf")
   expect_invisible(
-    save_ggplot(p, path = save_path, ncol = 1, verbose = TRUE) |>
+    save_ggplot(path = save_path, p, ncol = 1, verbose = TRUE) |>
       suppressMessages()
   )
   expect_contains(
     class(
-      save_ggplot(p, save_path, 2, return = TRUE, verbose = FALSE)
+      save_ggplot(path = save_path, p, 2, return = TRUE, verbose = FALSE)
     ),
     c("gg", "ggplot")
   )
   expect_contains(
     class(
-      save_ggplot(p, save_path, width = 90, return = TRUE, verbose = FALSE)
+      save_ggplot(path = save_path, p, width = 90, return = TRUE, verbose = FALSE)
     ),
     c("gg", "ggplot")
   )

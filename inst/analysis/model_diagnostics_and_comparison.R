@@ -24,11 +24,13 @@ source("inst/analysis/00_model_comparison_setup.R")
 model_files <- c(
   linear                  = "lm_linear_tot.rds",
   categorical             = "lm_categorical_tot.rds",
-  cat_2_groups             = "lm_categorical_2_group_tot.rds",
+  cat_2_groups            = "lm_categorical_2_group_tot.rds",
   gam                     = "gam_tot.rds",
   segmented_fixed         = "segmented_fixed_knot_tot.rds",
   segmented_estimated     = "segmented_estimated_knot_tot.rds",
   floor_group_additive    = "floor_group_additive_tot.rds"
+  # linear_multilevel           = "lm_linear_multilevel_tot.rds",
+  # floor_group_additive_multilevel = "floor_group_additive_multilevel_tot.rds"
 )
 
 models <- list()

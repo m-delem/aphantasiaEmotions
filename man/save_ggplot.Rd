@@ -5,8 +5,8 @@
 \title{Custom ggsave wrapper set with Nature's formatting guidelines (width-locked)}
 \usage{
 save_ggplot(
-  plot,
   path,
+  plot = ggplot2::get_last_plot(),
   ncol = 1,
   width = NULL,
   height = 90,
@@ -18,9 +18,9 @@ save_ggplot(
 )
 }
 \arguments{
-\item{plot}{The ggplot object to save.}
-
 \item{path}{A character string with the path to save the plot.}
+
+\item{plot}{The ggplot object to save, defaults to last plot displayed}
 
 \item{ncol}{The number of columns for the plot. Either 1 (default) or 2.}
 
