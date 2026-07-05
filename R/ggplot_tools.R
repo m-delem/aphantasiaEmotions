@@ -202,8 +202,8 @@ theme_pdf <- function(
 #' guidelines, I use them for all figures, even if they are not for Nature...
 #' Because it looks nice and I like it.
 #'
-#' @param plot     The ggplot object to save.
 #' @param path     A character string with the path to save the plot.
+#' @param plot     The ggplot object to save, defaults to last plot displayed
 #' @param ncol     The number of columns for the plot. Either 1 (default) or 2.
 #' @param width    Optional. The width of the plot in mm. If NULL (default), it
 #'                 will be set to 88 mm for one-column figures and 180 mm for
@@ -220,8 +220,8 @@ theme_pdf <- function(
 #' @returns Nothing. The function saves the ggplot to the specified path.
 #' @export
 save_ggplot <- function(
-    plot,
     path,
+    plot     = ggplot2::get_last_plot(),
     ncol     = 1,
     width    = NULL,
     height   = 90,
