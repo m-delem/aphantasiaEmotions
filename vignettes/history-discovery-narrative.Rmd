@@ -1,0 +1,303 @@
+---
+title: "The history of a study"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The history of a study}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+library(ggplot2)
+```
+
+This study did not begin as a study. It began as a side question attached to a
+different one — and the shape it ended up taking was not planned in advance so
+much as discovered, one dataset at a time. Most papers describe what was found,
+not how the finding was arrived at. This page exists to tell that second story —
+the searching, the emailing, the re-analysing after every new dataset arrived.
+This page is about the discovery process.
+
+## Where it started
+
+I was preparing for a larger planned study on aphantasia and alexithymia,
+together with Gaën Plancher, Marine Mas, and Olivier Luminet. That study was
+going to use a fuller battery of questionnaires than the usual VVIQ (visual
+imagery) and TAS-20 (alexithymia) alone, since we were, and remain, fairly
+critical of what those two standard instruments actually capture on their own.
+
+Before designing that study, I wanted to ground it in what was already known. So
+the first, modest step was simply to see how much existing data on the VVIQ and
+TAS-20 already existed, to get a sense of expected effect sizes and to plan
+sensible sequential analyses.
+
+## Ale and Burns, and a locked door
+
+On 2025-10-13, I wrote to Edwin Burns about a preprint he and his co-author had
+posted the year before, on aphantasia, alexithymia, and PTSD symptomatology:
+[doi.org/10.31234/osf.io/kj5d3](https://doi.org/10.31234/osf.io/kj5d3). Their
+paper reported analyses of alexithymia and PTSD separately in relation to
+aphantasia, but not the direct relationship between aphantasia and alexithymia
+themselves — the co-occurrence question. I asked whether that had simply not
+been reported, and mentioned that I'd been curious to look at their data myself,
+except the OSF link in the paper pointed to a private repository.
+
+Edwin Burns kindly shared the dataset. A short back-and-forth followed in which
+we flagged what turned out to be a real discrepancy in how the TAS-20 total
+score had been computed in the file — the kind of routine data-quality check
+that's worth doing on any second-hand dataset before trusting it, and a good
+habit to have gotten into early, since it would matter again later with a much
+larger dataset. By 2025-10-29 the correction was confirmed and the data were
+usable.
+
+Ale and Burns' final sample: 192 English-speaking participants (122 females, 3
+other genders; mean age 38.7, SD 11.4; range 18-86), recruited via social media,
+openly archived on OSF (<https://doi.org/10.17605/OSF.IO/B837S>).
+
+## Monzel, and the first pattern with a finer split
+
+I collected the Monzel et al. (2024) dataset in the meantime — 105
+English-speaking participants (74 females; mean age 27.9, SD 9.29; range 18-59),
+recruited via the *Aphantasia Research Project Bonn*'s participant database,
+also openly archived on OSF
+([osf.io/y9c8g](https://osf.io/y9c8g/?view_only=1e6bd8670a3f4eacb1cf0f600343205e)).
+
+Monzel et al.'s original paper had split their own sample at VVIQ \< 23
+(aphantasia) versus VVIQ \> 33 (typical imagers), following the conventions of
+the time, and reported that aphantasics scored higher on two of the TAS-20's
+three subscales. Likewise (even though they didn't compare VVIQ and TAS
+explicitly), Ale & Burns used a VVIQ \< 32 threshold to defined aphantasia.
+Redoing the comparison between groups on the combined Ale & Burns + Monzel et
+al. sample, but this time splitting the aphantasia range itself — complete
+aphantasia (VVIQ = 16) from hypophantasia (VVIQ 17-32, in the original,
+provisional definition used at this stage) — told a different, more specific
+story: it looked as though the *hypophantasia* sub-group was driving the
+elevated scores, while complete aphantasics sat much closer to typical imagers
+than the coarser two-group split had suggested.
+
+Here is that first combined view, reproduced from the current, corrected data:
+
+```{r ale-burns-monzel-plot, echo=FALSE}
+early_data <- all_data |> dplyr::filter(study %in% c("burns", "monzel"))
+
+library(patchwork)
+
+plot_2g <- 
+  plot_group_violins(
+    tas ~ vviq_group_2,
+    data = early_data,
+    y_lab = "Total TAS score",
+    base_size = 10
+  ) +
+  scale_x_aphantasia(add = c(0.4, 0.7)) +
+  scale_discrete_aphantasia() +
+  ggplot2::labs(title = "The common 2-group comparison")
+
+plot_4g <- 
+  plot_group_violins(
+    tas ~ vviq_group_4,
+    data = early_data,
+    y_lab = "Total TAS score",
+    base_size = 10
+  ) +
+  scale_x_aphantasia(add = c(0.4, 0.7)) +
+  scale_discrete_aphantasia() +
+  ggplot2::labs(title = "The finer-grained 4-group comparison")
+
+plot_2g + plot_4g + 
+  plot_layout(axis_titles = "collect") +
+  plot_annotation(
+    title = "Ale & Burns + Monzel et al. — the first combined look",
+    subtitle = "The pattern that started everything",
+    theme = theme(text = element_text(family ="Montserrat"))
+  )
+```
+
+A negative relationship between visual imagery and alexithymia was already
+visible from hypophantasia through hyperphantasia, but complete aphantasics (the
+grey group) were "out of place": something different seemed to be happening
+among people with a complete absence of imagery specifically.
+
+## A finer split
+
+Monzel et al.'s original paper had split their own sample at VVIQ \< 23
+(aphantasia) versus VVIQ \> 33 (typical imagers), following the conventions of
+the time, and reported that aphantasics scored higher on two of the TAS-20's
+three subscales.
+
+```{r early-refined-plot}
+early_data_refined <- early_data |>
+  dplyr::mutate(
+    refined_group = dplyr::case_when(
+      vviq == 16 ~ "Complete aphantasia",
+      vviq <= 23 ~ "Hypophantasia",
+      vviq >= 33 ~ "Typical imagers",
+      TRUE ~ NA_character_
+    )
+  ) |>
+  dplyr::filter(!is.na(refined_group))
+
+plot_group_violins(
+  tas ~ refined_group,
+  data = early_data_refined,
+  y_lab = "Total TAS score",
+  base_size = 12
+) +
+  ggplot2::labs(
+    title = "The finer split that changed the question",
+    subtitle = "Complete aphantasia looks different from hypophantasia"
+  )
+```
+
+This was the first sign that the eventual shape of the paper's finding —
+complete absence of imagery behaving differently from merely weak imagery — was
+not going to be a story that a single linear relationship, or even a simple
+two-group split, could tell well.
+
+## Ruby, analysed the same day
+
+Perrine Ruby shared her dataset on 2025-10-29, and I ran the same analyses that
+same day, using the package structure that had by then already taken shape from
+the Ale & Burns / Monzel work. Ruby's dataset — 225 French participants (180
+females, 42 males, 3 other; mean age 36, SD 16.1; range 10-82), collected as
+part of a study on the sensory and emotional characteristics of autobiographical
+and dream memories — also surfaced an incidental relationship between VVIQ and
+dream recall frequency, which sits outside the scope of this study and was set
+aside.
+
+```{r ruby-plot}
+data_with_ruby <- all_data |> dplyr::filter(study %in% c("burns", "monzel", "ruby"))
+
+plot_group_violins(
+  tas ~ vviq_group_4,
+  data = data_with_ruby,
+  y_lab = "Total TAS score",
+  base_size = 12
+) +
+  scale_discrete_aphantasia() +
+  ggplot2::labs(
+    title = "Adding Ruby's data",
+    subtitle = "The pattern holds with a third, independent sample"
+  )
+```
+
+## An independent discovery, and a second correction
+
+Midway through this process, Timo Kvamme and colleagues posted a preprint
+reporting a related but more elaborate pattern in a large, independent sample:
+opposing relationships between VVIQ and alexithymia either side of a fixed VVIQ
+= 32 threshold — what became [Kvamme et al.
+(2026)](https://doi.org/10.1016/j.neuropsychologia.2026.109368) once published.
+I reached out, and Timo Kvamme generously agreed to share their data.
+
+The same kind of data-quality check that had mattered for Ale & Burns' data
+mattered again here, at a larger scale: I found that several TAS-20 items had
+been reversed incorrectly in the shared dataset's preprocessing script. I
+flagged this on 2025-11-12; Timo Kvamme confirmed the oversight and corrected it
+the same day. Their final sample was substantial: 833 English-speaking
+participants (426 females, 5 other genders; mean age 40.5, SD 13.4; range
+18-83), recruited through Prolific and a pre-existing aphantasia database
+specifically to cover the full range of imagery vividness.
+
+```{r kvamme-plot}
+data_with_kvamme <- all_data |> dplyr::filter(study %in% c("burns", "monzel", "ruby", "kvamme"))
+
+plot_group_violins(
+  tas ~ vviq_group_4,
+  data = data_with_kvamme,
+  y_lab = "Total TAS score",
+  base_size = 12
+) +
+  scale_discrete_aphantasia() +
+  ggplot2::labs(
+    title = "Adding Kvamme et al.'s data",
+    subtitle = "A fourth, much larger, independent sample — the pattern strengthens"
+  )
+```
+
+Kvamme et al.'s own published analysis (a fixed split at VVIQ = 32, described in
+full on [the model-comparison page](https://TODO-LINK-TO-KVAMME-PAGE)) reached a
+related but distinct conclusion using a threshold chosen by hand, rather than
+estimated from the data. That comparison — and what our own, data-driven
+estimate of where the relationship actually changes shape turned out to say — is
+one of the more interesting methodological threads in this whole project, and
+gets its own full treatment later in this report.
+
+## Mas & Luminet, completing the pool
+
+The last dataset to arrive, on 2025-12-12, came from Marine Mas and Olivier
+Luminet, collected as part of a preregistered lab study on alexithymia and
+mental representations. 123 French-speaking participants (110 females; mean age
+19.78, SD 1.15; range 18-24) were recruited from a research methods course.
+
+```{r full-pool-plot}
+plot_group_violins(
+  tas ~ vviq_group_4,
+  data = all_data,
+  y_lab = "Total TAS score",
+  base_size = 12
+) +
+  scale_discrete_aphantasia() +
+  ggplot2::labs(
+    title = "The complete pooled sample",
+    subtitle = "Five studies, one consistent pattern"
+  )
+```
+
+## From groundwork to a paper in its own right
+
+None of this was originally meant to be the study. It was meant to be groundwork
+— a way of estimating expected effect sizes before designing the larger
+VVIQ/TAS/PsiQ/DERS/ERQ/PAQ/RRS study mentioned at the start of this page. It was
+in discussing the pooled, cross-dataset pattern with Perrine Ruby that the
+project changed shape: what had been preparation looked, on its own, like a
+finding worth reporting — with the eventual four-group classification, and later
+the non-linear modelling approach described on the [model comparison
+page](https://TODO-LINK), as its distinguishing methodological contributions.
+
+## Dead ends, for the record
+
+Not every dataset search leads anywhere, and it is worth recording the ones that
+did not — both because they are a real part of how this project came together,
+and because they remain useful references for anyone wondering whether earlier
+work exists on this specific combination of measures.
+
+I contacted the authors of three "pre-aphantasia-era" (pre-2015) papers that had
+used both the VVIQ and TAS-20, before the term "aphantasia" was in wide use:
+
+- Wang & Yang (2024), *Mental Imagery in the Relationship between Alexithymia
+  and Parental Psychological Control*
+  ([doi.org/10.3390/bs14030183](https://doi.org/10.3390/bs14030183)) — no
+  response.
+- Jungmann et al. (2022), *Erfassung der Lebendigkeit mentaler
+  Vorstellungsbilder*
+  ([doi.org/10.1026/0012-1924/a000291](https://doi.org/10.1026/0012-1924/a000291))
+  — no response.
+- Leving (2024), an unpublished Master's thesis supervised by Jeanne Watson at
+  the University of Toronto
+  ([utoronto.scholaris.ca](https://utoronto.scholaris.ca/server/api/core/bitstreams/ea4d3c6b-34a2-4ffb-9ff1-e5be02218047/content))
+  — I wrote to Professor Watson directly; no response.
+
+I also contacted Alfredo Campos regarding Campos & Pérez (2000)'s *Alexithymia
+and mental imagery*
+([doi.org/10.1016/S0191-8869(99)00231-7](https://doi.org/10.1016/S0191-8869(99)00231-7)).
+Professor Campos responded, but explained that he had lost contact with his
+co-authors and had never held the data himself — so, more than two decades on,
+that dataset is simply gone. It is a small, concrete reminder of what
+data-sharing norms looked like before the open science practices this project
+relies on became standard, and a large part of why this project's own data and
+code are archived as thoroughly as they are (see the [OSF
+project](https://doi.org/10.17605/OSF.IO/B837S) and this report's own [GitHub
+repository](https://github.com/m-delem/aphantasiaEmotions)).
