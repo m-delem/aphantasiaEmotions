@@ -1,0 +1,41 @@
+---
+title: "The floor-group model, in depth"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The floor-group model, in depth}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+library(ggplot2)
+```
+
+## Coming soon
+
+This page will present the study's central finding in full: the floor-group
+model's figure and coefficients, the pd/ROPE evidence behind it, why a
+Gaussian family was used and checked, and how the finding holds up once
+study-level heterogeneity is accounted for (the multilevel model, the
+per-study breakdown, and the prior sensitivity check).
+
+---
+
+**Continuing through the Extended Online Report:** this page follows the
+[model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html).
+To keep reading in order, continue to
+[for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html)
+next.

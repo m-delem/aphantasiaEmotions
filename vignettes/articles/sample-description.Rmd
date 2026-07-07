@@ -1,0 +1,41 @@
+---
+title: "Sample description"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sample description}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+library(ggplot2)
+```
+
+## Coming soon
+
+This page will describe the five pooled datasets in detail — recruitment,
+inclusion criteria, and sample composition per study — alongside the
+distribution figures already built for this project.
+
+---
+
+**Continuing through the Extended Online Report:** this page follows
+[how this study found its shape](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html).
+To keep reading in order, continue to the
+[model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
+page next. Or jump straight to the
+[floor-group model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
+or [for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).

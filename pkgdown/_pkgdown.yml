@@ -26,9 +26,30 @@ reference:
   - plot_gam_slopes
   - plot_coloured_subjects
   - plot_alexithymia_cutoff
+  - plot_floor_group
+  - plot_vviq_marginal_histogram
   - scale_discrete_aphantasia
   - scale_x_aphantasia
   - scale_x_vviq
   - theme_pdf
   - save_ggplot
 
+navbar:
+  left:
+    - text: "Get started"
+      href: 
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Articles"
+      menu: aphantasiaEmotions.html
+        - text: "Extended Online Report"
+        - text: "How this study found its shape"
+          href: articles/how-this-study-found-its-shape.html
+        - text: "Sample description"
+          href: articles/sample-description.html
+        - text: "Model comparison"
+          href: articles/model-comparison.html
+        - text: "The floor-group model, in depth"
+          href: articles/floor-group-model.html
+        - text: "For those who come after"
+          href: articles/for-those-who-come-after.html

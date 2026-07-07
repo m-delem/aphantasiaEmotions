@@ -77,7 +77,7 @@ other genders; mean age 38.7, SD 11.4; range 18-86), recruited via social media,
 now openly archived on the OSF of the present study
 (<https://doi.org/10.17605/OSF.IO/B837S>).
 
-## Monzel, and the pattern appears
+## Monzel, and the first pattern with a finer split
 
 I collected the Monzel et al. (2024) dataset in the meantime — 105
 English-speaking participants (74 females; mean age 27.9, SD 9.29; range 18-59),
@@ -85,21 +85,18 @@ recruited via the *Aphantasia Research Project Bonn*'s participant database,
 also openly archived on their own OSF project
 ([osf.io/y9c8g](https://osf.io/y9c8g/?view_only=1e6bd8670a3f4eacb1cf0f600343205e)).
 
-Combining Ale & Burns with Monzel et al. and looking at the four established
-imagery groups (aphantasia, hypophantasia, typical, hyperphantasia) straight
-away showed something unexpected: complete aphantasics did not have the highest
-alexithymia scores. Monzel et al.'s original paper had split their own sample at
-VVIQ \< 23 (aphantasia) versus VVIQ \> 33 (typical imagers), following the
-conventions of the time, and reported that aphantasics scored higher on two of
-the TAS-20's three subscales. Likewise (even though they didn't compare VVIQ and
-TAS explicitly), Ale & Burns used a VVIQ \< 32 threshold to define aphantasia.
-Redoing the comparison on the combined sample with these coarser, two-group
-boundaries reproduced that expected picture. But splitting the aphantasia range
-itself — complete aphantasia (VVIQ = 16) from hypophantasia (VVIQ 17-32, in the
-original, provisional definition used at this stage) — told a more specific
-story: it was the *hypophantasia* sub-group driving the elevated scores, while
-complete aphantasics sat much closer to typical imagers than the coarser
-two-group split had suggested.
+Monzel et al.'s original paper had split their own sample at VVIQ \< 23
+(aphantasia) versus VVIQ \> 33 (typical imagers), following the conventions of
+the time, and reported that aphantasics scored higher on two of the TAS-20's
+three subscales. Likewise (even though they didn't compare VVIQ and TAS
+explicitly), Ale & Burns used a VVIQ \< 32 threshold to defined aphantasia.
+Redoing the comparison between groups on the combined Ale & Burns + Monzel et
+al. sample, but this time splitting the aphantasia range itself — complete
+aphantasia (VVIQ = 16) from hypophantasia (VVIQ 17-32, in the original,
+provisional definition used at this stage) — told a different, more specific
+story: it looked as though the *hypophantasia* sub-group was driving the
+elevated scores, while complete aphantasics sat much closer to typical imagers
+than the coarser two-group split had suggested.
 
 Here is that first combined view, reproduced from the current, corrected data:
 
@@ -218,7 +215,7 @@ plot_group_violins(
 ```
 
 Kvamme et al.'s own published analysis (a fixed split at VVIQ = 32, described in
-full on [the model-comparison page](https://TODO-LINK-TO-KVAMME-PAGE)) reached a
+full on [the model comparison page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)) reached a
 related but distinct conclusion using a threshold chosen by hand, rather than
 estimated from the data. That comparison — and what our own, data-driven
 estimate of where the relationship actually changes shape turned out to say — is
@@ -260,8 +257,7 @@ None of this was originally meant to be the study. It was meant to be groundwork
 in discussing the pooled, cross-dataset pattern with Perrine Ruby that the
 project changed shape: what had been preparation looked, on its own, like a
 finding worth reporting — with the eventual four-group classification, and later
-the non-linear modelling approach described on the [model comparison
-page](https://TODO-LINK), as its distinguishing methodological contributions.
+the non-linear modelling approach described on the [model comparison page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html), as its distinguishing methodological contributions.
 
 ## Dead ends, for the record
 
@@ -276,25 +272,25 @@ used both the VVIQ and TAS-20, before the term "aphantasia" was in wide use:
 - Wang & Yang (2024), *Mental Imagery in the Relationship between Alexithymia
   and Parental Psychological Control*,
   [doi.org/10.3390/bs14030183](https://doi.org/10.3390/bs14030183). N = 282; the
-  authors reported significant Pearson correlations of -.44 across the whole
-  sample, -.28 within the alexithymic group, and -.21 within the non-alexithymic
-  group. No VVIQ distribution was reported, so there is no way to know whether
-  extreme imagery groups were present in their sample. No response from the
+  authors reported significant Pearson correlation of -.44 across the whole
+  sample, -.28 in the alexithymic group alone, and -.21 in the non-alexithymic
+  group. No distribution of VVIQ scores was reported, so no way of knowing
+  whether or not extreme imagery groups were present. No response from the
   authors.
 - Jungmann et al. (2022), *Erfassung der Lebendigkeit mentaler
   Vorstellungsbilder*,
   [doi.org/10.1026/0012-1924/a000291](https://doi.org/10.1026/0012-1924/a000291).
   N = 300; the authors reported (in their supplementary materials) weak but
-  significant correlations of -.17, -.14, -.15, and -.13 between the TAS and the
-  total VVIQ, "Person," "Shop," and "Landscape" groups of items respectively,
-  and a non-significant -.07 with the "Sunrise" group. No VVIQ distribution was
-  reported either. No response from the corresponding author.
+  significant correlations of -.17, -.14 and -.15, -.13 between the TAS and the
+  total VVIQ, "Person", "Shop" and "Landscape" groups of items respectively
+  (relationship with the "Sunrise" group was a non-significant -.07). No
+  distribution of VVIQ scores either. No response from the corresponding author.
 - Leving (2024), an unpublished Master's thesis supervised by Jeanne Watson at
   the University of Toronto
   ([utoronto.scholaris.ca](https://utoronto.scholaris.ca/server/api/core/bitstreams/ea4d3c6b-34a2-4ffb-9ff1-e5be02218047/content)).
-  N = 62; she reported a significant -.59 correlation between the TAS and the
-  VVIQ. No VVIQ distribution was reported either. I wrote to Professor Watson
-  directly; no response.
+  N = 62; she reported a significant -.59 correlation between the TAS and VVIQ.
+  No distribution of VVIQ scores either. I wrote to Professor Watson directly;
+  no response.
 
 I also contacted Alfredo Campos regarding Campos & Pérez (2000)'s *Alexithymia
 and mental imagery*
@@ -317,3 +313,13 @@ repository](https://github.com/m-delem/aphantasiaEmotions)).
 If you happen to know other studies that used these two questionnaires together,
 feel free to [contact me](mailto:mael.delem@pm.me), I'd be happy to update the
 analyses with new data.
+
+---
+
+**Continuing through the Extended Online Report:** this is the first page.
+To keep reading in order, continue to the
+[sample description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
+next. Or jump straight to the
+[model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html),
+[floor-group model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html),
+or [for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).

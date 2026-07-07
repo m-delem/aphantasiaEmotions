@@ -1,0 +1,41 @@
+---
+title: "Model comparison"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Model comparison}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+library(ggplot2)
+```
+
+## Coming soon
+
+This page will walk through the full model comparison arc — from the naive
+2-group threshold, through the categorical 4-group model, to the continuous
+linear, GAM, and segmented models — including the direct comparison against
+Kvamme et al.'s own published, fixed-threshold approach.
+
+---
+
+**Continuing through the Extended Online Report:** this page follows the
+[sample description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html).
+To keep reading in order, continue to
+[the floor-group model, in depth](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
+next. Or jump to
+[for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).

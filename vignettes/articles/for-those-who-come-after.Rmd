@@ -1,0 +1,40 @@
+---
+title: "For those who come after"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{For those who come after}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+```
+
+## Coming soon
+
+This page will document the promising directions this project didn't have
+time to pursue fully: a mixture-regression approach to the VVIQ floor spike,
+a Bayesian MARS (BASS) exploration, and a per-study estimate of the segmented
+model's breakpoint.
+
+---
+
+**This is the last page of the Extended Online Report.** If you've read
+through from the start, thank you for following the whole story. You can
+always jump back to
+[how this study found its shape](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html),
+or return to the
+[package homepage](https://m-delem.github.io/aphantasiaEmotions/).
