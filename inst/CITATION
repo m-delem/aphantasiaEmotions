@@ -1,14 +1,10 @@
 bibentry(
   bibtype  = "Misc",
-  title    = "Supplementary materials for 'Aphantasics Process Emotions Differently'",
+  title    = "Supplementary materials for 'Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia'",
   author   = c(
       person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
-             comment = c(ORCID = "0009-0005-8518-1991")),
-      person("Mas", "Marine", role = c("ctb")),
-      person("Luminet", "Olivier", role = c("ctb")),
-      person("Perrine", "Ruby", role = c("ctb")),
-      person("Gaën", "Plancher", role = c("ctb"))
+             comment = c(ORCID = "0009-0005-8518-1991"))
      ),
-  year     = 2025,
+  year     = 2026,
   doi      = "https://doi.org/10.17605/OSF.IO/B837S"
 )

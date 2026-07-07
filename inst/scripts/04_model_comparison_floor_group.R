@@ -19,24 +19,8 @@
 # well-justified intermediate step: an explicit binary indicator for the
 # floor group, letting its mean TAS level differ from the extrapolation of
 # the continuous VVIQ-TAS relationship fit on everyone else.
-#
-# IMPORTANT — SPECIFICATION HISTORY: an earlier version of this script used
-# an INTERACTION model (tas ~ vviq * complete_aphant), on the reasoning that
-# the floor group might have a different SLOPE, not just a different
-# intercept. Maël caught the flaw in this before running it: since every
-# floor-group observation has vviq = 16 (zero within-group variance), there
-# is no data to estimate a floor-group-specific slope from — the
-# interaction term cannot be identified from floor-group data alone. This
-# was confirmed empirically: the fitted interaction model showed
-# `vviq:complete_aphantfloor` = -0.57 [-3.06, 1.89], an enormous,
-# uninformative interval, and `complete_aphantfloor` (confounded with it)
-# came out as 0.37 [-39.09, 39.90] — both consistent with a non-identified
-# parameter, not "no effect." The additive model below is the correctly
-# specified version: it asks the answerable question (does the floor
-# group's MEAN differ from where the continuous relationship would predict
-# it, at VVIQ=16), not the unanswerable one (does its slope differ).
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 # ------------------------------------------------------------------------------
 # Floor-group indicator, derived from the existing vviq_group_4 factor
@@ -82,9 +66,10 @@ floor_group_additive <-
 # fitted object once it completes):
 #   complete_aphantfloor: -8.75 [-11.38, -6.11] — floor group's mean TAS
 #   sits about 8.75 points BELOW the continuous relationship's extrapolated
-#   prediction at vviq=16, a tight, clearly non-zero effect (unlike the
-#   non-identified interaction term it replaces).
+#   prediction at vviq=16, a tight, clearly non-zero effect.
 # ------------------------------------------------------------------------------
 
+cat("---------------------------------------------------------------------------------\n")
 cat("Script 04 done: floor_group_additive fit and saved to", COMPARISON_MODEL_DIR, "\n")
 cat("Run model_diagnostics_and_comparison.R for checks and comparison tables.\n")
+cat("---------------------------------------------------------------------------------\n")

@@ -17,23 +17,21 @@
 # on the group-level SD would do more inferential work than can be
 # defended). Fixed-effect prior (vviq slope) matches the existing
 # normal(0, 20) package convention. A sensitivity check (default vs. wider
-# student_t(3,0,5) on the group-level slope SD) is planned as a separate,
-# later, EOR-only step — not done in this script.
+# student_t(3,0,5) on the group-level slope SD) is in a separate script.
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 lm_linear_multilevel <-
   fit_brms_model(
     formula = tas ~ vviq + (vviq | study),
     data = all_data,
-    prior = priors,  # normal(0,20) on the fixed vviq slope; group-level
-                     # terms use brms defaults
+    prior = priors,
     iterations = ITERATIONS_COMPARISON,
     warmup = WARMUP_COMPARISON,
     chains = CHAINS_COMPARISON,
     adapt_delta = 0.999,
     max_treedepth = 12,
-    file_refit = "always",
+    file_refit = "on_change",
     file = paste0(COMPARISON_MODEL_DIR, "lm_linear_multilevel_tot.rds")
   )
 
@@ -51,7 +49,22 @@ cat(sprintf("\nMin bulk ESS ~ %.0f\n",
 cat("\n=== Group-level (study) effects summary ===\n")
 print(summary(lm_linear_multilevel)$random)
 
-cat("\nCheck specifically: does the population-level (fixed) vviq slope\n")
+cat("\nSpecific check: does the population-level (fixed) vviq slope\n")
 cat("change meaningfully from the single-level lm_linear model once study\n")
 cat("heterogeneity is accounted for? This is the 'with vs. without study'\n")
-cat("question flagged early in this analysis cycle as needing your judgment.\n")
+cat("question flagged early in this analysis cycle as needing a judgment.\n")
+
+cat("\n=== Sourcing the single-level linear model ===\n")
+source("inst/scripts/01_model_comparison_simple.R")
+
+cat("\n=== Summary of the single-level linear model ===\n")
+print(summary(lm_linear))
+
+cat("\n=== Summary of the multilevel linear model ===\n")
+print(summary(lm_linear_multilevel))
+
+cat("---------------------------------------------------------------------------------\n")
+cat("Script 05 done: lm_linear_multilevel fit and saved to", COMPARISON_MODEL_DIR, " then checked\n")
+cat("and compared with the results of the single-level linear model.\n")
+cat("Run model_diagnostics_and_comparison.R for checks and comparison tables.\n")
+cat("---------------------------------------------------------------------------------\n")

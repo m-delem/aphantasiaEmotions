@@ -8,9 +8,7 @@
 # Same random-effects structure and prior philosophy as
 # 05_multilevel_linear.R (see that script for the full rationale on
 # random-slope justification and default group-level priors) — this
-# script wraps the CORRECTED floor_group_additive formula (additive, not
-# the interaction version that was tried and found non-identifiable — see
-# 04_model_comparison_floor_group.R's specification history note).
+# script wraps the floor_group_additive formula.
 #
 # NOTE: complete_aphant itself does NOT get a random slope by study here
 # (i.e., no (complete_aphant | study) or interaction with it) — this
@@ -20,7 +18,7 @@
 # separate interest later, treat that as its own explicit extension, not
 # something folded in silently here.
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 model_data <- all_data
 model_data$complete_aphant <- factor(
@@ -62,19 +60,25 @@ cat("model.\n")
 # ------------------------------------------------------------------------------
 # NOTE: worth checking how floor-group participants are distributed across
 # studies before over-interpreting this model's random slope estimates —
-# if the floor group is concentrated in only 1-2 studies (plausible, given
-# not all five datasets were aphantasia-focused), the interaction between
-# the (vviq | study) random effects and the floor-group contrast could
-# behave in ways worth a closer look, not assumed to be clean.
+# the floor group being concentrated in only 3 studies (the aphantasia-focused
+# datasets), the interaction between the (vviq | study) random effects and the 
+# floor-group contrast could behave in ways worth a closer look, not assumed to 
+# be clean.
 # ------------------------------------------------------------------------------
 cat("\n=== Floor-group participants per study (context for interpretation) ===\n")
 print(table(model_data$study, model_data$complete_aphant))
 
-cat("\n=== Summary multilevel floor model ===\n")
+cat("\n=== Sourcing the single-level floor model ================================\n")
+source("inst/scripts/04_model_comparison_floor_group.R")
+
+cat("\n=== Summary of the single-level floor model ===\n")
+print(summary(floor_group_additive))
+
+cat("\n=== Summary of the multilevel floor model ===\n")
 print(summary(floor_group_additive_multilevel))
 
-cat("\n=== Sourcing standard floor model ===\n")
-source("inst/analysis/04_model_comparison_floor_group.R")
-
-cat("\n=== Summary standard floor model ===\n")
-print(summary(floor_group_additive))
+cat("---------------------------------------------------------------------------------\n")
+cat("Script 06 done: floor_group_additive fit and saved to", COMPARISON_MODEL_DIR, "\n")
+cat("then checked and compared with the results of the single-level model.\n")
+cat("Run model_diagnostics_and_comparison.R for checks and comparison tables.\n")
+cat("---------------------------------------------------------------------------------\n")

@@ -7,13 +7,22 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
+
+# NOTE FOR FUTURE VIGNETTES (sample-description, model-comparison,
+# floor-group-model, for-those-who-come-after): every figure-producing chunk
+# needs a fig.alt option — pkgdown flags figures missing alt text, and it's
+# also just good accessibility practice for a public-facing report. Use the
+# Quarto-style #| pipe-comment syntax for chunk options throughout, as done
+# in this file, rather than inline ```{r, opt = val} syntax.
+
 knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
   comment = "#>",
-  fig.width = 8,
-  fig.height = 5,
+  fig.width = 7,
+  fig.height = 4,
   warning = FALSE,
   message = FALSE
 )
@@ -101,6 +110,14 @@ than the coarser two-group split had suggested.
 Here is that first combined view, reproduced from the current, corrected data:
 
 ```{r ale-burns-monzel-plot}
+#| fig.alt: >
+#|   Two side-by-side raincloud plots comparing Total TAS score across VVIQ
+#|   groups in the combined Ale & Burns and Monzel et al. sample. The left
+#|   panel shows the common 2-group split (aphantasia vs. typical imagers);
+#|   the right panel shows the finer-grained 4-group split (aphantasia,
+#|   hypophantasia, typical, hyperphantasia). The 4-group panel reveals that
+#|   complete aphantasics have lower alexithymia scores than hypophantasics,
+#|   a distinction the 2-group split obscures.
 early_data <- all_data |> dplyr::filter(study %in% c("burns", "monzel"))
 
 plot_2g <- 
@@ -108,7 +125,7 @@ plot_2g <-
     tas ~ vviq_group_2,
     data = early_data,
     y_lab = "Total TAS score",
-    base_size = 10
+    base_size = 14
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -119,7 +136,7 @@ plot_4g <-
     tas ~ vviq_group_4,
     data = early_data,
     y_lab = "Total TAS score",
-    base_size = 10
+    base_size = 14
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -130,7 +147,7 @@ plot_2g + plot_4g +
   plot_annotation(
     title = "Ale & Burns + Monzel et al. — the first combined look (N = 297)",
     subtitle = "The pattern that started everything",
-    theme = theme(text = element_text(family ="Montserrat"))
+    theme = theme(text = element_text(family ="Montserrat", size = 16))
   )
 ```
 
@@ -159,13 +176,19 @@ incidental relationship between VVIQ and dream recall frequency, which sits
 outside the scope of this study and was set aside.
 
 ```{r ruby-plot}
+#| fig.alt: >
+#|   A raincloud plot showing Total TAS score across the four VVIQ groups
+#|   (aphantasia, hypophantasia, typical, hyperphantasia), now including
+#|   Perrine Ruby's dataset alongside Ale & Burns and Monzel et al. The
+#|   pattern seen in the first two datasets — complete aphantasics scoring
+#|   lower than hypophantasics — holds with this third, independent sample.
 data_with_ruby <- all_data |> dplyr::filter(study %in% c("burns", "monzel", "ruby"))
 
 plot_group_violins(
   tas ~ vviq_group_4,
   data = data_with_ruby,
   y_lab = "Total TAS score",
-  base_size = 12
+  base_size = 14
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -198,13 +221,18 @@ through Prolific and a pre-existing aphantasia database specifically to cover
 the full range of imagery vividness.
 
 ```{r kvamme-plot}
+#| fig.alt: >
+#|   A raincloud plot showing Total TAS score across the four VVIQ groups,
+#|   now including Kvamme et al.'s large independent sample alongside Ale &
+#|   Burns, Monzel et al., and Ruby. Adding this fourth, much larger dataset
+#|   strengthens the same pattern seen in the smaller samples.
 data_with_kvamme <- all_data |> dplyr::filter(study %in% c("burns", "monzel", "ruby", "kvamme"))
 
 plot_group_violins(
   tas ~ vviq_group_4,
   data = data_with_kvamme,
   y_lab = "Total TAS score",
-  base_size = 12
+  base_size = 14
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -235,11 +263,17 @@ aphantasics. It exhibited the negative VVIQ-TAS relationship on its VVIQ range,
 and further strengthened the pattern on that part of the continuum.
 
 ```{r full-pool-plot}
+#| fig.alt: >
+#|   A raincloud plot showing Total TAS score across the four VVIQ groups
+#|   in the complete pooled sample of 1478 participants from all five
+#|   studies (Ale & Burns, Monzel et al., Ruby, Kvamme et al., and Mas &
+#|   Luminet). The pattern is consistent across the whole pool: complete
+#|   aphantasics score lower on alexithymia than hypophantasics.
 plot_group_violins(
   tas ~ vviq_group_4,
   data = all_data,
   y_lab = "Total TAS score",
-  base_size = 12
+  base_size = 14
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +

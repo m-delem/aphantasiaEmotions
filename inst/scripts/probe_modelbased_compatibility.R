@@ -21,8 +21,8 @@ library(brms)
 library(bayestestR)
 library(modelbased)
 
-floor_group_additive <- readRDS("inst/analysis/models_comparison/floor_group_additive_tot.rds")
-segmented_estimated  <- readRDS("inst/analysis/models_comparison/segmented_estimated_knot_tot.rds")
+floor_group_additive <- readRDS("inst/models/floor_group_additive_multilevel_tot.rds")
+segmented_estimated  <- readRDS("inst/models/segmented_estimated_knot_tot.rds")
 
 # ------------------------------------------------------------------------------
 # TEST 1: floor_group_additive — expected to work fine (standard linear

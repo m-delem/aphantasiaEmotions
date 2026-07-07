@@ -8,6 +8,10 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+# NOTE: every figure-producing chunk needs a fig.alt option (pkgdown flags
+# missing alt text; it is also good accessibility practice). Use Quarto-style
+# #| pipe-comment chunk options throughout, as in how-this-study-found-its-shape.Rmd.
+
 knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
@@ -38,4 +42,8 @@ per-study breakdown, and the prior sensitivity check).
 [model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html).
 To keep reading in order, continue to
 [for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html)
-next.
+next. Or see
+[model diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
+and
+[implementation notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
+for the technical detail behind this model.

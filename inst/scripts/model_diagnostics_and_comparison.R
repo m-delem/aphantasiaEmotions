@@ -14,7 +14,7 @@
 # Models not yet fit are skipped gracefully with a message, so this script
 # can be run incrementally as new models are added.
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 # ------------------------------------------------------------------------------
 # Load all models that exist on disk. Silently skips any not yet fit, with
@@ -23,14 +23,12 @@ source("inst/analysis/00_model_comparison_setup.R")
 # ------------------------------------------------------------------------------
 model_files <- c(
   linear                  = "lm_linear_tot.rds",
-  categorical             = "lm_categorical_tot.rds",
-  cat_2_groups            = "lm_categorical_2_group_tot.rds",
+  categorical_4_groups    = "lm_categorical_4g_tot.rds",
+  categorical_2_groups    = "lm_categorical_2g_tot.rds",
   gam                     = "gam_tot.rds",
   segmented_fixed         = "segmented_fixed_knot_tot.rds",
   segmented_estimated     = "segmented_estimated_knot_tot.rds",
   floor_group_additive    = "floor_group_additive_tot.rds"
-  # linear_multilevel           = "lm_linear_multilevel_tot.rds",
-  # floor_group_additive_multilevel = "floor_group_additive_multilevel_tot.rds"
 )
 
 models <- list()
@@ -81,12 +79,11 @@ pp_checks <- lapply(models, function(m) {
     }
   )
 })
-saveRDS(pp_checks, paste0(COMPARISON_MODEL_DIR, "pp_checks_all_models.rds"))
+saveRDS(pp_checks, "inst/results/pp_checks_all_models.rds")
 
 # ==============================================================================
 # 3. Family-choice diagnostics (justifying gaussian() for TAS total)
 #
-# Supersedes the earlier standalone 03_family_choice_diagnostics.R.
 # Rationale: TAS-20 total is a sum of 20 five-point items (range 20-100 in
 # principle), bounded and technically discrete, but with enough range for a
 # continuous approximation to be standard in this literature. These checks
@@ -152,11 +149,11 @@ compare_models_loo <- function(model_list, moment_match = FALSE) {
 comparison_all <- compare_models_loo(models)
 print(comparison_all)
 
-saveRDS(comparison_all, paste0(COMPARISON_MODEL_DIR, "comparison_all_models_tot.rds"))
+saveRDS(comparison_all, "inst/results/comparison_all_models_tot.rds")
 write.csv(
   comparison_all,
-  paste0(COMPARISON_MODEL_DIR, "comparison_all_models_tot.csv"),
+  "inst/results/comparison_all_models_tot.csv",
   row.names = FALSE
 )
 
-cat("\nDone. Comparison table saved to", COMPARISON_MODEL_DIR, "\n")
+cat("\nDone. Comparison table saved to inst/results/.\n")

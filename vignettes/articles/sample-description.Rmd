@@ -8,6 +8,10 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+# NOTE: every figure-producing chunk needs a fig.alt option (pkgdown flags
+# missing alt text; it is also good accessibility practice). Use Quarto-style
+# #| pipe-comment chunk options throughout, as in how-this-study-found-its-shape.Rmd.
+
 knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,

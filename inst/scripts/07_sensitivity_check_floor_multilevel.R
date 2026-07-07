@@ -4,21 +4,18 @@
 #
 # Purpose: floor_group_additive_multilevel's (vviq | study) random slope
 # relies on brms's default weakly-informative prior for the group-level SD
-# term (sd(vviq) by study), chosen deliberately over a hand-picked prior
-# (see chat discussion — Maël explicitly did not want to hand-tighten a
-# prior he couldn't fully defend, especially with only 5 clusters informing
-# that specific variance component). This script checks whether the
-# model's substantive conclusions are robust to that choice, by refitting
-# with a deliberately WIDER prior and comparing.
+# term (sd(vviq) by study), chosen deliberately over a hand-picked prior. This 
+# script checks whether the model's substantive conclusions are robust to that 
+# choice, by refitting with a deliberately WIDER prior and comparing.
 #
-# EOR-only per plan — one manuscript sentence ("results were robust to
+# Deliberately EOR-only — one manuscript sentence ("results were robust to
 # alternative prior specifications, see EOR") is the intended footprint,
 # not a manuscript table/figure.
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 floor_group_additive_multilevel <-
-  readRDS("inst/analysis/models_comparison/floor_group_additive_multilevel_tot.rds")
+  readRDS("inst/models/floor_group_additive_multilevel_tot.rds")
 
 # ------------------------------------------------------------------------------
 # Step 1: confirm the ACTUAL default prior used, rather than assume its
@@ -40,7 +37,9 @@ print(brms::prior_summary(floor_group_additive_multilevel))
 # ------------------------------------------------------------------------------
 sensitivity_priors <- c(
   priors,  # existing normal(0,20) on fixed effects, from 00_model_comparison_setup.R
-  brms::set_prior("student_t(3, 0, 5)", class = "sd", group = "study", coef = "vviq")
+  brms::set_prior(
+    "student_t(3, 0, 26.6)", # twice as wide as brms' default (13.3)
+    class = "sd", group = "study", coef = "vviq")
 )
 
 model_data <- all_data
@@ -81,7 +80,7 @@ cat(sprintf("\nMin bulk ESS ~ %.0f\n",
 # actually matters for "is our conclusion prior-robust."
 # ------------------------------------------------------------------------------
 default_fixef <- brms::fixef(floor_group_additive_multilevel)
-wide_fixef     <- brms::fixef(floor_group_additive_multilevel_wide_prior)
+wide_fixef    <- brms::fixef(floor_group_additive_multilevel_wide_prior)
 
 default_sd_vviq <- brms::VarCorr(floor_group_additive_multilevel)$study$sd["vviq", "Estimate"]
 wide_sd_vviq     <- brms::VarCorr(floor_group_additive_multilevel_wide_prior)$study$sd["vviq", "Estimate"]
@@ -100,14 +99,3 @@ cat("robust to this prior choice — the substantive conclusion doesn't\n")
 cat("depend on which weakly-informative prior was used for the group-level\n")
 cat("slope SD. A meaningful shift would be worth understanding before\n")
 cat("claiming robustness in the manuscript sentence.\n")
-
-# ------------------------------------------------------------------------------
-# THINGS TO CHECK once run against real data:
-# 1. brms::VarCorr()'s exact return structure ($study$sd["vviq", ...]) is
-#    a first-guess based on typical brms output — not verified against a
-#    live session. If this errors, str(brms::VarCorr(...)) will show the
-#    actual structure to index into correctly.
-# 2. adapt_delta = 0.999 / max_treedepth = 12 carried over from what
-#    05/06 needed — the wide-prior refit might need different values
-#    (likely similar, but not guaranteed) given the changed prior geometry.
-# ------------------------------------------------------------------------------

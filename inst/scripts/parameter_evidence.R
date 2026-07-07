@@ -1,9 +1,10 @@
 # ==============================================================================
-# Parameter evidence — pd/ROPE for floor_group_additive and segmented_estimated
+# Parameter evidence — pd/ROPE for floor_group_additive multilevel and
+# segmented_estimated
 # ==============================================================================
 #
-# Extends the pd/ROPE evidentiary treatment already used for the categorical
-# and GAM models (see main vignette) to the two new models of interest.
+# Compute the evidence for the two new models of interest using the pd/ROPE
+# method (see Makowski et al., 2019).
 #
 # METHOD NOTES (from probe_modelbased_compatibility.R):
 #   - describe_posterior() works cleanly and gives a complete pd+CI+ROPE
@@ -33,16 +34,16 @@
 library(brms)
 library(bayestestR)
 
-floor_group_additive <- readRDS("inst/analysis/models_comparison/floor_group_additive_tot.rds")
-segmented_estimated  <- readRDS("inst/analysis/models_comparison/segmented_estimated_knot_tot.rds")
+floor_group_additive_multilevel <- readRDS("inst/models/floor_group_additive_multilevel_tot.rds")
+segmented_estimated  <- readRDS("inst/models/segmented_estimated_knot_tot.rds")
 
 # ------------------------------------------------------------------------------
 # ROPE ranges — TWO DIFFERENT CONVENTIONS NEEDED, NOT ONE.
 #
 # rope_range_tas (0.1 x SD(tas)) is appropriate for the floor-group
 # CONTRAST (complete_aphant), which is a discrete group shift directly
-# comparable to a mean difference — this matches the existing convention
-# already used for the categorical/GAM analyses.
+# comparable to a mean difference — this matches the convention previously
+# used for the categorical/GAM analyses in the first version of the manuscript.
 #
 # It is NOT appropriate for SLOPES (vviq's coefficient, or the below/
 # above-knot slopes in segmented_estimated). A slope is "per one unit of
@@ -55,19 +56,18 @@ segmented_estimated  <- readRDS("inst/analysis/models_comparison/segmented_estim
 # rope_range() formula — slopes need the same kind of standardized
 # treatment, not the group-contrast formula.
 #
-# Fix: rescale Cohen's standardized "small effect" convention (Maël's
-# instinct: |slope| > 0.2 in STANDARDIZED units is already noticeable) into
-# the RAW units these slopes are actually expressed in, via
-# SD(tas)/SD(vviq). This correctly answers "what raw-scale slope
-# CORRESPONDS TO a standardized slope of 0.2", rather than reusing a
-# formula meant for group contrasts.
+# Fix: rescale Cohen's standardized "small effect" convention (|slope| > 0.2 in
+# STANDARDIZED units is already noticeable) into the RAW units these slopes are
+# actually expressed in, via SD(tas)/SD(vviq). This correctly answers "what 
+# raw-scale slope CORRESPONDS TO a standardized slope of 0.2", rather than 
+# reusing a formula meant for group contrasts.
 # ------------------------------------------------------------------------------
-rope_range_tas <- bayestestR::rope_range(floor_group_additive)
+rope_range_tas <- bayestestR::rope_range(floor_group_additive_multilevel)
 cat(sprintf("ROPE range for the FLOOR-GROUP CONTRAST (0.1 x SD of TAS): [%.3f, %.3f]\n",
             rope_range_tas[1], rope_range_tas[2]))
 
-sd_tas  <- stats::sd(floor_group_additive$data$tas)
-sd_vviq <- stats::sd(floor_group_additive$data$vviq)
+sd_tas  <- stats::sd(floor_group_additive_multilevel$data$tas)
+sd_vviq <- stats::sd(floor_group_additive_multilevel$data$vviq)
 
 rope_range_slope <- 0.2 * (sd_tas / sd_vviq)
 cat(sprintf(
@@ -76,12 +76,12 @@ cat(sprintf(
 ))
 
 # ==============================================================================
-# 1. floor_group_additive — the headline floor effect
+# 1. floor_group_additive_multilevel — the headline floor effect
 # ==============================================================================
-cat("=== floor_group_additive: floor-group effect ===\n\n")
+cat("=== floor_group_additive_multilevel: floor-group effect ===\n\n")
 
 floor_effect_summary <- bayestestR::describe_posterior(
-  floor_group_additive,
+  floor_group_additive_multilevel,
   parameters = "complete_aphant",
   rope_range = rope_range_tas
 )
@@ -91,9 +91,9 @@ print(floor_effect_summary)
 # this is the "everyone else follows one continuous relationship" half of
 # the claim. Uses rope_range_slope (Cohen-based, rescaled), NOT
 # rope_range_tas — this is a slope, not a group contrast.
-cat("\n=== floor_group_additive: above-floor vviq slope ===\n\n")
+cat("\n=== floor_group_additive_multilevel: above-floor vviq slope ===\n\n")
 vviq_slope_summary <- bayestestR::describe_posterior(
-  floor_group_additive,
+  floor_group_additive_multilevel,
   parameters = "vviq",
   rope_range = c(-rope_range_slope, rope_range_slope)
 )
@@ -157,10 +157,6 @@ cat(sprintf("knot_location        Median = %.2f  [%.2f, %.2f]  pd = %s\n",
 # operationalises the "hints at redefining the aphantasia/hypophantasia
 # boundary" observation with actual evidence, rather than an eyeballed CI
 # comparison.
-#
-# KVAMME_THRESHOLD below is Maël's recollection of Kvamme et al.'s reported
-# cutoff — CONFIRM this value against the actual paper before using it in
-# any write-up; not independently verified here.
 # ==============================================================================
 cat("\n=== Knot location vs. Kvamme et al.'s manual threshold ===\n\n")
 
@@ -173,3 +169,4 @@ cat(sprintf(
 ))
 cat("This is a direct, substantive claim about boundary placement — consider\n")
 cat("reporting this alongside the knot's own CI in the manuscript/EOR.\n")
+cat("---------------------------------------------------------------------------------\n")

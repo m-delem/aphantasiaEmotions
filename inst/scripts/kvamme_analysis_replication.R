@@ -24,8 +24,6 @@
 # method exactly is the more honest comparison (they did not use Bayesian
 # methods either).
 
-library(dplyr)
-
 kvamme_data <- all_data |> dplyr::filter(study == "kvamme")
 
 # Split using the SAME boundary Kvamme et al. used: VVIQ 16-32 (aphantasia)
@@ -84,6 +82,4 @@ kvamme_typical_grid <- data.frame(vviq = seq(33, 80, length.out = 50))
 kvamme_typical_grid$estimate <- predict(lm_kvamme_typical, newdata = kvamme_typical_grid)
 
 # These two grids (kvamme_aphant_grid, kvamme_typical_grid) are ready to
-# feed into a geom_line() overlay on the segmented-model figure — see chat
-# discussion for the planned composition (segmented curve + these two
-# reference lines + knot posterior density strip).
+# feed into a geom_line() overlay on the segmented-model figure.

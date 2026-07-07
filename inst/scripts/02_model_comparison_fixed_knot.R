@@ -22,7 +22,7 @@
 # value (24) appearing once per hinge term sharing it, not two separate
 # knots. The unique()-based extraction below already handles this correctly.
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 # ------------------------------------------------------------------------------
 # A. Find the knot with earth
@@ -87,5 +87,7 @@ segmented_fixed <-
 # worth actively verifying, not assuming.
 # ------------------------------------------------------------------------------
 
+cat("---------------------------------------------------------------------------------\n")
 cat("Script 02 done: segmented_fixed fit and saved to", COMPARISON_MODEL_DIR, "\n")
 cat("Run model_diagnostics_and_comparison.R for checks and comparison tables.\n")
+cat("---------------------------------------------------------------------------------\n")

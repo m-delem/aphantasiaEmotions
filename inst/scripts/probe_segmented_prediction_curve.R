@@ -21,7 +21,7 @@ library(brms)
 library(marginaleffects)
 library(modelbased)
 
-segmented_estimated <- readRDS("inst/analysis/models_comparison/segmented_estimated_knot_tot.rds")
+segmented_estimated <- readRDS("inst/models/segmented_estimated_knot_tot.rds")
 
 # ------------------------------------------------------------------------------
 # TEST 1: marginaleffects::predictions() across a full vviq range —
@@ -47,8 +47,9 @@ if (!is.null(test1)) {
 
 # ------------------------------------------------------------------------------
 # TEST 2: modelbased::estimate_means() — the alternative mechanism used by
-# plot_gam_means() for the existing GAM figure. Testing whether this ALSO
-# works on the nl=TRUE model, as a second option in case Test 1 has issues.
+# plot_gam_means() for the previous manuscript's GAM figure. Testing whether 
+# this ALSO works on the nl=TRUE model, as a second option in case Test 1 has 
+# issues.
 # ------------------------------------------------------------------------------
 cat("\n=== TEST 2: modelbased::estimate_means(), full range ===\n")
 test2 <- tryCatch({

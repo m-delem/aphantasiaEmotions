@@ -29,7 +29,7 @@
 #   below-knot slope (b1): 2.46 [0.90, 4.76]
 #   above-knot slope (b1+b2): -0.28 [-0.33, -0.23]
 
-source("inst/analysis/00_model_comparison_setup.R")
+source("inst/scripts/00_model_comparison_setup.R")
 
 # ------------------------------------------------------------------------------
 # Nonlinear formula design
@@ -52,12 +52,10 @@ segmented_formula <- brms::bf(
 
 # ------------------------------------------------------------------------------
 # Priors for the nonlinear parameters.
-#   a, b1, b2: normal(0, 20), matching the package's existing convention.
-#     (b2 is a slope-DIFFERENCE, not a raw slope — a tighter prior could
-#     arguably be justified, but left at normal(0,20) for now to avoid
-#     introducing a second prior philosophy without discussing it first.)
+#   a, b1, b2: normal(0, 20), matching the package's general convention.
+#     (b2 is a slope-DIFFERENCE, not a raw slope)
 #   k (knot location): normal(24, 10), centred near the earth-derived value
-#     from script 02, wide enough for the data to override.
+#     from script 02, wide enough for the data to override it.
 # ------------------------------------------------------------------------------
 segmented_priors <- c(
   brms::prior(normal(0, 20), nlpar = "a"),
@@ -85,10 +83,10 @@ segmented_priors <- c(
 # ------------------------------------------------------------------------------
 segmented_inits <- function() {
   list(
-    b_a  = array(mean(all_data$tas)),  # intercept ~ near sample mean of TAS
-    b_b1 = array(0),                    # slope ~ start neutral
-    b_b2 = array(0),                    # slope-change ~ start neutral
-    b_k  = array(24)                    # knot ~ prior centre, matches earth's finding
+    b_a  = array(mean(all_data$tas)), # intercept ~ near sample mean of TAS
+    b_b1 = array(0),                  # slope ~ start neutral
+    b_b2 = array(0),                  # slope-change ~ start neutral
+    b_k  = array(24)                  # knot ~ prior centre, matches earth's
   )
 }
 
@@ -112,5 +110,7 @@ segmented_estimated <-
     file = paste0(COMPARISON_MODEL_DIR, "segmented_estimated_knot_tot.rds")
   )
 
+cat("---------------------------------------------------------------------------------\n")
 cat("Script 03 done: segmented_estimated fit and saved to", COMPARISON_MODEL_DIR, "\n")
-cat("Run model_diagnostics_and_comparison.R for checks, derived slopes, and comparison tables.\n")
+cat("Run model_diagnostics_and_comparison.R for checks, derived slopes, and comparison\ntables.\n")
+cat("---------------------------------------------------------------------------------\n")
