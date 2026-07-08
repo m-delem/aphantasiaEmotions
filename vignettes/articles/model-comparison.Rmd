@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7,
-  fig.height = 4,
+  fig.width = 8,
+  fig.height = 5,
   warning = FALSE,
   message = FALSE
 )
@@ -47,11 +47,12 @@ wins, is the subject of the
 [next page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html);
 this one is about the comparison itself.
 
-Full convergence diagnostics (Rhat, effective sample size, posterior
-predictive checks) for every model discussed here are on the
+Every model on this page converged cleanly and passed its posterior
+predictive checks — the
 [model diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
-page; this page focuses on the comparison itself, not on establishing that
-each model converged properly.
+page has the full detail for each one; this page links to the relevant
+section as each model is introduced, rather than to establish convergence
+here.
 
 ## Where this comparison came from
 
@@ -99,7 +100,8 @@ lm_categorical_2g <- fit_brms_model(
 ```
 
 It is a reasonable starting point, and exactly what point 2 above asked
-for: a true baseline, not a straw-man.
+for: a true baseline, not a straw-man. (Convergence and posterior
+predictive check: [model diagnostics §Categorical, 2 groups](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-categorical-2).)
 
 ```{r baseline-comparison}
 #| fig.alt: >
@@ -115,7 +117,7 @@ p_2g <-
     tas ~ vviq_group_2,
     data = all_data,
     y_lab = "Total TAS score",
-    base_size = 14
+    base_size = 16
   ) +
   scale_x_aphantasia() +
   ggplot2::scale_color_manual(values = c("grey50", "grey50"), guide = "none") +
@@ -127,7 +129,7 @@ p_4g <-
     tas ~ vviq_group_4,
     data = all_data,
     y_lab = NULL,
-    base_size = 14
+    base_size = 16
   ) +
   scale_x_aphantasia() +
   scale_discrete_aphantasia() +
@@ -154,7 +156,8 @@ lm_categorical_4g <- fit_brms_model(
 This is the study's original categorical model, following
 @reederNonvisualSpatialStrategies2024's four-group framework, and it is genuinely
 informative: as the panel shows, it differentiates the sample far more than
-the naive threshold does.
+the naive threshold does. (Convergence and posterior predictive check:
+[model diagnostics §Categorical, 4 groups](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-categorical-4).)
 
 It is also, as the reviewer pointed out, already a non-linear model in its
 own right — worth keeping in mind for what follows, since the continuous
@@ -213,7 +216,7 @@ segmented_estimated <- fit_brms_model(
 
 Getting this specific model to fit correctly was not entirely
 straightforward — see the
-[Implementation Notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
+[Implementation Notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#the-segmented-models-estimated-knot)
 page for the two real problems this formula ran into and how they were
 resolved.
 
@@ -248,10 +251,15 @@ ggplot2::ggplot(all_preds, ggplot2::aes(x = vviq, y = estimate, color = model)) 
   ggplot2::geom_line(linewidth = 0.9) +
   ggplot2::scale_color_manual(values = model_colors) +
   ggplot2::labs(x = "VVIQ score", y = "Total TAS score", color = NULL) +
-  theme_pdf(base_size = 14)
+  theme_pdf(base_size = 16)
 ```
 
 ### Comparing all single-level models
+
+Convergence and posterior predictive checks for the three continuous
+models above: [linear](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-linear),
+[GAM](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-gam),
+[segmented, estimated knot](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-segmented-estimated).
 
 ```{r model-comparison-table}
 comparison_table <- readRDS(
@@ -347,12 +355,12 @@ ggplot2::ggplot() +
       knot_median, knot_ci_low, knot_ci_high
     )
   ) +
-  theme_pdf(base_size = 14)
+  theme_pdf(base_size = 16)
 ```
 
 This project's own estimated breakpoint — found without assuming any
-threshold in advance — sits at VVIQ = `r knot_median` (95% CI [`r
-knot_ci_low`, `r knot_ci_high`]), meaningfully below Kvamme et al.'s fixed
+threshold in advance — sits at VVIQ = `r knot_median` (95% CI [`r knot_ci_low`,
+`r knot_ci_high`]), meaningfully below Kvamme et al.'s fixed
 32: `r prop_below_kvamme`% of the posterior distribution for the knot's
 location falls below 32. This does not mean their analysis was wrong — a
 fixed, literature-motivated threshold is a defensible choice, and their

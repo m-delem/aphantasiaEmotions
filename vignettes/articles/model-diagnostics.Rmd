@@ -93,7 +93,7 @@ reasonable, simulated and observed distributions should look similar.
 #|   Posterior predictive check for the linear model: density curves of
 #|   simulated TAS scores overlaid on the observed TAS score distribution.
 
-plot(pp_checks$linear) + theme_pdf(base_size = 14)
+plot(pp_checks$linear) + theme_pdf(base_size = 16)
 ```
 
 ### Categorical, 4 groups {#ppc-categorical-4}
@@ -103,7 +103,7 @@ plot(pp_checks$linear) + theme_pdf(base_size = 14)
 #|   Posterior predictive check for the 4-group categorical model: density
 #|   curves of simulated TAS scores overlaid on the observed distribution.
 
-plot(pp_checks$categorical_4_groups) + theme_pdf(base_size = 14)
+plot(pp_checks$categorical_4_groups) + theme_pdf(base_size = 16)
 ```
 
 ### Categorical, 2 groups {#ppc-categorical-2}
@@ -113,7 +113,7 @@ plot(pp_checks$categorical_4_groups) + theme_pdf(base_size = 14)
 #|   Posterior predictive check for the 2-group categorical model: density
 #|   curves of simulated TAS scores overlaid on the observed distribution.
 
-plot(pp_checks$categorical_2_groups) + theme_pdf(base_size = 14)
+plot(pp_checks$categorical_2_groups) + theme_pdf(base_size = 16)
 ```
 
 ### GAM {#ppc-gam}
@@ -123,7 +123,7 @@ plot(pp_checks$categorical_2_groups) + theme_pdf(base_size = 14)
 #|   Posterior predictive check for the GAM: density curves of simulated
 #|   TAS scores overlaid on the observed distribution.
 
-plot(pp_checks$gam) + theme_pdf(base_size = 14)
+plot(pp_checks$gam) + theme_pdf(base_size = 16)
 ```
 
 ### Segmented, fixed knot {#ppc-segmented-fixed}
@@ -133,7 +133,7 @@ plot(pp_checks$gam) + theme_pdf(base_size = 14)
 #|   Posterior predictive check for the fixed-knot segmented model: density
 #|   curves of simulated TAS scores overlaid on the observed distribution.
 
-plot(pp_checks$segmented_fixed) + theme_pdf(base_size = 14)
+plot(pp_checks$segmented_fixed) + theme_pdf(base_size = 16)
 ```
 
 ### Segmented, estimated knot {#ppc-segmented-estimated}
@@ -144,7 +144,7 @@ plot(pp_checks$segmented_fixed) + theme_pdf(base_size = 14)
 #|   density curves of simulated TAS scores overlaid on the observed
 #|   distribution.
 
-plot(pp_checks$segmented_estimated) + theme_pdf(base_size = 14)
+plot(pp_checks$segmented_estimated) + theme_pdf(base_size = 16)
 ```
 
 ### Floor-group additive {#ppc-floor-group}
@@ -154,7 +154,7 @@ plot(pp_checks$segmented_estimated) + theme_pdf(base_size = 14)
 #|   Posterior predictive check for the floor-group additive model: density
 #|   curves of simulated TAS scores overlaid on the observed distribution.
 
-plot(pp_checks$floor_group_additive) + theme_pdf(base_size = 14)
+plot(pp_checks$floor_group_additive) + theme_pdf(base_size = 16)
 ```
 
 All seven models reproduce the observed distribution well — no model shows

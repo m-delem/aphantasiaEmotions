@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7,
-  fig.height = 4,
+  fig.width = 8,
+  fig.height = 5,
   warning = FALSE,
   message = FALSE
 )
@@ -125,7 +125,7 @@ plot_2g <-
     tas ~ vviq_group_2,
     data = early_data,
     y_lab = "Total TAS score",
-    base_size = 14
+    base_size = 16
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -136,7 +136,7 @@ plot_4g <-
     tas ~ vviq_group_4,
     data = early_data,
     y_lab = "Total TAS score",
-    base_size = 14
+    base_size = 16
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -147,7 +147,7 @@ plot_2g + plot_4g +
   plot_annotation(
     title = "Ale & Burns + Monzel et al. — the first combined look (N = 297)",
     subtitle = "The pattern that started everything",
-    theme = theme(text = element_text(family ="Montserrat", size = 16))
+    theme = theme(text = element_text(family ="Montserrat", size = 20))
   )
 ```
 
@@ -188,7 +188,7 @@ plot_group_violins(
   tas ~ vviq_group_4,
   data = data_with_ruby,
   y_lab = "Total TAS score",
-  base_size = 14
+  base_size = 16
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -232,7 +232,7 @@ plot_group_violins(
   tas ~ vviq_group_4,
   data = data_with_kvamme,
   y_lab = "Total TAS score",
-  base_size = 14
+  base_size = 16
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -273,7 +273,7 @@ plot_group_violins(
   tas ~ vviq_group_4,
   data = all_data,
   y_lab = "Total TAS score",
-  base_size = 14
+  base_size = 16
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
@@ -326,7 +326,7 @@ used both the VVIQ and TAS-20, before the term "aphantasia" was in wide use:
   No distribution of VVIQ scores either. I wrote to Professor Watson directly;
   no response.
 
-I also contacted Alfredo Campos regarding Campos & Pérez (2000)'s *Alexithymia
+I also contacted Alfredo Campos regarding Campos et al.'s (2000) *Alexithymia
 and mental imagery*
 ([doi.org/10.1016/S0191-8869(99)00231-7](https://doi.org/10.1016/S0191-8869(99)00231-7)).
 N = 133; the authors reported a significant -.23 correlation between the VVIQ
