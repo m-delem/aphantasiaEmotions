@@ -32,7 +32,7 @@ The package includes the raw data used in the analyses in the form of a
 built-in dataset called `all_data` to make it easily accessible and
 reusable. This table is the combination of two original, previously
 unpublished datasets, and three datasets from previous studies, namely
-Ale & Burns (2024), Monzel et al. (2024) and Kvamme et al. (2025). The
+Ale & Burns (2024), Monzel et al. (2024) and Kvamme et al. (2026). The
 package comes with a set of functions for manipulating the data and
 reliably reproducing the analyses presented in the article.
 
@@ -56,7 +56,7 @@ is organised as follows:
   comparison**](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
   — how a naive threshold, a categorical grouping, and several
   continuous models were compared, including a direct comparison against
-  Kvamme et al. (2025)’s own published approach.
+  Kvamme et al. (2026)’s own published approach.
 - [**The floor-group model, in
   depth**](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
   — the study’s central finding, its statistical evidence, and how it
@@ -119,13 +119,13 @@ predict complex PTSD symptoms*. <https://doi.org/10.31234/osf.io/kj5d3>
 
 </div>
 
-<div id="ref-kvammeWhenWeakImagery2025" class="csl-entry">
+<div id="ref-kvammeWhenWeakImagery2026" class="csl-entry">
 
-Kvamme, T., Monzel, M., Nagai, Y., & Silvanto, J. (2025, February 13).
-*When Weak Imagery is Worse Than None: Core Aphantasia and Hypophantasia
-Relate Differently to Mental Health, Mediated by Subjective
-Interoception and Alexithymia* (No. 6fhj4_v1).
-<https://doi.org/10.31234/osf.io/6fhj4_v1>
+Kvamme, T. L., Monzel, M., Nagai, Y., & Silvanto, J. (2026). When weak
+imagery is worse than none: Core aphantasia and hypophantasia relate
+differently to mental health, mediated by subjective interoception.
+*Neuropsychologia*, *222*, 109368.
+<https://doi.org/10.1016/j.neuropsychologia.2026.109368>
 
 </div>
 
