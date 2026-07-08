@@ -283,7 +283,7 @@ grounds alone.
 
 ## Validating against the literature: Kvamme et al.
 
-@kvammeWhenWeakImagery2025 published a related but distinct analysis of a
+@kvammeWhenWeakImagery2026 published a related but distinct analysis of a
 large, independent sample (the `kvamme` component of this project's own
 pooled data): rather than a single continuous model, they split their
 sample at a fixed VVIQ = 32 threshold and fit two separate linear

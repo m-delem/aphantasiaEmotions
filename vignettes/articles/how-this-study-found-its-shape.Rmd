@@ -1,6 +1,8 @@
 ---
 title: "How this study found its shape"
 output: rmarkdown::html_vignette
+bibliography: ../references.bib
+csl: ../apa.csl
 vignette: >
   %\VignetteIndexEntry{How this study found its shape}
   %\VignetteEngine{knitr::rmarkdown}
@@ -81,14 +83,15 @@ have gotten into early, since it would matter again later with a much larger
 dataset. Edwin Burns confirmed the issue, and by October 29, the correction was
 in place and the data were usable.
 
-Ale and Burns' final sample: 192 English-speaking participants (122 females, 3
+Ale and Burns' [-@aleAphantasiaAlexithymiaPredict2024]  final sample: 192 English-speaking participants (122 females, 3
 other genders; mean age 38.7, SD 11.4; range 18-86), recruited via social media,
 now openly archived on the OSF of the present study
 (<https://doi.org/10.17605/OSF.IO/B837S>).
 
 ## Monzel, and the first pattern with a finer split
 
-I collected the Monzel et al. (2024) dataset in the meantime — 105
+I collected the @monzelAffectiveProcessingAphantasia2024
+dataset in the meantime — 105
 English-speaking participants (74 females; mean age 27.9, SD 9.29; range 18-59),
 recruited via the *Aphantasia Research Project Bonn*'s participant database,
 also openly archived on their own OSF project
@@ -207,9 +210,8 @@ held.
 Midway through this process, Timo Kvamme and colleagues posted a preprint
 reporting a very similar pattern in a large, independent sample: opposing
 relationships between VVIQ and alexithymia either side of a fixed VVIQ = 32
-threshold — what became [Kvamme et al.
-(2026)](https://doi.org/10.1016/j.neuropsychologia.2026.109368) once published.
-I reached out, and Timo Kvamme generously agreed to share their data.
+threshold — what became @kvammeWhenWeakImagery2026 once published. I
+reached out, and Timo Kvamme generously agreed to share their data.
 
 The same kind of data-quality check that had mattered for Ale & Burns' data
 mattered again here, at a larger scale: on November 12, 2025, I noticed that
@@ -254,7 +256,8 @@ gets its own full treatment later in this Extended Online Report.
 
 The last dataset to arrive, on December 12, 2025, came from Marine Mas and
 Olivier Luminet, collected as part of a preregistered lab study on alexithymia
-and mental representations. 123 French-speaking participants (110 females; mean
+and mental representations [@masPreregistration2025]. 123 French-speaking
+participants (110 females; mean
 age 19.78, SD 1.15; range 18-24) were recruited from a research methods course.
 The particularity of this dataset is that it was collected without any
 aphantasia-targeted recruitment (Ruby's did some at the end), and as a
@@ -356,4 +359,10 @@ To keep reading in order, continue to the
 next. Or jump straight to the
 [model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html),
 [floor-group model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html),
+[model diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html),
+[implementation notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html),
 or [for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).
+
+---
+
+### References

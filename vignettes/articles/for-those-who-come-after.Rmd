@@ -136,4 +136,6 @@ Otherwise, you can jump back to
 or return to the
 [package homepage](https://m-delem.github.io/aphantasiaEmotions/).
 
+---
+
 ### References
