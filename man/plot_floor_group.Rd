@@ -13,31 +13,54 @@ plot_floor_group(
   vviq_breaks = seq(16, 80, 4),
   tas_breaks = seq(20, 100, 20),
   violin_width = 3,
+  stat_txt_size = 1.75,
   ...
 )
 }
 \arguments{
-\item{model}{A fitted brms model object from
-\code{tas ~ vviq + complete_aphant} (floor_group_additive).}
+\item{model}{A fitted brms model from a formula of the form
+\verb{<outcome> ~ vviq + complete_aphant} or
+\verb{<outcome> ~ vviq + complete_aphant + (vviq | study)} — single- or
+multi-level both work, thanks to \code{re_formula = NA} on the internal
+prediction calls.}
 
 \item{data}{The data frame the model was fit on (must contain \code{vviq},
-\code{tas}, \code{complete_aphant}).}
+the model's outcome variable, and \code{complete_aphant}).}
 
-\item{y_lab}{Label for the y-axis. Default "Total TAS score".}
+\item{y_lab}{Label for the y-axis. Default "Total TAS score" — override
+this explicitly when plotting a subscale model (e.g. "TAS DIF score"),
+since the default is not derived from the outcome variable automatically.}
+
+\item{base_theme}{Base ggplot2 theme to use with \code{\link[=theme_pdf]{theme_pdf()}}
+(default is \code{ggplot2::theme_minimal}).}
+
+\item{limits}{Limits of the x-axis. Default is c(8, 81) to accomodate both
+the half-violin and stats on the left and the secondary axis on the right.}
+
+\item{vviq_breaks}{Breaks (ticks) for the VVIQ x-axis}
+
+\item{tas_breaks}{Breaks for the outcome variable (the main one being tas).}
 
 \item{violin_width}{Half-width of the floor-group violin, in VVIQ-scale
 units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).}
 
-\item{base_size}{Base font size, passed to theme_pdf(). Default 12.}
+\item{stat_txt_size}{Size for the floor effect text on the left.}
+
+\item{...}{Additional arguments passed to the \code{\link[=theme_pdf]{theme_pdf()}} function for
+further customization of the plot theme.}
 }
 \value{
 A ggplot2 object.
 }
 \description{
-Visualises the floor_group_additive model's key claim: a single
-continuous VVIQ-TAS relationship among above-floor participants, with the
+Visualises a floor-group additive model's key claim: a single
+continuous relationship among above-floor participants, with the
 complete-aphantasia (floor) group's actual mean shown alongside where
 that relationship, extrapolated to VVIQ=16, would have predicted it —
 making the model's central coefficient (the floor-group shift) a visible
-gap rather than an abstract number.
+gap rather than an abstract number. Works with any outcome variable
+(total TAS-20 score or any of its subscales) — the outcome column is
+read directly from the fitted model object, not hardcoded, so the same
+function call pattern applies whether \code{model} was fit on \code{tas},
+\code{tas_identify}, \code{tas_describe}, or \code{tas_external}.
 }

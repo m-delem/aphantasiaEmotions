@@ -19,6 +19,8 @@ plot_vviq_marginal_histogram(
 
 \item{binwidth}{Histogram bin width, in VVIQ-scale units. Default 2.}
 
+\item{y_lab}{Label for the y-axis.}
+
 \item{vviq_breaks}{x-axis breaks — MUST MATCH plot_floor_group()'s
 \code{vviq_breaks} argument if composing the two via patchwork, or the panels
 will misalign. Default \code{seq(16, 80, 4)}, matching plot_floor_group()'s

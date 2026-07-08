@@ -48,6 +48,7 @@
 #' own default.
 #' @param base_theme A ggplot2 theme function. Default `ggplot2::theme_minimal`.
 #' @param ... Additional arguments passed to `theme_pdf()`.
+#' @param y_lab Label for the y-axis. 
 #'
 #' @returns A ggplot2 object (a plain histogram, NOT a patchwork composite —
 #' compose with plot_floor_group() yourself, e.g. via `/` from patchwork).
@@ -146,15 +147,11 @@ plot_vviq_marginal_histogram <- function(
 # labels.
 #
 # THINGS TO CHECK once run against real data:
-# 1. Manual binning via cut()/aggregate() is a first-attempt approach —
-#    verify bin edges land where expected (VVIQ=16 alone in its own bin,
-#    not merged with 17+) and that counts match what geom_histogram()
-#    would produce with equivalent breaks, as a sanity cross-check.
-# 2. patchwork must be installed separately — not added as a hard
+# 1. patchwork must be installed separately — not added as a hard
 #    dependency of this function itself, since the function returns a
 #    plain ggplot and composition is left to the caller (per the Option B
 #    design decision).
-# 3. Vertical alignment of the two panels' PLOT AREAS (not just axis
+# 2. Vertical alignment of the two panels' PLOT AREAS (not just axis
 #    ticks) when composed depends on patchwork handling differing legend/
 #    label widths between the two — the "no legend" choice on this
 #    histogram was made specifically to avoid width mismatches with

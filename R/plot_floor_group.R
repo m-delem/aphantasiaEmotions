@@ -24,21 +24,38 @@
 #' Plot the floor-group additive model against the data
 #'
 #' @description
-#' Visualises the floor_group_additive model's key claim: a single
-#' continuous VVIQ-TAS relationship among above-floor participants, with the
+#' Visualises a floor-group additive model's key claim: a single
+#' continuous relationship among above-floor participants, with the
 #' complete-aphantasia (floor) group's actual mean shown alongside where
 #' that relationship, extrapolated to VVIQ=16, would have predicted it —
 #' making the model's central coefficient (the floor-group shift) a visible
-#' gap rather than an abstract number.
+#' gap rather than an abstract number. Works with any outcome variable
+#' (total TAS-20 score or any of its subscales) — the outcome column is
+#' read directly from the fitted model object, not hardcoded, so the same
+#' function call pattern applies whether `model` was fit on `tas`,
+#' `tas_identify`, `tas_describe`, or `tas_external`.
 #'
-#' @param model A fitted brms model object from
-#' `tas ~ vviq + complete_aphant` (floor_group_additive).
+#' @param model A fitted brms model from a formula of the form
+#' `<outcome> ~ vviq + complete_aphant` or
+#' `<outcome> ~ vviq + complete_aphant + (vviq | study)` — single- or
+#' multi-level both work, thanks to `re_formula = NA` on the internal
+#' prediction calls.
 #' @param data The data frame the model was fit on (must contain `vviq`,
-#' `tas`, `complete_aphant`).
-#' @param y_lab Label for the y-axis. Default "Total TAS score".
-#' @param base_size Base font size, passed to theme_pdf(). Default 12.
+#' the model's outcome variable, and `complete_aphant`).
+#' @param y_lab Label for the y-axis. Default "Total TAS score" — override
+#' this explicitly when plotting a subscale model (e.g. "TAS DIF score"),
+#' since the default is not derived from the outcome variable automatically.
 #' @param violin_width Half-width of the floor-group violin, in VVIQ-scale
 #' units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).
+#' @param base_theme Base ggplot2 theme to use with [theme_pdf()]
+#' (default is `ggplot2::theme_minimal`).
+#' @param limits Limits of the x-axis. Default is c(8, 81) to accomodate both
+#' the half-violin and stats on the left and the secondary axis on the right.
+#' @param vviq_breaks Breaks (ticks) for the VVIQ x-axis
+#' @param tas_breaks Breaks for the outcome variable (the main one being tas).
+#' @param stat_txt_size Size for the floor effect text on the left.
+#' @param ... Additional arguments passed to the [theme_pdf()] function for
+#' further customization of the plot theme.
 #'
 #' @returns A ggplot2 object.
 #' @export
@@ -51,6 +68,7 @@ plot_floor_group <- function(
     vviq_breaks = seq(16, 80, 4),
     tas_breaks = seq(20, 100, 20),
     violin_width = 3,
+    stat_txt_size = 1.75,
     ...
 ) {
   # NOTE: the annotation x-positions below ("Floor VVIQ" label, arrow,
@@ -63,6 +81,25 @@ plot_floor_group <- function(
   # forced limits from the composed top panel).
   rlang::check_installed("modelbased")
   rlang::check_installed("marginaleffects")
+  
+  # ----------------------------------------------------------------------
+  # Outcome variable, derived from the model object itself rather than
+  # hardcoded — brms always stores the outcome as the first column of the
+  # data it saves on the fitted object, so this reads a structural fact
+  # about brmsfit objects rather than guessing. Makes this function work
+  # identically on the total-TAS model and any of the three subscale
+  # models (tas_identify, tas_describe, tas_external) without a new
+  # argument, per the "use the model object only" constraint.
+  # ----------------------------------------------------------------------
+  outcome_var <- colnames(model$data)[1]
+  outcome_vals <- data[[outcome_var]]
+  
+  # Plausible range for the density estimate below, derived from the
+  # actual data rather than hardcoded to TAS-20 total's 20-100 range —
+  # a subscale (e.g. tas_identify, 7 items on a 1-5 scale, plausible
+  # range ~7-35) needs its own bounds, not TAS total's.
+  outcome_min <- min(outcome_vals, na.rm = TRUE)
+  outcome_max <- max(outcome_vals, na.rm = TRUE)
   
   # ----------------------------------------------------------------------
   # 1. Predictions across the FULL range from vviq=16 to the real
@@ -83,7 +120,12 @@ plot_floor_group <- function(
     vviq = seq(16, vviq_max_above, length.out = 200),
     complete_aphant = factor("above_floor", levels = levels(data$complete_aphant))
   )
-  all_preds <- marginaleffects::predictions(model, newdata = pred_grid)
+  all_preds <- 
+    marginaleffects::predictions(
+      model, 
+      newdata = pred_grid, 
+      re_formula = NA   # To allow the function to run on single- or multi-level
+    )
   all_preds <- as.data.frame(all_preds)
   
   # Split by whether each point falls in the real above-floor data range
@@ -103,7 +145,12 @@ plot_floor_group <- function(
     vviq = 16,
     complete_aphant = factor("floor", levels = levels(data$complete_aphant))
   )
-  floor_pred <- marginaleffects::predictions(model, newdata = floor_pred_grid)
+  floor_pred <- 
+    marginaleffects::predictions(
+      model, 
+      newdata = floor_pred_grid, 
+      re_formula = NA # To allow the function to run on single- or multi-level
+    )
   floor_pred <- as.data.frame(floor_pred)
   
   # ----------------------------------------------------------------------
@@ -123,16 +170,17 @@ plot_floor_group <- function(
   )
   floor_effect_label <- sprintf(
     "%.2f\n[%.2f, %.2f]",
-    floor_effect_stats$Median, floor_effect_stats$CI_low, floor_effect_stats$CI_high
+    floor_effect_stats$Median, 
+    floor_effect_stats$CI_low, floor_effect_stats$CI_high
   )
   
   # Above-floor vviq slope, for the plot caption (kept OUT of the panel
   # itself — this figure's single visual argument is the floor-group gap, and a
   # second in-panel annotation for the slope would compete with it. A caption
   # keeps the slope visible "at a glance" without diluting that focus.
-  sd_tas  <- stats::sd(model$data$tas)
+  sd_outcome <- stats::sd(model$data[[outcome_var]])
   sd_vviq <- stats::sd(model$data$vviq)
-  rope_range_slope <- 0.2 * (sd_tas / sd_vviq)  # Cohen "small effect", rescaled
+  rope_range_slope <- 0.2 * (sd_outcome / sd_vviq)  # Cohen "small effect", rescaled
   
   slope_stats <- bayestestR::describe_posterior(
     model,
@@ -150,7 +198,9 @@ plot_floor_group <- function(
   # of the floor group's OBSERVED tas values, placed to the left of vviq=16.
   # ----------------------------------------------------------------------
   floor_raw <- data[data$complete_aphant == "floor", ]
-  dens <- stats::density(floor_raw$tas, n = 200, from = 20, to = 100)
+  dens <- stats::density(
+    floor_raw[[outcome_var]], n = 200, 
+    from = outcome_min, to = outcome_max)
   dens_scaled <- dens$y / max(dens$y) * violin_width
   violin_df <- data.frame(
     x = 16 - dens_scaled,
@@ -170,7 +220,7 @@ plot_floor_group <- function(
     # gradient better matches this figure's specific claim).
     ggplot2::geom_point(
       data = above_floor_data,
-      ggplot2::aes(x = vviq, y = tas, color = vviq),
+      ggplot2::aes(x = vviq, y = .data[[outcome_var]], color = vviq),
       alpha = 0.4, size = 1.2
     ) +
     ggplot2::geom_hline(
@@ -183,7 +233,7 @@ plot_floor_group <- function(
       # stats label, "Floor VVIQ" text), so the right side is the better
       # home for this, and a genuine axis element won't get clipped or
       # collide with panel content the way an annotate() call could.
-      yintercept = mean(data$tas),
+      yintercept = mean(outcome_vals),
       color = "grey40",
       linewidth = 0.2,
       linetype = "dashed"
@@ -272,7 +322,7 @@ plot_floor_group <- function(
       y = (extrap_at_16$estimate + floor_pred$estimate) / 2,
       label = floor_effect_label,
       angle = 90,
-      size = 1.75,
+      size = stat_txt_size,
       fontface = "bold",
       hjust = 0.5
     ) +
@@ -281,7 +331,7 @@ plot_floor_group <- function(
     ggplot2::geom_jitter(
       data = data.frame(
         x = 16,
-        y = floor_raw$tas
+        y = floor_raw[[outcome_var]]
       ),
       ggplot2::aes(x = x, y = y),
       color = "#C44E52", alpha = 0.2, size = 1.2
@@ -332,7 +382,7 @@ plot_floor_group <- function(
       # ggplot2 version.
       sec.axis = ggplot2::sec_axis(
         transform = ~.,
-        breaks = mean(data$tas),
+        breaks = mean(outcome_vals),
         labels = expression(bar(x))
       )) +
     ggplot2::scale_color_viridis_c(name = "VVIQ\n(above floor)") +
