@@ -7,9 +7,12 @@
 plot_vviq_marginal_histogram(
   data,
   binwidth = 1,
+  x_lab = NULL,
   y_lab = "Participant count",
   vviq_breaks = seq(16, 80, 4),
   base_theme = ggplot2::theme_minimal,
+  axis_relative_size = 1,
+  axis_relative_y = 0.85,
   ...
 )
 }
@@ -19,6 +22,9 @@ plot_vviq_marginal_histogram(
 
 \item{binwidth}{Histogram bin width, in VVIQ-scale units. Default 2.}
 
+\item{x_lab}{Label for the x-axis. Omitted by default, the plot is most often
+meant to sit above the floor-group model's plot.}
+
 \item{y_lab}{Label for the y-axis.}
 
 \item{vviq_breaks}{x-axis breaks — MUST MATCH plot_floor_group()'s
@@ -27,6 +33,10 @@ will misalign. Default \code{seq(16, 80, 4)}, matching plot_floor_group()'s
 own default.}
 
 \item{base_theme}{A ggplot2 theme function. Default \code{ggplot2::theme_minimal}.}
+
+\item{axis_relative_size}{Relative size of the axis text. Default is 1.}
+
+\item{axis_relative_y}{Relative size of the y-axis text. Default is 0.85.}
 
 \item{...}{Additional arguments passed to \code{theme_pdf()}.}
 }

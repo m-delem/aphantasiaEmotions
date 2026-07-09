@@ -46,7 +46,7 @@ Below is the graphical abstract of this study, which summarises the main finding
 that came out of the analyses.
 
 ```{r, fig.alt="Graphical abstract for the study.", echo=FALSE}
-knitr::include_graphics("man/figures/graphical_abstract.png")
+knitr::include_graphics("man/figures/graphical_abstract_v2_wide.png")
 ```
 
 ## What exactly is in this R package?

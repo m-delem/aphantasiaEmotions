@@ -7,13 +7,19 @@
 plot_floor_group(
   model,
   data,
+  x_lab = "VVIQ score",
   y_lab = "Total TAS score",
   base_theme = ggplot2::theme_minimal,
+  axis_relative_size = 0.85,
+  axis_relative_x = 1,
+  axis_relative_y = 1,
   limits = c(8, 81),
   vviq_breaks = seq(16, 80, 4),
   tas_breaks = seq(20, 100, 20),
   violin_width = 3,
   stat_txt_size = 1.75,
+  xbar_vjust = 0.3,
+  colorbar_width = 14,
   ...
 )
 }
@@ -27,12 +33,22 @@ prediction calls.}
 \item{data}{The data frame the model was fit on (must contain \code{vviq},
 the model's outcome variable, and \code{complete_aphant}).}
 
+\item{x_lab}{Label for the x-axis. Default is "VVIQ score".}
+
 \item{y_lab}{Label for the y-axis. Default "Total TAS score" — override
 this explicitly when plotting a subscale model (e.g. "TAS DIF score"),
 since the default is not derived from the outcome variable automatically.}
 
 \item{base_theme}{Base ggplot2 theme to use with \code{\link[=theme_pdf]{theme_pdf()}}
 (default is \code{ggplot2::theme_minimal}).}
+
+\item{axis_relative_size}{A numeric value for the relative size of the axis
+text compared to the base size. The default is 0.85, which is slightly
+smaller than the base size.}
+
+\item{axis_relative_x}{Relative size of the x-axis text. Default is 1.}
+
+\item{axis_relative_y}{Relative size of the y-axis text. Default is 1.}
 
 \item{limits}{Limits of the x-axis. Default is c(8, 81) to accomodate both
 the half-violin and stats on the left and the secondary axis on the right.}
@@ -45,6 +61,12 @@ the half-violin and stats on the left and the secondary axis on the right.}
 units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).}
 
 \item{stat_txt_size}{Size for the floor effect text on the left.}
+
+\item{xbar_vjust}{Vertical adjustment for the right-side X-bar label.
+Default is 0.3.}
+
+\item{colorbar_width}{Width of the colorbar in the legend in pt. Default is
+14}
 
 \item{...}{Additional arguments passed to the \code{\link[=theme_pdf]{theme_pdf()}} function for
 further customization of the plot theme.}

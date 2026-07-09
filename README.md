@@ -24,7 +24,7 @@ Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
 Below is the graphical abstract of this study, which summarises the main
 finding that came out of the analyses.
 
-<img src="man/figures/graphical_abstract.png" alt="Graphical abstract for the study." width="100%" />
+<img src="man/figures/graphical_abstract_v2_wide.png" alt="Graphical abstract for the study." width="100%" />
 
 ## What exactly is in this R package?
 
