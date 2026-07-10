@@ -27,7 +27,7 @@ plot_posterior_contrasts(
 - contrasts:
 
   A marginaleffects object obtained with
-  [`marginaleffects::comparisons()`](https://marginaleffects.com/man/r/comparisons.html)
+  [`marginaleffects::comparisons()`](https://rdrr.io/pkg/marginaleffects/man/comparisons.html)
   containing the contrasts to plot.
 
 - model:

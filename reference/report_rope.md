@@ -13,7 +13,7 @@ report_rope(marg_effects, ..., digits = 3)
 - marg_effects:
 
   A marginaleffects object obtained with
-  [`marginaleffects::avg_comparisons()`](https://marginaleffects.com/man/r/comparisons.html)
+  [`marginaleffects::avg_comparisons()`](https://rdrr.io/pkg/marginaleffects/man/comparisons.html)
   containing the contrasts to analyse.
 
 - ...:

@@ -1,4 +1,4 @@
-# aphantasiaEmotions: Data Analysis for "Aphantasics Process Emotions Differently: Evidence of a Non-linear Relationship Between Visual Imagery and Emotional Processing Abilities"
+# aphantasiaEmotions: Data Analysis for "Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia: Complete Aphantasics Report Typical Meta-emotional Functioning"
 
 This project contains the code to analyse VVIQ and TAS data from studies
 on aphantasia and alexithymia.

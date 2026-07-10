@@ -1,9 +1,16 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   aphantasiaEmotions: aphantasiaEmotions.html
-last_built: 2026-02-20T18:49Z
+  articles/floor-group-model: floor-group-model.html
+  articles/for-those-who-come-after: for-those-who-come-after.html
+  articles/how-this-study-found-its-shape: how-this-study-found-its-shape.html
+  articles/implementation-notes: implementation-notes.html
+  articles/model-comparison: model-comparison.html
+  articles/model-diagnostics: model-diagnostics.html
+  articles/sample-description: sample-description.html
+last_built: 2026-07-10T18:29Z
 urls:
   reference: https://m-delem.github.io/aphantasiaEmotions/reference
   article: https://m-delem.github.io/aphantasiaEmotions/articles

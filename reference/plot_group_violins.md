@@ -9,7 +9,7 @@ intervals.
 ``` r
 plot_group_violins(
   formula,
-  data = all_data,
+  data = aphantasiaEmotions::all_data,
   dot_size = 0.5,
   box.linewidth = 0.1,
   middle.linewidth = 0.5,

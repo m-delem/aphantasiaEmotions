@@ -25,6 +25,10 @@ check_slope_evidence(slopes, digits = 3)
   [`modelbased::estimate_slopes()`](https://easystats.github.io/modelbased/reference/estimate_slopes.html)
   object containing estimated slopes.
 
+- digits:
+
+  The number of digits to be printed for each value.
+
 ## Value
 
 A data frame with slope statistics.

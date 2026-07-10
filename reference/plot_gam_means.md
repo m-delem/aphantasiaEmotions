@@ -76,10 +76,6 @@ plot_gam_means(
   [`theme_pdf()`](https://m-delem.github.io/aphantasiaEmotions/reference/theme_pdf.md)
   function for further customization of the plot theme.
 
-- base_size:
-
-  Base font size for the plot theme (default is 7).
-
 ## Value
 
 A ggplot2 object representing the GAM estimated means plot.

@@ -6,7 +6,13 @@ points coloured by VVIQ group.
 ## Usage
 
 ``` r
-plot_coloured_subjects(x, y, df = all_data, alpha = 0.4, ...)
+plot_coloured_subjects(
+  x,
+  y,
+  df = aphantasiaEmotions::all_data,
+  alpha = 0.4,
+  ...
+)
 ```
 
 ## Arguments

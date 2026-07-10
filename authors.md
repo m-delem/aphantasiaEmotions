@@ -10,13 +10,13 @@
 Source:
 [`inst/CITATION`](https://github.com/m-delem/aphantasiaEmotions/blob/main/inst/CITATION)
 
-Delem M, Marine M, Olivier L, Ruby P, Plancher G (2025). “Supplementary
-materials for 'Aphantasics Process Emotions Differently'.”
+Delem M (2026). “Supplementary materials for 'Evidence of a Non-linear
+Relationship Between Visual Imagery and Alexithymia'.”
 [doi:10.17605/OSF.IO/B837S](https://doi.org/10.17605/OSF.IO/B837S).
 
     @Misc{,
-      title = {Supplementary materials for 'Aphantasics Process Emotions Differently'},
-      author = {Maël Delem and Mas Marine and Luminet Olivier and Perrine Ruby and Gaën Plancher},
-      year = {2025},
+      title = {Supplementary materials for 'Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia'},
+      author = {Maël Delem},
+      year = {2026},
       doi = {https://doi.org/10.17605/OSF.IO/B837S},
     }
