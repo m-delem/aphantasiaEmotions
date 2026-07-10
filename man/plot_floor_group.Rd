@@ -9,17 +9,48 @@ plot_floor_group(
   data,
   x_lab = "VVIQ score",
   y_lab = "Total TAS score",
+  limits = c(8, 81),
+  vviq_breaks = seq(16, 80, 4),
+  tas_breaks = seq(20, 100, 20),
+  dot_size = 1.2,
+  dot_alpha = 0.4,
+  cross_size = 2,
+  cross_stroke = 0.8,
+  violin_width = 3,
+  stat_txt_size = 1.75,
+  xbar_vjust = 0.5,
+  colorbar_width = 14,
+  mean_line_color = "grey40",
+  mean_line_width = 0.2,
+  floor_fill_color = "#C44E52",
+  floor_line_color = "#8B3A3E",
+  floor_violin_alpha = 0.6,
+  floor_violin_linewidth = 0.2,
+  floor_violin_nudge = -2,
+  floor_jitter_alpha = 0.2,
+  floor_jitter_size = 1.2,
+  floor_pointrange_linewidth = 0.5,
+  floor_pointrange_size = 0.4,
+  floor_guide_color = "grey82",
+  floor_guide_linewidth = 0.2,
+  floor_guide_y_pad = 5,
+  floor_label_x = 15.2,
+  floor_label_y = 20,
+  floor_label_color = "grey65",
+  floor_label_size = 1.75,
+  arrow_x = 10.5,
+  arrow_linewidth = 0.3,
+  arrow_length = 0.05,
+  tick_linewidth = 0.2,
+  stat_label_x = 8.2,
+  stat_label_lineheight = 0.9,
+  fitted_line_color = "black",
+  fitted_line_width = 0.5,
+  extrap_line_width = 0.4,
   base_theme = ggplot2::theme_minimal,
   axis_relative_size = 0.85,
   axis_relative_x = 1,
   axis_relative_y = 1,
-  limits = c(8, 81),
-  vviq_breaks = seq(16, 80, 4),
-  tas_breaks = seq(20, 100, 20),
-  violin_width = 3,
-  stat_txt_size = 1.75,
-  xbar_vjust = 0.3,
-  colorbar_width = 14,
   ...
 )
 }
@@ -39,6 +70,119 @@ the model's outcome variable, and \code{complete_aphant}).}
 this explicitly when plotting a subscale model (e.g. "TAS DIF score"),
 since the default is not derived from the outcome variable automatically.}
 
+\item{limits}{Limits of the x-axis. Default is c(8, 81) to accomodate both
+the half-violin and stats on the left and the secondary axis on the right.}
+
+\item{vviq_breaks}{Breaks (ticks) for the VVIQ x-axis}
+
+\item{tas_breaks}{Breaks for the outcome variable (the main one being tas).}
+
+\item{dot_size}{Size of the individual above-floor data points. Default
+is 1.2.}
+
+\item{dot_alpha}{Transparency of the individual above-floor data points.
+Default is 0.4.}
+
+\item{cross_size}{Size of the cross at the end of the regression line.
+Default is 2.}
+
+\item{cross_stroke}{Stroke width of the cross marker. Default is 0.8.}
+
+\item{violin_width}{Half-width of the floor-group violin, in VVIQ-scale
+units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).}
+
+\item{stat_txt_size}{Size for the floor effect text on the left.}
+
+\item{xbar_vjust}{Vertical adjustment for the right-side "mean" label
+(formerly X-bar). Default is 0.5.}
+
+\item{colorbar_width}{Width of the colorbar in the legend in pt. Default is
+14}
+
+\item{mean_line_color}{Colour of the sample-mean reference line (dashed
+horizontal line, labelled via the right-side X-bar axis). Default is
+"grey40".}
+
+\item{mean_line_width}{Line width of the sample-mean reference line.
+Default is 0.2.}
+
+\item{floor_fill_color}{Fill colour for the floor-group violin, jittered
+points, and mean/CI point-range. Default is "#C44E52" (a muted red).}
+
+\item{floor_line_color}{Line/outline colour for the floor-group violin
+border and mean/CI point-range. Default is "#8B3A3E" (a darker red).}
+
+\item{floor_violin_alpha}{Fill transparency of the floor-group violin.
+Default is 0.6.}
+
+\item{floor_violin_linewidth}{Border line width of the floor-group violin.
+Default is 0.2.}
+
+\item{floor_violin_nudge}{Horizontal nudge applied to the floor-group
+violin, in VVIQ-scale units (negative moves it further left of VVIQ=16).
+Default is -2.}
+
+\item{floor_jitter_alpha}{Transparency of the floor-group's individual
+jittered points. Default is 0.2.}
+
+\item{floor_jitter_size}{Size of the floor-group's individual jittered
+points. Default is 1.2.}
+
+\item{floor_pointrange_linewidth}{Line width of the floor-group's mean/CI
+point-range. Default is 0.5.}
+
+\item{floor_pointrange_size}{Point size of the floor-group's mean/CI
+point-range. Default is 0.4.}
+
+\item{floor_guide_color}{Colour of the dotted vertical guide line marking
+VVIQ=16, spanning the violin's range. Default is "grey82".}
+
+\item{floor_guide_linewidth}{Line width of the dotted vertical guide line
+at VVIQ=16. Default is 0.2.}
+
+\item{floor_guide_y_pad}{Additional downward padding (in outcome-scale
+units) below the violin's own range for the vertical guide line's lower
+end. Default is 5.}
+
+\item{floor_label_x}{Horizontal position (VVIQ-scale) of the "Floor VVIQ"
+text label. Default is 15.2.}
+
+\item{floor_label_y}{Vertical position (outcome-scale) of the "Floor VVIQ"
+text label. Default is 20.}
+
+\item{floor_label_color}{Colour of the "Floor VVIQ" text label. Default is
+"grey65".}
+
+\item{floor_label_size}{Text size of the "Floor VVIQ" text label. Default
+is 1.75.}
+
+\item{arrow_x}{Horizontal position (VVIQ-scale) of the two-way arrow and
+its connecting tick segments, marking the gap between the cross and the
+floor-group mean. Default is 10.5.}
+
+\item{arrow_linewidth}{Line width of the two-way arrow. Default is 0.3.}
+
+\item{arrow_length}{Length of the two-way arrow. Default is 0.05.}
+
+\item{tick_linewidth}{Line width of the two short horizontal dotted tick
+segments connecting the arrow's ends to the cross and floor-group mean.
+Default is 0.2.}
+
+\item{stat_label_x}{Horizontal position (VVIQ-scale) of the floor-effect
+statistics text label, to the left of the arrow. Default is 8.2.}
+
+\item{stat_label_lineheight}{Lineheight of the stat label (to tune the
+mandatory linebreak). Default is 0.9 (ggplot2's default).}
+
+\item{fitted_line_color}{Colour of the fitted above-floor regression
+line (both solid and dashed/extrapolated segments). Default is "black".}
+
+\item{fitted_line_width}{Line width of the solid, real-data-range
+portion of the fitted regression line. Default is 0.5.}
+
+\item{extrap_line_width}{Line width of the dashed, extrapolated portion
+of the fitted regression line. Default is 0.4.}
+
 \item{base_theme}{Base ggplot2 theme to use with \code{\link[=theme_pdf]{theme_pdf()}}
 (default is \code{ggplot2::theme_minimal}).}
 
@@ -49,24 +193,6 @@ smaller than the base size.}
 \item{axis_relative_x}{Relative size of the x-axis text. Default is 1.}
 
 \item{axis_relative_y}{Relative size of the y-axis text. Default is 1.}
-
-\item{limits}{Limits of the x-axis. Default is c(8, 81) to accomodate both
-the half-violin and stats on the left and the secondary axis on the right.}
-
-\item{vviq_breaks}{Breaks (ticks) for the VVIQ x-axis}
-
-\item{tas_breaks}{Breaks for the outcome variable (the main one being tas).}
-
-\item{violin_width}{Half-width of the floor-group violin, in VVIQ-scale
-units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).}
-
-\item{stat_txt_size}{Size for the floor effect text on the left.}
-
-\item{xbar_vjust}{Vertical adjustment for the right-side X-bar label.
-Default is 0.3.}
-
-\item{colorbar_width}{Width of the colorbar in the legend in pt. Default is
-14}
 
 \item{...}{Additional arguments passed to the \code{\link[=theme_pdf]{theme_pdf()}} function for
 further customization of the plot theme.}

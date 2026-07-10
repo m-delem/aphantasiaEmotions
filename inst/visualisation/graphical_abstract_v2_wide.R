@@ -15,7 +15,8 @@ base_size <- 20
 ax_titles <- 0.8
 ax_rel_x <- 0.65
 ax_rel_y <- 0.7
-ax_margins <- 1
+ax_margins <- 1.25
+lw <- 0.1
 
 # ------------------------------------------------------------------------------
 # Load the canonical multilevel model directly
@@ -48,16 +49,17 @@ baseline_panel <-
     panel.grid.major.y = ggplot2::element_blank(),
     panel.grid.minor.y = ggplot2::element_blank(),
     panel.border = ggplot2::element_rect(
-      color = "grey50", fill = NA, linewidth = 0.1)
+      color = "grey50", fill = NA, linewidth = lw)
   ) +
   ggplot2::theme(
-    axis.title.x = ggplot2::element_text(
+    axis.title.x.bottom = ggplot2::element_text(
       size = ggplot2::rel(ax_titles),
       margin = ggplot2::margin(t = ax_margins)),
     axis.title.y = ggplot2::element_text(
       size = ggplot2::rel(ax_titles), 
       margin = ggplot2::margin(r = ax_margins)),
     axis.text.x.bottom = ggplot2::element_text(
+      hjust = 0.25,
       margin = ggplot2::margin(t = ax_margins)),
     axis.text.y.left = ggplot2::element_text(
       margin = ggplot2::margin(r = ax_margins)),
@@ -74,8 +76,8 @@ baseline_panel <-
   ) +
   ggplot2::scale_x_discrete(
     labels = c(
-      "aphantasia" = "VVIQ \u2264 32\nN = 288", 
-      "typical" = "VVIQ > 32\nN = 1190"),
+      "aphantasia" = "Aphantasics\n(VVIQ \u2264 32)\nN = 288", 
+      "typical" = "Imagers\n(VVIQ > 32)\nN = 1190"),
     expand = ggplot2::expansion(mult = 0, add = c(0.4, 0.7))
   )
 
@@ -106,14 +108,14 @@ hist_panel <-
     model_data, 
     base_size = base_size,
     x_lab = "Visual imagery vividness distribution (VVIQ)",
-    floor_linewidth = 0.1,
+    floor_linewidth = lw,
     axis_relative_size = 0.8,
     axis_relative_y = ax_rel_y,
     plot.title = ggplot2::element_text(
       size = ggplot2::rel(ax_titles), color = "black", face = "bold",
       margin = ggplot2::margin(b = 1)
     ),
-    panel.grid.major.y = ggplot2::element_line(linewidth = 0.1)
+    panel.grid.major.y = ggplot2::element_line(linewidth = lw)
   ) +
   ggplot2::theme(
     axis.title.x = ggplot2::element_text(
@@ -133,10 +135,8 @@ hist_panel <-
   scale_x_vviq(
     limits = c(8, 81), 
     expand = ggplot2::expansion(mult = c(0.02, 0))) +
-  ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.1) +
+  ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = lw) +
   ggplot2::labs(title = "The complete picture")
-
-lw <- 0.1
 
 main_panel <-
   plot_floor_group(
@@ -149,7 +149,7 @@ main_panel <-
     cross_stroke = 0.2,
     stat_txt_size = 4,
     stat_label_lineheight = 0.2,
-    mean_line_width = 0.1,
+    mean_line_width = lw,
     floor_violin_linewidth = lw,
     floor_pointrange_linewidth = lw,
     floor_pointrange_size = 0.05,
@@ -172,7 +172,7 @@ main_panel <-
     # plot.caption  = ggplot2::element_text(
     #   size  = ggplot2::rel(ax_rel_x), margin = ggplot2::margin(t = ax_margins)),
     legend.position = "none",
-    panel.grid.major.y = ggplot2::element_line(linewidth = 0.1),
+    panel.grid.major.y = ggplot2::element_line(linewidth = lw),
   ) +
   ggplot2::theme(
     axis.title.x = ggplot2::element_text(

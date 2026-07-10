@@ -122,13 +122,13 @@ hist_panel <-
   ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.3) +
   ggplot2::scale_x_continuous(
     limits = c(8, 81),
-    expand = ggplot2::expansion(c(0.02, 0.02))
+    expand = ggplot2::expansion(c(0.02, 0))
   )
 
 main_panel <- 
   plot_floor_group(
     floor_group_additive_multilevel, model_data, 
-    base_size = 16, stat_txt_size = 4)
+    base_size = 16, stat_txt_size = 4.5)
 
 hist_panel / main_panel + patchwork::plot_layout(heights = c(1, 4))
 ```
@@ -370,19 +370,28 @@ p_dif <-
   plot_floor_group(
     m_dif, model_data, y_lab = "TAS DIF score",
     tas_breaks = scales::pretty_breaks(5),
-    base_size = 16, stat_txt_size = 4, legend.position = "none") +
+    base_size = 16, 
+    stat_txt_size = 4, 
+    floor_label_size = 0,
+    legend.position = "none") +
   ggplot2::labs(title = "Difficulty Identifying Feelings")
 
 p_ddf <- 
   plot_floor_group(m_ddf, model_data, y_lab = "TAS DDF score",
     tas_breaks = scales::pretty_breaks(5),
-    base_size = 16, stat_txt_size = 4, legend.position = "none") +
+    base_size = 16, 
+    stat_txt_size = 4, 
+    floor_label_size = 0,
+    legend.position = "none") +
   ggplot2::labs(title = "Difficulty Describing Feelings")
 
 p_eot <- 
   plot_floor_group(m_eot, model_data, y_lab = "TAS EOT score",
     tas_breaks = scales::pretty_breaks(5),
-    base_size = 16, stat_txt_size = 4, legend.position = "none") +
+    base_size = 16, 
+    stat_txt_size = 4, 
+    floor_label_size = 0,
+    legend.position = "none") +
   ggplot2::labs(title = "Externally-Oriented Thinking")
 
 p_dif / p_ddf / p_eot
