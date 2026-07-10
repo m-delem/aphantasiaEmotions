@@ -72,7 +72,7 @@ plot_posterior_contrasts <- function(
     ggdist::stat_slabinterval(
       mapping = ggplot2::aes(
         fill = ggplot2::after_stat(
-          abs(x) < abs(bayestestR::rope_range(model)[1])
+          abs(.data$x) < abs(bayestestR::rope_range(model)[1])
         )
       ),
       point_size = dot_size,
@@ -128,7 +128,6 @@ plot_posterior_contrasts <- function(
 #' @param breaks Breaks for the y-axis (default uses pretty breaks).
 #' @param base_theme Base ggplot2 theme to use with [theme_pdf()]
 #' (default is `ggplot2::theme_minimal`).
-#' @param base_size Base font size for the plot theme (default is 7).
 #' @param ... Additional arguments passed to the [theme_pdf()] function for
 #' further customization of the plot theme.
 #'
@@ -183,6 +182,7 @@ plot_gam_means <- function(
 #'
 #' @param slopes A [modelbased::estimate_slopes()] object containing estimated
 #' slopes.
+#' @param digits The number of digits to be printed for each value.
 #'
 #' @returns A data frame with slope statistics.
 #' @export
@@ -200,20 +200,20 @@ check_slope_evidence <- function(slopes, digits = 3) {
         recipe[[i]]$data |> 
         dplyr::mutate(
           Evidence = ifelse(
-            pd >= 0.97, 
+            .data$pd >= 0.97, 
             "Non null",
             "Uncertain"
           ),
           dplyr::across(tidyselect::where(is.numeric), ~ round(., digits))
         ) |> 
-        tidyr::unite("CI", CI_low, CI_high, sep = ", ") |>
-        dplyr::mutate(CI = paste0("[", CI, "]")) |>
+        tidyr::unite("CI", .data$CI_low, .data$CI_high, sep = ", ") |>
+        dplyr::mutate(CI = paste0("[", .data$CI, "]")) |>
         dplyr::select(
-          VVIQ = vviq, 
-          Median, CI, 
-          PD = pd, 
+          "VVIQ" = "vviq", 
+          "Median", "CI", 
+          "PD" = "pd", 
           # `Inside ROPE` = ROPE_Percentage, 
-          Evidence
+          "Evidence"
         )
     }
   }
@@ -300,7 +300,7 @@ plot_gam_slopes <- function(
         recipe[[i]]$data |> 
         dplyr::mutate(
           evidence = ifelse(
-            pd >= 0.97, 
+            .data$pd >= 0.97, 
             "non_null",
             "uncertain"
           ),

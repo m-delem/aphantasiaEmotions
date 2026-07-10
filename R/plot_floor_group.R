@@ -323,7 +323,11 @@ plot_floor_group <- function(
     # gradient better matches this figure's specific claim).
     ggplot2::geom_point(
       data = above_floor_data,
-      ggplot2::aes(x = vviq, y = .data[[outcome_var]], color = vviq),
+      ggplot2::aes(
+        x = .data$vviq, 
+        y = .data[[outcome_var]], 
+        color = .data$vviq
+      ),
       alpha = dot_alpha, size = dot_size
     ) +
     ggplot2::geom_segment(
@@ -332,7 +336,9 @@ plot_floor_group <- function(
         xend = 81, 
         y = mean(outcome_vals)
       ),
-      ggplot2::aes(x = x, xend = xend, y = y, yend = y),
+      ggplot2::aes(
+        x = .data$x, xend = .data$xend, 
+        y = .data$y, yend = .data$y),
       color = mean_line_color,
       linewidth = mean_line_width,
       linetype = "dashed"
@@ -358,7 +364,7 @@ plot_floor_group <- function(
         data.frame(x = violin_df$x, y = violin_df$y),
         data.frame(x = rev(violin_df$xend), y = rev(violin_df$y))
       ),
-      ggplot2::aes(x = x, y = y),
+      ggplot2::aes(x = .data$x, y = .data$y),
       fill = floor_fill_color, alpha = floor_violin_alpha,
       color = floor_line_color, linewidth = floor_violin_linewidth,
       position = ggplot2::position_nudge(x = floor_violin_nudge)
@@ -378,7 +384,9 @@ plot_floor_group <- function(
         y = min(violin_df$y) - floor_guide_y_pad,
         yend = max(violin_df$y)
       ),
-      ggplot2::aes(x = x, xend = x, y = y, yend = yend),
+      ggplot2::aes(
+        x = .data$x, xend = .data$x, 
+        y = .data$y, yend = .data$yend),
       linetype = "dotted",
       linewidth = floor_guide_linewidth,
       color = floor_guide_color
@@ -411,7 +419,9 @@ plot_floor_group <- function(
       geom = "segment",
       x = arrow_x, xend = arrow_x,
       y = extrap_at_16$estimate, yend = floor_pred$estimate,
-      arrow = ggplot2::arrow(ends = "both", length = grid::unit(arrow_length, "inches")),
+      arrow = ggplot2::arrow(
+        ends = "both", 
+        length = grid::unit(arrow_length, "inches")),
       linewidth = arrow_linewidth,
       color = "black"
     ) +
@@ -449,32 +459,41 @@ plot_floor_group <- function(
         x = 16,
         y = floor_raw[[outcome_var]]
       ),
-      ggplot2::aes(x = x, y = y),
-      color = floor_fill_color, alpha = floor_jitter_alpha, size = floor_jitter_size
+      ggplot2::aes(x = .data$x, y = .data$y),
+      color = floor_fill_color, 
+      alpha = floor_jitter_alpha, 
+      size  = floor_jitter_size
     ) +
     # Fitted line, above-floor range (solid)
     ggplot2::geom_line(
       data = line_preds,
-      ggplot2::aes(x = vviq, y = estimate),
+      ggplot2::aes(x = .data$vviq, y = .data$estimate),
       color = fitted_line_color, linewidth = fitted_line_width
     ) +
     # Extrapolated continuation (dashed) down to vviq=16
     ggplot2::geom_line(
       data = extrap_preds,
-      ggplot2::aes(x = vviq, y = estimate),
+      ggplot2::aes(x = .data$vviq, y = .data$estimate),
       color = fitted_line_color, linewidth = extrap_line_width, linetype = "dashed"
     ) +
     # Floor group's actual mean + CI
     ggplot2::geom_pointrange(
       data = floor_pred,
-      ggplot2::aes(x = vviq, y = estimate, ymin = conf.low, ymax = conf.high),
-      color = floor_line_color, linewidth = floor_pointrange_linewidth, size = floor_pointrange_size
+      ggplot2::aes(
+        x = .data$vviq, y = .data$estimate, 
+        ymin = .data$conf.low, ymax = .data$conf.high),
+      color     = floor_line_color, 
+      linewidth = floor_pointrange_linewidth, 
+      size      = floor_pointrange_size
     ) +
     # Cross marker at "where the line wrongly predicts"
     ggplot2::geom_point(
       data = extrap_at_16,
-      ggplot2::aes(x = vviq, y = estimate),
-      shape = 4, size = cross_size, stroke = cross_stroke, color = "black"
+      ggplot2::aes(x = .data$vviq, y = .data$estimate),
+      shape = 4, 
+      size = cross_size, 
+      stroke = cross_stroke, 
+      color = "black"
     ) +
     ggplot2::labs(x = x_lab, y = y_lab, caption = slope_caption) +
     ggplot2::scale_x_continuous(

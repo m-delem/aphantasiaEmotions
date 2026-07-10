@@ -43,8 +43,6 @@ plot_gam_means(
 
 \item{...}{Additional arguments passed to the \code{\link[=theme_pdf]{theme_pdf()}} function for
 further customization of the plot theme.}
-
-\item{base_size}{Base font size for the plot theme (default is 7).}
 }
 \value{
 A ggplot2 object representing the GAM estimated means plot.

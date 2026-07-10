@@ -20,27 +20,27 @@
 summarise_aph_and_alexi <- function(df, ...) {
   df_summary <-
     df |> 
-    dplyr::group_by(..., tas_group, study) |> 
+    dplyr::group_by(..., .data$tas_group, .data$study) |> 
     dplyr::count() |>
-    dplyr::group_by(..., study) |>
+    dplyr::group_by(..., .data$study) |>
     dplyr::mutate(
-      n_group = sum(n),
-      prop = n / n_group
+      n_group = sum(.data$n),
+      prop = .data$n / .data$n_group
     ) |> 
     dplyr::bind_rows(
-      all_data |> 
-        dplyr::group_by(..., tas_group) |> 
+      aphantasiaEmotions::all_data |> 
+        dplyr::group_by(..., .data$tas_group) |> 
         dplyr::count() |>
         dplyr::group_by(...)  |>
         dplyr::mutate(
           study = "total",
-          n_group = sum(n),
-          prop = n / n_group
+          n_group = sum(.data$n),
+          prop = .data$n / .data$n_group
         )
     ) |>
     dplyr::mutate(
       study = factor(
-        study, 
+        .data$study, 
         levels = c("burns", "monzel", "mas", "ruby", "kvamme", "total")
       )
     )
@@ -113,9 +113,9 @@ plot_alexithymia_proportions <- function(
     ggplot2::ggplot(
       ggplot2::aes(
         x = {{ var_x }},
-        y = prop,
-        fill = tas_group,
-        colour = tas_group
+        y = .data$prop,
+        fill = .data$tas_group,
+        colour = .data$tas_group
       )
     ) +
     ggplot2::geom_bar(
@@ -127,8 +127,8 @@ plot_alexithymia_proportions <- function(
     ggplot2::geom_text(
       ggplot2::aes(
         label = ifelse(
-          prop >= prop_threshold,
-          paste0(round(prop * 100, 1), "%"),
+          .data$prop >= prop_threshold,
+          paste0(round(.data$prop * 100, 1), "%"),
           ""
       )),
       color = "black",
@@ -136,7 +136,7 @@ plot_alexithymia_proportions <- function(
       position = ggplot2::position_fill(vjust = 0.5)
     ) +
     ggplot2::facet_wrap(
-      ggplot2::vars(study),
+      ggplot2::vars(.data$study),
       ncol = ncol,
       labeller = ggplot2::as_labeller(c(
         "burns"  = "Ale & Burns (2024)",
@@ -252,18 +252,18 @@ plot_vviq_group_proportions <- function(
     ggplot2::geom_text(
       data = 
         df |> 
-        dplyr::group_by({{ var }}, study) |>
+        dplyr::group_by({{ var }}, .data$study) |>
         dplyr::count() |>
-        dplyr::group_by(study) |>
+        dplyr::group_by(.data$study) |>
         dplyr::mutate(
-          n_group = sum(n),
-          prop = n / n_group
+          n_group = sum(.data$n),
+          prop = .data$n / .data$n_group
         ),
       ggplot2::aes(
-        y = prop,
+        y = .data$prop,
         label = ifelse(
-          prop >= 0,
-          n,
+          .data$prop >= 0,
+          .data$n,
           ""
         )
       ),
@@ -272,7 +272,7 @@ plot_vviq_group_proportions <- function(
       position = ggplot2::position_fill(vjust = 0.5)
     ) +
     ggplot2::facet_wrap(
-      ggplot2::vars(study),
+      ggplot2::vars(.data$study),
       ncol = 6,
       labeller = ggplot2::as_labeller(c(
         "burns"  = "Ale & Burns (2024)\nN = 192",
@@ -349,7 +349,7 @@ plot_vviq_group_proportions <- function(
 #')
 plot_group_violins <- function(
     formula, 
-    data = all_data,
+    data = aphantasiaEmotions::all_data,
     dot_size = 0.5,
     box.linewidth = 0.1,
     middle.linewidth = 0.5,
@@ -390,12 +390,12 @@ plot_group_violins <- function(
     ggplot2::geom_crossbar(
       data = modelbased::estimate_means(model, by = var_2),
       ggplot2::aes(
-        y = Mean,
+        y = .data$Mean,
         x = .data[[var_2]],
         color = .data[[var_2]],
         fill = .data[[var_2]],
-        ymin = CI_low,
-        ymax = CI_high
+        ymin = .data$CI_low,
+        ymax = .data$CI_high
       ),
       alpha = 0.1,
       width = 0.15,

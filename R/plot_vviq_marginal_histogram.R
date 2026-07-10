@@ -93,7 +93,11 @@ plot_vviq_marginal_histogram <- function(
   # not blended with 17-18 into a shared bin — manual breaks guarantee this).
   # ----------------------------------------------------------------------
   bin_breaks <- seq(16, 80 + binwidth, by = binwidth)
-  data$vviq_bin <- cut(data$vviq, breaks = bin_breaks, right = FALSE, include.lowest = TRUE)
+  data$vviq_bin <- cut(
+    data$vviq, 
+    breaks = bin_breaks, 
+    right = FALSE, 
+    include.lowest = TRUE)
   
   bin_counts <- stats::aggregate(
     list(count = data$vviq),
@@ -103,7 +107,8 @@ plot_vviq_marginal_histogram <- function(
   # Bin midpoints for plotting and for the viridis colour mapping
   bin_edges <- bin_breaks[-length(bin_breaks)]
   names(bin_edges) <- levels(data$vviq_bin)
-  bin_counts$vviq_mid <- bin_edges[as.character(bin_counts$vviq_bin)] + binwidth / 2
+  bin_counts$vviq_mid <- 
+    bin_edges[as.character(bin_counts$vviq_bin)] + binwidth / 2
   
   bin_counts$is_floor <- bin_counts$vviq_mid < (16 + binwidth)
   
@@ -116,7 +121,7 @@ plot_vviq_marginal_histogram <- function(
     # plot_floor_group()'s scatter colour mapping
     ggplot2::geom_col(
       data = bin_counts[!bin_counts$is_floor, ],
-      ggplot2::aes(x = vviq_mid, y = count, fill = vviq_mid),
+      ggplot2::aes(x = .data$vviq_mid, y = .data$count, fill = .data$vviq_mid),
       width = binwidth * col_width_prop
     ) +
     ggplot2::scale_fill_viridis_c(guide = "none") +  # no legend here — the
@@ -124,8 +129,10 @@ plot_vviq_marginal_histogram <- function(
     # Floor bin: fixed colour matching plot_floor_group()'s violin
     ggplot2::geom_col(
       data = bin_counts[bin_counts$is_floor, ],
-      ggplot2::aes(x = vviq_mid, y = count),
-      fill = floor_fill_color, color = floor_line_color, linewidth = floor_linewidth,
+      ggplot2::aes(x = .data$vviq_mid, y = .data$count),
+      fill = floor_fill_color, 
+      color = floor_line_color, 
+      linewidth = floor_linewidth,
       width = binwidth * col_width_prop
     ) +
     ggplot2::labs(x = x_lab, y = y_lab) +

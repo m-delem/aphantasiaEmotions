@@ -29,10 +29,12 @@ library(ggplot2)
 library(patchwork)
 
 # Models and results are loaded directly from their saved artefacts in the 
-# vignette. The "pkg" shorthand will be used throughout to point to the files
-# of the aphantasiaEmotions package.
+# vignette, and explicitly never refitted (this is merely to protect the
+# website). The "pkg" shorthand will be used throughout to point to the files of
+# the aphantasiaEmotions package.
 # See the Implementation Notes page for how these models were actually built.
 pkg <- "aphantasiaEmotions"
+refit <- "never"
 ```
 
 The [previous
@@ -63,7 +65,8 @@ floor_group_additive_multilevel <- fit_brms_model(
   data    = model_data,
   prior   = brms::prior(normal(0, 20), class = "b"),
   file    = system.file(
-    "models", "floor_group_additive_multilevel_tot.rds", package = pkg)
+    "models", "floor_group_additive_multilevel_tot.rds", package = pkg),
+  file_refit = refit
 )
 ```
 
@@ -313,7 +316,8 @@ floor_group_additive_multilevel_wide_prior <- fit_brms_model(
   prior   = sensitivity_priors,
   file    = system.file(
     "models", "floor_group_additive_multilevel_wide_prior_tot.rds", 
-    package = pkg)
+    package = pkg),
+  file_refit = refit
 )
 
 default_fixef <- brms::fixef(floor_group_additive_multilevel)

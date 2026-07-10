@@ -209,7 +209,7 @@ theme_pdf <- function(
 #'                 will be set to 88 mm for one-column figures and 180 mm for
 #'                 two-column figures.
 #' @param height   The height of the plot in mm. Default is 90 mm.
-#' @param show     Logical. Whether to return the plot visibly or not. Default
+#' @param return   Logical. Whether to return the plot visibly or not. Default
 #' is FALSE, the plot is returned invisibly.
 #' @param verbose  Logical. Whether to print a message in the console when the
 #' saving is done. Default is TRUE.
@@ -390,7 +390,7 @@ scale_x_vviq <- function(
 #' @export
 plot_coloured_subjects <- function(
     x, y, 
-    df = all_data, 
+    df = aphantasiaEmotions::all_data, 
     alpha = 0.4,
     ...
 ) {
@@ -402,7 +402,7 @@ plot_coloured_subjects <- function(
           y = y,
           color = df$vviq_group_4
         ),
-        ggplot2::aes(x = x, y = y, color = color),
+        ggplot2::aes(x = .data$x, y = .data$y, color = .data$color),
         alpha = alpha,
         ...
       )

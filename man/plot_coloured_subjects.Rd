@@ -4,7 +4,13 @@
 \alias{plot_coloured_subjects}
 \title{Plot individual participants coloured by VVIQ group}
 \usage{
-plot_coloured_subjects(x, y, df = all_data, alpha = 0.4, ...)
+plot_coloured_subjects(
+  x,
+  y,
+  df = aphantasiaEmotions::all_data,
+  alpha = 0.4,
+  ...
+)
 }
 \arguments{
 \item{x}{Variable for the x-axis.}

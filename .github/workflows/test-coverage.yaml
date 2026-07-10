@@ -24,18 +24,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          # BH is added explicitly here because rstan needs its Boost
-          # headers again at RUNTIME (every time it compiles a Stan model
-          # from source, e.g. during tests), not just at package build
-          # time. BH is only in Stan's LinkingTo field (not
-          # Imports/Suggests), and pak deliberately skips installing
-          # LinkingTo-only packages when installing binaries, since it
-          # assumes their headers are only needed once, at build time.
-          # That assumption is wrong for rstan specifically, so BH must
-          # be forced in as a first-class extra package or CI fails with
-          # "Boost not found; call install.packages('BH')" the moment any
-          # test tries to fit a real brms/rstan model.
-          extra-packages: any::covr, any::xml2, any::BH
+          extra-packages: any::covr, any::xml2
           needs: coverage
 
       - name: Test coverage

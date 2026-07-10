@@ -29,10 +29,12 @@ library(ggplot2)
 library(patchwork)
 
 # Models and results are loaded directly from their saved artefacts in the 
-# vignette. The "pkg" shorthand will be used throughout to point to the files
-# of the aphantasiaEmotions package.
+# vignette, and explicitly never refitted (this is merely to protect the
+# website). The "pkg" shorthand will be used throughout to point to the files of
+# the aphantasiaEmotions package.
 # See the Implementation Notes page for how these models were actually built.
 pkg <- "aphantasiaEmotions"
+refit <- "never"
 ```
 
 Given VVIQ and TAS-20 scores for `r nrow(all_data)` participants pooled
@@ -95,7 +97,8 @@ lm_categorical_2g <- fit_brms_model(
   formula = tas ~ vviq_group_2,
   data    = all_data,
   prior   = brms::prior(normal(0, 20), class = "b"),
-  file    = system.file("models", "lm_categorical_2g_tot.rds", package = pkg)
+  file    = system.file("models", "lm_categorical_2g_tot.rds", package = pkg),
+  file_refit = refit
 )
 ```
 
@@ -149,7 +152,8 @@ lm_categorical_4g <- fit_brms_model(
   formula = tas ~ vviq_group_4,
   data    = all_data,
   prior   = brms::prior(normal(0, 20), class = "b"),
-  file    = system.file("models", "lm_categorical_4g_tot.rds", package = pkg)
+  file    = system.file("models", "lm_categorical_4g_tot.rds", package = pkg),
+  file_refit = refit
 )
 ```
 
@@ -177,14 +181,16 @@ lm_linear <- fit_brms_model(
   formula = tas ~ vviq,
   data    = all_data,
   prior   = brms::prior(normal(0, 20), class = "b"),
-  file    = system.file("models", "lm_linear_tot.rds", package = pkg)
+  file    = system.file("models", "lm_linear_tot.rds", package = pkg),
+  file_refit = refit
 )
 
 gam_tot <- fit_brms_model(
   formula = tas ~ s(vviq),
   data    = all_data,
   prior   = brms::prior(normal(0, 20), class = "b"),
-  file    = system.file("models", "gam_tot.rds", package = pkg)
+  file    = system.file("models", "gam_tot.rds", package = pkg),
+  file_refit = refit
 )
 ```
 
@@ -210,7 +216,9 @@ segmented_estimated <- fit_brms_model(
     brms::prior(normal(0, 20), nlpar = "b2"),
     brms::prior(normal(24, 10), nlpar = "k")
   ),
-  file = system.file("models", "segmented_estimated_knot_tot.rds", package = pkg)
+  file = system.file(
+    "models", "segmented_estimated_knot_tot.rds", package = pkg),
+  file_refit = refit
 )
 ```
 

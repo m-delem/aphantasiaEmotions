@@ -13,41 +13,43 @@ RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1)
 Imports: 
+    brms,
     crayon,
-    devtools,
     dplyr,
-    fs,
     ggplot2,
     glue,
     here,
-    pacman,
-    patchwork,
-    purrr,
     rlang,
     scales,
     stats,
     stringr,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests: 
     bayestestR,
-    brms,
     collapse,
     cropcircles,
     curl,
+    devtools,
+    fs,
     ggdist,
     ggpath,
     ggpubr,
     knitr,
     marginaleffects,
     modelbased,
+    pacman,
+    patchwork,
     performance,
+    purrr,
     rmarkdown,
     see,
     sessioninfo,
     showtext,
     sysfonts,
     testthat (>= 3.0.0),
-    viridis
+    viridis,
+    withr
 LazyData: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr
