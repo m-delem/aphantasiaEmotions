@@ -28,9 +28,9 @@ knitr::opts_chunk$set(
 
 aphantasiaEmotions is a data analysis project wrapped in an R package for
 reproducibility[^1]. It contains the code and data to reproduce the analyses
-presented in the article "*Aphantasics Process Emotions Differently: Evidence of
-a Non-linear Relationship Between Visual Imagery and Emotional Processing
-Abilities*". You can read the preprint <a href="https://doi.org/10.31234/osf.io/es425_v1" target="_blank">here</a>. This repository is archived with a permanent DOI on the Open
+presented in the article "*Evidence of a Non-linear Relationship Between Visual
+Imagery and Alexithymia: Complete Aphantasics Report Typical Meta-Emotional
+Functioning*". You can read the preprint <a href="https://doi.org/10.31234/osf.io/es425_v1" target="_blank">here</a>. This repository is archived with a permanent DOI on the Open
 Science Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
 
 [^1]: The R package structure was chosen to facilitate the sharing of the code
@@ -46,7 +46,7 @@ Below is the graphical abstract of this study, which summarises the main finding
 that came out of the analyses.
 
 ```{r, fig.alt="Graphical abstract for the study.", echo=FALSE}
-knitr::include_graphics("man/figures/graphical_abstract.png")
+knitr::include_graphics("man/figures/graphical_abstract_v2_wide.png")
 ```
 
 ## What exactly is in this R package?
@@ -55,14 +55,29 @@ The package includes the raw data used in the analyses in the form of a built-in
 dataset called `all_data` to make it easily accessible and reusable. This table
 is the combination of two original, previously unpublished datasets, and three
 datasets from previous studies, namely @aleAphantasiaAlexithymiaPredict2024,
-@monzelAffectiveProcessingAphantasia2024 and @kvammeWhenWeakImagery2025. The
+@monzelAffectiveProcessingAphantasia2024 and @kvammeWhenWeakImagery2026. The
 package comes with a set of functions for manipulating the data and reliably
-reproducing the analyses presented in the article. The data and the functions
-are documented in detail in [the package website](https://m-delem.github.io/aphantasiaEmotions), which also contains a vignette
-with an extended analysis report containing all analysis outputs, including 
-those not reported in the article for brevity.
+reproducing the analyses presented in the article.
 
-The source code of this vignette is available in the `vignettes/` folder of
+Beyond the article itself, this project's full analysis is documented as an
+**Extended Online Report (EOR)**: a structure of interlinked, executable pages
+that go well beyond what a traditional paper's Methods and Results sections can
+show — the reasoning behind each modelling choice, the exploratory work that
+didn't make it into the manuscript for space, and the historical process that
+produced the finding in the first place. Where the article is a summary, the
+EOR is the full account. It is organised as follows:
+
+- [**How this study found its shape**](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html) — the discovery process, dataset by dataset, told as it actually happened.
+- [**Sample description**](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html) — a closer look at the five pooled datasets.
+- [**Model comparison**](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html) — how a naive threshold, a categorical grouping, and several continuous models were compared, including a direct comparison against @kvammeWhenWeakImagery2026's own published approach.
+- [**The floor-group model, in depth**](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html) — the study's central finding, its statistical evidence, and how it holds up once study-level heterogeneity is accounted for.
+- [**For those who come after**](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html) — promising directions this project didn't have time to pursue fully.
+
+If you'd rather get straight to using the package yourself, the
+[**Get Started**](https://m-delem.github.io/aphantasiaEmotions/articles/aphantasiaEmotions.html)
+page is a short, practical introduction to the data and the core functions.
+
+The source code of every page above is available in the `vignettes/` folder of
 the package repository.
 
 ## Installation
@@ -91,6 +106,6 @@ This GitHub repository is archived in the OSF project, which allowed to assign a
 permanent DOI to the code and data. Thus, if you use this code or data in your
 research, please cite the OSF project with the following:
 
-> Delem, M., Mas, M., Luminet, O., Ruby, P., & Plancher, G. (2025). "Supplementary materials for 'Aphantasics Process Emotions Differently'." https://doi.org/10.17605/OSF.IO/B837S.
+> Delem, M. (2026). "Supplementary materials for 'Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia'." https://doi.org/10.17605/OSF.IO/B837S.
 
 ## References

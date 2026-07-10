@@ -9,6 +9,8 @@ check_slope_evidence(slopes, digits = 3)
 \arguments{
 \item{slopes}{A \code{\link[modelbased:estimate_slopes]{modelbased::estimate_slopes()}} object containing estimated
 slopes.}
+
+\item{digits}{The number of digits to be printed for each value.}
 }
 \value{
 A data frame with slope statistics.

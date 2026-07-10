@@ -8,27 +8,66 @@ template:
     heading_font:
       google: DM Sans
 reference:
-- title: Raw data
-  contents: all_data
-- title: Modelling
-  contents:
-  - fit_brms_model
-  - report_rope
-  - check_slope_evidence
-- title: Visualisation
-  contents:
-  - summarise_aph_and_alexi
-  - plot_alexithymia_proportions
-  - plot_vviq_group_proportions
-  - plot_group_violins
-  - plot_posterior_contrasts
-  - plot_gam_means
-  - plot_gam_slopes
-  - plot_coloured_subjects
-  - plot_alexithymia_cutoff
-  - scale_discrete_aphantasia
-  - scale_x_aphantasia
-  - scale_x_vviq
-  - theme_pdf
-  - save_ggplot
+  - title: Raw data
+    desc: >
+      The pooled dataset from all five studies underlying this project's
+      analyses.
+    contents: all_data
+  - title: Modelling
+    desc: >
+      Wrappers around brms and bayestestR for fitting Bayesian models with
+      this project's own conventions, and for summarising evidence from
+      their posterior distributions.
+    contents:
+      - fit_brms_model
+      - report_rope
+      - check_slope_evidence
+  - title: Visualisation
+    desc: >
+      ggplot2 helpers built for this project's specific figures — raincloud
+      plots, posterior contrasts, GAM curves, the floor-group model's
+      signature figure, and shared scales and themes used throughout the
+      Extended Online Report.
+    contents:
+      - summarise_aph_and_alexi
+      - plot_alexithymia_proportions
+      - plot_vviq_group_proportions
+      - plot_group_violins
+      - plot_posterior_contrasts
+      - plot_gam_means
+      - plot_gam_slopes
+      - plot_coloured_subjects
+      - plot_alexithymia_cutoff
+      - plot_floor_group
+      - plot_vviq_marginal_histogram
+      - scale_discrete_aphantasia
+      - scale_x_aphantasia
+      - scale_x_vviq
+      - theme_pdf
+      - save_ggplot
 
+navbar:
+  left:
+    - text: "Get started"
+      href: articles/aphantasiaEmotions.html
+    - text: "Extended Online Report"
+      menu:
+        - text: "The study"
+        - text: "How this study found its shape"
+          href: articles/how-this-study-found-its-shape.html
+        - text: "Sample description"
+          href: articles/sample-description.html
+        - text: "Model comparison"
+          href: articles/model-comparison.html
+        - text: "The floor-group model, in depth"
+          href: articles/floor-group-model.html
+        - text: "For those who come after"
+          href: articles/for-those-who-come-after.html
+        - text: "----"
+        - text: "Technical details"
+        - text: "Model diagnostics"
+          href: articles/model-diagnostics.html
+        - text: "Implementation notes"
+          href: articles/implementation-notes.html
+    - text: "Reference"
+      href: reference/index.html

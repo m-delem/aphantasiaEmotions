@@ -101,7 +101,7 @@ report_rope <- function(
   
   model <- attr(marg_effects, "marginaleffects")@model
   range <- bayestestR::rope_range(model)
-  sigma <- sd(model$data[, 1])
+  sigma <- stats::sd(model$data[, 1])
   
   rope_report <-
     marg_effects |>

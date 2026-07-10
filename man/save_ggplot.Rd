@@ -30,6 +30,9 @@ two-column figures.}
 
 \item{height}{The height of the plot in mm. Default is 90 mm.}
 
+\item{return}{Logical. Whether to return the plot visibly or not. Default
+is FALSE, the plot is returned invisibly.}
+
 \item{verbose}{Logical. Whether to print a message in the console when the
 saving is done. Default is TRUE.}
 
@@ -38,9 +41,6 @@ saving is done. Default is TRUE.}
 \item{dpi}{The resolution of the plot. Default is 600.}
 
 \item{...}{Additional arguments passed to \code{ggsave()}.}
-
-\item{show}{Logical. Whether to return the plot visibly or not. Default
-is FALSE, the plot is returned invisibly.}
 }
 \value{
 Nothing. The function saves the ggplot to the specified path.

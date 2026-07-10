@@ -2,34 +2,41 @@
 # Shared test fixture — one tiny brms model, reused across test files
 # ==============================================================================
 #
-# Fitting a real brms model is expensive (Stan compilation + sampling).
-# Fitting one small, fast model here and reusing it across test files that
-# need a real fitted brms object keeps CI cost to one compile, not several.
-# Iteration counts are deliberately minimal (just enough to produce a
-# valid fitted object with sane structure) — NOT meant to represent a real
-# analysis, only to exercise the code paths that consume a fitted brms
-# model. This intentionally under-powered setup reliably triggers rstan's
-# post-hoc ESS/Rhat warnings (accurate, expected, not indicative of a real
-# problem) — suppressWarnings() here targets exactly those, without
-# risking silencing an unrelated, genuinely informative warning elsewhere
-# in the test suite (which a blanket options(warn = -1) would risk doing).
+# This model is NOT fit at test time. Compiling a Stan model requires a real,
+# working Boost/g++ toolchain, which is a recurring source of CI breakage
+# (rstan/StanHeaders/BH version drift — see implementation-notes.Rmd for the
+# same class of problem in the main models) — entirely avoidable here, since
+# tests only need *a* valid fitted brms object to exercise plotting code
+# paths, not a freshly-compiled one. Instead, the fitted object is
+# pre-computed once, locally, and checked into
+# tests/testthat/fixtures/test_floor_model.rds — testthat's own convention
+# for this exact situation (test data/objects that ship with the repo rather
+# than being generated during the test run).
+#
+# Iteration counts used to produce the fixture were deliberately minimal
+# (just enough for a valid fitted object with sane structure) — NOT meant to
+# represent a real analysis, only to exercise the code paths that consume a
+# fitted brms model.
+#
+# To regenerate the fixture after a formula/prior/data change, run once
+# locally (NOT in CI):
+#
+# model_data <- all_data
+# model_data$complete_aphant <- factor(
+#   ifelse(model_data$vviq_group_4 == "aphantasia", "floor", "above_floor"),
+#   levels = c("above_floor", "floor")
+# )
+# m <- fit_brms_model(
+#   formula = tas ~ vviq + complete_aphant,
+#   data = model_data,
+#   prior = brms::prior(normal(0, 20), class = "b"),
+#   chains = 1,
+#   iterations = 100,
+#   warmup = 100,
+#   refresh = 0,
+#   file = testthat::test_path("fixtures", "test_floor_model.rds")
+# )
 
 .make_test_floor_model <- function() {
-  model_data <- all_data
-  model_data$complete_aphant <- factor(
-    ifelse(model_data$vviq_group_4 == "aphantasia", "floor", "above_floor"),
-    levels = c("above_floor", "floor")
-  )
-  suppressWarnings(
-    fit_brms_model(
-      formula = tas ~ vviq + complete_aphant,
-      data = model_data,
-      prior = brms::prior(normal(0, 20), class = "b"),
-      chains = 1,
-      iterations = 100,
-      warmup = 100,
-      refresh = 0,
-      file = NULL
-    )
-  )
+  readRDS(testthat::test_path("fixtures", "test_floor_model.rds"))
 }

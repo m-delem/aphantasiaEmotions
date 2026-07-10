@@ -7,9 +7,16 @@
 plot_vviq_marginal_histogram(
   data,
   binwidth = 1,
+  x_lab = NULL,
   y_lab = "Participant count",
   vviq_breaks = seq(16, 80, 4),
   base_theme = ggplot2::theme_minimal,
+  axis_relative_size = 1,
+  axis_relative_y = 0.85,
+  col_width_prop = 0.9,
+  floor_fill_color = "#C44E52",
+  floor_line_color = "#8B3A3E",
+  floor_linewidth = 0.2,
   ...
 )
 }
@@ -19,12 +26,34 @@ plot_vviq_marginal_histogram(
 
 \item{binwidth}{Histogram bin width, in VVIQ-scale units. Default 2.}
 
+\item{x_lab}{Label for the x-axis. Omitted by default, the plot is most often
+meant to sit above the floor-group model's plot.}
+
+\item{y_lab}{Label for the y-axis.}
+
 \item{vviq_breaks}{x-axis breaks — MUST MATCH plot_floor_group()'s
 \code{vviq_breaks} argument if composing the two via patchwork, or the panels
 will misalign. Default \code{seq(16, 80, 4)}, matching plot_floor_group()'s
 own default.}
 
 \item{base_theme}{A ggplot2 theme function. Default \code{ggplot2::theme_minimal}.}
+
+\item{axis_relative_size}{Relative size of the axis text. Default is 1.}
+
+\item{axis_relative_y}{Relative size of the y-axis text. Default is 0.85.}
+
+\item{col_width_prop}{Proportion of \code{binwidth} used as each column's
+plotted width (leaves a small gap between columns). Default 0.9.}
+
+\item{floor_fill_color}{Fill colour for the floor bin (VVIQ=16). Default
+is "#C44E52" — matches \code{\link[=plot_floor_group]{plot_floor_group()}}'s violin fill by default;
+keep these in sync if composing the two panels together.}
+
+\item{floor_line_color}{Border colour for the floor bin. Default is
+"#8B3A3E" — matches \code{\link[=plot_floor_group]{plot_floor_group()}}'s violin border by default.}
+
+\item{floor_linewidth}{Border line width for the floor bin. Default is
+0.2.}
 
 \item{...}{Additional arguments passed to \code{theme_pdf()}.}
 }

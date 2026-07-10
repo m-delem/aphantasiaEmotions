@@ -3,10 +3,7 @@
 # plot_floor_group() via patchwork
 # ==============================================================================
 #
-# HONEST CAVEAT: written without a live R session — structural first
-# attempt, expect iteration once run against real data.
-#
-# DESIGN RATIONALE (from chat discussion): this visualises the empirical
+# DESIGN RATIONALE: this visualises the empirical
 # fact that originally motivated the floor-group modelling approach — VVIQ's
 # pooled distribution shows a sharp, isolated spike at the floor (VVIQ=16)
 # plus a more continuous, if irregular, remainder from ~20-80. A histogram
@@ -42,11 +39,25 @@
 #' @param data The data frame containing `vviq` and `complete_aphant`
 #' (must match the same definition used to fit floor_group_additive).
 #' @param binwidth Histogram bin width, in VVIQ-scale units. Default 2.
+#' @param x_lab Label for the x-axis. Omitted by default, the plot is most often
+#' meant to sit above the floor-group model's plot.
+#' @param y_lab Label for the y-axis. 
 #' @param vviq_breaks x-axis breaks — MUST MATCH plot_floor_group()'s
 #' `vviq_breaks` argument if composing the two via patchwork, or the panels
 #' will misalign. Default `seq(16, 80, 4)`, matching plot_floor_group()'s
 #' own default.
 #' @param base_theme A ggplot2 theme function. Default `ggplot2::theme_minimal`.
+#' @param axis_relative_size Relative size of the axis text. Default is 1.
+#' @param axis_relative_y Relative size of the y-axis text. Default is 0.85.
+#' @param col_width_prop Proportion of `binwidth` used as each column's
+#' plotted width (leaves a small gap between columns). Default 0.9.
+#' @param floor_fill_color Fill colour for the floor bin (VVIQ=16). Default
+#' is "#C44E52" — matches [plot_floor_group()]'s violin fill by default;
+#' keep these in sync if composing the two panels together.
+#' @param floor_line_color Border colour for the floor bin. Default is
+#' "#8B3A3E" — matches [plot_floor_group()]'s violin border by default.
+#' @param floor_linewidth Border line width for the floor bin. Default is
+#' 0.2.
 #' @param ... Additional arguments passed to `theme_pdf()`.
 #'
 #' @returns A ggplot2 object (a plain histogram, NOT a patchwork composite —
@@ -55,9 +66,16 @@
 plot_vviq_marginal_histogram <- function(
     data,
     binwidth = 1,
+    x_lab = NULL,
     y_lab = "Participant count",
     vviq_breaks = seq(16, 80, 4),
     base_theme = ggplot2::theme_minimal,
+    axis_relative_size = 1,
+    axis_relative_y = 0.85,
+    col_width_prop = 0.9,
+    floor_fill_color = "#C44E52",
+    floor_line_color = "#8B3A3E",
+    floor_linewidth = 0.2,
     ...
 ) {
   # NOTE: this function's default output is designed to compose with
@@ -75,7 +93,11 @@ plot_vviq_marginal_histogram <- function(
   # not blended with 17-18 into a shared bin — manual breaks guarantee this).
   # ----------------------------------------------------------------------
   bin_breaks <- seq(16, 80 + binwidth, by = binwidth)
-  data$vviq_bin <- cut(data$vviq, breaks = bin_breaks, right = FALSE, include.lowest = TRUE)
+  data$vviq_bin <- cut(
+    data$vviq, 
+    breaks = bin_breaks, 
+    right = FALSE, 
+    include.lowest = TRUE)
   
   bin_counts <- stats::aggregate(
     list(count = data$vviq),
@@ -85,7 +107,8 @@ plot_vviq_marginal_histogram <- function(
   # Bin midpoints for plotting and for the viridis colour mapping
   bin_edges <- bin_breaks[-length(bin_breaks)]
   names(bin_edges) <- levels(data$vviq_bin)
-  bin_counts$vviq_mid <- bin_edges[as.character(bin_counts$vviq_bin)] + binwidth / 2
+  bin_counts$vviq_mid <- 
+    bin_edges[as.character(bin_counts$vviq_bin)] + binwidth / 2
   
   bin_counts$is_floor <- bin_counts$vviq_mid < (16 + binwidth)
   
@@ -98,26 +121,26 @@ plot_vviq_marginal_histogram <- function(
     # plot_floor_group()'s scatter colour mapping
     ggplot2::geom_col(
       data = bin_counts[!bin_counts$is_floor, ],
-      ggplot2::aes(x = vviq_mid, y = count, fill = vviq_mid),
-      width = binwidth * 0.9
+      ggplot2::aes(x = .data$vviq_mid, y = .data$count, fill = .data$vviq_mid),
+      width = binwidth * col_width_prop
     ) +
     ggplot2::scale_fill_viridis_c(guide = "none") +  # no legend here — the
-    # composed panel below
-    # already has one
+    # composed panel below already has one
     # Floor bin: fixed colour matching plot_floor_group()'s violin
     ggplot2::geom_col(
       data = bin_counts[bin_counts$is_floor, ],
-      ggplot2::aes(x = vviq_mid, y = count),
-      fill = "#C44E52", color = "#8B3A3E", linewidth = 0.2,
-      width = binwidth * 0.9
+      ggplot2::aes(x = .data$vviq_mid, y = .data$count),
+      fill = floor_fill_color, 
+      color = floor_line_color, 
+      linewidth = floor_linewidth,
+      width = binwidth * col_width_prop
     ) +
-    ggplot2::labs(x = NULL, y = y_lab) +  # x label omitted — expected to
-    # sit ABOVE plot_floor_group(),
-    # which already labels the
-    # shared x-axis
+    ggplot2::labs(x = x_lab, y = y_lab) +
     ggplot2::scale_x_continuous(breaks = vviq_breaks) +
     theme_pdf(
       base_theme = base_theme,
+      axis_relative_size = axis_relative_size,
+      axis_relative_y = axis_relative_y,
       axis.text.x = ggplot2::element_blank(),   # redundant if stacked above
       # plot_floor_group() — remove
       # this theme override if
@@ -146,15 +169,11 @@ plot_vviq_marginal_histogram <- function(
 # labels.
 #
 # THINGS TO CHECK once run against real data:
-# 1. Manual binning via cut()/aggregate() is a first-attempt approach —
-#    verify bin edges land where expected (VVIQ=16 alone in its own bin,
-#    not merged with 17+) and that counts match what geom_histogram()
-#    would produce with equivalent breaks, as a sanity cross-check.
-# 2. patchwork must be installed separately — not added as a hard
+# 1. patchwork must be installed separately — not added as a hard
 #    dependency of this function itself, since the function returns a
 #    plain ggplot and composition is left to the caller (per the Option B
 #    design decision).
-# 3. Vertical alignment of the two panels' PLOT AREAS (not just axis
+# 2. Vertical alignment of the two panels' PLOT AREAS (not just axis
 #    ticks) when composed depends on patchwork handling differing legend/
 #    label widths between the two — the "no legend" choice on this
 #    histogram was made specifically to avoid width mismatches with

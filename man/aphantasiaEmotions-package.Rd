@@ -4,7 +4,7 @@
 \name{aphantasiaEmotions-package}
 \alias{aphantasiaEmotions}
 \alias{aphantasiaEmotions-package}
-\title{aphantasiaEmotions: Data Analysis for "Aphantasics Process Emotions Differently: Evidence of a Non-linear Relationship Between Visual Imagery and Emotional Processing Abilities"}
+\title{aphantasiaEmotions: Data Analysis for "Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia: Complete Aphantasics Report Typical Meta-emotional Functioning"}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

@@ -1,0 +1,189 @@
+---
+title: "Implementation notes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Implementation notes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+This page is for anyone who wants to build on this project's code directly
+— replicate a model, adapt a formula, or understand a design choice that
+isn't visible from the outside. None of what follows is necessary to trust
+the study's conclusions (see the
+[model diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
+page for that); it's here because getting some of these models to fit
+correctly took real, sometimes non-obvious work, and that work is worth
+recording rather than quietly smoothing over. This iterative work on getting the
+models right was conducted in several (thoroughly commented) scripts in the
+[`inst/scripts/`](https://github.com/m-delem/aphantasiaEmotions/tree/main/inst/scripts) 
+folder available in the package's source files. This page summarises some of the
+core decisions taken in these scripts.
+
+## Iteration and chain conventions
+
+Every model in this project is fit with `fit_brms_model()`, a thin wrapper
+around `brms::brm()`. Its `iterations` argument means **post-warmup draws
+per chain**, not a total divided across chains — an earlier version of this
+function divided a total iteration count by the number of detected CPU
+cores, which meant the sampler's actual per-chain budget depended on
+whatever machine happened to run it. That's not reproducible in any
+meaningful sense, so the function was rewritten to take `chains`,
+`iterations`, and `warmup` as independent, explicit arguments.
+
+```{r fit-brms-model-signature}
+fit_brms_model(
+  ...,
+  chains = 4,
+  iterations = 2000,  # post-warmup draws PER CHAIN
+  warmup = 1000,
+  cores = chains,
+  adapt_delta = 0.95,
+  max_treedepth = 10,
+  seed = 667
+)
+```
+
+Most models in this project use `chains = 6` rather than the default 4, for
+extra convergence confidence on the newer, less-standard model forms (the
+segmented and floor-group models) at low extra cost on a machine with
+enough cores to run them in parallel. This amounts to 12,000 post-warmup draws
+per model to estimate its parameters.
+
+## The segmented model's estimated knot
+
+The estimated-knot segmented model
+(`tas ~ a + b1 * vviq + b2 * (vviq - k) * step(vviq - k)`, fit as a
+nonlinear brms model with `k` itself a free parameter) took two real rounds
+of debugging before it produced trustworthy results.
+
+**Problem 1: `fmin`/`fmax` compile in Stan but don't exist in R.** The
+first version of this formula used `fmin(vviq, k)` and `fmax(vviq - k, 0)`
+— valid Stan functions, and the model compiled and sampled without any
+error. The problem only appeared afterward: `brms::loo()` and `fitted()`
+need to re-evaluate the nonlinear formula in R for post-processing, and R
+has no `fmin`/`fmax`. The fix was reformulating the hinge using `step()`
+instead — a function that exists, and behaves identically, in both Stan and
+R:
+
+```{r step-reformulation}
+# Does NOT work post-fit (fmin/fmax don't exist in R):
+# tas ~ a + b1 * fmin(vviq, k) + b2 * fmax(vviq - k, 0)
+
+# Works in both contexts:
+tas ~ a + b1 * vviq + b2 * (vviq - k) * step(vviq - k)
+```
+
+Under this reparameterisation, `b1` is the below-knot slope directly, and
+`b1 + b2` (not `b2` alone) is the above-knot slope — `b2` is the *change*
+in slope at the knot, not a segment slope on its own. Worth remembering if
+you're reading the raw coefficients rather than the derived slopes reported
+on the [model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
+page.
+
+**Problem 2: bad default initialisation.** Even after switching to
+`step()`, a small test fit found the sampler landing on `k = -3.39` — a
+knot location outside VVIQ's actual range (16-80) entirely, with
+catastrophic effective sample size. brms's default initialisation for
+nonlinear parameters is naive (near zero, with small random jitter), and
+zero is nowhere near a plausible knot location on this scale. The fix was
+supplying explicit starting values, centred on sensible guesses rather than
+left to chance:
+
+```{r segmented-inits}
+segmented_inits <- function() {
+  list(
+    b_a  = array(mean(all_data$tas)),
+    b_b1 = array(0),
+    b_b2 = array(0),
+    b_k  = array(24)  # matches earth::earth()'s knot estimate
+  )
+}
+```
+
+With good starting values, the same model converged cleanly, and its
+estimated knot (median 19.5, 95% CI [17.7, 24.1]) was stable whether fit
+with 200 draws on one chain or the full 6-chain, 2000-draws-per-chain
+production run — a useful cross-check that the fix addressed the real
+problem rather than just moving it.
+
+The model also needed `adapt_delta = 0.99` and `max_treedepth = 15` (both
+above `fit_brms_model()`'s defaults) to fully clear divergent-transition
+warnings — non-linear/hinge models tend to have trickier posterior geometry
+than standard linear ones, and this is a reasonable, low-cost precaution
+for that model class specifically.
+
+## ROPE conventions: contrasts vs. slopes
+
+This project uses two different Region of Practical Equivalence (ROPE)
+conventions, deliberately, not inconsistently.
+
+For **group contrasts** (like the floor-group model's `complete_aphant`
+coefficient), `bayestestR::rope_range()`'s default — 0.1 times the SD of
+the outcome — is appropriate, since a group contrast is directly comparable
+to a mean difference.
+
+For **slopes** (the `vviq` coefficient in any model, or the segmented
+model's below/above-knot slopes), that same convention is not appropriate:
+a raw slope is expressed "per one unit of VVIQ," and VVIQ's scale (16-80)
+is arbitrary relative to TAS's scale. Comparing a raw slope directly to
+`0.1 * SD(tas)` implicitly assumes one unit of VVIQ is a standardised step,
+which it isn't. Slopes in this project instead use a Cohen-motivated
+threshold — a standardised effect of 0.2 is considered a small-to-noticeable
+effect — rescaled into the raw units the slope is actually expressed in:
+
+```{r rope-for-slopes}
+sd_tas  <- sd(all_data$tas)
+sd_vviq <- sd(all_data$vviq)
+
+rope_range_slope <- 0.2 * (sd_tas / sd_vviq)
+```
+
+This distinction is worth getting right specifically because it's easy to
+miss: both quantities look like they should use "the same" ROPE, and only
+looking closely at what a slope versus a contrast actually represents makes
+clear why they can't.
+
+## The `earth`-derived fixed knot
+
+The fixed-knot segmented model (a simpler, non-estimated companion to the
+model discussed above) uses a knot location found by `earth::earth()`,
+extracted programmatically rather than typed in by hand, so the code stays
+correct if the underlying data ever changes:
+
+```{r earth-knot-extraction}
+mars <- earth::earth(tas ~ vviq, data = all_data)
+
+# mars$cuts is a matrix of breakpoints used by each hinge term; for a
+# single-knot model, all non-zero entries should agree.
+vviq_cuts <- mars$cuts[, "vviq"]
+knot <- unique(vviq_cuts[vviq_cuts != 0])
+```
+
+This fixed-knot model and the estimated-knot model above produce nearly
+identical fits (LOO elpd difference of -0.09, well within noise) — a nice
+cross-validation of both approaches, using two genuinely different methods
+to arrive at essentially the same answer.
+
+---
+
+**Continuing through the Extended Online Report:** this page is a technical
+reference, linked to from the narrative pages rather than meant to be read
+start to finish. Return to the
+[model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
+or [floor-group model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
+pages, or see [model diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
+for convergence and predictive checks.

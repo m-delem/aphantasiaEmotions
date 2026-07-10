@@ -1,5 +1,5 @@
 Package: aphantasiaEmotions
-Title: Data Analysis for "Aphantasics Process Emotions Differently: Evidence of a Non-linear Relationship Between Visual Imagery and Emotional Processing Abilities"
+Title: Data Analysis for "Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia: Complete Aphantasics Report Typical Meta-emotional Functioning"
 Version: 1.0
 Authors@R: 
     person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
@@ -13,41 +13,43 @@ RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1)
 Imports: 
+    brms,
     crayon,
-    devtools,
     dplyr,
-    fs,
     ggplot2,
     glue,
     here,
-    pacman,
-    patchwork,
-    purrr,
     rlang,
     scales,
     stats,
     stringr,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests: 
     bayestestR,
-    brms,
     collapse,
     cropcircles,
     curl,
+    devtools,
+    fs,
     ggdist,
     ggpath,
     ggpubr,
     knitr,
     marginaleffects,
     modelbased,
+    pacman,
+    patchwork,
     performance,
+    purrr,
     rmarkdown,
     see,
     sessioninfo,
     showtext,
     sysfonts,
     testthat (>= 3.0.0),
-    viridis
+    viridis,
+    withr
 LazyData: true
 Config/testthat/edition: 3
 VignetteBuilder: knitr
