@@ -119,16 +119,17 @@ main_panel <-
   # language explanation directly, not just a discrete tick label.
   ggplot2::annotate(
     geom = "curve",
-    x = 30, xend = 17, y = 88, yend = 68,
+    x = 33, xend = 17, y = 83, yend = 68,
     curvature = -0.3, color = "#8B3A3E", linewidth = 0.2,
     arrow = ggplot2::arrow(length = grid::unit(0.02, "inches"))
   ) +
   ggplot2::annotate(
     geom = "text",
-    x = 31, y = 90,
+    x = 31, y = 85,
     label = "Complete aphantasia (VVIQ = 16)\nN = 147",
-    color = "#8B3A3E", fontface = "bold", hjust = 0, size = 5,
-    lineheight = 0.2
+    color = "#8B3A3E", fontface = "bold", 
+    hjust = 0, vjust = 0,
+    size = 5, lineheight = 0.2
   )
 
 square_abstract <-
