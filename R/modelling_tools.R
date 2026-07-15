@@ -27,7 +27,7 @@
 #' 0.95.
 #' @param max_treedepth Maximum treedepth for the NUTS sampler. Default is 10
 #' (brms/Stan default). Increase (e.g. 12-15) if you see "maximum treedepth
-#' exceeded" warnings — this doesn't fix an underlying geometry problem, it
+#' exceeded" warnings - this doesn't fix an underlying geometry problem, it
 #' just lets the sampler take more steps per iteration before giving up,
 #' which is often sufficient for models with awkward but not pathological
 #' posteriors (e.g. nonlinear/hinge models with a weakly identified parameter).
@@ -78,6 +78,90 @@ fit_brms_model <- function(
     control = list(adapt_delta = adapt_delta, max_treedepth = max_treedepth),
     seed = seed
   )
+}
+
+
+#' Check that a segmented model's cached knot still matches a fresh MARS estimate
+#'
+#' The segmented `brms` model's breakpoint prior is seeded from a fast,
+#' frequentist MARS knot search (`earth::earth()`), then the model is fit once
+#' and cached to disk with `file_refit = "never"` (see
+#' [fit_brms_model()] and the "Continuous alternatives" section of
+#' `vignette("model-comparison", package = "aphantasiaEmotions")`). Because the
+#' cached model is never automatically refitted, it can silently go stale if
+#' the underlying data changes - the site would keep reporting a knot fit
+#' around old data without any visible sign that anything is wrong.
+#'
+#' This function is a safeguard against exactly that. It re-runs the cheap
+#' `earth::earth()` search on the data supplied *now*, and compares the knot
+#' it finds against `seed_knot` - the knot value that was actually used to
+#' seed the prior for the cached model at the time it was fit (**not** the
+#' brms model's own posterior estimate of the knot, which is expected to
+#' differ from the earth seed even on unchanged data, since brms re-estimates
+#' it from a prior rather than reproducing earth's point estimate exactly).
+#' If the two don't match exactly, the underlying data has almost certainly
+#' changed since the model was cached, and the model should be refit.
+#'
+#' @param data The data the live model-comparison page is using right now
+#' (e.g. `all_data`).
+#' @param seed_knot The knot value that was used to seed the cached model's
+#' prior when it was originally fit - a fixed constant recorded at fit time,
+#' not read from the model object itself.
+#' @param formula Formula passed to `earth::earth()`. Default is
+#' `tas ~ vviq`, matching the segmented model's own formula.
+#'
+#' @returns Invisibly, the freshly-computed knot value, if it matches
+#' `seed_knot`. Errors loudly otherwise.
+#'
+#' @export
+check_knot_still_matches <- function(
+    data,
+    seed_knot,
+    formula = tas ~ vviq
+) {
+  rlang::check_installed("earth", reason = "to re-run the MARS knot search")
+
+  fresh_fit  <- earth::earth(formula, data = data)
+  fresh_cuts <- fresh_fit$cuts
+
+  predictor <- all.vars(formula[[3]])
+  if (!predictor %in% colnames(fresh_cuts)) {
+    stop(
+      "check_knot_still_matches(): predictor '", predictor,
+      "' not found among earth's cut columns. Was the formula changed?",
+      call. = FALSE
+    )
+  }
+
+  nonzero_cuts <- fresh_cuts[, predictor]
+  nonzero_cuts <- nonzero_cuts[nonzero_cuts != 0]
+
+  if (length(nonzero_cuts) == 0) {
+    stop(
+      "check_knot_still_matches(): earth found no knot for '", predictor,
+      "' on this data (0 non-zero cuts) - cannot compare against seed_knot.",
+      call. = FALSE
+    )
+  }
+
+  # In the ordinary single-predictor case this is one value repeated across
+  # the hinge pair; taking the first is safe, but flag if that assumption
+  # ever stops holding (e.g. formula changed to include more terms).
+  fresh_knot <- unname(nonzero_cuts[1])
+
+  if (!isTRUE(all.equal(fresh_knot, seed_knot))) {
+    stop(
+      "check_knot_still_matches(): a fresh earth::earth() search finds a ",
+      "knot at ", fresh_knot, ", but the cached segmented model was seeded ",
+      "with a knot at ", seed_knot, ". The underlying data has likely ",
+      "changed since the model was fit. Refit and re-cache the segmented ",
+      "model (see the 'Continuous alternatives' section of the ",
+      "model-comparison vignette) before trusting this page's results.",
+      call. = FALSE
+    )
+  }
+
+  invisible(fresh_knot)
 }
 
 

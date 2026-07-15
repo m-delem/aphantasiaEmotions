@@ -340,7 +340,7 @@ Both parameters are essentially unchanged between the default and the
 deliberately wider prior — the headline result does not depend on which
 weakly-informative prior was used for this specific variance term.
 
-## TAS-20 sub-scales
+## TAS-20 sub-scales {#floor-subscales}
 
 The total-TAS floor effect above is this project's central finding. The TAS-20
 also has three established sub-scales — Difficulty Identifying Feelings (DIF),

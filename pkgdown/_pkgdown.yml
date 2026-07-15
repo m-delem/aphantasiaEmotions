@@ -22,6 +22,7 @@ reference:
       - fit_brms_model
       - report_rope
       - check_slope_evidence
+      - check_knot_still_matches
   - title: Visualisation
     desc: >
       ggplot2 helpers built for this project's specific figures — raincloud
@@ -67,6 +68,8 @@ navbar:
         - text: "Technical details"
         - text: "Model diagnostics"
           href: articles/model-diagnostics.html
+        - text: "Superseded models"
+          href: articles/superseded-models.html
         - text: "Implementation notes"
           href: articles/implementation-notes.html
     - text: "Reference"

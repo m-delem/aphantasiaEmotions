@@ -1,0 +1,170 @@
+---
+title: "Superseded models"
+output: rmarkdown::html_vignette
+bibliography: ../references.bib
+csl: ../apa.csl
+vignette: >
+  %\VignetteIndexEntry{Superseded models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 3.5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+library(ggplot2)
+library(patchwork)
+
+pkg   <- "aphantasiaEmotions"
+refit <- "never"
+
+options("marginaleffects_safe" = FALSE)
+draws <- seq(1, 4000, 1) # To limit draws that will be used for marginaleffects
+```
+
+The 4-group categorical model and the Bayesian GAM were this study's
+original, primary models, reported in [the first version of the manuscript](https://doi.org/10.31234/osf.io/es425_v1).
+The [model-comparison arc](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html#comparing-all-single-level-models)
+now prefers the floor-group and segmented models instead, as both fit the
+data decisively better by LOO. This page is not a retraction of the
+original models so much as a record of them: they are genuinely
+informative, we checked them thoroughly, and we think it is worth showing
+that check in full rather than letting them quietly disappear from the
+documentation once something else took the spotlight.
+
+The code and figures below are close to unchanged from the original,
+single-vignette version of this package's report — reused here rather
+than redone, since the underlying question they answer (how does each
+model describe the data) hasn't changed, even though our headline answer
+to the *overall* research question has moved on to a different model.
+
+## Total TAS-20 scores
+
+### 4-group categorical model {#original-4g}
+
+```{r categorical-tot}
+#| fig.alt: >
+#|   Left: violin plots of total TAS score by VVIQ group (complete
+#|   aphantasia, hypophantasia, typical imagery, hyperphantasia), with the
+#|   clinical alexithymia cutoff marked. Right: posterior contrasts between
+#|   each pair of groups, with ROPE-based evidence annotations.
+
+lm_categorical_4g <- fit_brms_model(
+  formula = tas ~ vviq_group_4,
+  data    = all_data,
+  prior   = brms::prior(normal(0, 20), class = "b"),
+  file    = system.file("models", "lm_categorical_4g_tot.rds", package = pkg),
+  file_refit = refit
+)
+
+contrasts_tot <- marginaleffects::comparisons(
+  lm_categorical_4g,
+  variables = list("vviq_group_4" = "pairwise"),
+  draw_ids = draws
+)
+
+report_rope(contrasts_tot, contrast) |> knitr::kable(digits = 3)
+
+p_contr_tot <- plot_posterior_contrasts(
+  contrasts_tot,
+  lm_categorical_4g,
+  base_size = 12,
+  rope_txt = 3,
+  dot_size = 1,
+  x_lab = "Effect size (TAS score difference)",
+  axis_relative_x = 0.7
+)
+
+p_tot <- plot_group_violins(
+  tas ~ vviq_group_4,
+  y_lab = "Total TAS Score",
+  base_size = 12
+) +
+  plot_alexithymia_cutoff(txt_size = 2, txt_x = 1.4, label = "Alexithymia") +
+  scale_discrete_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7))
+
+p_tot + p_contr_tot
+```
+
+(Convergence and posterior predictive check: [model diagnostics §Categorical, 4 groups](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-categorical-4).)
+
+### Bayesian GAM {#original-gam}
+
+```{r gam-tot}
+#| fig.alt: >
+#|   Left: fitted GAM curve of total TAS score across the VVIQ range, with
+#|   individual data points coloured by VVIQ group and the clinical
+#|   alexithymia cutoff marked. Right: the estimated slope (rate of change
+#|   of TAS with VVIQ) across the VVIQ range, coloured by evidence strength.
+
+gam_tot <- fit_brms_model(
+  formula = tas ~ s(vviq),
+  data    = all_data,
+  prior   = brms::prior(normal(0, 20), class = "b"),
+  file    = system.file("models", "gam_tot.rds", package = pkg),
+  file_refit = refit
+)
+
+slopes_tot <- modelbased::estimate_slopes(
+  gam_tot,
+  trend = "vviq",
+  by = "vviq",
+  length = 75,
+  rope_ci = 1
+)
+
+check_slope_evidence(slopes_tot) |> knitr::kable(digits = 3)
+
+p_slopes_tot <- plot_gam_slopes(
+  slopes_tot,
+  .f_groups = dplyr::case_when(
+    vviq <= 24 ~ 1,
+    vviq <= 35 ~ 2,
+    vviq <= 36 ~ 3,
+    vviq <= 45 ~ 4,
+    vviq <= 76 ~ 5,
+    vviq <= 80 ~ 6
+  ),
+  y_lab = "TAS variation per unit change in VVIQ",
+  base_size = 12
+)
+
+p_gam_tot <- plot_gam_means(
+  gam_tot,
+  y_lab = "Total TAS score",
+  legend_relative = 0.85,
+  base_size = 12
+) +
+  plot_coloured_subjects(x = all_data$vviq, y = all_data$tas, size = 1) +
+  plot_alexithymia_cutoff(txt_x = 26, label = "Alexithymia") +
+  scale_discrete_aphantasia() +
+  scale_x_vviq()
+
+p_gam_tot + p_slopes_tot
+```
+
+(Convergence and posterior predictive check: [model diagnostics §GAM](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-gam).)
+
+## TAS-20 sub-scales
+
+The same two models were fit separately on each of the three TAS-20 sub-scales
+(DIF, DDF, EOT). Full figures and statistical resutls for these were part of the
+original manuscript; they are not reproduced here since the
+pattern across sub-scales did not depart dramatically from the one observed for
+the total TAS. We refer interested readers to the [original manuscript](https://doi.org/10.31234/osf.io/es425_v1) for these details, or to 
+the new final sub-scale analysis using the best model (the "floor-group" model) on
+its [dedicated page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html#floor-subscales).
