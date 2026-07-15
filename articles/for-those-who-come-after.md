@@ -47,10 +47,12 @@ technical dead end.
 
 The segmented model’s estimated knot (see the [model comparison
 page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html#continuous-alternatives))
-was first located using `earth::earth()` — a fast, frequentist
-implementation of Multivariate Adaptive Regression Splines (MARS). That
-result was then re-estimated properly in a Bayesian framework, but only
-for the single-knot structure `earth` had already found.
+was first located using
+[`earth::earth()`](https://rdrr.io/pkg/earth/man/earth.html) — a fast,
+frequentist implementation of Multivariate Adaptive Regression Splines
+(MARS). That result was then re-estimated properly in a Bayesian
+framework, but only for the single-knot structure `earth` had already
+found.
 
 A more thoroughly Bayesian version of the same idea exists: the **BASS**
 package (Francom & Sansó, 2020) (Bayesian Adaptive Spline Surfaces) fits
@@ -70,10 +72,11 @@ hyperpriors on spline complexity) is unfamiliar territory relative to
 the priors used throughout this project. None of that makes it a bad
 idea — it’s a genuinely distinctive, rare thing to see worked through in
 this literature, and fitting a first model is mechanically simple (a
-single function call, not unlike `earth::earth()`). It’s parked here
-specifically because *understanding and defending* the result is the
-real cost, not the fitting itself, and that’s a task for its own
-dedicated adventure.
+single function call, not unlike
+[`earth::earth()`](https://rdrr.io/pkg/earth/man/earth.html)). It’s
+parked here specifically because *understanding and defending* the
+result is the real cost, not the fitting itself, and that’s a task for
+its own dedicated adventure.
 
 ## A per-study estimate of the segmented model’s knot
 

@@ -20,6 +20,9 @@ posterior distributions.
   : Report the ROPE analysis for marginal effects
 - [`check_slope_evidence()`](https://m-delem.github.io/aphantasiaEmotions/reference/check_slope_evidence.md)
   : Check VVIQ slope data for Bayesian GAMs
+- [`check_knot_still_matches()`](https://m-delem.github.io/aphantasiaEmotions/reference/check_knot_still_matches.md)
+  : Check that a segmented model's cached knot still matches a fresh
+  MARS estimate
 
 ## Visualisation
 

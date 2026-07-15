@@ -51,7 +51,7 @@ follows:
     which is a more flexible move than it might look. It should not be
     treated as a “linear” baseline to contrast against the GAM.
 2.  A genuinely naive linear model was missing from the comparison, and
-    belonged there as the actual baseline.
+    belonged there as the actual continuous baseline.
 3.  More generally, a single categorical model and a single GAM is not a
     *comparison* — a proper one would fit several candidate models (the
     reviewer specifically suggested spline approaches like MARS, via the
@@ -156,10 +156,10 @@ non-linearity describes the data better.
 ## Continuous alternatives
 
 Three continuous models were compared against each other and against the
-categorical baseline above: a plain linear model, a Bayesian GAM (the
+categorical models above: a plain linear model, a Bayesian GAM (the
 study’s original planned non-linear approach), and a segmented
 (piecewise) model with an estimated breakpoint (the reviewer’s
-suggestion).
+suggestion). Here are the specifications of the linear and GAM models:
 
 ``` r
 
@@ -187,7 +187,23 @@ search — which found a single knot at VVIQ = 24. That value then became
 the starting point (not the final answer) for a proper Bayesian
 estimate: a non-linear model that estimates the breakpoint itself, with
 full posterior uncertainty, rather than treating `earth`’s point
-estimate as fixed:
+estimate as fixed.
+
+Because the cached model below is loaded with `file_refit = "never"`, it
+will not notice on its own if the underlying data changes. As a
+safeguard, the same fast `earth` search that originally seeded this
+model’s prior is re-run here, live, every time this page builds, and
+compared against the knot that was actually used at fit time. If a
+future update to the pooled dataset moves the knot `earth` finds, this
+will fail loudly rather than silently describing stale data:
+
+``` r
+
+check_knot_still_matches(all_data, seed_knot = 24)
+```
+
+Here is the segmented model itself (note the prior on the knot `k`,
+guided by `earth` initial fixed estimation):
 
 ``` r
 
@@ -215,6 +231,8 @@ straightforward — see the [Implementation
 Notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#the-segmented-models-estimated-knot)
 page for the two real problems this formula ran into and how they were
 resolved.
+
+Here is a visual comparison of the three continuous models above:
 
 ``` r
 
@@ -250,14 +268,24 @@ function of VVIQ score: a linear model (grey, monotonic decline), a GAM
 converge in the middle of the VVIQ range and diverge at the
 extremes.](model-comparison_files/figure-html/model-overlay-1.png)
 
-### Comparing all single-level models
-
-Convergence and posterior predictive checks for the three continuous
-models above:
+The three continuous models fitted well. Here are their convergence and
+posterior predictive checks:
 [linear](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-linear),
 [GAM](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-gam),
 [segmented, estimated
 knot](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-segmented-estimated).
+
+### Comparing all single-level models
+
+All models were directly compared against each other via approximate
+leave-one-out cross-validation (LOO). This comparison uses `elpd_diff` —
+the difference in expected log pointwise predictive density between two
+models, with its standard error, which is the Bayesian analogue of an
+AIC/BIC-based comparison and the standard model-selection criterion in
+the `brms`/`loo` ecosystem our models are fit in (we point interested
+readers to [Ari Vehtari’s own
+FAQ](https://users.aalto.fi/~ave/CV-FAQ.html#elpd_interpretation%3E) for
+a fuller explanation of how to interpret it).
 
 ``` r
 
@@ -278,18 +306,109 @@ comparison_table |> knitr::kable(digits = 2)
 | categorical_2_groups |    -48.46 |   10.17 |               0 |
 
 *(Table restricted to single-level models fit on the total TAS score.
-The floor-group additive model — introduced below and covered fully on
-the [next
+The floor-group additive model — introduced [below](#sec-twist) and
+covered fully on the [next
 page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
 — was also given a multilevel treatment to check its robustness across
 studies; that comparison is not shown here, since it would not be a fair
 comparison against models that were never given the same multilevel
 treatment.)*
 
-The categorical and 2-group models are clearly outperformed. The linear,
-GAM, and segmented models cluster closely together — genuinely close
-enough that no single one of them can be called definitively best on
-statistical grounds alone.
+The categorical and 2-group models are clearly outperformed. Among the
+continuous models, the segmented (fixed and estimated) and floor-group
+models cluster tightly at the top, well within one standard error of
+each other, genuinely indistinguishable on statistical grounds alone.
+The GAM trails this top cluster by a small but non-negligible margin.
+The plain linear model, despite being continuous like the GAM and
+segmented models, is decisively worse — closer in magnitude to the
+categorical models’ gap than to the top cluster’s. This is consistent
+with the VVIQ floor itself (complete aphantasics) being a structural
+discontinuity: a model with no mechanism for a discontinuity should, and
+does, fit visibly worse than every model that has one.
+
+The 4-group categorical model and the GAM were this study’s original,
+primary models. Their full results, including the same detailed contrast
+and slope figures from the original manuscript, are kept on the
+[Superseded
+models](https://m-delem.github.io/aphantasiaEmotions/articles/superseded-models.html)
+page rather than dropped. They are genuinely informative models we
+checked thoroughly, even though the model-comparison arc above now
+prefers the floor-group and segmented alternatives.
+
+### The segmented model’s own numbers
+
+The segmented model’s estimated breakpoint and slopes are detailed here,
+since it performs well throughout this comparison and directly echoes
+the pattern in previous literature described in the next section.
+
+The formula of the segmented model parametrises the model in four
+pieces: an intercept `a`, a pre-knot slope `b1`, a *change* in slope
+after the knot `b2` (not the post-knot slope itself), and the knot
+location `k`. Extracting these directly:
+
+``` r
+
+segmented_fixef <- brms::fixef(segmented_estimated)
+
+# b1 + b2 is a derived quantity: its own SE/CrI cannot be obtained by
+# summing b1's and b2's columns from fixef() directly, since that would
+# ignore their posterior covariance. Instead, sum the two parameters'
+# posterior draws together first, then summarise the resulting draw-level
+# distribution the same way brms does for any other parameter.
+post_knot_draws <-
+  brms::as_draws_df(segmented_estimated) |>
+  dplyr::transmute(post_knot_slope = .data$b_b1_Intercept + .data$b_b2_Intercept)
+
+post_knot_summary <- data.frame(
+  Estimate  = mean(post_knot_draws$post_knot_slope),
+  Est.Error = stats::sd(post_knot_draws$post_knot_slope),
+  Q2.5      = stats::quantile(post_knot_draws$post_knot_slope, 0.025),
+  Q97.5     = stats::quantile(post_knot_draws$post_knot_slope, 0.975)
+)
+
+segmented_summary <- rbind(
+  segmented_fixef["a_Intercept", ],
+  segmented_fixef["b1_Intercept", ],
+  segmented_fixef["b2_Intercept", ],
+  post_knot_summary,
+  segmented_fixef["k_Intercept", ]
+)
+
+segmented_summary <- data.frame(
+  Parameter = c(
+    "Intercept (a)", "Pre-knot slope (b1)",
+    "Slope change at knot (b2)", "Post-knot slope (b1 + b2)", "Knot (k)"
+  ),
+  Estimate  = segmented_summary[, "Estimate"],
+  "Est. Error" = segmented_summary[, "Est.Error"],
+  "95% CrI" = paste0(
+    "[", round(segmented_summary[, "Q2.5"], 2), ", ",
+    round(segmented_summary[, "Q97.5"], 2), "]"
+  ),
+  check.names = FALSE
+)
+
+segmented_summary |> knitr::kable(digits = 2)
+```
+
+| Parameter                 | Estimate | Est. Error | 95% CrI           |
+|:--------------------------|---------:|-----------:|:------------------|
+| Intercept (a)             |     9.82 |      16.52 | \[-25.67, 36.86\] |
+| Pre-knot slope (b1)       |     2.55 |       1.02 | \[0.9, 4.76\]     |
+| Slope change at knot (b2) |    -2.83 |       1.02 | \[-5.03, -1.19\]  |
+| Post-knot slope (b1 + b2) |    -0.28 |       0.02 | \[-0.33, -0.23\]  |
+| Knot (k)                  |    19.91 |       1.68 | \[17.74, 24.09\]  |
+
+Reading these together: the pre-knot slope (`b1`) is positive — TAS-20
+rises with VVIQ below the knot — while the post-knot slope (`b1 + b2`)
+is negative, consistent with the descending arm visible in the overlay
+figure above. The knot itself (`k`) lands close to the `earth`-seeded
+starting value, which is expected: `earth`’s search is a reasonable
+first guess precisely because it already looks at the same discontinuity
+the Bayesian model then estimates more carefully, with full posterior
+uncertainty rather than a single point value. However, the Bayesian
+model estimates that `k` sits below `earth`’s value, probably closer to
+20 than 24.
 
 ## Validating against the literature: Kvamme et al.
 
@@ -457,9 +576,9 @@ That is the actual finding this project ended up making: not that the
 VVIQ-TAS relationship is curved, but that it is a straight line with one
 group sitting apart from it. The [next
 page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
-covers that model — and why the simplicity is the point — in full,
-including how it holds up once study-level heterogeneity is accounted
-for.
+covers that model in full, including how it holds up once study-level
+heterogeneity is accounted for, and why the simplicity is the point that
+makes it truly special.
 
 ------------------------------------------------------------------------
 

@@ -49,6 +49,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Technical details</h6></li>
     <li><a class="dropdown-item" href="../articles/model-diagnostics.html">Model diagnostics</a></li>
+    <li><a class="dropdown-item" href="../articles/superseded-models.html">Superseded models</a></li>
     <li><a class="dropdown-item" href="../articles/implementation-notes.html">Implementation notes</a></li>
   </ul>
 </li>
@@ -223,11 +224,11 @@ represents makes clear why they can’t.</p>
 </h2>
 <p>The fixed-knot segmented model (a simpler, non-estimated companion to
 the model discussed above) uses a knot location found by
-<code>earth::earth()</code>, extracted programmatically rather than
+<code><a href="https://rdrr.io/pkg/earth/man/earth.html" class="external-link">earth::earth()</a></code>, extracted programmatically rather than
 typed in by hand, so the code stays correct if the underlying data ever
 changes:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mars</span> <span class="op">&lt;-</span> <span class="fu">earth</span><span class="fu">::</span><span class="fu">earth</span><span class="op">(</span><span class="va">tas</span> <span class="op">~</span> <span class="va">vviq</span>, data <span class="op">=</span> <span class="va">all_data</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mars</span> <span class="op">&lt;-</span> <span class="fu">earth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/earth/man/earth.html" class="external-link">earth</a></span><span class="op">(</span><span class="va">tas</span> <span class="op">~</span> <span class="va">vviq</span>, data <span class="op">=</span> <span class="va">all_data</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># mars$cuts is a matrix of breakpoints used by each hinge term; for a</span></span>
 <span><span class="co"># single-knot model, all non-zero entries should agree.</span></span>

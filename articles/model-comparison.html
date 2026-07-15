@@ -49,6 +49,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Technical details</h6></li>
     <li><a class="dropdown-item" href="../articles/model-diagnostics.html">Model diagnostics</a></li>
+    <li><a class="dropdown-item" href="../articles/superseded-models.html">Superseded models</a></li>
     <li><a class="dropdown-item" href="../articles/implementation-notes.html">Implementation notes</a></li>
   </ul>
 </li>
@@ -132,7 +133,7 @@ cutting a continuum into groups lets each group take its own mean, which
 is a more flexible move than it might look. It should not be treated as
 a “linear” baseline to contrast against the GAM.</li>
 <li>A genuinely naive linear model was missing from the comparison, and
-belonged there as the actual baseline.</li>
+belonged there as the actual continuous baseline.</li>
 <li>More generally, a single categorical model and a single GAM is not a
 <em>comparison</em> — a proper one would fit several candidate models
 (the reviewer specifically suggested spline approaches like MARS, via
@@ -219,10 +220,11 @@ kind</em> of non-linearity describes the data better.</p>
 <h2 id="continuous-alternatives">Continuous alternatives<a class="anchor" aria-label="anchor" href="#continuous-alternatives"></a>
 </h2>
 <p>Three continuous models were compared against each other and against
-the categorical baseline above: a plain linear model, a Bayesian GAM
-(the study’s original planned non-linear approach), and a segmented
+the categorical models above: a plain linear model, a Bayesian GAM (the
+study’s original planned non-linear approach), and a segmented
 (piecewise) model with an estimated breakpoint (the reviewer’s
-suggestion).</p>
+suggestion). Here are the specifications of the linear and GAM
+models:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lm_linear</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
 <span>  formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq</span>,</span>
@@ -246,8 +248,21 @@ frequentist spline search — which found a single knot at VVIQ = 24. That
 value then became the starting point (not the final answer) for a proper
 Bayesian estimate: a non-linear model that estimates the breakpoint
 itself, with full posterior uncertainty, rather than treating
-<code>earth</code>’s point estimate as fixed:</p>
+<code>earth</code>’s point estimate as fixed.</p>
+<p>Because the cached model below is loaded with
+<code>file_refit = "never"</code>, it will not notice on its own if the
+underlying data changes. As a safeguard, the same fast
+<code>earth</code> search that originally seeded this model’s prior is
+re-run here, live, every time this page builds, and compared against the
+knot that was actually used at fit time. If a future update to the
+pooled dataset moves the knot <code>earth</code> finds, this will fail
+loudly rather than silently describing stale data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_knot_still_matches.html">check_knot_still_matches</a></span><span class="op">(</span><span class="va">all_data</span>, seed_knot <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span></code></pre></div>
+<p>Here is the segmented model itself (note the prior on the knot
+<code>k</code>, guided by <code>earth</code> initial fixed
+estimation):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">segmented_estimated</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
 <span>  formula <span class="op">=</span> <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span></span>
 <span>    <span class="va">tas</span> <span class="op">~</span> <span class="va">a</span> <span class="op">+</span> <span class="va">b1</span> <span class="op">*</span> <span class="va">vviq</span> <span class="op">+</span> <span class="va">b2</span> <span class="op">*</span> <span class="op">(</span><span class="va">vviq</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/step.html" class="external-link">step</a></span><span class="op">(</span><span class="va">vviq</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span>,</span>
@@ -269,7 +284,8 @@ itself, with full posterior uncertainty, rather than treating
 straightforward — see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#the-segmented-models-estimated-knot">Implementation
 Notes</a> page for the two real problems this formula ran into and how
 they were resolved.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Here is a visual comparison of the three continuous models above:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pred_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>vviq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">80</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pred_linear</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html" class="external-link">predictions</a></span><span class="op">(</span><span class="va">lm_linear</span>, newdata <span class="op">=</span> <span class="va">pred_grid</span><span class="op">)</span><span class="op">)</span></span>
@@ -294,15 +310,24 @@ they were resolved.</p>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"VVIQ score"</span>, y <span class="op">=</span> <span class="st">"Total TAS score"</span>, color <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="model-comparison_files/figure-html/model-overlay-1.png" class="r-plt" alt="A line plot comparing three fitted models of Total TAS score as a function of VVIQ score: a linear model (grey, monotonic decline), a GAM (yellow, smooth curve peaking around VVIQ 25-30), and a segmented model (green, sharp rise then decline, peaking near VVIQ 20). All three curves converge in the middle of the VVIQ range and diverge at the extremes." width="768"></p>
-<div class="section level3">
-<h3 id="comparing-all-single-level-models">Comparing all single-level models<a class="anchor" aria-label="anchor" href="#comparing-all-single-level-models"></a>
-</h3>
-<p>Convergence and posterior predictive checks for the three continuous
-models above: <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-linear">linear</a>,
+<p>The three continuous models fitted well. Here are their convergence
+and posterior predictive checks: <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-linear">linear</a>,
 <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-gam">GAM</a>,
 <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-segmented-estimated">segmented,
 estimated knot</a>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="comparing-all-single-level-models">Comparing all single-level models<a class="anchor" aria-label="anchor" href="#comparing-all-single-level-models"></a>
+</h3>
+<p>All models were directly compared against each other via approximate
+leave-one-out cross-validation (LOO). This comparison uses
+<code>elpd_diff</code> — the difference in expected log pointwise
+predictive density between two models, with its standard error, which is
+the Bayesian analogue of an AIC/BIC-based comparison and the standard
+model-selection criterion in the <code>brms</code>/<code>loo</code>
+ecosystem our models are fit in (we point interested readers to <a href="https://users.aalto.fi/~ave/CV-FAQ.html#elpd_interpretation%3E" class="external-link">Ari
+Vehtari’s own FAQ</a> for a fuller explanation of how to interpret
+it).</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">comparison_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"results"</span>, <span class="st">"comparison_all_models_tot.rds"</span>, package <span class="op">=</span> <span class="va">pkg</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -360,16 +385,134 @@ estimated knot</a>.</p>
 </tbody>
 </table>
 <p><em>(Table restricted to single-level models fit on the total TAS
-score. The floor-group additive model — introduced below and covered
-fully on the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html">next
+score. The floor-group additive model — introduced <a href="#sec-twist">below</a> and covered fully on the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html">next
 page</a> — was also given a multilevel treatment to check its robustness
 across studies; that comparison is not shown here, since it would not be
 a fair comparison against models that were never given the same
 multilevel treatment.)</em></p>
-<p>The categorical and 2-group models are clearly outperformed. The
-linear, GAM, and segmented models cluster closely together — genuinely
-close enough that no single one of them can be called definitively best
-on statistical grounds alone.</p>
+<p>The categorical and 2-group models are clearly outperformed. Among
+the continuous models, the segmented (fixed and estimated) and
+floor-group models cluster tightly at the top, well within one standard
+error of each other, genuinely indistinguishable on statistical grounds
+alone. The GAM trails this top cluster by a small but non-negligible
+margin. The plain linear model, despite being continuous like the GAM
+and segmented models, is decisively worse — closer in magnitude to the
+categorical models’ gap than to the top cluster’s. This is consistent
+with the VVIQ floor itself (complete aphantasics) being a structural
+discontinuity: a model with no mechanism for a discontinuity should, and
+does, fit visibly worse than every model that has one.</p>
+<p>The 4-group categorical model and the GAM were this study’s original,
+primary models. Their full results, including the same detailed contrast
+and slope figures from the original manuscript, are kept on the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/superseded-models.html">Superseded
+models</a> page rather than dropped. They are genuinely informative
+models we checked thoroughly, even though the model-comparison arc above
+now prefers the floor-group and segmented alternatives.</p>
+</div>
+<div class="section level3">
+<h3 id="the-segmented-models-own-numbers">The segmented model’s own numbers<a class="anchor" aria-label="anchor" href="#the-segmented-models-own-numbers"></a>
+</h3>
+<p>The segmented model’s estimated breakpoint and slopes are detailed
+here, since it performs well throughout this comparison and directly
+echoes the pattern in previous literature described in the next
+section.</p>
+<p>The formula of the segmented model parametrises the model in four
+pieces: an intercept <code>a</code>, a pre-knot slope <code>b1</code>, a
+<em>change</em> in slope after the knot <code>b2</code> (not the
+post-knot slope itself), and the knot location <code>k</code>.
+Extracting these directly:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">segmented_fixef</span> <span class="op">&lt;-</span> <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/fixed.effects.html" class="external-link">fixef</a></span><span class="op">(</span><span class="va">segmented_estimated</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># b1 + b2 is a derived quantity: its own SE/CrI cannot be obtained by</span></span>
+<span><span class="co"># summing b1's and b2's columns from fixef() directly, since that would</span></span>
+<span><span class="co"># ignore their posterior covariance. Instead, sum the two parameters'</span></span>
+<span><span class="co"># posterior draws together first, then summarise the resulting draw-level</span></span>
+<span><span class="co"># distribution the same way brms does for any other parameter.</span></span>
+<span><span class="va">post_knot_draws</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/posterior/reference/draws_df.html" class="external-link">as_draws_df</a></span><span class="op">(</span><span class="va">segmented_estimated</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span>post_knot_slope <span class="op">=</span> <span class="va">.data</span><span class="op">$</span><span class="va">b_b1_Intercept</span> <span class="op">+</span> <span class="va">.data</span><span class="op">$</span><span class="va">b_b2_Intercept</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">post_knot_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Estimate  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">post_knot_draws</span><span class="op">$</span><span class="va">post_knot_slope</span><span class="op">)</span>,</span>
+<span>  Est.Error <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">post_knot_draws</span><span class="op">$</span><span class="va">post_knot_slope</span><span class="op">)</span>,</span>
+<span>  Q2.5      <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">post_knot_draws</span><span class="op">$</span><span class="va">post_knot_slope</span>, <span class="fl">0.025</span><span class="op">)</span>,</span>
+<span>  Q97.5     <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">post_knot_draws</span><span class="op">$</span><span class="va">post_knot_slope</span>, <span class="fl">0.975</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">segmented_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="va">segmented_fixef</span><span class="op">[</span><span class="st">"a_Intercept"</span>, <span class="op">]</span>,</span>
+<span>  <span class="va">segmented_fixef</span><span class="op">[</span><span class="st">"b1_Intercept"</span>, <span class="op">]</span>,</span>
+<span>  <span class="va">segmented_fixef</span><span class="op">[</span><span class="st">"b2_Intercept"</span>, <span class="op">]</span>,</span>
+<span>  <span class="va">post_knot_summary</span>,</span>
+<span>  <span class="va">segmented_fixef</span><span class="op">[</span><span class="st">"k_Intercept"</span>, <span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">segmented_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Parameter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Intercept (a)"</span>, <span class="st">"Pre-knot slope (b1)"</span>,</span>
+<span>    <span class="st">"Slope change at knot (b2)"</span>, <span class="st">"Post-knot slope (b1 + b2)"</span>, <span class="st">"Knot (k)"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  Estimate  <span class="op">=</span> <span class="va">segmented_summary</span><span class="op">[</span>, <span class="st">"Estimate"</span><span class="op">]</span>,</span>
+<span>  <span class="st">"Est. Error"</span> <span class="op">=</span> <span class="va">segmented_summary</span><span class="op">[</span>, <span class="st">"Est.Error"</span><span class="op">]</span>,</span>
+<span>  <span class="st">"95% CrI"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>    <span class="st">"["</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">segmented_summary</span><span class="op">[</span>, <span class="st">"Q2.5"</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">", "</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">segmented_summary</span><span class="op">[</span>, <span class="st">"Q97.5"</span><span class="op">]</span>, <span class="fl">2</span><span class="op">)</span>, <span class="st">"]"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">segmented_summary</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Parameter</th>
+<th align="right">Estimate</th>
+<th align="right">Est. Error</th>
+<th align="left">95% CrI</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Intercept (a)</td>
+<td align="right">9.82</td>
+<td align="right">16.52</td>
+<td align="left">[-25.67, 36.86]</td>
+</tr>
+<tr class="even">
+<td align="left">Pre-knot slope (b1)</td>
+<td align="right">2.55</td>
+<td align="right">1.02</td>
+<td align="left">[0.9, 4.76]</td>
+</tr>
+<tr class="odd">
+<td align="left">Slope change at knot (b2)</td>
+<td align="right">-2.83</td>
+<td align="right">1.02</td>
+<td align="left">[-5.03, -1.19]</td>
+</tr>
+<tr class="even">
+<td align="left">Post-knot slope (b1 + b2)</td>
+<td align="right">-0.28</td>
+<td align="right">0.02</td>
+<td align="left">[-0.33, -0.23]</td>
+</tr>
+<tr class="odd">
+<td align="left">Knot (k)</td>
+<td align="right">19.91</td>
+<td align="right">1.68</td>
+<td align="left">[17.74, 24.09]</td>
+</tr>
+</tbody>
+</table>
+<p>Reading these together: the pre-knot slope (<code>b1</code>) is
+positive — TAS-20 rises with VVIQ below the knot — while the post-knot
+slope (<code>b1 + b2</code>) is negative, consistent with the descending
+arm visible in the overlay figure above. The knot itself
+(<code>k</code>) lands close to the <code>earth</code>-seeded starting
+value, which is expected: <code>earth</code>’s search is a reasonable
+first guess precisely because it already looks at the same discontinuity
+the Bayesian model then estimates more carefully, with full posterior
+uncertainty rather than a single point value. However, the Bayesian
+model estimates that <code>k</code> sits below <code>earth</code>’s
+value, probably closer to 20 than 24.</p>
 </div>
 </div>
 <div class="section level2">
@@ -381,7 +524,7 @@ related but distinct analysis of a large, independent sample (the
 than a single continuous model, they split their sample at a fixed VVIQ
 = 32 threshold and fit two separate linear regressions, one on each
 side.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kvamme_data</span>    <span class="op">&lt;-</span> <span class="va">all_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">study</span> <span class="op">==</span> <span class="st">"kvamme"</span><span class="op">)</span></span>
 <span><span class="va">kvamme_aphant</span>  <span class="op">&lt;-</span> <span class="va">kvamme_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">vviq_group_2</span> <span class="op">==</span> <span class="st">"aphantasia"</span><span class="op">)</span></span>
 <span><span class="va">kvamme_typical</span> <span class="op">&lt;-</span> <span class="va">kvamme_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">vviq_group_2</span> <span class="op">!=</span> <span class="st">"aphantasia"</span><span class="op">)</span></span>
@@ -398,7 +541,7 @@ non-aphantasia group (they reported -.236). That confirms this project’s
 version of their dataset matches what they analysed.</p>
 <p>This project’s segmented model offers a direct, principled way to
 test their fixed threshold empirically, rather than assuming it.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">knot_draws</span>       <span class="op">&lt;-</span> <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/posterior/reference/draws_df.html" class="external-link">as_draws_df</a></span><span class="op">(</span><span class="va">segmented_estimated</span>, variable <span class="op">=</span> <span class="st">"b_k_Intercept"</span><span class="op">)</span></span>
 <span><span class="va">knot_median</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">knot_draws</span><span class="op">$</span><span class="va">b_k_Intercept</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">knot_ci_low</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">knot_draws</span><span class="op">$</span><span class="va">b_k_Intercept</span>, <span class="fl">0.025</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -448,7 +591,7 @@ further toward the floor of the scale than the field’s current
 convention assumes.</p>
 </div>
 <div class="section level2">
-<h2 id="the-twist">The twist<a class="anchor" aria-label="anchor" href="#the-twist"></a>
+<h2 id="sec-twist">The twist<a class="anchor" aria-label="anchor" href="#sec-twist"></a>
 </h2>
 <p>Look again at the comparison table above. The floor-group additive
 model — a plain linear relationship among everyone above VVIQ = 16, plus
@@ -457,7 +600,7 @@ variance of their own to fit a slope to in the first place) to have
 their own mean — is not just competitive with the GAM and segmented
 models. It matches them, with far fewer moving parts. See it added to
 the visual comparison with the other models:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Creating a binary column for whether a participant is in the floor-VVIQ group</span></span>
 <span><span class="co"># (complete aphantasia) or not</span></span>
 <span><span class="va">model_data</span> <span class="op">&lt;-</span> <span class="va">all_data</span></span>
@@ -513,9 +656,9 @@ the visual comparison with the other models:</p>
 <p>That is the actual finding this project ended up making: not that the
 VVIQ-TAS relationship is curved, but that it is a straight line with one
 group sitting apart from it. The <a href="https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html">next
-page</a> covers that model — and why the simplicity is the point — in
-full, including how it holds up once study-level heterogeneity is
-accounted for.</p>
+page</a> covers that model in full, including how it holds up once
+study-level heterogeneity is accounted for, and why the simplicity is
+the point that makes it truly special.</p>
 <hr>
 <p><strong>Continuing through the Extended Online Report:</strong> this
 page follows the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html">sample

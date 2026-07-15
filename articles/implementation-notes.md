@@ -156,8 +156,9 @@ represents makes clear why they can’t.
 
 The fixed-knot segmented model (a simpler, non-estimated companion to
 the model discussed above) uses a knot location found by
-`earth::earth()`, extracted programmatically rather than typed in by
-hand, so the code stays correct if the underlying data ever changes:
+[`earth::earth()`](https://rdrr.io/pkg/earth/man/earth.html), extracted
+programmatically rather than typed in by hand, so the code stays correct
+if the underlying data ever changes:
 
 ``` r
 

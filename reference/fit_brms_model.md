@@ -91,7 +91,7 @@ fit_brms_model(
 
   Maximum treedepth for the NUTS sampler. Default is 10 (brms/Stan
   default). Increase (e.g. 12-15) if you see "maximum treedepth
-  exceeded" warnings — this doesn't fix an underlying geometry problem,
+  exceeded" warnings - this doesn't fix an underlying geometry problem,
   it just lets the sampler take more steps per iteration before giving
   up, which is often sufficient for models with awkward but not
   pathological posteriors (e.g. nonlinear/hinge models with a weakly

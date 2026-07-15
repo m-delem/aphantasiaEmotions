@@ -49,6 +49,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Technical details</h6></li>
     <li><a class="dropdown-item" href="../articles/model-diagnostics.html">Model diagnostics</a></li>
+    <li><a class="dropdown-item" href="../articles/superseded-models.html">Superseded models</a></li>
     <li><a class="dropdown-item" href="../articles/implementation-notes.html">Implementation notes</a></li>
   </ul>
 </li>
@@ -133,7 +134,7 @@ technical dead end.</p>
 <h2 id="bayesian-mars-bass">Bayesian MARS (BASS)<a class="anchor" aria-label="anchor" href="#bayesian-mars-bass"></a>
 </h2>
 <p>The segmented model’s estimated knot (see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html#continuous-alternatives">model
-comparison page</a>) was first located using <code>earth::earth()</code>
+comparison page</a>) was first located using <code><a href="https://rdrr.io/pkg/earth/man/earth.html" class="external-link">earth::earth()</a></code>
 — a fast, frequentist implementation of Multivariate Adaptive Regression
 Splines (MARS). That result was then re-estimated properly in a Bayesian
 framework, but only for the single-knot structure <code>earth</code> had
@@ -157,7 +158,7 @@ hyperpriors on spline complexity) is unfamiliar territory relative to
 the priors used throughout this project. None of that makes it a bad
 idea — it’s a genuinely distinctive, rare thing to see worked through in
 this literature, and fitting a first model is mechanically simple (a
-single function call, not unlike <code>earth::earth()</code>). It’s
+single function call, not unlike <code><a href="https://rdrr.io/pkg/earth/man/earth.html" class="external-link">earth::earth()</a></code>). It’s
 parked here specifically because <em>understanding and defending</em>
 the result is the real cost, not the fitting itself, and that’s a task
 for its own dedicated adventure.</p>

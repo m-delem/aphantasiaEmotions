@@ -18,3 +18,5 @@
   diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.md):
 - [Sample
   description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.md):
+- [Superseded
+  models](https://m-delem.github.io/aphantasiaEmotions/articles/superseded-models.md):
