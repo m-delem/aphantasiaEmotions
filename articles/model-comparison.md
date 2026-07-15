@@ -387,7 +387,71 @@ Look again at the comparison table above. The floor-group additive model
 single coefficient allowing complete aphantasics (who have no VVIQ
 variance of their own to fit a slope to in the first place) to have
 their own mean — is not just competitive with the GAM and segmented
-models. It matches them, with far fewer moving parts.
+models. It matches them, with far fewer moving parts. See it added to
+the visual comparison with the other models:
+
+``` r
+
+# Creating a binary column for whether a participant is in the floor-VVIQ group
+# (complete aphantasia) or not
+model_data <- all_data
+model_data$complete_aphant <- factor(
+  ifelse(model_data$vviq_group_4 == "aphantasia", "floor", "above_floor"),
+  levels = c("above_floor", "floor")
+)
+
+# Fitting the model
+floor_group_additive <- fit_brms_model(
+  formula = tas ~ vviq + complete_aphant,
+  data    = model_data,
+  prior   = brms::prior(normal(0, 20), class = "b"),
+  file    = system.file(
+    "models", "floor_group_additive_tot.rds", package = pkg),
+  file_refit = refit
+)
+
+# Generating predictions
+pred_grid <- 
+  data.frame(vviq = seq(16, 80, length.out = 200)) |> 
+  dplyr::mutate(
+  complete_aphant = 
+    ifelse(.data$vviq == 16, "floor", "above_floor") |> 
+    factor(levels = c("above_floor", "floor"))
+  )
+
+pred_floor  <- as.data.frame(
+  marginaleffects::predictions(floor_group_additive, newdata = pred_grid))
+
+pred_floor$model <- "Floor-group"
+
+# Combining with the predictions from the other models
+all_preds <- rbind(
+  pred_linear[, c("vviq", "estimate", "model")],
+  pred_gam[, c("vviq", "estimate", "model")],
+  pred_segmented[, c("vviq", "estimate", "model")],
+  pred_floor[, c("vviq", "estimate", "model")]
+)
+
+model_colors <- c(
+  "Linear" = "grey40", 
+  "GAM" = "#E69F00", 
+  "Segmented" = "#009E73",
+  "Floor-group" = "#8B3A3E")
+
+ggplot2::ggplot(all_preds, ggplot2::aes(x = vviq, y = estimate, color = model)) +
+  ggplot2::geom_line(linewidth = 0.9) +
+  ggplot2::scale_color_manual(values = model_colors) +
+  ggplot2::labs(x = "VVIQ score", y = "Total TAS score", color = NULL) +
+  theme_pdf(base_size = 16)
+```
+
+![A line plot comparing four fitted models of Total TAS score as a
+function of VVIQ score: a linear model (grey, monotonic decline), a GAM
+(yellow, smooth curve peaking around VVIQ 25-30), a segmented model
+(green, sharp rise then decline, peaking near VVIQ 20) and a model with
+a separate intercept for aphantasics ('floor-group' model). All four
+curves converge in the middle of the VVIQ range and diverge at the
+extremes.](model-comparison_files/figure-html/model-overlay-2-1.png)
 
 That is the actual finding this project ended up making: not that the
 VVIQ-TAS relationship is curved, but that it is a straight line with one
