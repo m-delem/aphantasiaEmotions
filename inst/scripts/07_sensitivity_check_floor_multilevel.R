@@ -36,9 +36,10 @@ print(brms::prior_summary(floor_group_additive_multilevel))
 # already specify — only the ONE term under test changes.
 # ------------------------------------------------------------------------------
 sensitivity_priors <- c(
-  priors,  # existing normal(0,20) on fixed effects, from 00_model_comparison_setup.R
-  brms::set_prior(
-    "student_t(3, 0, 26.6)", # twice as wide as brms' default (13.3)
+  brms::prior(
+    normal(0, 40), class = "b"), # twice as wide as our normal(0,20) default
+  brms::prior(
+    student_t(3, 0, 26.6), # twice as wide as brms' default (13.3)
     class = "sd", group = "study", coef = "vviq")
 )
 

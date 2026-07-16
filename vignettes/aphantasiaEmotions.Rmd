@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This page is a short, practical introduction to `aphantasiaEmotions` — how to
+This page is a short, practical introduction to `aphantasiaEmotions`: how to
 load it, what the data looks like, and how to run one basic model. It is not
 the place to learn about the study's findings; for that, see the
 [Extended Online Report](https://m-delem.github.io/aphantasiaEmotions), starting
@@ -56,7 +56,7 @@ A few columns worth knowing about from the start:
 Most of this project's statistical work uses `fit_brms_model()`, a thin
 wrapper around `brms::brm()` with this project's own conventions for chains,
 iterations, and priors already set as sensible defaults. Here is the
-simplest possible example — a plain linear model of alexithymia as a
+simplest possible example, a plain linear model of alexithymia as a
 function of imagery vividness:
 
 ```{r simple-model, eval = FALSE}

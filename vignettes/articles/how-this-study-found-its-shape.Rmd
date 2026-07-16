@@ -14,7 +14,7 @@ vignette: >
 
 # NOTE FOR FUTURE VIGNETTES (sample-description, model-comparison,
 # floor-group-model, for-those-who-come-after): every figure-producing chunk
-# needs a fig.alt option — pkgdown flags figures missing alt text, and it's
+# needs a fig.alt option - pkgdown flags figures missing alt text, and it's
 # also just good accessibility practice for a public-facing report. Use the
 # Quarto-style #| pipe-comment syntax for chunk options throughout, as done
 # in this file, rather than inline ```{r, opt = val} syntax.
@@ -37,14 +37,14 @@ library(patchwork)
 ```
 
 This study did not begin as a study. It began as a side question attached to a
-different one — and the shape it ended up taking was not planned in advance so
+different one, and the shape it ended up taking was not planned in advance so
 much as discovered, one dataset at a time. Most papers describe what was found,
-not how the finding was arrived at. This page exists to tell that second story —
+not how the finding was arrived at. This page exists to tell that second story:
 the searching, the emailing, the re-analysing after every new dataset arrived.
 This page is about the discovery process.
 
 *A note on voice: this page is written in the first person throughout. That's
-not a stylistic default — most of the searching, emailing, and re-analysing
+not a stylistic default: most of the searching, emailing, and re-analysing
 described here happened as solo, iterative work between datasets, often before
 there was a clear "we" to speak for. The manuscript itself credits contributions
 properly in the conventional third person; this page simply reflects how the
@@ -71,9 +71,9 @@ symptomatology:
 [doi.org/10.31234/osf.io/kj5d3](https://doi.org/10.31234/osf.io/kj5d3). Their
 paper reported analyses of alexithymia and PTSD separately in relation to
 aphantasia, but not the direct relationship between aphantasia and alexithymia
-themselves — the co-occurrence question. I asked whether that had simply not
-been reported, and mentioned that I'd been curious to look at their data myself,
-except the OSF link in the paper pointed to a private repository.
+themselves, i.e., the co-occurrence question. I asked whether that had simply
+not been reported, and mentioned that I'd been curious to look at their data
+myself, except the OSF link in the paper pointed to a private repository.
 
 Edwin Burns kindly shared the dataset. A short back-and-forth followed in which
 I flagged what turned out to be a real discrepancy in how the TAS-20 total score
@@ -83,18 +83,17 @@ have gotten into early, since it would matter again later with a much larger
 dataset. Edwin Burns confirmed the issue, and by October 29, the correction was
 in place and the data were usable.
 
-Ale and Burns' [-@aleAphantasiaAlexithymiaPredict2024]  final sample: 192 English-speaking participants (122 females, 3
-other genders; mean age 38.7, SD 11.4; range 18-86), recruited via social media,
-now openly archived on the OSF of the present study
-(<https://doi.org/10.17605/OSF.IO/B837S>).
+Ale and Burns' [-@aleAphantasiaAlexithymiaPredict2024] final sample: 192
+English-speaking participants (122 females, 3 other genders; mean age 38.7, SD
+11.4; range 18-86), recruited via social media, now openly archived on the OSF
+of the present study (<https://doi.org/10.17605/OSF.IO/B837S>).
 
 ## Monzel, and the first pattern with a finer split
 
-I collected the @monzelAffectiveProcessingAphantasia2024
-dataset in the meantime — 105
-English-speaking participants (74 females; mean age 27.9, SD 9.29; range 18-59),
-recruited via the *Aphantasia Research Project Bonn*'s participant database,
-also openly archived on their own OSF project
+I collected the @monzelAffectiveProcessingAphantasia2024 dataset in the
+meantime: 105 English-speaking participants (74 females; mean age 27.9, SD 9.29;
+range 18-59), recruited via the *Aphantasia Research Project Bonn*'s participant
+database, also openly archived on their own OSF project
 ([osf.io/y9c8g](https://osf.io/y9c8g/?view_only=1e6bd8670a3f4eacb1cf0f600343205e)).
 
 Monzel et al.'s original paper had split their own sample at VVIQ \< 23
@@ -104,11 +103,10 @@ three subscales. Likewise (even though they didn't compare VVIQ and TAS
 explicitly), Ale & Burns used a VVIQ \< 32 threshold to defined aphantasia.
 Redoing the comparison between groups on the combined Ale & Burns + Monzel et
 al. sample, but this time splitting the aphantasia range itself — complete
-aphantasia (VVIQ = 16) from hypophantasia (VVIQ 17-32, in the original,
-provisional definition used at this stage) — told a different, more specific
-story: it looked as though the *hypophantasia* sub-group was driving the
-elevated scores, while complete aphantasics sat much closer to typical imagers
-than the coarser two-group split had suggested.
+aphantasia (VVIQ = 16) from hypophantasia (VVIQ 17-32) — told a different, more
+specific story: it looked as though the *hypophantasia* sub-group was driving
+the elevated scores, while complete aphantasics sat much closer to typical
+imagers than the coarser two-group split had suggested.
 
 Here is that first combined view, reproduced from the current, corrected data:
 
@@ -158,7 +156,7 @@ A negative relationship between visual imagery and alexithymia was already
 visible from hypophantasia through hyperphantasia, but complete aphantasics (the
 right panel's grey group) were "out of place": something different seemed to be
 happening among people with a complete absence of imagery specifically. The
-common 2-group split (left panel) does not show this at all — it simply averages
+common 2-group split (left panel) does not show this at all: it simply averages
 complete aphantasics in with everyone below the threshold, hiding exactly the
 distinction that turned out to matter.
 
@@ -210,8 +208,8 @@ held.
 Midway through this process, Timo Kvamme and colleagues posted a preprint
 reporting a very similar pattern in a large, independent sample: opposing
 relationships between VVIQ and alexithymia either side of a fixed VVIQ = 32
-threshold — what became @kvammeWhenWeakImagery2026 once published. I
-reached out, and Timo Kvamme generously agreed to share their data.
+threshold, what became @kvammeWhenWeakImagery2026 once published. I reached out,
+and Timo Kvamme generously agreed to share their data.
 
 The same kind of data-quality check that had mattered for Ale & Burns' data
 mattered again here, at a larger scale: on November 12, 2025, I noticed that
@@ -245,25 +243,25 @@ plot_group_violins(
 ```
 
 Kvamme et al.'s own published analysis (a fixed split at VVIQ = 32, described in
-full on [the model comparison page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)) reached a
-related but distinct conclusion using a threshold chosen by hand, rather than
-estimated from the data. That comparison — and what our own, data-driven
-estimate of where the relationship actually changes shape turned out to say — is
-one of the more interesting methodological threads in this whole project, and
-gets its own full treatment later in this Extended Online Report.
+full on [the model comparison
+page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html))
+reached a related but distinct conclusion using a threshold chosen by hand,
+rather than estimated from the data. That comparison, and what our own,
+data-driven estimate of where the relationship actually changes shape turned out
+to say, is one of the more interesting methodological threads in this whole
+project, and gets its own full treatment later in this Extended Online Report.
 
 ## Mas & Luminet, completing the pool
 
 The last dataset to arrive, on December 12, 2025, came from Marine Mas and
 Olivier Luminet, collected as part of a preregistered lab study on alexithymia
 and mental representations [@masPreregistration2025]. 123 French-speaking
-participants (110 females; mean
-age 19.78, SD 1.15; range 18-24) were recruited from a research methods course.
-The particularity of this dataset is that it was collected without any
-aphantasia-targeted recruitment (Ruby's did some at the end), and as a
-consequence contains only 2 hypophantasics, 1 hyperphantasic and no complete
-aphantasics. It exhibited the negative VVIQ-TAS relationship on its VVIQ range,
-and further strengthened the pattern on that part of the continuum.
+participants (110 females; mean age 19.78, SD 1.15; range 18-24) were recruited
+from a research methods course. The particularity of this dataset is that it was
+collected without any aphantasia-targeted recruitment (Ruby's did some at the
+end), and as a consequence contains only 2 hypophantasics, 1 hyperphantasic and
+no complete aphantasics. It exhibited the negative VVIQ-TAS relationship on its
+VVIQ range, and further strengthened the pattern on that part of the continuum.
 
 ```{r full-pool-plot}
 #| fig.alt: >
@@ -288,13 +286,15 @@ plot_group_violins(
 
 ## From groundwork to a paper in its own right
 
-None of this was originally meant to be the study. It was meant to be groundwork
-— a way of estimating expected effect sizes before designing the larger study
-(with 7 different questionnaires!) mentioned at the start of this page. It was
-in discussing the pooled, cross-dataset pattern with Perrine Ruby that the
-project changed shape: what had been preparation looked, on its own, like a
-finding worth reporting — with the eventual four-group classification, and later
-the non-linear modelling approach described on the [model comparison page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html), as its distinguishing methodological contributions.
+None of this was originally meant to be the study. It was meant to be
+groundwork: a way of estimating expected effect sizes before designing the
+larger study (with 7 different questionnaires!) mentioned at the start of this
+page. It was in discussing the pooled, cross-dataset pattern with Perrine Ruby
+that the project changed shape: what had been preparation looked, on its own,
+like a finding worth reporting — with the eventual four-group classification,
+and later the non-linear modelling approach described on the [model comparison
+page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html),
+as its distinguishing methodological contributions.
 
 ## Dead ends, for the record
 
@@ -337,7 +337,7 @@ and total TAS scores, but found that dividing by TAS subscale showed that the
 significant correlation held only for the *Difficulty describing feelings*
 (-.23), but not with *Difficulty identifying feelings* (-.19) or *Externally
 oriented thinking* (-.19)*.* Professor Campos responded, but explained that he
-had lost contact with his co-authors and had never held the data himself — so,
+had lost contact with his co-authors and had never held the data himself: so,
 more than two decades on, that dataset is simply gone. It is a small, concrete
 reminder of what data-sharing norms looked like before the open science
 practices this project relies on became standard, and a large part of why this
@@ -351,18 +351,22 @@ If you happen to know other studies that used these two questionnaires together,
 feel free to [contact me](mailto:mael.delem@pm.me), I'd be happy to update the
 analyses with new data.
 
----
+--------------------------------------------------------------------------------
 
-**Continuing through the Extended Online Report:** this is the first page.
-To keep reading in order, continue to the
-[sample description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
-next. Or jump straight to the
-[model comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html),
-[floor-group model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html),
-[model diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html),
-[implementation notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html),
-or [for those who come after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).
+**Continuing through the Extended Online Report:** this is the first page. To
+keep reading in order, continue to the [sample
+description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
+next. Or jump straight to the [model
+comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html),
+[floor-group
+model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html),
+[model
+diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html),
+[implementation
+notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html),
+or [for those who come
+after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).
 
----
+--------------------------------------------------------------------------------
 
 ### References

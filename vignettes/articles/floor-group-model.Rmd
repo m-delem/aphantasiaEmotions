@@ -41,7 +41,7 @@ The [previous
 page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
 ended on a twist: among six candidate models, the one that best combines quality
 of fit and parsimony is not the most flexible one (the segmented model with an
-estimated knot), but the simplest one that captures the right structure — a
+estimated knot), but the simplest one that captures the right structure: a
 plain linear relationship among everyone above VVIQ = 16, plus a single
 coefficient letting complete aphantasics have their own mean. This page is the
 full case for that model: what it says, how confident we can be in what it says,
@@ -71,15 +71,14 @@ floor_group_additive_multilevel <- fit_brms_model(
 ```
 
 The formula is deliberately asymmetric, and that asymmetry is the whole point.
-Complete aphantasics (VVIQ = 16) have no variance in VVIQ among themselves —
-every one of them has the same score — so there is no data to estimate a
+Complete aphantasics (VVIQ = 16) have no variance in VVIQ among themselves (every one of them has the same score) so there is no data to estimate a
 VVIQ-TAS *slope* specific to that group. What the data can support is a single,
 well-identified quantity: how far that group's mean TAS score sits from where
 the continuous relationship, fit on everyone else, would have predicted it.
 `complete_aphant` is that quantity. `(vviq | study)` lets both the slope and the
 intercept vary by study, which is what makes the model's conclusions checkable
-against between-study heterogeneity rather than just the pooled average — see
-[below](#multilevel).
+against between-study heterogeneity rather than just the pooled average (see
+[below](#multilevel)).
 
 ## The floor group, visualised
 
@@ -171,7 +170,7 @@ The above-floor slope itself is `r sprintf("%.3f", vviq_slope$Median)` (95% CI
 [`r sprintf("%.3f", vviq_slope$CI_low)`,
 `r sprintf("%.3f", vviq_slope$CI_high)`]), pd =
 `r sprintf("%.1f", vviq_slope$pd * 100)`%,
-`r sprintf("%.1f", vviq_slope$ROPE_Percentage * 100)`% in ROPE — note this uses
+`r sprintf("%.1f", vviq_slope$ROPE_Percentage * 100)`% in ROPE. Note that this uses
 a different ROPE convention than the floor-group contrast above, since a raw
 slope and a group contrast aren't comparable on the same scale (see
 [implementation
@@ -181,14 +180,14 @@ for the full reasoning).
 ## Why gaussian()
 
 Every model in this report, including this one, uses brms's default Gaussian
-family. That choice is checked, not just assumed — see the [model
+family. That choice is checked, not just assumed: see the [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family)
 page for the residual skewness, heteroscedasticity, and boundary checks behind
 it.
 
 ## Multilevel robustness {#multilevel}
 
-The result above already comes from the multilevel model — `(vviq | study)` is
+The result above already comes from the multilevel model: `(vviq | study)` is
 part of the formula, not a separate add-on. It's worth showing directly what
 that buys: does the floor effect look like a pooled-sample artefact, or does it
 hold up study by study?
@@ -294,19 +293,19 @@ story.
 
 ### Prior sensitivity
 
-The group-level slope SD term — how much the VVIQ-TAS slope is allowed to vary
-by study — relies on brms's own default weakly-informative prior rather than a
+The group-level slope SD term, i.e., how much the VVIQ-TAS slope is allowed to vary by study, relies on brms's own default weakly-informative prior rather than a
 hand-picked one, deliberately: with only five studies informing that specific
 variance component, a tighter, hand-chosen prior would risk doing more
-inferential work than could be defended. Whether the model's substantive
-conclusions depend on that choice is checked directly, refitting with a prior
-twice as wide as the default:
+inferential work than could be defended. The prior on fixed effects we chose was also deliberately weakly informative. Whether the model's substantive
+conclusions depend on these choices is checked directly, refitting with priors
+twice as wide as the defaults chosen:
 
 ```{r sensitivity-check}
 sensitivity_priors <- c(
-  brms::prior(normal(0, 20), class = "b"),  # existing prior on fixed effects
-  brms::set_prior(
-    "student_t(3, 0, 26.6)", # twice as wide as brms' default (13.3) on SDs
+  brms::prior(
+    normal(0, 40), class = "b"), # twice as wide as our normal(0,20) default
+  brms::prior(
+    student_t(3, 0, 26.6), # twice as wide as brms' default (13.3)
     class = "sd", group = "study", coef = "vviq")
 )
 
@@ -337,8 +336,8 @@ sensitivity_table |> knitr::kable(digits = 3)
 ```
 
 Both parameters are essentially unchanged between the default and the
-deliberately wider prior — the headline result does not depend on which
-weakly-informative prior was used for this specific variance term.
+deliberately wider priors: the headline result does not depend on which
+weakly-informative priors were used to fit the model.
 
 ## TAS-20 sub-scales {#floor-subscales}
 
@@ -426,8 +425,7 @@ mean sits clearly below the above-floor extrapolation on DIF, DDF, and EOT
 alike, with `r sprintf("%.0f", dif_floor_rope)`%,
 `r sprintf("%.0f", ddf_floor_rope)`%, and `r sprintf("%.0f", eot_floor_rope)`%
 of each posterior distribution (respectively) inside its region of practical
-equivalence to zero. This is not a pattern confined to one facet of alexithymia
-— complete aphantasics score in typical-imager territory across every sub-scale
+equivalence to zero. This is not a pattern confined to one facet of alexithymia: complete aphantasics score in typical-imager territory across every sub-scale
 this instrument distinguishes, not just on the total score.
 
 The above-floor slopes tell a more textured story. DIF's and DDF's slopes are
@@ -450,7 +448,7 @@ comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparis
 To keep reading in order, continue to [for those who come
 after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html)
 next. Or see [model
-diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
+diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-floor-group)
 and [implementation
 notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
 for the technical detail behind this model.
