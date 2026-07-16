@@ -7,15 +7,15 @@ library(ggplot2)
 library(ggpubr)
 ```
 
-Every analysis in this report runs on `all_data`: 1478 participants,
-pooled from five studies — two unpublished datasets shared by the
-authors specifically for this project, three retrieved from previously
-published or shared work. This page describes where each of the five
-came from, who was in them, and a few places where they genuinely differ
-from each other — differences that matter later, when the question
-becomes whether a pattern found in the pooled sample holds up once study
+Every analysis in this report runs on `all_data`: 1478 participants
+pooled from five studies: two unpublished datasets shared by the authors
+specifically for this project, three retrieved from previously published
+or shared work. This page describes where each of the five came from,
+who was in them, and a few places where they genuinely differ from each
+other. Differences that may matter later, when the question becomes
+whether a pattern found in the pooled sample holds up once study
 membership is accounted for (see the [floor-group
-model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
+model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.htm#multilevel)
 page).
 
 ## The five studies
@@ -65,12 +65,12 @@ English-speaking participants (74 females; mean age 27.9, SD 9.29; range
 participant database, split into 75 controls (VVIQ \> 32) and 30
 participants with weak or no imagery (VVIQ ≤ 23). Their own paper
 reports a real, worth-flagging imbalance: the aphantasia sub-group was
-on average 6.6 years older than controls (t = 3.09, p = .004, d = 0.76)
-— large enough that the original authors treated age as a covariate
-throughout. It’s a genuine limitation of that specific sample, though
-not one that appears to have distorted the pattern this project is built
-on: the VVIQ-TAS relationship in Monzel et al.’s data looks the same as
-in the other four studies. Their data are openly archived on OSF
+on average 6.6 years older than controls (t = 3.09, p = .004, d = 0.76),
+a difference large enough that the original authors treated age as a
+covariate throughout. It’s a genuine limitation of that specific sample,
+though not one that appears to have distorted the pattern this project
+is built on: the VVIQ-TAS relationship in Monzel et al.’s data looks the
+same as in the other four studies. Their data are openly archived on OSF
 ([osf.io/y9c8g](https://osf.io/y9c8g/?view_only=1e6bd8670a3f4eacb1cf0f600343205e)).
 
 **Ruby** collected VVIQ and TAS-20 data as part of a study on the
@@ -101,10 +101,10 @@ followed by open recruitment to cover the full range of imagery
 vividness. That two-phase design is a large part of why this study
 contributes such a substantial share of the pool’s complete-aphantasia
 and hypophantasia participants despite not being an aphantasia-only
-sample — see the [model
+sample (see the [model
 comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
 page for how much that group specifically matters to this project’s
-central finding.
+central finding).
 
 Kvamme et al.’s exclusion pipeline is also worth naming directly, since
 it is more thoroughly documented than most: of an initial 855
@@ -156,7 +156,7 @@ These five studies were not designed together, and it shows in ways
 worth being upfront about, not smoothing over. They differ in language
 (three English-speaking samples, two French-speaking), in recruitment
 channel (social media, a dedicated aphantasia research database, a
-university subject pool, Prolific), and — most consequentially — in how
+university subject pool, Prolific), and most consequentially, in how
 “aphantasia” was operationalised before this project pooled everything
 onto a common 16-80 VVIQ scale. Ale & Burns used a cutoff of VVIQ ≤ 32
 to define their aphantasia group, explicitly because their own prior
@@ -164,11 +164,11 @@ work found that threshold more inclusive of people who self-identify as
 having aphantasia than a stricter cutoff. Monzel et al. used VVIQ ≤ 23.
 Kvamme et al. used ≤ 32 for their broader “aphantasia” group, then
 further distinguished “core aphantasia” (16-23) from “hypophantasia”
-(24-32) within it — a finer split closely related to the one this
+(24-32) within it, a finer split closely related to the one this
 project’s own categorical model uses (see [model
 comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)).
 
-None of this is a flaw in any individual study — each threshold was a
+None of this is a flaw in any individual study, as each threshold was a
 reasonable choice given that study’s own goals. It is, however, a real
 illustration of a point this project’s own results speak to directly:
 VVIQ threshold conventions vary across the field, sometimes
@@ -220,8 +220,8 @@ cutoff.](sample-description_files/figure-html/plot-proportions-1.png)
 
 The complete-aphantasia group (VVIQ = 16) is present in every study
 except Mas & Luminet’s, whose young, French, course-credit sample
-happened not to include anyone at the scale’s absolute floor — worth
-keeping in mind when reading the [floor-group
+happened not to include anyone at the scale’s absolute floor, which is
+worth keeping in mind when reading the [floor-group
 model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
 page’s per-study breakdown, where that study’s line is necessarily
 estimated without any direct floor-group data of its own.

@@ -101,12 +101,12 @@ the main report.</p>
 <div class="section level2">
 <h2 id="mixture-regression-on-the-vviq-floor-spike">Mixture regression on the VVIQ floor spike<a class="anchor" aria-label="anchor" href="#mixture-regression-on-the-vviq-floor-spike"></a>
 </h2>
-<p>The pooled VVIQ distribution isn’t smoothly continuous — there’s a
+<p>The pooled VVIQ distribution isn’t smoothly continuous: there’s a
 sharp, isolated spike at the scale’s floor (VVIQ = 16), visually
 distinct from a more continuous, if irregular, remainder from about 20
 to 80. The floor-group additive model (see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html">floor-group
 page</a>) treats that floor group as a single, discrete category with
-its own mean — which the evidence supports well, but which assumes the
+its own mean, which the evidence supports well, but which assumes the
 floor group is internally homogeneous.</p>
 <p>A genuinely different, and more ambitious, way to ask the same
 question is finite mixture regression: rather than assuming a fixed
@@ -120,15 +120,15 @@ exactly this: modelling the VVIQ-TAS relationship as potentially
 modified by empirical clusters in the data, particularly relevant if
 aphantasics themselves consist of distinguishable subgroups.</p>
 <p>This is a meaningfully larger step than the floor-group model, not
-just a variant of it — it’s a different <em>kind</em> of claim (multiple
+just a variant of it: it’s a different <em>kind</em> of claim (multiple
 populations, not one population with one distinct subgroup), and mixture
 models bring real complications of their own (label-switching during
 estimation, convergence sensitivity, the same challenge of choosing how
 many components to fit that a purely category-driven analysis avoids).
 It’s flagged here, not attempted, because taking it on properly would
 have meant introducing a third major statistical paradigm into an
-already substantial modelling arc — a deliberate scope decision, not a
-technical dead end.</p>
+already substantial modelling arc. This is a deliberate scope decision,
+not a technical dead end.</p>
 </div>
 <div class="section level2">
 <h2 id="bayesian-mars-bass">Bayesian MARS (BASS)<a class="anchor" aria-label="anchor" href="#bayesian-mars-bass"></a>
@@ -144,7 +144,7 @@ already found.</p>
 Sansó, 2020)</span> (Bayesian Adaptive Spline Surfaces) fits genuinely
 Bayesian MARS models <span class="citation">(Denison et al.,
 1998)</span>, using reversible-jump MCMC to put a full posterior not
-just over a spline’s parameters, but over its <em>structure</em> — how
+just over a spline’s parameters, but over its <em>structure</em>: how
 many knots there are and where they sit, estimated jointly rather than
 fixed in advance. That’s a more complete answer to “where does this
 relationship change shape” than even the estimated-knot segmented model
@@ -167,8 +167,7 @@ for its own dedicated adventure.</p>
 <h2 id="a-per-study-estimate-of-the-segmented-models-knot">A per-study estimate of the segmented model’s knot<a class="anchor" aria-label="anchor" href="#a-per-study-estimate-of-the-segmented-models-knot"></a>
 </h2>
 <p>The segmented model’s knot is estimated once, pooling all five
-studies. A natural extension — genuinely motivated, not just technically
-possible — is to let the knot location vary by study:
+studies. A natural extension is to let the knot location vary by study:
 <code>k | study</code> rather than a single pooled <code>k</code>. This
 would directly answer a specific, sharp question: does Kvamme et al.’s
 (2026) own data, on its own, actually support their chosen threshold of
@@ -180,8 +179,8 @@ pull the pooled estimate toward or away from any given value.</p>
 <code>step(vviq - k)</code>), so letting it vary by study means the
 sampler has to jointly resolve, separately for each of the five studies,
 both <em>where</em> the breakpoint is and <em>how steep</em> each
-segment is — using only that study’s own data. The smallest study in
-this project’s pool (n = 105) is a fraction of what the pooled estimate
+segment is using only that study’s own data. The smallest study in this
+project’s pool (n = 105) is a fraction of what the pooled estimate
 needed to be well-identified in the first place; asking a study that
 size to support its own independent knot estimate is a real statistical
 stretch, likely requiring careful priors, generous
@@ -190,16 +189,19 @@ what the pooled model needed (see <a href="https://m-delem.github.io/aphantasiaE
 notes</a> for what the <em>pooled</em> estimated-knot model already
 required), and probably more debugging than any other model in this
 report. It’s a genuinely interesting question with a genuinely hard
-model behind it — exactly the kind of thing worth flagging clearly for
-whoever takes it on next, including the difficulty, rather than
-downplaying it.</p>
+model behind it, but a question worth flagging clearly <em>for those who
+come after</em>, including its difficulty, rather than downplaying
+it.</p>
 <hr>
 <p><strong>This is the last page of the Extended Online Report’s
 narrative arc.</strong> If you’ve read through from the start, thank you
 for following the whole story. Two technical pages remain, for anyone
 building on this project’s code directly: <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html">model
 diagnostics</a> and <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html">implementation
-notes</a>. Otherwise, you can jump back to <a href="https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html">how
+notes</a>. The <a href="https://m-delem.github.io/aphantasiaEmotions/articles/superseded-models.html">superseded
+models</a> page contains the legacy of the 4-group and GAM models that
+were once central to this study’s first iteration. Otherwise, you can
+jump back to <a href="https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html">how
 this study found its shape</a>, or return to the <a href="https://m-delem.github.io/aphantasiaEmotions/">package
 homepage</a>.</p>
 <hr>

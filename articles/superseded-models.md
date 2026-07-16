@@ -26,10 +26,11 @@ showing that check in full rather than letting them quietly disappear
 from the documentation once something else took the spotlight.
 
 The code and figures below are close to unchanged from the original,
-single-vignette version of this package’s report — reused here rather
-than redone, since the underlying question they answer (how does each
-model describe the data) hasn’t changed, even though our headline answer
-to the *overall* research question has moved on to a different model.
+single-vignette version of this package’s report. They are reused here
+rather than redone, since the underlying question they answer (how does
+each model describe the data) hasn’t changed, even though our headline
+answer to the *overall* research question has moved on to a different
+model.
 
 ## Total TAS-20 scores
 

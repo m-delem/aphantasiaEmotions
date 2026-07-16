@@ -17,9 +17,9 @@ refit <- "never"
 
 Given VVIQ and TAS-20 scores for 1478 participants pooled across five
 studies, what is the best way to describe their relationship? This page
-walks through that question as it was actually answered — not by picking
+walks through that question as it was actually answered, not by picking
 one model and reporting it, but by testing an escalating sequence of
-increasingly flexible approaches against each other, and letting the
+increasingly flexible approaches against each other and letting the
 evidence decide. The answer that comes out the other end is a genuine
 surprise: the model that wins is not the most sophisticated one, but the
 simplest one that captures the right structure. That model, and why it
@@ -28,7 +28,7 @@ page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.ht
 this one is about the comparison itself.
 
 Every model on this page converged cleanly and passed its posterior
-predictive checks — the [model
+predictive checks. The [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
 page has the full detail for each one; this page links to the relevant
 section as each model is introduced, rather than to establish
@@ -46,14 +46,14 @@ The rest of this page exists because of peer review. One reviewer raised
 three points worth stating plainly, since they shaped everything that
 follows:
 
-1.  The categorical model is, functionally, already a non-linear model —
-    cutting a continuum into groups lets each group take its own mean,
+1.  The categorical model is, functionally, already a non-linear model.
+    Cutting a continuum into groups lets each group take its own mean,
     which is a more flexible move than it might look. It should not be
     treated as a “linear” baseline to contrast against the GAM.
 2.  A genuinely naive linear model was missing from the comparison, and
     belonged there as the actual continuous baseline.
 3.  More generally, a single categorical model and a single GAM is not a
-    *comparison* — a proper one would fit several candidate models (the
+    *comparison*. A proper one would fit several candidate models (the
     reviewer specifically suggested spline approaches like MARS, via the
     `earth` package, and mixture regression, via `flexmix`) and compare
     them quantitatively.
@@ -68,7 +68,7 @@ page.
 ## The naive baseline
 
 The most common approach in the aphantasia literature is a single
-threshold — typically VVIQ $`\leq`$ 32 — splitting the sample into
+threshold, typically VVIQ $`\leq`$ 32, splitting the sample into
 “aphantasics” and everyone else:
 
 ``` r
@@ -125,8 +125,8 @@ groups.](model-comparison_files/figure-html/baseline-comparison-1.png)
 
 ## A finer-grained alternative
 
-Splitting the aphantasia range itself — separating complete aphantasia
-(VVIQ = 16) from hypophantasia — visibly recovers structure the coarser
+Splitting the aphantasia range itself, separating complete aphantasia
+(VVIQ = 16) from hypophantasia, visibly recovers structure the coarser
 2-group split misses (right panel above):
 
 ``` r
@@ -148,10 +148,10 @@ diagnostics §Categorical, 4
 groups](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-categorical-4).)
 
 It is also, as the reviewer pointed out, already a non-linear model in
-its own right — worth keeping in mind for what follows, since the
-continuous models below are not simply “adding” non-linearity that the
-categorical model lacked; they are asking whether a *different kind* of
-non-linearity describes the data better.
+its own right, which is worth keeping in mind for what follows, since
+the continuous models below are not simply “adding” non-linearity that
+the categorical model lacked; they are asking whether a *different kind*
+of non-linearity describes the data better.
 
 ## Continuous alternatives
 
@@ -183,7 +183,7 @@ gam_tot <- fit_brms_model(
 The segmented model is the direct methodological response to the spline
 suggestion above. Its breakpoint was first located with
 `earth::earth(tas ~ vviq, data = all_data)`, a fast, frequentist spline
-search — which found a single knot at VVIQ = 24. That value then became
+search which found a single knot at VVIQ = 24. That value then became
 the starting point (not the final answer) for a proper Bayesian
 estimate: a non-linear model that estimates the breakpoint itself, with
 full posterior uncertainty, rather than treating `earth`’s point
@@ -227,7 +227,7 @@ segmented_estimated <- fit_brms_model(
 ```
 
 Getting this specific model to fit correctly was not entirely
-straightforward — see the [Implementation
+straightforward, see the [Implementation
 Notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#the-segmented-models-estimated-knot)
 page for the two real problems this formula ran into and how they were
 resolved.
@@ -278,12 +278,12 @@ knot](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.ht
 ### Comparing all single-level models
 
 All models were directly compared against each other via approximate
-leave-one-out cross-validation (LOO). This comparison uses `elpd_diff` —
-the difference in expected log pointwise predictive density between two
-models, with its standard error, which is the Bayesian analogue of an
-AIC/BIC-based comparison and the standard model-selection criterion in
-the `brms`/`loo` ecosystem our models are fit in (we point interested
-readers to [Ari Vehtari’s own
+leave-one-out cross-validation (LOO). This comparison uses `elpd_diff`,
+i.e., the difference in expected log point-wise predictive density
+between two models, with its standard error, which is the Bayesian
+analogue of an AIC/BIC-based comparison and the standard model-selection
+criterion in the `brms`/`loo` ecosystem our models are fit in (we point
+interested readers to [Ari Vehtari’s own
 FAQ](https://users.aalto.fi/~ave/CV-FAQ.html#elpd_interpretation%3E) for
 a fuller explanation of how to interpret it).
 
@@ -306,10 +306,10 @@ comparison_table |> knitr::kable(digits = 2)
 | categorical_2_groups |    -48.46 |   10.17 |               0 |
 
 *(Table restricted to single-level models fit on the total TAS score.
-The floor-group additive model — introduced [below](#sec-twist) and
+The floor-group additive model, introduced [below](#sec-twist) and
 covered fully on the [next
-page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
-— was also given a multilevel treatment to check its robustness across
+page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html),
+was also given a multilevel treatment to check its robustness across
 studies; that comparison is not shown here, since it would not be a fair
 comparison against models that were never given the same multilevel
 treatment.)*
@@ -320,7 +320,7 @@ models cluster tightly at the top, well within one standard error of
 each other, genuinely indistinguishable on statistical grounds alone.
 The GAM trails this top cluster by a small but non-negligible margin.
 The plain linear model, despite being continuous like the GAM and
-segmented models, is decisively worse — closer in magnitude to the
+segmented models, is decisively worse and closer in magnitude to the
 categorical models’ gap than to the top cluster’s. This is consistent
 with the VVIQ floor itself (complete aphantasics) being a structural
 discontinuity: a model with no mechanism for a discontinuity should, and
@@ -399,9 +399,9 @@ segmented_summary |> knitr::kable(digits = 2)
 | Post-knot slope (b1 + b2) |    -0.28 |       0.02 | \[-0.33, -0.23\]  |
 | Knot (k)                  |    19.91 |       1.68 | \[17.74, 24.09\]  |
 
-Reading these together: the pre-knot slope (`b1`) is positive — TAS-20
-rises with VVIQ below the knot — while the post-knot slope (`b1 + b2`)
-is negative, consistent with the descending arm visible in the overlay
+Reading these together: the pre-knot slope (`b1`) is positive (TAS-20
+rises with VVIQ below the knot) while the post-knot slope (`b1 + b2`) is
+negative, consistent with the descending arm visible in the overlay
 figure above. The knot itself (`k`) lands close to the `earth`-seeded
 starting value, which is expected: `earth`’s search is a reasonable
 first guess precisely because it already looks at the same discontinuity
@@ -488,13 +488,13 @@ A caption reports the estimated knot's median and 95% credible interval,
 which sits well below Kvamme et al.'s
 threshold.](model-comparison_files/figure-html/kvamme-comparison-1.png)
 
-This project’s own estimated breakpoint — found without assuming any
-threshold in advance — sits at VVIQ = 19.5 (95% CI \[17.7, 24.1\]),
+This project’s own estimated breakpoint, found without assuming any
+threshold in advance, sits at VVIQ = 19.5 (95% CI \[17.7, 24.1\]),
 meaningfully below Kvamme et al.’s fixed 32: 100% of the posterior
 distribution for the knot’s location falls below 32. This does not mean
-their analysis was wrong — a fixed, literature-motivated threshold is a
+their analysis was wrong: a fixed, literature-motivated threshold is a
 defensible choice, and their finding replicates the same underlying
-pattern this project also finds — but it does suggest that, empirically,
+pattern this project also finds; but it does suggest that, empirically,
 the actual point where the VVIQ-TAS relationship changes shape may sit
 further toward the floor of the scale than the field’s current
 convention assumes.

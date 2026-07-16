@@ -1,6 +1,6 @@
 # Get started
 
-This page is a short, practical introduction to `aphantasiaEmotions` —
+This page is a short, practical introduction to `aphantasiaEmotions`:
 how to load it, what the data looks like, and how to run one basic
 model. It is not the place to learn about the study’s findings; for
 that, see the [Extended Online
@@ -66,9 +66,8 @@ Most of this project’s statistical work uses
 a thin wrapper around
 [`brms::brm()`](https://paulbuerkner.com/brms/reference/brm.html) with
 this project’s own conventions for chains, iterations, and priors
-already set as sensible defaults. Here is the simplest possible example
-— a plain linear model of alexithymia as a function of imagery
-vividness:
+already set as sensible defaults. Here is the simplest possible example,
+a plain linear model of alexithymia as a function of imagery vividness:
 
 ``` r
 

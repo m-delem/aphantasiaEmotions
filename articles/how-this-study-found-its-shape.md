@@ -8,15 +8,15 @@ library(patchwork)
 ```
 
 This study did not begin as a study. It began as a side question
-attached to a different one — and the shape it ended up taking was not
+attached to a different one, and the shape it ended up taking was not
 planned in advance so much as discovered, one dataset at a time. Most
 papers describe what was found, not how the finding was arrived at. This
-page exists to tell that second story — the searching, the emailing, the
+page exists to tell that second story: the searching, the emailing, the
 re-analysing after every new dataset arrived. This page is about the
 discovery process.
 
 *A note on voice: this page is written in the first person throughout.
-That’s not a stylistic default — most of the searching, emailing, and
+That’s not a stylistic default: most of the searching, emailing, and
 re-analysing described here happened as solo, iterative work between
 datasets, often before there was a clear “we” to speak for. The
 manuscript itself credits contributions properly in the conventional
@@ -45,10 +45,10 @@ PTSD symptomatology:
 [doi.org/10.31234/osf.io/kj5d3](https://doi.org/10.31234/osf.io/kj5d3).
 Their paper reported analyses of alexithymia and PTSD separately in
 relation to aphantasia, but not the direct relationship between
-aphantasia and alexithymia themselves — the co-occurrence question. I
-asked whether that had simply not been reported, and mentioned that I’d
-been curious to look at their data myself, except the OSF link in the
-paper pointed to a private repository.
+aphantasia and alexithymia themselves, i.e., the co-occurrence question.
+I asked whether that had simply not been reported, and mentioned that
+I’d been curious to look at their data myself, except the OSF link in
+the paper pointed to a private repository.
 
 Edwin Burns kindly shared the dataset. A short back-and-forth followed
 in which I flagged what turned out to be a real discrepancy in how the
@@ -66,7 +66,7 @@ present study (<https://doi.org/10.17605/OSF.IO/B837S>).
 
 ## Monzel, and the first pattern with a finer split
 
-I collected the Monzel et al. (2024) dataset in the meantime — 105
+I collected the Monzel et al. (2024) dataset in the meantime: 105
 English-speaking participants (74 females; mean age 27.9, SD 9.29; range
 18-59), recruited via the *Aphantasia Research Project Bonn*’s
 participant database, also openly archived on their own OSF project
@@ -80,11 +80,10 @@ compare VVIQ and TAS explicitly), Ale & Burns used a VVIQ \< 32
 threshold to defined aphantasia. Redoing the comparison between groups
 on the combined Ale & Burns + Monzel et al. sample, but this time
 splitting the aphantasia range itself — complete aphantasia (VVIQ = 16)
-from hypophantasia (VVIQ 17-32, in the original, provisional definition
-used at this stage) — told a different, more specific story: it looked
-as though the *hypophantasia* sub-group was driving the elevated scores,
-while complete aphantasics sat much closer to typical imagers than the
-coarser two-group split had suggested.
+from hypophantasia (VVIQ 17-32) — told a different, more specific story:
+it looked as though the *hypophantasia* sub-group was driving the
+elevated scores, while complete aphantasics sat much closer to typical
+imagers than the coarser two-group split had suggested.
 
 Here is that first combined view, reproduced from the current, corrected
 data:
@@ -138,7 +137,7 @@ already visible from hypophantasia through hyperphantasia, but complete
 aphantasics (the right panel’s grey group) were “out of place”:
 something different seemed to be happening among people with a complete
 absence of imagery specifically. The common 2-group split (left panel)
-does not show this at all — it simply averages complete aphantasics in
+does not show this at all: it simply averages complete aphantasics in
 with everyone below the threshold, hiding exactly the distinction that
 turned out to matter.
 
@@ -193,7 +192,7 @@ initially), the pattern held.
 Midway through this process, Timo Kvamme and colleagues posted a
 preprint reporting a very similar pattern in a large, independent
 sample: opposing relationships between VVIQ and alexithymia either side
-of a fixed VVIQ = 32 threshold — what became Kvamme et al. (2026) once
+of a fixed VVIQ = 32 threshold, what became Kvamme et al. (2026) once
 published. I reached out, and Timo Kvamme generously agreed to share
 their data.
 
@@ -235,9 +234,9 @@ Kvamme et al.’s own published analysis (a fixed split at VVIQ = 32,
 described in full on [the model comparison
 page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html))
 reached a related but distinct conclusion using a threshold chosen by
-hand, rather than estimated from the data. That comparison — and what
-our own, data-driven estimate of where the relationship actually changes
-shape turned out to say — is one of the more interesting methodological
+hand, rather than estimated from the data. That comparison, and what our
+own, data-driven estimate of where the relationship actually changes
+shape turned out to say, is one of the more interesting methodological
 threads in this whole project, and gets its own full treatment later in
 this Extended Online Report.
 
@@ -280,7 +279,7 @@ hypophantasics.](how-this-study-found-its-shape_files/figure-html/full-pool-plot
 ## From groundwork to a paper in its own right
 
 None of this was originally meant to be the study. It was meant to be
-groundwork — a way of estimating expected effect sizes before designing
+groundwork: a way of estimating expected effect sizes before designing
 the larger study (with 7 different questionnaires!) mentioned at the
 start of this page. It was in discussing the pooled, cross-dataset
 pattern with Perrine Ruby that the project changed shape: what had been
@@ -335,7 +334,7 @@ showed that the significant correlation held only for the *Difficulty
 describing feelings* (-.23), but not with *Difficulty identifying
 feelings* (-.19) or *Externally oriented thinking* (-.19)*.* Professor
 Campos responded, but explained that he had lost contact with his
-co-authors and had never held the data himself — so, more than two
+co-authors and had never held the data himself: so, more than two
 decades on, that dataset is simply gone. It is a small, concrete
 reminder of what data-sharing norms looked like before the open science
 practices this project relies on became standard, and a large part of

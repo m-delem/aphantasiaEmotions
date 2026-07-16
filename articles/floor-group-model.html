@@ -105,12 +105,12 @@
 page</a> ended on a twist: among six candidate models, the one that best
 combines quality of fit and parsimony is not the most flexible one (the
 segmented model with an estimated knot), but the simplest one that
-captures the right structure — a plain linear relationship among
-everyone above VVIQ = 16, plus a single coefficient letting complete
-aphantasics have their own mean. This page is the full case for that
-model: what it says, how confident we can be in what it says, and
-whether it holds up once study-level heterogeneity and prior choice are
-both accounted for.</p>
+captures the right structure: a plain linear relationship among everyone
+above VVIQ = 16, plus a single coefficient letting complete aphantasics
+have their own mean. This page is the full case for that model: what it
+says, how confident we can be in what it says, and whether it holds up
+once study-level heterogeneity and prior choice are both accounted
+for.</p>
 <div class="section level2">
 <h2 id="the-model">The model<a class="anchor" aria-label="anchor" href="#the-model"></a>
 </h2>
@@ -134,7 +134,7 @@ both accounted for.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The formula is deliberately asymmetric, and that asymmetry is the
 whole point. Complete aphantasics (VVIQ = 16) have no variance in VVIQ
-among themselves — every one of them has the same score — so there is no
+among themselves (every one of them has the same score) so there is no
 data to estimate a VVIQ-TAS <em>slope</em> specific to that group. What
 the data can support is a single, well-identified quantity: how far that
 group’s mean TAS score sits from where the continuous relationship, fit
@@ -142,7 +142,7 @@ on everyone else, would have predicted it. <code>complete_aphant</code>
 is that quantity. <code>(vviq | study)</code> lets both the slope and
 the intercept vary by study, which is what makes the model’s conclusions
 checkable against between-study heterogeneity rather than just the
-pooled average — see <a href="#multilevel">below</a>.</p>
+pooled average (see <a href="#multilevel">below</a>).</p>
 </div>
 <div class="section level2">
 <h2 id="the-floor-group-visualised">The floor group, visualised<a class="anchor" aria-label="anchor" href="#the-floor-group-visualised"></a>
@@ -209,23 +209,23 @@ probability of direction of 100.0% and 0.0% of the posterior inside the
 region of practical equivalence to zero — as clear and as meaningful an
 effect as this project’s evidentiary standards can show.</p>
 <p>The above-floor slope itself is -0.266 (95% CI [-0.350, -0.186]), pd
-= 99.9%, 0.0% in ROPE — note this uses a different ROPE convention than
-the floor-group contrast above, since a raw slope and a group contrast
-aren’t comparable on the same scale (see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs-slopes">implementation
+= 99.9%, 0.0% in ROPE. Note that this uses a different ROPE convention
+than the floor-group contrast above, since a raw slope and a group
+contrast aren’t comparable on the same scale (see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs-slopes">implementation
 notes</a> for the full reasoning).</p>
 </div>
 <div class="section level2">
 <h2 id="why-gaussian">Why gaussian()<a class="anchor" aria-label="anchor" href="#why-gaussian"></a>
 </h2>
 <p>Every model in this report, including this one, uses brms’s default
-Gaussian family. That choice is checked, not just assumed — see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family">model
+Gaussian family. That choice is checked, not just assumed: see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family">model
 diagnostics</a> page for the residual skewness, heteroscedasticity, and
 boundary checks behind it.</p>
 </div>
 <div class="section level2">
 <h2 id="multilevel">Multilevel robustness<a class="anchor" aria-label="anchor" href="#multilevel"></a>
 </h2>
-<p>The result above already comes from the multilevel model —
+<p>The result above already comes from the multilevel model:
 <code>(vviq | study)</code> is part of the formula, not a separate
 add-on. It’s worth showing directly what that buys: does the floor
 effect look like a pooled-sample artefact, or does it hold up study by
@@ -320,19 +320,21 @@ and sample sizes, tell a consistent story.</p>
 <div class="section level3">
 <h3 id="prior-sensitivity">Prior sensitivity<a class="anchor" aria-label="anchor" href="#prior-sensitivity"></a>
 </h3>
-<p>The group-level slope SD term — how much the VVIQ-TAS slope is
-allowed to vary by study — relies on brms’s own default
+<p>The group-level slope SD term, i.e., how much the VVIQ-TAS slope is
+allowed to vary by study, relies on brms’s own default
 weakly-informative prior rather than a hand-picked one, deliberately:
 with only five studies informing that specific variance component, a
 tighter, hand-chosen prior would risk doing more inferential work than
-could be defended. Whether the model’s substantive conclusions depend on
-that choice is checked directly, refitting with a prior twice as wide as
-the default:</p>
+could be defended. The prior on fixed effects we chose was also
+deliberately weakly informative. Whether the model’s substantive
+conclusions depend on these choices is checked directly, refitting with
+priors twice as wide as the defaults chosen:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sensitivity_priors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span>,  <span class="co"># existing prior on fixed effects</span></span>
-<span>  <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">set_prior</a></span><span class="op">(</span></span>
-<span>    <span class="st">"student_t(3, 0, 26.6)"</span>, <span class="co"># twice as wide as brms' default (13.3) on SDs</span></span>
+<span>  <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span></span>
+<span>    <span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span>, <span class="co"># twice as wide as our normal(0,20) default</span></span>
+<span>  <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span></span>
+<span>    <span class="fu">student_t</span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">26.6</span><span class="op">)</span>, <span class="co"># twice as wide as brms' default (13.3)</span></span>
 <span>    class <span class="op">=</span> <span class="st">"sd"</span>, group <span class="op">=</span> <span class="st">"study"</span>, coef <span class="op">=</span> <span class="st">"vviq"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -370,18 +372,18 @@ the default:</p>
 <tr class="odd">
 <td align="left">vviq (slope)</td>
 <td align="right">-0.267</td>
-<td align="right">-0.266</td>
+<td align="right">-0.267</td>
 </tr>
 <tr class="even">
 <td align="left">complete_aphantfloor</td>
 <td align="right">-8.412</td>
-<td align="right">-8.404</td>
+<td align="right">-8.444</td>
 </tr>
 </tbody>
 </table>
 <p>Both parameters are essentially unchanged between the default and the
-deliberately wider prior — the headline result does not depend on which
-weakly-informative prior was used for this specific variance term.</p>
+deliberately wider priors: the headline result does not depend on which
+weakly-informative priors were used to fit the model.</p>
 </div>
 </div>
 <div class="section level2">
@@ -533,7 +535,7 @@ is concentrated in a specific facet of alexithymia.</p>
 floor group’s mean sits clearly below the above-floor extrapolation on
 DIF, DDF, and EOT alike, with 0%, 0%, and 0% of each posterior
 distribution (respectively) inside its region of practical equivalence
-to zero. This is not a pattern confined to one facet of alexithymia —
+to zero. This is not a pattern confined to one facet of alexithymia:
 complete aphantasics score in typical-imager territory across every
 sub-scale this instrument distinguishes, not just on the total
 score.</p>
@@ -553,7 +555,7 @@ all three.</p>
 <p><strong>Continuing through the Extended Online Report:</strong> this
 page follows the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html">model
 comparison</a>. To keep reading in order, continue to <a href="https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html">for
-those who come after</a> next. Or see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html">model
+those who come after</a> next. Or see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-floor-group">model
 diagnostics</a> and <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html">implementation
 notes</a> for the technical detail behind this model.</p>
 </div>

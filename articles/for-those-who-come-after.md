@@ -12,14 +12,14 @@ honest account of why it’s here rather than in the main report.
 
 ## Mixture regression on the VVIQ floor spike
 
-The pooled VVIQ distribution isn’t smoothly continuous — there’s a
-sharp, isolated spike at the scale’s floor (VVIQ = 16), visually
-distinct from a more continuous, if irregular, remainder from about 20
-to 80. The floor-group additive model (see the [floor-group
+The pooled VVIQ distribution isn’t smoothly continuous: there’s a sharp,
+isolated spike at the scale’s floor (VVIQ = 16), visually distinct from
+a more continuous, if irregular, remainder from about 20 to 80. The
+floor-group additive model (see the [floor-group
 page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html))
-treats that floor group as a single, discrete category with its own mean
-— which the evidence supports well, but which assumes the floor group is
-internally homogeneous.
+treats that floor group as a single, discrete category with its own
+mean, which the evidence supports well, but which assumes the floor
+group is internally homogeneous.
 
 A genuinely different, and more ambitious, way to ask the same question
 is finite mixture regression: rather than assuming a fixed number of
@@ -33,14 +33,14 @@ potentially modified by empirical clusters in the data, particularly
 relevant if aphantasics themselves consist of distinguishable subgroups.
 
 This is a meaningfully larger step than the floor-group model, not just
-a variant of it — it’s a different *kind* of claim (multiple
-populations, not one population with one distinct subgroup), and mixture
-models bring real complications of their own (label-switching during
-estimation, convergence sensitivity, the same challenge of choosing how
-many components to fit that a purely category-driven analysis avoids).
-It’s flagged here, not attempted, because taking it on properly would
-have meant introducing a third major statistical paradigm into an
-already substantial modelling arc — a deliberate scope decision, not a
+a variant of it: it’s a different *kind* of claim (multiple populations,
+not one population with one distinct subgroup), and mixture models bring
+real complications of their own (label-switching during estimation,
+convergence sensitivity, the same challenge of choosing how many
+components to fit that a purely category-driven analysis avoids). It’s
+flagged here, not attempted, because taking it on properly would have
+meant introducing a third major statistical paradigm into an already
+substantial modelling arc. This is a deliberate scope decision, not a
 technical dead end.
 
 ## Bayesian MARS (BASS)
@@ -58,11 +58,11 @@ A more thoroughly Bayesian version of the same idea exists: the **BASS**
 package (Francom & Sansó, 2020) (Bayesian Adaptive Spline Surfaces) fits
 genuinely Bayesian MARS models (Denison et al., 1998), using
 reversible-jump MCMC to put a full posterior not just over a spline’s
-parameters, but over its *structure* — how many knots there are and
-where they sit, estimated jointly rather than fixed in advance. That’s a
-more complete answer to “where does this relationship change shape” than
-even the estimated-knot segmented model gives, since it doesn’t assume
-in advance that there’s exactly one breakpoint.
+parameters, but over its *structure*: how many knots there are and where
+they sit, estimated jointly rather than fixed in advance. That’s a more
+complete answer to “where does this relationship change shape” than even
+the estimated-knot segmented model gives, since it doesn’t assume in
+advance that there’s exactly one breakpoint.
 
 The practical cost is real: BASS doesn’t give WAIC or LOO directly, so
 comparing it formally to the brms-based models in this report would need
@@ -81,20 +81,19 @@ its own dedicated adventure.
 ## A per-study estimate of the segmented model’s knot
 
 The segmented model’s knot is estimated once, pooling all five studies.
-A natural extension — genuinely motivated, not just technically possible
-— is to let the knot location vary by study: `k | study` rather than a
-single pooled `k`. This would directly answer a specific, sharp
-question: does Kvamme et al.’s (2026) own data, on its own, actually
-support their chosen threshold of VVIQ = 32 better than the pooled
-estimate of about 19.5 does? A per-study knot posterior would show,
-directly, which studies (if any) pull the pooled estimate toward or away
-from any given value.
+A natural extension is to let the knot location vary by study:
+`k | study` rather than a single pooled `k`. This would directly answer
+a specific, sharp question: does Kvamme et al.’s (2026) own data, on its
+own, actually support their chosen threshold of VVIQ = 32 better than
+the pooled estimate of about 19.5 does? A per-study knot posterior would
+show, directly, which studies (if any) pull the pooled estimate toward
+or away from any given value.
 
 This is a harder model to fit than it might sound. The knot parameter
 `k` sits *inside* a non-linear term (multiplying `step(vviq - k)`), so
 letting it vary by study means the sampler has to jointly resolve,
 separately for each of the five studies, both *where* the breakpoint is
-and *how steep* each segment is — using only that study’s own data. The
+and *how steep* each segment is using only that study’s own data. The
 smallest study in this project’s pool (n = 105) is a fraction of what
 the pooled estimate needed to be well-identified in the first place;
 asking a study that size to support its own independent knot estimate is
@@ -104,9 +103,9 @@ needed (see [implementation
 notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#the-segmented-models-estimated-knot)
 for what the *pooled* estimated-knot model already required), and
 probably more debugging than any other model in this report. It’s a
-genuinely interesting question with a genuinely hard model behind it —
-exactly the kind of thing worth flagging clearly for whoever takes it on
-next, including the difficulty, rather than downplaying it.
+genuinely interesting question with a genuinely hard model behind it,
+but a question worth flagging clearly *for those who come after*,
+including its difficulty, rather than downplaying it.
 
 ------------------------------------------------------------------------
 
@@ -117,7 +116,11 @@ code directly: [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
 and [implementation
 notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html).
-Otherwise, you can jump back to [how this study found its
+The [superseded
+models](https://m-delem.github.io/aphantasiaEmotions/articles/superseded-models.html)
+page contains the legacy of the 4-group and GAM models that were once
+central to this study’s first iteration. Otherwise, you can jump back to
+[how this study found its
 shape](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html),
 or return to the [package
 homepage](https://m-delem.github.io/aphantasiaEmotions/).

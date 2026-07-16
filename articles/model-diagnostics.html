@@ -92,13 +92,14 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://m-delem.github.io/aphantasiaEmotions/">aphantasiaEmotions</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/performance/" class="external-link">performance</a></span><span class="op">)</span></span></code></pre></div>
-<p>This page exists so that the narrative pages don’t have to. Every
-model discussed in this report converged cleanly and was checked for the
-usual things a Bayesian model needs checking for — this page is where
-that checking actually happens, in full, for every single-level model at
-once. If you’ve arrived here from another page wanting to confirm a
-specific model’s diagnostics, use the section links below rather than
-reading top to bottom.</p>
+<p>This page exists so that the narrative pages don’t have to report
+repetitive (but still necessary) technical checks of model quality.
+Every model discussed in this report converged cleanly and was checked
+for the usual things a Bayesian model needs checking for: this page is
+where that checking actually happens, in full, for every single-level
+model at once. If you’ve arrived here from another page wanting to
+confirm a specific model’s diagnostics, use the section links below
+rather than reading top to bottom.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  linear                  <span class="op">=</span> <span class="st">"lm_linear_tot.rds"</span>,</span>
@@ -182,7 +183,7 @@ table below is computed directly from each model’s fitted object.</p>
 </table>
 <p>Every model here has a maximum Rhat well under the conventional 1.01
 threshold, and a minimum bulk ESS well above the conventional floor of
-400 — none of the models discussed in this report needed to be excluded
+400: none of the models discussed in this report needed to be excluded
 or re-fit on convergence grounds alone.</p>
 </div>
 <div class="section level2">
@@ -240,7 +241,7 @@ similar.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pp_checks</span><span class="op">$</span><span class="va">floor_group_additive</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="model-diagnostics_files/figure-html/ppc-floor-group-1.png" class="r-plt" alt="Posterior predictive check for the floor-group additive model: density curves of simulated TAS scores overlaid on the observed distribution." width="768"></p>
-<p>All seven models reproduce the observed distribution well — no model
+<p>All seven models reproduce the observed distribution well: no model
 shows the kind of systematic mismatch that would call its family or
 structure into question.</p>
 </div>
@@ -276,8 +277,8 @@ heteroscedasticity, or a pile-up at the boundaries.</p>
 <span>  heteroscedasticity_r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">heteroscedasticity</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The raw TAS-20 total ranges from 20 to 94, with a skewness of 0.21
-(near 0 is symmetric — this is mild). Some participants do sit exactly
-at the scale’s floor (20).</p>
+(near 0 is symmetric, this is mild). Some participants do sit exactly at
+the scale’s floor (20).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">family_check_table</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -326,7 +327,7 @@ at the scale’s floor (20).</p>
 </table>
 <p>Residual skewness stays small and heteroscedasticity (the correlation
 between absolute residuals and fitted values) stays close to zero across
-every model — nothing here would have motivated switching away from a
+every model: nothing here would have motivated switching away from a
 Gaussian family.</p>
 <hr>
 <p><strong>Continuing through the Extended Online Report:</strong> this

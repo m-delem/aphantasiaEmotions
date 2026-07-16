@@ -1,7 +1,7 @@
 # Implementation notes
 
 This page is for anyone who wants to build on this project’s code
-directly — replicate a model, adapt a formula, or understand a design
+directly: replicate a model, adapt a formula, or understand a design
 choice that isn’t visible from the outside. None of what follows is
 necessary to trust the study’s conclusions (see the [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
@@ -21,7 +21,7 @@ Every model in this project is fit with
 a thin wrapper around
 [`brms::brm()`](https://paulbuerkner.com/brms/reference/brm.html). Its
 `iterations` argument means **post-warmup draws per chain**, not a total
-divided across chains — an earlier version of this function divided a
+divided across chains. An earlier version of this function divided a
 total iteration count by the number of detected CPU cores, which meant
 the sampler’s actual per-chain budget depended on whatever machine
 happened to run it. That’s not reproducible in any meaningful sense, so
@@ -57,14 +57,14 @@ rounds of debugging before it produced trustworthy results.
 
 **Problem 1: `fmin`/`fmax` compile in Stan but don’t exist in R.** The
 first version of this formula used `fmin(vviq, k)` and
-`fmax(vviq - k, 0)` — valid Stan functions, and the model compiled and
-sampled without any error. The problem only appeared afterward:
-[`brms::loo()`](https://mc-stan.org/loo/reference/loo.html) and
-[`fitted()`](https://rdrr.io/r/stats/fitted.values.html) need to
-re-evaluate the nonlinear formula in R for post-processing, and R has no
-`fmin`/`fmax`. The fix was reformulating the hinge using
-[`step()`](https://rdrr.io/r/stats/step.html) instead — a function that
-exists, and behaves identically, in both Stan and R:
+`fmax(vviq - k, 0)`, which are valid Stan functions, and the model
+compiled and sampled without any error. The problem only appeared
+afterwards: [`brms::loo()`](https://mc-stan.org/loo/reference/loo.html)
+and [`fitted()`](https://rdrr.io/r/stats/fitted.values.html) need to
+re-evaluate the non-linear formula in R for post-processing, and R has
+no `fmin`/`fmax`. The fix was reformulating the hinge using
+[`step()`](https://rdrr.io/r/stats/step.html) instead, a function that
+exists and behaves identically in both Stan and R:
 
 ``` r
 
@@ -75,7 +75,7 @@ exists, and behaves identically, in both Stan and R:
 tas ~ a + b1 * vviq + b2 * (vviq - k) * step(vviq - k)
 ```
 
-Under this reparameterisation, `b1` is the below-knot slope directly,
+Under this re-parametrisation, `b1` is the below-knot slope directly,
 and `b1 + b2` (not `b2` alone) is the above-knot slope — `b2` is the
 *change* in slope at the knot, not a segment slope on its own. Worth
 remembering if you’re reading the raw coefficients rather than the
@@ -85,9 +85,9 @@ page.
 
 **Problem 2: bad default initialisation.** Even after switching to
 [`step()`](https://rdrr.io/r/stats/step.html), a small test fit found
-the sampler landing on `k = -3.39` — a knot location outside VVIQ’s
+the sampler landing on `k = -3.39`, a knot location outside VVIQ’s
 actual range (16-80) entirely, with catastrophic effective sample size.
-brms’s default initialisation for nonlinear parameters is naive (near
+brms’s default initialisation for non-linear parameters is naive (near
 zero, with small random jitter), and zero is nowhere near a plausible
 knot location on this scale. The fix was supplying explicit starting
 values, centred on sensible guesses rather than left to chance:
@@ -107,16 +107,16 @@ segmented_inits <- function() {
 With good starting values, the same model converged cleanly, and its
 estimated knot (median 19.5, 95% CI \[17.7, 24.1\]) was stable whether
 fit with 200 draws on one chain or the full 6-chain,
-2000-draws-per-chain production run — a useful cross-check that the fix
-addressed the real problem rather than just moving it.
+2000-draws-per-chain production run, which is a useful cross-check that
+the fix addressed the real problem rather than just moving it.
 
 The model also needed `adapt_delta = 0.99` and `max_treedepth = 15`
 (both above
 [`fit_brms_model()`](https://m-delem.github.io/aphantasiaEmotions/reference/fit_brms_model.md)’s
-defaults) to fully clear divergent-transition warnings —
-non-linear/hinge models tend to have trickier posterior geometry than
-standard linear ones, and this is a reasonable, low-cost precaution for
-that model class specifically.
+defaults) to fully clear divergent-transition warnings. Non-linear/hinge
+models tend to have trickier posterior geometry than standard linear
+ones, and this is a reasonable, low-cost precaution for that model class
+specifically.
 
 ## ROPE conventions: contrasts vs. slopes
 
@@ -135,8 +135,8 @@ appropriate: a raw slope is expressed “per one unit of VVIQ,” and VVIQ’s
 scale (16-80) is arbitrary relative to TAS’s scale. Comparing a raw
 slope directly to `0.1 * SD(tas)` implicitly assumes one unit of VVIQ is
 a standardised step, which it isn’t. Slopes in this project instead use
-a Cohen-motivated threshold — a standardised effect of 0.2 is considered
-a small-to-noticeable effect — rescaled into the raw units the slope is
+a Cohen-motivated threshold: a standardised effect of 0.2 is considered
+a small-to-noticeable effect, rescaled into the raw units the slope is
 actually expressed in:
 
 ``` r
@@ -171,9 +171,9 @@ knot <- unique(vviq_cuts[vviq_cuts != 0])
 ```
 
 This fixed-knot model and the estimated-knot model above produce nearly
-identical fits (LOO elpd difference of -0.09, well within noise) — a
-nice cross-validation of both approaches, using two genuinely different
-methods to arrive at essentially the same answer.
+identical fits (LOO elpd difference of -0.09, well within noise), which
+is a nice cross-validation of both approaches, using two genuinely
+different methods to arrive at essentially the same answer.
 
 ------------------------------------------------------------------------
 

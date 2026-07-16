@@ -20,8 +20,8 @@ page](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.htm
 ended on a twist: among six candidate models, the one that best combines
 quality of fit and parsimony is not the most flexible one (the segmented
 model with an estimated knot), but the simplest one that captures the
-right structure — a plain linear relationship among everyone above VVIQ
-= 16, plus a single coefficient letting complete aphantasics have their
+right structure: a plain linear relationship among everyone above VVIQ =
+16, plus a single coefficient letting complete aphantasics have their
 own mean. This page is the full case for that model: what it says, how
 confident we can be in what it says, and whether it holds up once
 study-level heterogeneity and prior choice are both accounted for.
@@ -51,15 +51,15 @@ floor_group_additive_multilevel <- fit_brms_model(
 
 The formula is deliberately asymmetric, and that asymmetry is the whole
 point. Complete aphantasics (VVIQ = 16) have no variance in VVIQ among
-themselves — every one of them has the same score — so there is no data
-to estimate a VVIQ-TAS *slope* specific to that group. What the data can
+themselves (every one of them has the same score) so there is no data to
+estimate a VVIQ-TAS *slope* specific to that group. What the data can
 support is a single, well-identified quantity: how far that group’s mean
 TAS score sits from where the continuous relationship, fit on everyone
 else, would have predicted it. `complete_aphant` is that quantity.
 `(vviq | study)` lets both the slope and the intercept vary by study,
 which is what makes the model’s conclusions checkable against
-between-study heterogeneity rather than just the pooled average — see
-[below](#multilevel).
+between-study heterogeneity rather than just the pooled average (see
+[below](#multilevel)).
 
 ## The floor group, visualised
 
@@ -150,16 +150,16 @@ region of practical equivalence to zero — as clear and as meaningful an
 effect as this project’s evidentiary standards can show.
 
 The above-floor slope itself is -0.266 (95% CI \[-0.350, -0.186\]), pd =
-99.9%, 0.0% in ROPE — note this uses a different ROPE convention than
-the floor-group contrast above, since a raw slope and a group contrast
-aren’t comparable on the same scale (see [implementation
+99.9%, 0.0% in ROPE. Note that this uses a different ROPE convention
+than the floor-group contrast above, since a raw slope and a group
+contrast aren’t comparable on the same scale (see [implementation
 notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs-slopes)
 for the full reasoning).
 
 ## Why gaussian()
 
 Every model in this report, including this one, uses brms’s default
-Gaussian family. That choice is checked, not just assumed — see the
+Gaussian family. That choice is checked, not just assumed: see the
 [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family)
 page for the residual skewness, heteroscedasticity, and boundary checks
@@ -167,7 +167,7 @@ behind it.
 
 ## Multilevel robustness
 
-The result above already comes from the multilevel model —
+The result above already comes from the multilevel model:
 `(vviq | study)` is part of the formula, not a separate add-on. It’s
 worth showing directly what that buys: does the floor effect look like a
 pooled-sample artefact, or does it hold up study by study?
@@ -274,20 +274,23 @@ tell a consistent story.
 
 ### Prior sensitivity
 
-The group-level slope SD term — how much the VVIQ-TAS slope is allowed
-to vary by study — relies on brms’s own default weakly-informative prior
-rather than a hand-picked one, deliberately: with only five studies
-informing that specific variance component, a tighter, hand-chosen prior
-would risk doing more inferential work than could be defended. Whether
-the model’s substantive conclusions depend on that choice is checked
-directly, refitting with a prior twice as wide as the default:
+The group-level slope SD term, i.e., how much the VVIQ-TAS slope is
+allowed to vary by study, relies on brms’s own default
+weakly-informative prior rather than a hand-picked one, deliberately:
+with only five studies informing that specific variance component, a
+tighter, hand-chosen prior would risk doing more inferential work than
+could be defended. The prior on fixed effects we chose was also
+deliberately weakly informative. Whether the model’s substantive
+conclusions depend on these choices is checked directly, refitting with
+priors twice as wide as the defaults chosen:
 
 ``` r
 
 sensitivity_priors <- c(
-  brms::prior(normal(0, 20), class = "b"),  # existing prior on fixed effects
-  brms::set_prior(
-    "student_t(3, 0, 26.6)", # twice as wide as brms' default (13.3) on SDs
+  brms::prior(
+    normal(0, 40), class = "b"), # twice as wide as our normal(0,20) default
+  brms::prior(
+    student_t(3, 0, 26.6), # twice as wide as brms' default (13.3)
     class = "sd", group = "study", coef = "vviq")
 )
 
@@ -319,12 +322,12 @@ sensitivity_table |> knitr::kable(digits = 3)
 
 | parameter            | default_prior | wide_prior |
 |:---------------------|--------------:|-----------:|
-| vviq (slope)         |        -0.267 |     -0.266 |
-| complete_aphantfloor |        -8.412 |     -8.404 |
+| vviq (slope)         |        -0.267 |     -0.267 |
+| complete_aphantfloor |        -8.412 |     -8.444 |
 
 Both parameters are essentially unchanged between the default and the
-deliberately wider prior — the headline result does not depend on which
-weakly-informative prior was used for this specific variance term.
+deliberately wider priors: the headline result does not depend on which
+weakly-informative priors were used to fit the model.
 
 ## TAS-20 sub-scales
 
@@ -403,7 +406,7 @@ The floor effect is unambiguous across all three sub-scales: the floor
 group’s mean sits clearly below the above-floor extrapolation on DIF,
 DDF, and EOT alike, with 0%, 0%, and 0% of each posterior distribution
 (respectively) inside its region of practical equivalence to zero. This
-is not a pattern confined to one facet of alexithymia — complete
+is not a pattern confined to one facet of alexithymia: complete
 aphantasics score in typical-imager territory across every sub-scale
 this instrument distinguishes, not just on the total score.
 
@@ -428,7 +431,7 @@ comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparis
 To keep reading in order, continue to [for those who come
 after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html)
 next. Or see [model
-diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
+diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-floor-group)
 and [implementation
 notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
 for the technical detail behind this model.

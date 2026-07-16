@@ -6,13 +6,14 @@ library(aphantasiaEmotions)
 library(performance)
 ```
 
-This page exists so that the narrative pages don’t have to. Every model
-discussed in this report converged cleanly and was checked for the usual
-things a Bayesian model needs checking for — this page is where that
-checking actually happens, in full, for every single-level model at
-once. If you’ve arrived here from another page wanting to confirm a
-specific model’s diagnostics, use the section links below rather than
-reading top to bottom.
+This page exists so that the narrative pages don’t have to report
+repetitive (but still necessary) technical checks of model quality.
+Every model discussed in this report converged cleanly and was checked
+for the usual things a Bayesian model needs checking for: this page is
+where that checking actually happens, in full, for every single-level
+model at once. If you’ve arrived here from another page wanting to
+confirm a specific model’s diagnostics, use the section links below
+rather than reading top to bottom.
 
 ``` r
 
@@ -69,7 +70,7 @@ convergence_summary |> knitr::kable(row.names = FALSE)
 
 Every model here has a maximum Rhat well under the conventional 1.01
 threshold, and a minimum bulk ESS well above the conventional floor of
-400 — none of the models discussed in this report needed to be excluded
+400: none of the models discussed in this report needed to be excluded
 or re-fit on convergence grounds alone.
 
 ## Posterior predictive checks
@@ -155,7 +156,7 @@ plot(pp_checks$floor_group_additive) + theme_pdf(base_size = 16)
 curves of simulated TAS scores overlaid on the observed
 distribution.](model-diagnostics_files/figure-html/ppc-floor-group-1.png)
 
-All seven models reproduce the observed distribution well — no model
+All seven models reproduce the observed distribution well: no model
 shows the kind of systematic mismatch that would call its family or
 structure into question.
 
@@ -194,7 +195,7 @@ family_check_table <- data.frame(
 ```
 
 The raw TAS-20 total ranges from 20 to 94, with a skewness of 0.21 (near
-0 is symmetric — this is mild). Some participants do sit exactly at the
+0 is symmetric, this is mild). Some participants do sit exactly at the
 scale’s floor (20).
 
 ``` r
@@ -214,7 +215,7 @@ family_check_table |> knitr::kable(row.names = FALSE)
 
 Residual skewness stays small and heteroscedasticity (the correlation
 between absolute residuals and fitted values) stays close to zero across
-every model — nothing here would have motivated switching away from a
+every model: nothing here would have motivated switching away from a
 Gaussian family.
 
 ------------------------------------------------------------------------

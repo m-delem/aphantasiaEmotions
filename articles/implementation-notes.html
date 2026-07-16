@@ -90,7 +90,7 @@
     
     
 <p>This page is for anyone who wants to build on this project’s code
-directly — replicate a model, adapt a formula, or understand a design
+directly: replicate a model, adapt a formula, or understand a design
 choice that isn’t visible from the outside. None of what follows is
 necessary to trust the study’s conclusions (see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html">model
 diagnostics</a> page for that); it’s here because getting some of these
@@ -107,7 +107,7 @@ some of the core decisions taken in these scripts.</p>
 <code><a href="../reference/fit_brms_model.html">fit_brms_model()</a></code>, a thin wrapper around
 <code><a href="https://paulbuerkner.com/brms/reference/brm.html" class="external-link">brms::brm()</a></code>. Its <code>iterations</code> argument means
 <strong>post-warmup draws per chain</strong>, not a total divided across
-chains — an earlier version of this function divided a total iteration
+chains. An earlier version of this function divided a total iteration
 count by the number of detected CPU cores, which meant the sampler’s
 actual per-chain budget depended on whatever machine happened to run it.
 That’s not reproducible in any meaningful sense, so the function was
@@ -141,20 +141,21 @@ parameter) took two real rounds of debugging before it produced
 trustworthy results.</p>
 <p><strong>Problem 1: <code>fmin</code>/<code>fmax</code> compile in
 Stan but don’t exist in R.</strong> The first version of this formula
-used <code>fmin(vviq, k)</code> and <code>fmax(vviq - k, 0)</code> —
-valid Stan functions, and the model compiled and sampled without any
-error. The problem only appeared afterward: <code><a href="https://mc-stan.org/loo/reference/loo.html" class="external-link">brms::loo()</a></code> and
-<code><a href="https://rdrr.io/r/stats/fitted.values.html" class="external-link">fitted()</a></code> need to re-evaluate the nonlinear formula in R for
-post-processing, and R has no <code>fmin</code>/<code>fmax</code>. The
-fix was reformulating the hinge using <code><a href="https://rdrr.io/r/stats/step.html" class="external-link">step()</a></code> instead — a
-function that exists, and behaves identically, in both Stan and R:</p>
+used <code>fmin(vviq, k)</code> and <code>fmax(vviq - k, 0)</code>,
+which are valid Stan functions, and the model compiled and sampled
+without any error. The problem only appeared afterwards:
+<code><a href="https://mc-stan.org/loo/reference/loo.html" class="external-link">brms::loo()</a></code> and <code><a href="https://rdrr.io/r/stats/fitted.values.html" class="external-link">fitted()</a></code> need to re-evaluate
+the non-linear formula in R for post-processing, and R has no
+<code>fmin</code>/<code>fmax</code>. The fix was reformulating the hinge
+using <code><a href="https://rdrr.io/r/stats/step.html" class="external-link">step()</a></code> instead, a function that exists and behaves
+identically in both Stan and R:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Does NOT work post-fit (fmin/fmax don't exist in R):</span></span>
 <span><span class="co"># tas ~ a + b1 * fmin(vviq, k) + b2 * fmax(vviq - k, 0)</span></span>
 <span></span>
 <span><span class="co"># Works in both contexts:</span></span>
 <span><span class="va">tas</span> <span class="op">~</span> <span class="va">a</span> <span class="op">+</span> <span class="va">b1</span> <span class="op">*</span> <span class="va">vviq</span> <span class="op">+</span> <span class="va">b2</span> <span class="op">*</span> <span class="op">(</span><span class="va">vviq</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/step.html" class="external-link">step</a></span><span class="op">(</span><span class="va">vviq</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span></span></code></pre></div>
-<p>Under this reparameterisation, <code>b1</code> is the below-knot
+<p>Under this re-parametrisation, <code>b1</code> is the below-knot
 slope directly, and <code>b1 + b2</code> (not <code>b2</code> alone) is
 the above-knot slope — <code>b2</code> is the <em>change</em> in slope
 at the knot, not a segment slope on its own. Worth remembering if you’re
@@ -163,12 +164,12 @@ the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-compari
 comparison</a> page.</p>
 <p><strong>Problem 2: bad default initialisation.</strong> Even after
 switching to <code><a href="https://rdrr.io/r/stats/step.html" class="external-link">step()</a></code>, a small test fit found the sampler
-landing on <code>k = -3.39</code> — a knot location outside VVIQ’s
-actual range (16-80) entirely, with catastrophic effective sample size.
-brms’s default initialisation for nonlinear parameters is naive (near
-zero, with small random jitter), and zero is nowhere near a plausible
-knot location on this scale. The fix was supplying explicit starting
-values, centred on sensible guesses rather than left to chance:</p>
+landing on <code>k = -3.39</code>, a knot location outside VVIQ’s actual
+range (16-80) entirely, with catastrophic effective sample size. brms’s
+default initialisation for non-linear parameters is naive (near zero,
+with small random jitter), and zero is nowhere near a plausible knot
+location on this scale. The fix was supplying explicit starting values,
+centred on sensible guesses rather than left to chance:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">segmented_inits</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -181,12 +182,12 @@ values, centred on sensible guesses rather than left to chance:</p>
 <p>With good starting values, the same model converged cleanly, and its
 estimated knot (median 19.5, 95% CI [17.7, 24.1]) was stable whether fit
 with 200 draws on one chain or the full 6-chain, 2000-draws-per-chain
-production run — a useful cross-check that the fix addressed the real
-problem rather than just moving it.</p>
+production run, which is a useful cross-check that the fix addressed the
+real problem rather than just moving it.</p>
 <p>The model also needed <code>adapt_delta = 0.99</code> and
 <code>max_treedepth = 15</code> (both above
 <code><a href="../reference/fit_brms_model.html">fit_brms_model()</a></code>’s defaults) to fully clear
-divergent-transition warnings — non-linear/hinge models tend to have
+divergent-transition warnings. Non-linear/hinge models tend to have
 trickier posterior geometry than standard linear ones, and this is a
 reasonable, low-cost precaution for that model class specifically.</p>
 </div>
@@ -206,8 +207,8 @@ convention is not appropriate: a raw slope is expressed “per one unit of
 VVIQ,” and VVIQ’s scale (16-80) is arbitrary relative to TAS’s scale.
 Comparing a raw slope directly to <code>0.1 * SD(tas)</code> implicitly
 assumes one unit of VVIQ is a standardised step, which it isn’t. Slopes
-in this project instead use a Cohen-motivated threshold — a standardised
-effect of 0.2 is considered a small-to-noticeable effect — rescaled into
+in this project instead use a Cohen-motivated threshold: a standardised
+effect of 0.2 is considered a small-to-noticeable effect, rescaled into
 the raw units the slope is actually expressed in:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sd_tas</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">$</span><span class="va">tas</span><span class="op">)</span></span>
@@ -235,8 +236,8 @@ changes:</p>
 <span><span class="va">vviq_cuts</span> <span class="op">&lt;-</span> <span class="va">mars</span><span class="op">$</span><span class="va">cuts</span><span class="op">[</span>, <span class="st">"vviq"</span><span class="op">]</span></span>
 <span><span class="va">knot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">vviq_cuts</span><span class="op">[</span><span class="va">vviq_cuts</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>This fixed-knot model and the estimated-knot model above produce
-nearly identical fits (LOO elpd difference of -0.09, well within noise)
-— a nice cross-validation of both approaches, using two genuinely
+nearly identical fits (LOO elpd difference of -0.09, well within noise),
+which is a nice cross-validation of both approaches, using two genuinely
 different methods to arrive at essentially the same answer.</p>
 <hr>
 <p><strong>Continuing through the Extended Online Report:</strong> this
