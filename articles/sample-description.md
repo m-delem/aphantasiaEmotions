@@ -7,14 +7,14 @@ library(ggplot2)
 library(ggpubr)
 ```
 
-Every analysis in this report runs on `all_data`: 1478 participants
-pooled from five studies: two unpublished datasets shared by the authors
-specifically for this project, three retrieved from previously published
-or shared work. This page describes where each of the five came from,
-who was in them, and a few places where they genuinely differ from each
-other. Differences that may matter later, when the question becomes
-whether a pattern found in the pooled sample holds up once study
-membership is accounted for (see the [floor-group
+Every analysis in this report runs on `all_data`, containing 1478
+participants pooled from five studies: two unpublished datasets shared
+by the authors specifically for this project, three retrieved from
+previously published or shared work. This page describes where each of
+the five came from, who was in them, and a few places where they
+genuinely differ from each other. Differences that may matter later,
+when the question becomes whether a pattern found in the pooled sample
+holds up once study membership is accounted for (see the [floor-group
 model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.htm#multilevel)
 page).
 
