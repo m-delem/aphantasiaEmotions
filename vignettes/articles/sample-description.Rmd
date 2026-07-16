@@ -29,7 +29,7 @@ library(ggplot2)
 library(ggpubr)
 ```
 
-Every analysis in this report runs on `all_data`: `r nrow(all_data)`
+Every analysis in this report runs on `all_data`, containing `r nrow(all_data)`
 participants pooled from five studies: two unpublished datasets shared by the
 authors specifically for this project, three retrieved from previously published
 or shared work. This page describes where each of the five came from, who was in
