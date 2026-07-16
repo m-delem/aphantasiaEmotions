@@ -233,11 +233,11 @@ strength.](superseded-models_files/figure-html/gam-tot-1.png)
 ## TAS-20 sub-scales
 
 The same two models were fit separately on each of the three TAS-20
-sub-scales (DIF, DDF, EOT). Full figures and statistical resutls for
+sub-scales (DIF, DDF, EOT). Full figures and statistical results for
 these were part of the original manuscript; they are not reproduced here
 since the pattern across sub-scales did not depart dramatically from the
 one observed for the total TAS. We refer interested readers to the
 [original manuscript](https://doi.org/10.31234/osf.io/es425_v1) for
-these details, or to the new final sub-scale analysis using the best
+these details, or to the new final per-sub-scale analysis using the best
 model (the “floor-group” model) on its [dedicated
 page](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html#floor-subscales).

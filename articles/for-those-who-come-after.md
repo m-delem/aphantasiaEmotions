@@ -127,7 +127,7 @@ homepage](https://m-delem.github.io/aphantasiaEmotions/).
 
 ------------------------------------------------------------------------
 
-### References
+## References
 
 Denison, D. G. T., Mallick, B. K., & Smith, A. F. M. (1998). Bayesian
 MARS. *Statistics and Computing*, *8*(4), 337–346.

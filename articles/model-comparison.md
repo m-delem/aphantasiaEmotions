@@ -449,9 +449,11 @@ knot_ci_high     <- round(stats::quantile(knot_draws$b_k_Intercept, 0.975), 1)
 prop_below_kvamme <- round(mean(knot_draws$b_k_Intercept < 32) * 100, 1)
 
 kvamme_aphant_grid  <- data.frame(vviq = seq(16, 32, length.out = 50))
-kvamme_aphant_grid$estimate <- predict(lm_kvamme_aphant, newdata = kvamme_aphant_grid)
+kvamme_aphant_grid$estimate <- 
+  predict(lm_kvamme_aphant, newdata = kvamme_aphant_grid)
 kvamme_typical_grid <- data.frame(vviq = seq(33, 80, length.out = 50))
-kvamme_typical_grid$estimate <- predict(lm_kvamme_typical, newdata = kvamme_typical_grid)
+kvamme_typical_grid$estimate <- 
+  predict(lm_kvamme_typical, newdata = kvamme_typical_grid)
 
 ggplot2::ggplot() +
   ggplot2::geom_line(
@@ -477,6 +479,7 @@ ggplot2::ggplot() +
       knot_median, knot_ci_low, knot_ci_high
     )
   ) +
+  scale_x_vviq() +
   theme_pdf(base_size = 16)
 ```
 
@@ -596,7 +599,7 @@ after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-
 
 ------------------------------------------------------------------------
 
-### References
+## References
 
 Kvamme, T. L., Monzel, M., Nagai, Y., & Silvanto, J. (2026). When weak
 imagery is worse than none: Core aphantasia and hypophantasia relate

@@ -367,7 +367,7 @@ after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-
 
 ------------------------------------------------------------------------
 
-### References
+## References
 
 Ale, E., & Burns, E. (2024, March 5). *Aphantasia and alexithymia
 predict complex PTSD symptoms*. <https://doi.org/10.31234/osf.io/kj5d3>

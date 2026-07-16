@@ -549,9 +549,11 @@ test their fixed threshold empirically, rather than assuming it.</p>
 <span><span class="va">prop_below_kvamme</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">knot_draws</span><span class="op">$</span><span class="va">b_k_Intercept</span> <span class="op">&lt;</span> <span class="fl">32</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kvamme_aphant_grid</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>vviq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">16</span>, <span class="fl">32</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">kvamme_aphant_grid</span><span class="op">$</span><span class="va">estimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">lm_kvamme_aphant</span>, newdata <span class="op">=</span> <span class="va">kvamme_aphant_grid</span><span class="op">)</span></span>
+<span><span class="va">kvamme_aphant_grid</span><span class="op">$</span><span class="va">estimate</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">lm_kvamme_aphant</span>, newdata <span class="op">=</span> <span class="va">kvamme_aphant_grid</span><span class="op">)</span></span>
 <span><span class="va">kvamme_typical_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>vviq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">33</span>, <span class="fl">80</span>, length.out <span class="op">=</span> <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">kvamme_typical_grid</span><span class="op">$</span><span class="va">estimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">lm_kvamme_typical</span>, newdata <span class="op">=</span> <span class="va">kvamme_typical_grid</span><span class="op">)</span></span>
+<span><span class="va">kvamme_typical_grid</span><span class="op">$</span><span class="va">estimate</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">lm_kvamme_typical</span>, newdata <span class="op">=</span> <span class="va">kvamme_typical_grid</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span></span>
@@ -577,6 +579,7 @@ test their fixed threshold empirically, rather than assuming it.</p>
 <span>      <span class="va">knot_median</span>, <span class="va">knot_ci_low</span>, <span class="va">knot_ci_high</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_x_vviq.html">scale_x_vviq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="model-comparison_files/figure-html/kvamme-comparison-1.png" class="r-plt" alt="A line plot showing the segmented model's fitted curve (green) against two dashed reference lines (blue) representing Kvamme et al.'s own published regression lines, each restricted to their own VVIQ range. A vertical dotted line marks Kvamme et al.'s fixed threshold at VVIQ = 32. A caption reports the estimated knot's median and 95% credible interval, which sits well below Kvamme et al.'s threshold." width="768"></p>
 <p>This project’s own estimated breakpoint, found without assuming any
@@ -668,9 +671,10 @@ diagnostics</a>, <a href="https://m-delem.github.io/aphantasiaEmotions/articles/
 notes</a>, or <a href="https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html">for
 those who come after</a>.</p>
 <hr>
-<div class="section level3 unnumbered">
-<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h3>
+</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
 <div id="ref-kvammeWhenWeakImagery2026" class="csl-entry">
 Kvamme, T. L., Monzel, M., Nagai, Y., &amp; Silvanto, J. (2026). When
@@ -684,7 +688,6 @@ Reeder, R. R., Pounder, Z., Figueroa, A., Jüllig, A., &amp; Azañón, E.
 (2024). Non-visual spatial strategies are effective for maintaining
 precise information in visual working memory. <em>Cognition</em>,
 <em>251</em>, 105907. <a href="https://doi.org/10.1016/j.cognition.2024.105907" class="external-link">https://doi.org/10.1016/j.cognition.2024.105907</a>
-</div>
 </div>
 </div>
 </div>

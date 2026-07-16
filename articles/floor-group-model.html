@@ -211,16 +211,8 @@ effect as this project’s evidentiary standards can show.</p>
 <p>The above-floor slope itself is -0.266 (95% CI [-0.350, -0.186]), pd
 = 99.9%, 0.0% in ROPE. Note that this uses a different ROPE convention
 than the floor-group contrast above, since a raw slope and a group
-contrast aren’t comparable on the same scale (see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs-slopes">implementation
+contrast aren’t comparable on the same scale (see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs--slopes">implementation
 notes</a> for the full reasoning).</p>
-</div>
-<div class="section level2">
-<h2 id="why-gaussian">Why gaussian()<a class="anchor" aria-label="anchor" href="#why-gaussian"></a>
-</h2>
-<p>Every model in this report, including this one, uses brms’s default
-Gaussian family. That choice is checked, not just assumed: see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family">model
-diagnostics</a> page for the residual skewness, heteroscedasticity, and
-boundary checks behind it.</p>
 </div>
 <div class="section level2">
 <h2 id="multilevel">Multilevel robustness<a class="anchor" aria-label="anchor" href="#multilevel"></a>
@@ -317,6 +309,126 @@ description</a> page (young, homogeneous, no complete-aphantasia
 participants of its own to anchor the floor group’s contribution). The
 other four studies, spanning different languages, recruitment channels,
 and sample sizes, tell a consistent story.</p>
+</div>
+<div class="section level2">
+<h2 id="various-checks">Various checks<a class="anchor" aria-label="anchor" href="#various-checks"></a>
+</h2>
+<div class="section level3">
+<h3 id="coherence">Is the floor group responding coherently?<a class="anchor" aria-label="anchor" href="#coherence"></a>
+</h3>
+<p>The floor effect could, in principle, reflect something other than
+typical emotional functioning: if complete aphantasics found the
+TAS-20’s items harder to understand or introspect on, their low scores
+might reflect noisy or degraded responding rather than a genuine absence
+of alexithymia. This is directly checkable. If responding were degraded,
+it should show up as weaker internal coherence — the three TAS-20
+sub-scales moving together less consistently, and the twenty individual
+items agreeing with each other less — within complete aphantasics
+specifically, compared to the rest of the sample.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">items_flat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">all_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">study</span>, <span class="va">vviq</span>, <span class="va">tas_identify</span>, <span class="va">tas_describe</span>, <span class="va">tas_external</span>, <span class="va">items</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">items</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>    <span class="va">id</span>, <span class="va">study</span>, <span class="va">vviq</span>, <span class="va">tas_identify</span>, <span class="va">tas_describe</span>, <span class="va">tas_external</span>,</span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    group <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">vviq</span> <span class="op">==</span> <span class="fl">16</span>, <span class="st">"Complete aphantasia"</span>, <span class="st">"Rest of sample"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">subscale_corr</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
+<span>    <span class="st">"DIF-DDF"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_identify</span>, <span class="va">tas_describe</span><span class="op">)</span>,</span>
+<span>    <span class="st">"DIF-EOT"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_identify</span>, <span class="va">tas_external</span><span class="op">)</span>,</span>
+<span>    <span class="st">"DDF-EOT"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_describe</span>, <span class="va">tas_external</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">subscale_corr</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">group</th>
+<th align="right">DIF-DDF</th>
+<th align="right">DIF-EOT</th>
+<th align="right">DDF-EOT</th>
+<th align="right">n</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Complete aphantasia</td>
+<td align="right">0.740</td>
+<td align="right">0.192</td>
+<td align="right">0.426</td>
+<td align="right">127</td>
+</tr>
+<tr class="even">
+<td align="left">Rest of sample</td>
+<td align="right">0.717</td>
+<td align="right">0.191</td>
+<td align="right">0.325</td>
+<td align="right">1246</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">alpha_by_group</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span></span>
+<span>    <span class="op">~</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/alpha.html" class="external-link">alpha</a></span><span class="op">(</span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>      warnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">alpha_by_group</span><span class="op">)</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">items_flat</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">alpha_summary</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">alpha_by_group</span><span class="op">)</span>,</span>
+<span>  \<span class="op">(</span><span class="va">g</span><span class="op">)</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    group <span class="op">=</span> <span class="va">g</span>,</span>
+<span>    <span class="st">"Cronbach's alpha"</span> <span class="op">=</span> <span class="va">alpha_by_group</span><span class="op">[[</span><span class="va">g</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">total</span><span class="op">$</span><span class="va">raw_alpha</span>,</span>
+<span>    <span class="st">"Items"</span> <span class="op">=</span> <span class="fl">20</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">alpha_summary</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">group</th>
+<th align="right">Cronbach’s alpha</th>
+<th align="right">Items</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Complete aphantasia</td>
+<td align="right">0.875</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="left">Rest of sample</td>
+<td align="right">0.862</td>
+<td align="right">20</td>
+</tr>
+</tbody>
+</table>
+<p>Both checks come back clean. The three sub-scales correlate with each
+other in complete aphantasics in essentially the same pattern as in the
+rest of the sample — DIF and DDF move together most strongly, DIF and
+EOT most weakly, in both groups alike — and Cronbach’s alpha across all
+twenty items is, if anything, marginally <em>higher</em> in complete
+aphantasics (0.875) than in the rest of the sample (0.862). There is no
+sign here of degraded or incoherent responding in the floor group: their
+answers hang together at least as well as everyone else’s, which is the
+pattern expected of genuine, typical self-report rather than one
+distorted by an introspective deficit specific to this group.</p>
+</div>
 <div class="section level3">
 <h3 id="prior-sensitivity">Prior sensitivity<a class="anchor" aria-label="anchor" href="#prior-sensitivity"></a>
 </h3>
@@ -329,7 +441,7 @@ could be defended. The prior on fixed effects we chose was also
 deliberately weakly informative. Whether the model’s substantive
 conclusions depend on these choices is checked directly, refitting with
 priors twice as wide as the defaults chosen:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sensitivity_priors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span></span>
 <span>    <span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span>, <span class="co"># twice as wide as our normal(0,20) default</span></span>
@@ -385,6 +497,14 @@ priors twice as wide as the defaults chosen:</p>
 deliberately wider priors: the headline result does not depend on which
 weakly-informative priors were used to fit the model.</p>
 </div>
+<div class="section level3">
+<h3 id="why-gaussian">Why gaussian()<a class="anchor" aria-label="anchor" href="#why-gaussian"></a>
+</h3>
+<p>Every model in this report, including this one, uses brms’s default
+Gaussian family. That choice is checked, not just assumed: see the <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family">model
+diagnostics</a> page for the residual skewness, heteroscedasticity, and
+boundary checks behind it.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="floor-subscales">TAS-20 sub-scales<a class="anchor" aria-label="anchor" href="#floor-subscales"></a>
@@ -395,7 +515,7 @@ Identifying Feelings (DIF), Difficulty Describing Feelings (DDF), and
 Externally-Oriented Thinking (EOT) — and the same model was fit
 separately on each, to check whether the floor effect holds uniformly or
 is concentrated in a specific facet of alexithymia.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subscale_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"results"</span>, <span class="st">"floor_group_subscale_results.rds"</span>, package <span class="op">=</span> <span class="va">pkg</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -493,7 +613,7 @@ is concentrated in a specific facet of alexithymia.</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m_dif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models"</span>, <span class="st">"floor_group_additive_multilevel_dif.rds"</span>, package <span class="op">=</span> <span class="va">pkg</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">m_ddf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span></span>

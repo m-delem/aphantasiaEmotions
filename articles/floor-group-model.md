@@ -153,17 +153,8 @@ The above-floor slope itself is -0.266 (95% CI \[-0.350, -0.186\]), pd =
 99.9%, 0.0% in ROPE. Note that this uses a different ROPE convention
 than the floor-group contrast above, since a raw slope and a group
 contrast aren’t comparable on the same scale (see [implementation
-notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs-slopes)
+notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html#rope-conventions-contrasts-vs--slopes)
 for the full reasoning).
-
-## Why gaussian()
-
-Every model in this report, including this one, uses brms’s default
-Gaussian family. That choice is checked, not just assumed: see the
-[model
-diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family)
-page for the residual skewness, heteroscedasticity, and boundary checks
-behind it.
 
 ## Multilevel robustness
 
@@ -272,6 +263,99 @@ to anchor the floor group’s contribution). The other four studies,
 spanning different languages, recruitment channels, and sample sizes,
 tell a consistent story.
 
+## Various checks
+
+### Is the floor group responding coherently?
+
+The floor effect could, in principle, reflect something other than
+typical emotional functioning: if complete aphantasics found the
+TAS-20’s items harder to understand or introspect on, their low scores
+might reflect noisy or degraded responding rather than a genuine absence
+of alexithymia. This is directly checkable. If responding were degraded,
+it should show up as weaker internal coherence — the three TAS-20
+sub-scales moving together less consistently, and the twenty individual
+items agreeing with each other less — within complete aphantasics
+specifically, compared to the rest of the sample.
+
+``` r
+
+items_flat <- 
+  all_data |>
+  dplyr::select(id, study, vviq, tas_identify, tas_describe, tas_external, items) |>
+  tidyr::unnest(items) |>
+  dplyr::select(
+    id, study, vviq, tas_identify, tas_describe, tas_external,
+    dplyr::starts_with("tas_q")) |>
+  dplyr::mutate(
+    group = dplyr::if_else(vviq == 16, "Complete aphantasia", "Rest of sample")
+  )
+```
+
+``` r
+
+subscale_corr <- 
+  items_flat |>
+  dplyr::group_by(group) |>
+  dplyr::summarise(
+    "DIF-DDF" = cor(tas_identify, tas_describe),
+    "DIF-EOT" = cor(tas_identify, tas_external),
+    "DDF-EOT" = cor(tas_describe, tas_external),
+    n = dplyr::n(),
+    .groups = "drop"
+  )
+
+subscale_corr |> knitr::kable(digits = 3)
+```
+
+| group               | DIF-DDF | DIF-EOT | DDF-EOT |    n |
+|:--------------------|--------:|--------:|--------:|-----:|
+| Complete aphantasia |   0.740 |   0.192 |   0.426 |  127 |
+| Rest of sample      |   0.717 |   0.191 |   0.325 | 1246 |
+
+``` r
+
+alpha_by_group <- 
+  items_flat |>
+  dplyr::group_by(group) |>
+  dplyr::group_map(
+    ~ psych::alpha(
+      dplyr::select(.x, dplyr::starts_with("tas_q")), 
+      warnings = FALSE)
+  )
+
+names(alpha_by_group) <- 
+  items_flat |> 
+  dplyr::distinct(group) |> 
+  dplyr::pull(group)
+
+alpha_summary <- purrr::map_dfr(
+  names(alpha_by_group),
+  \(g) tibble::tibble(
+    group = g,
+    "Cronbach's alpha" = alpha_by_group[[g]]$total$raw_alpha,
+    "Items" = 20
+  )
+)
+
+alpha_summary |> knitr::kable(digits = 3)
+```
+
+| group               | Cronbach’s alpha | Items |
+|:--------------------|-----------------:|------:|
+| Complete aphantasia |            0.875 |    20 |
+| Rest of sample      |            0.862 |    20 |
+
+Both checks come back clean. The three sub-scales correlate with each
+other in complete aphantasics in essentially the same pattern as in the
+rest of the sample — DIF and DDF move together most strongly, DIF and
+EOT most weakly, in both groups alike — and Cronbach’s alpha across all
+twenty items is, if anything, marginally *higher* in complete
+aphantasics (0.875) than in the rest of the sample (0.862). There is no
+sign here of degraded or incoherent responding in the floor group: their
+answers hang together at least as well as everyone else’s, which is the
+pattern expected of genuine, typical self-report rather than one
+distorted by an introspective deficit specific to this group.
+
 ### Prior sensitivity
 
 The group-level slope SD term, i.e., how much the VVIQ-TAS slope is
@@ -328,6 +412,15 @@ sensitivity_table |> knitr::kable(digits = 3)
 Both parameters are essentially unchanged between the default and the
 deliberately wider priors: the headline result does not depend on which
 weakly-informative priors were used to fit the model.
+
+### Why gaussian()
+
+Every model in this report, including this one, uses brms’s default
+Gaussian family. That choice is checked, not just assumed: see the
+[model
+diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#gaussian-family)
+page for the residual skewness, heteroscedasticity, and boundary checks
+behind it.
 
 ## TAS-20 sub-scales
 
