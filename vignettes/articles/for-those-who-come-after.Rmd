@@ -140,4 +140,4 @@ homepage](https://m-delem.github.io/aphantasiaEmotions/).
 
 --------------------------------------------------------------------------------
 
-### References
+## References

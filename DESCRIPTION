@@ -42,6 +42,7 @@ Suggests:
     pacman,
     patchwork,
     performance,
+    psych,
     purrr,
     rmarkdown,
     see,
