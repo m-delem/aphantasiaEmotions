@@ -115,6 +115,12 @@ rather than redone, since the underlying question they answer (how does
 each model describe the data) hasn’t changed, even though our headline
 answer to the <em>overall</em> research question has moved on to a
 different model.</p>
+<p>For completeness, and because a reviewer specifically asked what the
+simpler, more common 2-group split (aphantasia, VVIQ
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
+32, vs. typical) would have shown, we also report the contrasts of this
+model here, even though it was not part of our original analysis
+plan.</p>
 <div class="section level2">
 <h2 id="total-tas-20-scores">Total TAS-20 scores<a class="anchor" aria-label="anchor" href="#total-tas-20-scores"></a>
 </h2>
@@ -765,6 +771,83 @@ diagnostics §Categorical, 4 groups</a>.)</p>
 <p><img src="superseded-models_files/figure-html/gam-tot-1.png" class="r-plt" alt="Left: fitted GAM curve of total TAS score across the VVIQ range, with individual data points coloured by VVIQ group and the clinical alexithymia cutoff marked. Right: the estimated slope (rate of change of TAS with VVIQ) across the VVIQ range, coloured by evidence strength." width="768"></p>
 <p>(Convergence and posterior predictive check: <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-gam">model
 diagnostics §GAM</a>.)</p>
+</div>
+<div class="section level3">
+<h3 id="original-2g">2-group categorical model<a class="anchor" aria-label="anchor" href="#original-2g"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lm_categorical_2g</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_brms_model.html">fit_brms_model</a></span><span class="op">(</span></span>
+<span>  formula <span class="op">=</span> <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_2</span>,</span>
+<span>  data    <span class="op">=</span> <span class="va">all_data</span>,</span>
+<span>  prior   <span class="op">=</span> <span class="fu">brms</span><span class="fu">::</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/set_prior.html" class="external-link">prior</a></span><span class="op">(</span><span class="fu">normal</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"b"</span><span class="op">)</span>,</span>
+<span>  file    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"models"</span>, <span class="st">"lm_categorical_2g_tot.rds"</span>, package <span class="op">=</span> <span class="va">pkg</span><span class="op">)</span>,</span>
+<span>  file_refit <span class="op">=</span> <span class="va">refit</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">contrasts_2g_tot</span> <span class="op">&lt;-</span> <span class="fu">marginaleffects</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/comparisons.html" class="external-link">comparisons</a></span><span class="op">(</span></span>
+<span>  <span class="va">lm_categorical_2g</span>,</span>
+<span>  variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"vviq_group_2"</span> <span class="op">=</span> <span class="st">"pairwise"</span><span class="op">)</span>,</span>
+<span>  draw_ids <span class="op">=</span> <span class="va">draws</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/report_rope.html">report_rope</a></span><span class="op">(</span><span class="va">contrasts_2g_tot</span>, <span class="va">contrast</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="23%">
+<col width="10%">
+<col width="19%">
+<col width="5%">
+<col width="3%">
+<col width="12%">
+<col width="13%">
+<col width="12%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">contrast</th>
+<th align="right">Estimate</th>
+<th align="left">95% CI</th>
+<th align="right">d</th>
+<th align="right">PD</th>
+<th align="right">Below ROPE</th>
+<th align="right">Inside ROPE</th>
+<th align="right">Above ROPE</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">typical - aphantasia</td>
+<td align="right">-4.842</td>
+<td align="left">[-6.364, -3.316]</td>
+<td align="right">0.39</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr></tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">p_contr_2g_tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_posterior_contrasts.html">plot_posterior_contrasts</a></span><span class="op">(</span></span>
+<span>  <span class="va">contrasts_2g_tot</span>,</span>
+<span>  <span class="va">lm_categorical_2g</span>,</span>
+<span>  base_size <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  rope_txt <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  dot_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  x_lab <span class="op">=</span> <span class="st">"Effect size (TAS score difference)"</span>,</span>
+<span>  axis_relative_x <span class="op">=</span> <span class="fl">0.7</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_2g_tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
+<span>  <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_2</span>,</span>
+<span>  y_lab <span class="op">=</span> <span class="st">"Total TAS Score"</span>,</span>
+<span>  base_size <span class="op">=</span> <span class="fl">12</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/plot_alexithymia_cutoff.html">plot_alexithymia_cutoff</a></span><span class="op">(</span>txt_size <span class="op">=</span> <span class="fl">2</span>, txt_x <span class="op">=</span> <span class="fl">1.4</span>, label <span class="op">=</span> <span class="st">"Alexithymia"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_2g_tot</span> <span class="op">+</span> <span class="va">p_contr_2g_tot</span></span></code></pre></div>
+<p><img src="superseded-models_files/figure-html/categorical-2g-tot-1.png" class="r-plt" alt="Left: violin plots of total TAS score by 2-group VVIQ split (aphantasia, VVIQ &lt;= 32, vs. typical), with the clinical alexithymia cutoff marked. Right: posterior contrast between the two groups, with ROPE-based evidence annotation." width="768"></p>
+<p>(Convergence and posterior predictive check: <a href="https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-categorical-2">model
+diagnostics §Categorical, 2 groups</a>.)</p>
 </div>
 </div>
 <div class="section level2">

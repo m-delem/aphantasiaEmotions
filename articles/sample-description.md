@@ -283,14 +283,14 @@ score both show excellent internal consistency (McDonald’s $`\omega`$ =
 reliabilities reported for the original and French validations cited in
 the manuscript. At the subscale level, DIF ($`\omega`$ = 0.91) and DDF
 ($`\omega`$ = 0.85) are similarly strong, while EOT ($`\omega`$ = 0.73)
-is comparatively weaker — consistent with the pattern already noted in
+is comparatively weaker, consistent with the pattern already noted in
 the manuscript’s *Questionnaires* section, where EOT is described as the
 TAS-20’s least internally consistent facet across the wider literature
 (Bagby et al., 2020; Schroeders et al., 2022). This is not a given for a
 sample pooled across five studies, three languages of data collection
 (English and French, see [Recruitment, and why the five studies aren’t
 interchangeable](#recruitment-and-why-the-five-studies-arent-interchangeable)
-above), and a wide range of recruitment channels — checking it directly,
+above), and a wide range of recruitment channels: checking it directly,
 rather than assuming it from the instruments’ published psychometric
 properties alone, is a small but genuinely useful piece of due diligence
 that is not always done in practice.

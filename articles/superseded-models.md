@@ -32,6 +32,11 @@ each model describe the data) hasn’t changed, even though our headline
 answer to the *overall* research question has moved on to a different
 model.
 
+For completeness, and because a reviewer specifically asked what the
+simpler, more common 2-group split (aphantasia, VVIQ $`\leq`$ 32,
+vs. typical) would have shown, we also report the contrasts of this
+model here, even though it was not part of our original analysis plan.
+
 ## Total TAS-20 scores
 
 ### 4-group categorical model
@@ -229,6 +234,66 @@ strength.](superseded-models_files/figure-html/gam-tot-1.png)
 
 (Convergence and posterior predictive check: [model diagnostics
 §GAM](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-gam).)
+
+### 2-group categorical model
+
+``` r
+
+lm_categorical_2g <- fit_brms_model(
+  formula = tas ~ vviq_group_2,
+  data    = all_data,
+  prior   = brms::prior(normal(0, 20), class = "b"),
+  file    = system.file("models", "lm_categorical_2g_tot.rds", package = pkg),
+  file_refit = refit
+)
+
+contrasts_2g_tot <- marginaleffects::comparisons(
+  lm_categorical_2g,
+  variables = list("vviq_group_2" = "pairwise"),
+  draw_ids = draws
+)
+
+report_rope(contrasts_2g_tot, contrast) |> knitr::kable(digits = 3)
+```
+
+| contrast | Estimate | 95% CI | d | PD | Below ROPE | Inside ROPE | Above ROPE |
+|:---|---:|:---|---:|---:|---:|---:|---:|
+| typical - aphantasia | -4.842 | \[-6.364, -3.316\] | 0.39 | 1 | 1 | 0 | 0 |
+
+``` r
+
+
+p_contr_2g_tot <- plot_posterior_contrasts(
+  contrasts_2g_tot,
+  lm_categorical_2g,
+  base_size = 12,
+  rope_txt = 3,
+  dot_size = 1,
+  x_lab = "Effect size (TAS score difference)",
+  axis_relative_x = 0.7
+)
+
+p_2g_tot <- plot_group_violins(
+  tas ~ vviq_group_2,
+  y_lab = "Total TAS Score",
+  base_size = 12
+  ) +
+  plot_alexithymia_cutoff(txt_size = 2, txt_x = 1.4, label = "Alexithymia") +
+  scale_discrete_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7))
+
+p_2g_tot + p_contr_2g_tot
+```
+
+![Left: violin plots of total TAS score by 2-group VVIQ split
+(aphantasia, VVIQ \<= 32, vs. typical), with the clinical alexithymia
+cutoff marked. Right: posterior contrast between the two groups, with
+ROPE-based evidence
+annotation.](superseded-models_files/figure-html/categorical-2g-tot-1.png)
+
+(Convergence and posterior predictive check: [model diagnostics
+§Categorical, 2
+groups](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html#ppc-categorical-2).)
 
 ## TAS-20 sub-scales
 
