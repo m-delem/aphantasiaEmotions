@@ -26,7 +26,7 @@ model_files <- c(
   categorical_4_groups    = "lm_categorical_4g_tot.rds",
   categorical_2_groups    = "lm_categorical_2g_tot.rds",
   gam                     = "gam_tot.rds",
-  segmented_fixed         = "segmented_fixed_knot_tot.rds",
+  # segmented_fixed         = "segmented_fixed_knot_tot.rds",
   segmented_estimated     = "segmented_estimated_knot_tot.rds",
   floor_group_additive    = "floor_group_additive_tot.rds"
 )
