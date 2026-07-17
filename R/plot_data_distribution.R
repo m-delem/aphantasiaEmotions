@@ -143,7 +143,7 @@ plot_alexithymia_proportions <- function(
         "monzel" = "Monzel et al. (2024)",
         "mas"    = "Mas & Luminet (2025)",
         "ruby"   = "Ruby (2025)",
-        "kvamme" = "Kvamme et al. (2025)",
+        "kvamme" = "Kvamme et al. (2026)",
         "total"  = "All studies combined"
       )),
       axes = "all_x"
@@ -279,7 +279,7 @@ plot_vviq_group_proportions <- function(
         "monzel" = "Monzel et al. (2024)\nN = 105",
         "mas"    = "Mas & Luminet (2025)\nN = 123",
         "ruby"   = "Ruby (2025)\nN = 225",
-        "kvamme" = "Kvamme et al. (2025)\nN = 833",
+        "kvamme" = "Kvamme et al. (2026)\nN = 833",
         "total"  = "All studies combined\nN = 1,478"
       )),
       axes = "all_x"
