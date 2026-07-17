@@ -41,7 +41,6 @@ model_files <- c(
   categorical_4_groups    = "lm_categorical_4g_tot.rds",
   categorical_2_groups    = "lm_categorical_2g_tot.rds",
   gam                     = "gam_tot.rds",
-  segmented_fixed         = "segmented_fixed_knot_tot.rds",
   segmented_estimated     = "segmented_estimated_knot_tot.rds",
   floor_group_additive    = "floor_group_additive_tot.rds"
 )
@@ -125,16 +124,6 @@ plot(pp_checks$categorical_2_groups) + theme_pdf(base_size = 16)
 #|   TAS scores overlaid on the observed distribution.
 
 plot(pp_checks$gam) + theme_pdf(base_size = 16)
-```
-
-### Segmented, fixed knot {#ppc-segmented-fixed}
-
-```{r ppc-segmented-fixed}
-#| fig.alt: >
-#|   Posterior predictive check for the fixed-knot segmented model: density
-#|   curves of simulated TAS scores overlaid on the observed distribution.
-
-plot(pp_checks$segmented_fixed) + theme_pdf(base_size = 16)
 ```
 
 ### Segmented, estimated knot {#ppc-segmented-estimated}
