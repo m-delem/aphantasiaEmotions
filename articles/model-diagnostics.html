@@ -106,7 +106,6 @@ rather than reading top to bottom.</p>
 <span>  categorical_4_groups    <span class="op">=</span> <span class="st">"lm_categorical_4g_tot.rds"</span>,</span>
 <span>  categorical_2_groups    <span class="op">=</span> <span class="st">"lm_categorical_2g_tot.rds"</span>,</span>
 <span>  gam                     <span class="op">=</span> <span class="st">"gam_tot.rds"</span>,</span>
-<span>  segmented_fixed         <span class="op">=</span> <span class="st">"segmented_fixed_knot_tot.rds"</span>,</span>
 <span>  segmented_estimated     <span class="op">=</span> <span class="st">"segmented_estimated_knot_tot.rds"</span>,</span>
 <span>  floor_group_additive    <span class="op">=</span> <span class="st">"floor_group_additive_tot.rds"</span></span>
 <span><span class="op">)</span></span>
@@ -165,16 +164,11 @@ table below is computed directly from each model’s fitted object.</p>
 <td align="right">3438</td>
 </tr>
 <tr class="odd">
-<td align="left">segmented_fixed</td>
-<td align="right">1.0010</td>
-<td align="right">5883</td>
-</tr>
-<tr class="even">
 <td align="left">segmented_estimated</td>
 <td align="right">1.0021</td>
 <td align="right">2088</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">floor_group_additive</td>
 <td align="right">1.0008</td>
 <td align="right">5639</td>
@@ -222,23 +216,16 @@ similar.</p>
 <p><img src="model-diagnostics_files/figure-html/ppc-gam-1.png" class="r-plt" alt="Posterior predictive check for the GAM: density curves of simulated TAS scores overlaid on the observed distribution." width="768"></p>
 </div>
 <div class="section level3">
-<h3 id="ppc-segmented-fixed">Segmented, fixed knot<a class="anchor" aria-label="anchor" href="#ppc-segmented-fixed"></a>
-</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pp_checks</span><span class="op">$</span><span class="va">segmented_fixed</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
-<p><img src="model-diagnostics_files/figure-html/ppc-segmented-fixed-1.png" class="r-plt" alt="Posterior predictive check for the fixed-knot segmented model: density curves of simulated TAS scores overlaid on the observed distribution." width="768"></p>
-</div>
-<div class="section level3">
 <h3 id="ppc-segmented-estimated">Segmented, estimated knot<a class="anchor" aria-label="anchor" href="#ppc-segmented-estimated"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pp_checks</span><span class="op">$</span><span class="va">segmented_estimated</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="model-diagnostics_files/figure-html/ppc-segmented-estimated-1.png" class="r-plt" alt="Posterior predictive check for the estimated-knot segmented model: density curves of simulated TAS scores overlaid on the observed distribution." width="768"></p>
 </div>
 <div class="section level3">
 <h3 id="ppc-floor-group">Floor-group additive<a class="anchor" aria-label="anchor" href="#ppc-floor-group"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pp_checks</span><span class="op">$</span><span class="va">floor_group_additive</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/theme_pdf.html">theme_pdf</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p><img src="model-diagnostics_files/figure-html/ppc-floor-group-1.png" class="r-plt" alt="Posterior predictive check for the floor-group additive model: density curves of simulated TAS scores overlaid on the observed distribution." width="768"></p>
 <p>All seven models reproduce the observed distribution well: no model
@@ -254,7 +241,7 @@ default family. That choice is worth checking, not just assuming: TAS-20
 total is technically a bounded, discrete sum (20-100), and a Gaussian
 approximation is only appropriate if the data don’t show serious skew,
 heteroscedasticity, or a pile-up at the boundaries.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tas_vals</span> <span class="op">&lt;-</span> <span class="va">all_data</span><span class="op">$</span><span class="va">tas</span></span>
 <span></span>
 <span><span class="va">tas_skew</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">tas_vals</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">tas_vals</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">tas_vals</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span></span>
@@ -279,7 +266,7 @@ heteroscedasticity, or a pile-up at the boundaries.</p>
 <p>The raw TAS-20 total ranges from 20 to 94, with a skewness of 0.21
 (near 0 is symmetric, this is mild). Some participants do sit exactly at
 the scale’s floor (20).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">family_check_table</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
@@ -309,16 +296,11 @@ the scale’s floor (20).</p>
 <td align="right">0.065</td>
 </tr>
 <tr class="odd">
-<td align="left">segmented_fixed</td>
+<td align="left">segmented_estimated</td>
 <td align="right">0.173</td>
-<td align="right">0.059</td>
+<td align="right">0.060</td>
 </tr>
 <tr class="even">
-<td align="left">segmented_estimated</td>
-<td align="right">0.171</td>
-<td align="right">0.059</td>
-</tr>
-<tr class="odd">
 <td align="left">floor_group_additive</td>
 <td align="right">0.171</td>
 <td align="right">0.063</td>

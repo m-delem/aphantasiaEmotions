@@ -297,13 +297,12 @@ comparison_table |> knitr::kable(digits = 2)
 
 | model                | elpd_diff | se_diff | n_high_pareto_k |
 |:---------------------|----------:|--------:|----------------:|
-| segmented_fixed      |      0.00 |    0.00 |               0 |
-| segmented_estimated  |     -0.09 |    1.98 |               0 |
-| floor_group_additive |     -1.94 |    3.23 |               0 |
-| gam                  |     -4.62 |    2.34 |               0 |
-| linear               |    -22.36 |    7.55 |               0 |
-| categorical_4_groups |    -29.75 |    8.17 |               0 |
-| categorical_2_groups |    -48.46 |   10.17 |               0 |
+| segmented_estimated  |      0.00 |    0.00 |               0 |
+| floor_group_additive |     -1.85 |    1.84 |               0 |
+| gam                  |     -4.53 |    3.41 |               0 |
+| linear               |    -22.28 |    7.67 |               0 |
+| categorical_4_groups |    -29.66 |    7.64 |               0 |
+| categorical_2_groups |    -48.37 |   10.07 |               0 |
 
 *(Table restricted to single-level models fit on the total TAS score.
 The floor-group additive model, introduced [below](#sec-twist) and

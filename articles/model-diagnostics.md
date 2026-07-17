@@ -22,7 +22,6 @@ model_files <- c(
   categorical_4_groups    = "lm_categorical_4g_tot.rds",
   categorical_2_groups    = "lm_categorical_2g_tot.rds",
   gam                     = "gam_tot.rds",
-  segmented_fixed         = "segmented_fixed_knot_tot.rds",
   segmented_estimated     = "segmented_estimated_knot_tot.rds",
   floor_group_additive    = "floor_group_additive_tot.rds"
 )
@@ -64,7 +63,6 @@ convergence_summary |> knitr::kable(row.names = FALSE)
 | categorical_4_groups |   1.0013 |    5464 |
 | categorical_2_groups |   1.0004 |    5218 |
 | gam                  |   1.0016 |    3438 |
-| segmented_fixed      |   1.0010 |    5883 |
 | segmented_estimated  |   1.0021 |    2088 |
 | floor_group_additive |   1.0008 |    5639 |
 
@@ -122,17 +120,6 @@ plot(pp_checks$gam) + theme_pdf(base_size = 16)
 ![Posterior predictive check for the GAM: density curves of simulated
 TAS scores overlaid on the observed
 distribution.](model-diagnostics_files/figure-html/ppc-gam-1.png)
-
-### Segmented, fixed knot
-
-``` r
-
-plot(pp_checks$segmented_fixed) + theme_pdf(base_size = 16)
-```
-
-![Posterior predictive check for the fixed-knot segmented model: density
-curves of simulated TAS scores overlaid on the observed
-distribution.](model-diagnostics_files/figure-html/ppc-segmented-fixed-1.png)
 
 ### Segmented, estimated knot
 
@@ -209,8 +196,7 @@ family_check_table |> knitr::kable(row.names = FALSE)
 | categorical_4_groups |             0.170 |                0.054 |
 | categorical_2_groups |             0.152 |                0.108 |
 | gam                  |             0.174 |                0.065 |
-| segmented_fixed      |             0.173 |                0.059 |
-| segmented_estimated  |             0.171 |                0.059 |
+| segmented_estimated  |             0.173 |                0.060 |
 | floor_group_additive |             0.171 |                0.063 |
 
 Residual skewness stays small and heteroscedasticity (the correlation
