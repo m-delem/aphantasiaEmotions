@@ -299,7 +299,7 @@ than the reliabilities reported for the original and French validations
 cited in the manuscript. At the subscale level, DIF ($\omega$ =
 `r round(omega_dif$omega.tot, 2)`) and DDF ($\omega$ =
 `r round(omega_ddf$omega.tot, 2)`) are similarly strong, while EOT
-($\omega$ = `r round(omega_eot$omega.tot, 2)`) is comparatively weaker ---
+($\omega$ = `r round(omega_eot$omega.tot, 2)`) is comparatively weaker,
 consistent with the pattern already noted in the manuscript's
 *Questionnaires* section, where EOT is described as the TAS-20's
 least internally consistent facet across the wider literature
@@ -308,7 +308,7 @@ given for a sample pooled across five studies, three languages of data
 collection (English and French, see [Recruitment, and why the five
 studies aren't
 interchangeable](#recruitment-and-why-the-five-studies-arent-interchangeable)
-above), and a wide range of recruitment channels --- checking it directly,
+above), and a wide range of recruitment channels: checking it directly,
 rather than assuming it from the instruments' published psychometric
 properties alone, is a small but genuinely useful piece of due diligence
 that is not always done in practice.

@@ -12,7 +12,8 @@ panel_2group <-
     tas ~ vviq_group_2,
     data = all_data,
     y_lab = "Total TAS score",
-    x_lab = NULL
+    x_lab = NULL,
+    base_size = 8
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   # Override plot_group_violins()'s default discrete colour/fill mapping
@@ -30,7 +31,8 @@ panel_4group <-
     data = all_data,
     y_lab = NULL,  # shared y-axis meaning with panel_2group — avoid
                     # repeating the label when composed side by side
-    x_lab = NULL
+    x_lab = NULL,
+    base_size = 8
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
