@@ -235,6 +235,7 @@ ggplot2::ggplot() +
     y = "Total TAS score",
     caption = "Floor-group N by study: Ale & Burns: 60; Monzel et al: 20\nMas et Luminet: 0; Ruby: 13; Kvamme et al: 54"
   ) +
+  scale_x_vviq(breaks = seq(16, 80, by = 16)) +
   theme_pdf(
     base_size = 16,
     base_theme = ggplot2::theme_minimal,
@@ -253,15 +254,20 @@ closely around the pooled line; one study (Mas & Luminet) diverges
 somewhat, with a shallower slope and a higher
 intercept.](floor-group-model_files/figure-html/per-study-figure-1.png)
 
-Four of the five studies’ own fitted lines cluster closely around the
-pooled relationship. Mas & Luminet’s diverges somewhat — a shallower
-slope, offset upward — consistent with that study’s own composition
-described on the [sample
-description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
-page (young, homogeneous, no complete-aphantasia participants of its own
-to anchor the floor group’s contribution). The other four studies,
-spanning different languages, recruitment channels, and sample sizes,
-tell a consistent story.
+All five studies share essentially the same slope. Three (Ale & Burns,
+Ruby, and Kvamme et al.) sit almost exactly on the pooled relationship.
+The remaining two diverge in intercept only, and in opposite directions:
+[Mas &
+Luminet’s](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
+line sits above the pooled line, consistent with that study’s own
+composition (young, homogeneous, no complete-aphantasia participants of
+its own to anchor the floor group’s contribution). Monzel et al.’s sits
+below it — that study’s typical-imager sub-group shows a clinical
+alexithymia rate of only 2.3%, roughly an order of magnitude lower than
+the other four studies (13.7-22%; see [sample
+description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html#by-dataset-vviq-and-tas-20-alexithymia-group)),
+which would depress that study’s whole above-floor line without
+requiring any real difference in the underlying VVIQ-TAS relationship.
 
 ## Various checks
 
