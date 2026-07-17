@@ -18,7 +18,7 @@
 devtools::load_all()
 
 floor_group_additive_multilevel <-
-  readRDS("inst/analysis/models_comparison/floor_group_additive_multilevel_tot.rds")
+  readRDS("inst/models/floor_group_additive_multilevel_tot.rds")
 model_data <- floor_group_additive_multilevel$data  # already has complete_aphant, study, vviq, tas
 
 # ------------------------------------------------------------------------------
@@ -128,8 +128,9 @@ p_studies <-
   ggplot2::labs(
     x = "VVIQ score",
     y = "Total TAS score",
-    caption = "Floor-group N by study: Ale & Burns: 60; Monzel et al: 20\nMas et Luminet: 0; Ruby: 13; Kvamme et al: 54"
+    # caption = "Floor-group N by study: Ale & Burns: 60; Monzel et al: 20\nMas et Luminet: 0; Ruby: 13; Kvamme et al: 54"
   ) +
+  scale_x_vviq(breaks = seq(16, 80, by = 16)) +
   theme_pdf(
     base_theme = ggplot2::theme_minimal,
     panel.grid.minor = ggplot2::element_blank(),
@@ -139,6 +140,6 @@ p_studies <-
 
 save_ggplot(
   "inst/visualisation/paper/fig_multilevel_by_study.pdf", p_studies, 
-  ncol = 1, height = 110)
+  ncol = 1, height = 100)
 
 plot(p_studies)

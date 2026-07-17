@@ -518,8 +518,8 @@ plot_floor_group <- function(
       sec.axis = ggplot2::sec_axis(
         transform = ~.,
         breaks = mean(outcome_vals),
-        labels = "Sample\nmean"
-        # labels = expression(bar(x))
+        # labels = "Sample\nmean"
+        labels = expression(bar(x))
         # labels = "x\u0304" # Wrong symbol
         # labels = expression(symbol("\xd7"))
       )) +
@@ -535,7 +535,7 @@ plot_floor_group <- function(
       axis.ticks.x = ggplot2::element_line(color = floor_guide_color),
       axis.text.y.right = ggplot2::element_text(
         # family = "sans",
-        face = "italic",
+        # face = "italic",
         hjust = 0,
         vjust = xbar_vjust
       ),
