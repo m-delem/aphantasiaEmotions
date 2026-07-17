@@ -332,7 +332,7 @@ classification used throughout this report:</p>
 </table>
 </div>
 <div class="section level2">
-<h2 id="recruitment-and-why-the-five-studies-arent-interchangeable">Recruitment, and why the five studies aren’t interchangeable<a class="anchor" aria-label="anchor" href="#recruitment-and-why-the-five-studies-arent-interchangeable"></a>
+<h2 id="recruitment-and-why">Recruitment, and why the five studies aren’t interchangeable<a class="anchor" aria-label="anchor" href="#recruitment-and-why"></a>
 </h2>
 <p>These five studies were not designed together, and it shows in ways
 worth being upfront about, not smoothing over. They differ in language
@@ -398,6 +398,95 @@ worth keeping in mind when reading the <a href="https://m-delem.github.io/aphant
 model</a> page’s per-study breakdown, where that study’s line is
 necessarily estimated without any direct floor-group data of its
 own.</p>
+</div>
+<div class="section level2">
+<h2 id="reliability">Questionnaire reliability<a class="anchor" aria-label="anchor" href="#reliability"></a>
+</h2>
+<p>Beyond the reliability figures reported for the original and French
+validations of the VVIQ and TAS-20 (see the manuscript’s
+<em>Questionnaires</em> section), it is good practice to also report
+internal consistency for the specific, pooled sample an analysis
+actually runs on: reliability is a property of a sample’s responses, not
+solely of an instrument in the abstract, and pooling five studies
+collected under different conditions is exactly the kind of situation
+where it is worth checking rather than assuming.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">items_flat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">all_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">items</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">items</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"vviq_q"</span><span class="op">)</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">omega_vviq</span> <span class="op">&lt;-</span> <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"vviq_q"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">omega_tas</span> <span class="op">&lt;-</span> <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">omega_dif</span> <span class="op">&lt;-</span> <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">tas_q1</span>, <span class="va">tas_q3</span>, <span class="va">tas_q6</span>, <span class="va">tas_q7</span>, <span class="va">tas_q9</span>, <span class="va">tas_q13</span>, <span class="va">tas_q14</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">omega_ddf</span> <span class="op">&lt;-</span> <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">tas_q2</span>, <span class="va">tas_q4</span>, <span class="va">tas_q11</span>, <span class="va">tas_q12</span>, <span class="va">tas_q17</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">omega_eot</span> <span class="op">&lt;-</span> <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">tas_q5</span>, <span class="va">tas_q8</span>, <span class="va">tas_q10</span>, <span class="va">tas_q15</span>, <span class="va">tas_q16</span>, <span class="va">tas_q18</span>, <span class="va">tas_q19</span>, <span class="va">tas_q20</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Scale</th>
+<th align="right">McDonald’s omega (total)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">VVIQ (16 items)</td>
+<td align="right">0.98</td>
+</tr>
+<tr class="even">
+<td align="left">TAS-20, total (20 items)</td>
+<td align="right">0.89</td>
+</tr>
+<tr class="odd">
+<td align="left">TAS-20, DIF (7 items)</td>
+<td align="right">0.91</td>
+</tr>
+<tr class="even">
+<td align="left">TAS-20, DDF (5 items)</td>
+<td align="right">0.85</td>
+</tr>
+<tr class="odd">
+<td align="left">TAS-20, EOT (8 items)</td>
+<td align="right">0.73</td>
+</tr>
+</tbody>
+</table>
+<p>In the present pooled sample (N = 1478), the VVIQ and the TAS-20
+total score both show excellent internal consistency (McDonald’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+= 0.98 and 0.89, respectively), comparable to or better than the
+reliabilities reported for the original and French validations cited in
+the manuscript. At the subscale level, DIF
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+= 0.91) and DDF
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+= 0.85) are similarly strong, while EOT
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+= 0.73) is comparatively weaker — consistent with the pattern already
+noted in the manuscript’s <em>Questionnaires</em> section, where EOT is
+described as the TAS-20’s least internally consistent facet across the
+wider literature <span class="citation">(Bagby et al., 2020; Schroeders
+et al., 2022)</span>. This is not a given for a sample pooled across
+five studies, three languages of data collection (English and French,
+see <a href="#recruitment-and-why-the-five-studies-arent-interchangeable">Recruitment,
+and why the five studies aren’t interchangeable</a> above), and a wide
+range of recruitment channels — checking it directly, rather than
+assuming it from the instruments’ published psychometric properties
+alone, is a small but genuinely useful piece of due diligence that is
+not always done in practice.</p>
 <hr>
 <p><strong>Continuing through the Extended Online Report:</strong> this
 page follows <a href="https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html">how
@@ -418,6 +507,11 @@ those who come after</a>.</p>
 Ale, E., &amp; Burns, E. (2024, March 5). <em>Aphantasia and alexithymia
 predict complex <span>PTSD</span> symptoms</em>. <a href="https://doi.org/10.31234/osf.io/kj5d3" class="external-link">https://doi.org/10.31234/osf.io/kj5d3</a>
 </div>
+<div id="ref-bagby2020" class="csl-entry">
+Bagby, R. M., Parker, J. D. A., &amp; Taylor, G. J. (2020). Twenty-five
+years with the 20-item <span>Toronto Alexithymia Scale</span>.
+<em>Journal of Psychosomatic Research</em>, <em>131</em>, 109940. <a href="https://doi.org/10.1016/j.jpsychores.2020.109940" class="external-link">https://doi.org/10.1016/j.jpsychores.2020.109940</a>
+</div>
 <div id="ref-kvammeWhenWeakImagery2026" class="csl-entry">
 Kvamme, T. L., Monzel, M., Nagai, Y., &amp; Silvanto, J. (2026). When
 weak imagery is worse than none: <span>Core</span> aphantasia and
@@ -435,6 +529,12 @@ in aphantasia and potential overlaps with alexithymia:
 <span>Mental</span> imagery facilitates the recognition of emotions in
 oneself and others. <em>Biomarkers in Neuropsychiatry</em>, <em>11</em>,
 100106. <a href="https://doi.org/10.1016/j.bionps.2024.100106" class="external-link">https://doi.org/10.1016/j.bionps.2024.100106</a>
+</div>
+<div id="ref-schroedersStructureTorontoAlexithymia2022" class="csl-entry">
+Schroeders, U., Kubera, F., &amp; Gnambs, T. (2022). The
+<span>Structure</span> of the <span>Toronto Alexithymia Scale</span>
+(<span>TAS-20</span>): <span>A Meta-Analytic Confirmatory Factor
+Analysis</span>. <em>Assessment</em>, <em>29</em>(8), 1806–1823. <a href="https://doi.org/10.1177/10731911211033894" class="external-link">https://doi.org/10.1177/10731911211033894</a>
 </div>
 </div>
 </div>

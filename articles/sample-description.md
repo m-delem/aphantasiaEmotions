@@ -226,6 +226,75 @@ model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.h
 page’s per-study breakdown, where that study’s line is necessarily
 estimated without any direct floor-group data of its own.
 
+## Questionnaire reliability
+
+Beyond the reliability figures reported for the original and French
+validations of the VVIQ and TAS-20 (see the manuscript’s
+*Questionnaires* section), it is good practice to also report internal
+consistency for the specific, pooled sample an analysis actually runs
+on: reliability is a property of a sample’s responses, not solely of an
+instrument in the abstract, and pooling five studies collected under
+different conditions is exactly the kind of situation where it is worth
+checking rather than assuming.
+
+``` r
+
+items_flat <- 
+  all_data |>
+  dplyr::select(id, items) |>
+  tidyr::unnest(items) |>
+  dplyr::select(id, dplyr::starts_with("vviq_q"), dplyr::starts_with("tas_q"))
+```
+
+``` r
+
+omega_vviq <- items_flat |>
+  dplyr::select(dplyr::starts_with("vviq_q")) |>
+  psych::omega(plot = FALSE)
+
+omega_tas <- items_flat |>
+  dplyr::select(dplyr::starts_with("tas_q")) |>
+  psych::omega(plot = FALSE)
+
+omega_dif <- items_flat |>
+  dplyr::select(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14) |>
+  psych::omega(plot = FALSE)
+
+omega_ddf <- items_flat |>
+  dplyr::select(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17) |>
+  psych::omega(plot = FALSE)
+
+omega_eot <- items_flat |>
+  dplyr::select(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20) |>
+  psych::omega(plot = FALSE)
+```
+
+| Scale                    | McDonald’s omega (total) |
+|:-------------------------|-------------------------:|
+| VVIQ (16 items)          |                     0.98 |
+| TAS-20, total (20 items) |                     0.89 |
+| TAS-20, DIF (7 items)    |                     0.91 |
+| TAS-20, DDF (5 items)    |                     0.85 |
+| TAS-20, EOT (8 items)    |                     0.73 |
+
+In the present pooled sample (N = 1478), the VVIQ and the TAS-20 total
+score both show excellent internal consistency (McDonald’s $`\omega`$ =
+0.98 and 0.89, respectively), comparable to or better than the
+reliabilities reported for the original and French validations cited in
+the manuscript. At the subscale level, DIF ($`\omega`$ = 0.91) and DDF
+($`\omega`$ = 0.85) are similarly strong, while EOT ($`\omega`$ = 0.73)
+is comparatively weaker — consistent with the pattern already noted in
+the manuscript’s *Questionnaires* section, where EOT is described as the
+TAS-20’s least internally consistent facet across the wider literature
+(Bagby et al., 2020; Schroeders et al., 2022). This is not a given for a
+sample pooled across five studies, three languages of data collection
+(English and French, see [Recruitment, and why the five studies aren’t
+interchangeable](#recruitment-and-why-the-five-studies-arent-interchangeable)
+above), and a wide range of recruitment channels — checking it directly,
+rather than assuming it from the instruments’ published psychometric
+properties alone, is a small but genuinely useful piece of due diligence
+that is not always done in practice.
+
 ------------------------------------------------------------------------
 
 **Continuing through the Extended Online Report:** this page follows
@@ -249,6 +318,11 @@ after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-
 Ale, E., & Burns, E. (2024, March 5). *Aphantasia and alexithymia
 predict complex PTSD symptoms*. <https://doi.org/10.31234/osf.io/kj5d3>
 
+Bagby, R. M., Parker, J. D. A., & Taylor, G. J. (2020). Twenty-five
+years with the 20-item Toronto Alexithymia Scale. *Journal of
+Psychosomatic Research*, *131*, 109940.
+<https://doi.org/10.1016/j.jpsychores.2020.109940>
+
 Kvamme, T. L., Monzel, M., Nagai, Y., & Silvanto, J. (2026). When weak
 imagery is worse than none: Core aphantasia and hypophantasia relate
 differently to mental health, mediated by subjective interoception.
@@ -264,3 +338,8 @@ aphantasia and potential overlaps with alexithymia: Mental imagery
 facilitates the recognition of emotions in oneself and others.
 *Biomarkers in Neuropsychiatry*, *11*, 100106.
 <https://doi.org/10.1016/j.bionps.2024.100106>
+
+Schroeders, U., Kubera, F., & Gnambs, T. (2022). The Structure of the
+Toronto Alexithymia Scale (TAS-20): A Meta-Analytic Confirmatory Factor
+Analysis. *Assessment*, *29*(8), 1806–1823.
+<https://doi.org/10.1177/10731911211033894>
