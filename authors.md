@@ -10,12 +10,12 @@
 Source:
 [`inst/CITATION`](https://github.com/m-delem/aphantasiaEmotions/blob/main/inst/CITATION)
 
-Delem M (2026). “Supplementary materials for 'Evidence of a Non-linear
-Relationship Between Visual Imagery and Alexithymia'.”
+Delem M (2026). “Supplementary materials for 'Complete Aphantasics Are
+No More Alexithymic Than Anyone Else'.”
 [doi:10.17605/OSF.IO/B837S](https://doi.org/10.17605/OSF.IO/B837S).
 
     @Misc{,
-      title = {Supplementary materials for 'Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia'},
+      title = {Supplementary materials for 'Complete Aphantasics Are No More Alexithymic Than Anyone Else'},
       author = {Maël Delem},
       year = {2026},
       doi = {https://doi.org/10.17605/OSF.IO/B837S},
