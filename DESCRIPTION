@@ -1,5 +1,5 @@
 Package: aphantasiaEmotions
-Title: Data Analysis for "Evidence of a Non-linear Relationship Between Visual Imagery and Alexithymia: Complete Aphantasics Report Typical Meta-emotional Functioning"
+Title: Data Analysis for "Complete Aphantasics Are No More Alexithymic Than Anyone Else: A Discontinuity Where Visual Imagery Is Entirely Absent"
 Version: 1.0
 Authors@R: 
     person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),

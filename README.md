@@ -13,10 +13,9 @@
 
 aphantasiaEmotions is a data analysis project wrapped in an R package
 for reproducibility[^1]. It contains the code and data to reproduce the
-analyses presented in the article “*Evidence of a Non-linear
-Relationship Between Visual Imagery and Alexithymia: Complete
-Aphantasics Report Typical Meta-Emotional Functioning*”. You can read
-the preprint
+analyses presented in the article “*Complete Aphantasics Are No More
+Alexithymic Than Anyone Else: A Discontinuity Where Visual Imagery Is
+Entirely Absent*”. You can read the preprint
 <a href="https://doi.org/10.31234/osf.io/es425_v1" target="_blank">here</a>.
 This repository is archived with a permanent DOI on the Open Science
 Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
@@ -103,8 +102,8 @@ assign a permanent DOI to the code and data. Thus, if you use this code
 or data in your research, please cite the OSF project with the
 following:
 
-> Delem, M. (2026). “Supplementary materials for ‘Evidence of a
-> Non-linear Relationship Between Visual Imagery and Alexithymia’.”
+> Delem, M. (2026). “Supplementary materials for ‘Complete Aphantasics
+> Are No More Alexithymic Than Anyone Else’.”
 > <https://doi.org/10.17605/OSF.IO/B837S>.
 
 ## References
