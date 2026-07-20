@@ -234,39 +234,52 @@ validations of the VVIQ and TAS-20 (see the manuscript’s
 consistency for the specific, pooled sample an analysis actually runs
 on: reliability is a property of a sample’s responses, not solely of an
 instrument in the abstract, and pooling five studies collected under
-different conditions is exactly the kind of situation where it is worth
-checking rather than assuming.
+different conditions is the kind of situation where it is worth checking
+rather than assuming.
 
 ``` r
 
 items_flat <- 
   all_data |>
-  dplyr::select(id, items) |>
+  dplyr::select(id, study, items) |>
   tidyr::unnest(items) |>
-  dplyr::select(id, dplyr::starts_with("vviq_q"), dplyr::starts_with("tas_q"))
+  dplyr::select(
+    study, 
+    dplyr::starts_with("vviq_q"), 
+    dplyr::starts_with("tas_q"))
 ```
 
 ``` r
 
-omega_vviq <- items_flat |>
-  dplyr::select(dplyr::starts_with("vviq_q")) |>
-  psych::omega(plot = FALSE)
+sample_omegas <-
+  items_flat |>
+  dplyr::select(!study) |> 
+  tidyr::nest(
+    vviq = dplyr::starts_with("vviq_q"),
+    tas  = dplyr::starts_with("tas_q"),
+    dif = c(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14),
+    ddf = c(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17),
+    eot = c(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20)
+  ) |>
+  dplyr::rowwise() |> 
+  dplyr::mutate(
+    `VVIQ (16 items)` = psych::omega(vviq, plot = FALSE)$omega.tot,
+    `TAS-20, total (20 items)` = psych::omega(tas, plot = FALSE)$omega.tot,
+    `TAS-20, DIF (7 items)` = psych::omega(dif, plot = FALSE)$omega.tot,
+    `TAS-20, DDF (5 items)` = psych::omega(ddf, plot = FALSE)$omega.tot,
+    `TAS-20, EOT (8 items)` = psych::omega(eot, plot = FALSE)$omega.tot
+  ) |> 
+  dplyr::select(!c(vviq, tas, dif, ddf, eot)) |> 
+  tidyr::pivot_longer(
+    cols = tidyselect::everything(),
+    names_to = "Scale",
+    values_to = "McDonald's omega (total)"
+  )
+```
 
-omega_tas <- items_flat |>
-  dplyr::select(dplyr::starts_with("tas_q")) |>
-  psych::omega(plot = FALSE)
+``` r
 
-omega_dif <- items_flat |>
-  dplyr::select(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14) |>
-  psych::omega(plot = FALSE)
-
-omega_ddf <- items_flat |>
-  dplyr::select(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17) |>
-  psych::omega(plot = FALSE)
-
-omega_eot <- items_flat |>
-  dplyr::select(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20) |>
-  psych::omega(plot = FALSE)
+knitr::kable(sample_omegas, digits = 2)
 ```
 
 | Scale                    | McDonald’s omega (total) |
@@ -294,6 +307,39 @@ above), and a wide range of recruitment channels: checking it directly,
 rather than assuming it from the instruments’ published psychometric
 properties alone, is a small but genuinely useful piece of due diligence
 that is not always done in practice.
+
+We can also check McDonald’s $`\omega`$*per study*, except for Monzel et
+al. (2024), who did not provide item-level data in their open dataset:
+
+``` r
+
+items_flat |>
+  dplyr::group_by(study) |> 
+  tidyr::nest(
+    vviq = dplyr::starts_with("vviq_q"),
+    tas  = dplyr::starts_with("tas_q"),
+    dif = c(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14),
+    ddf = c(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17),
+    eot = c(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20)
+  ) |>
+  dplyr::rowwise() |> 
+  dplyr::mutate(
+    omega_vviq = psych::omega(vviq, plot = FALSE)$omega.tot,
+    omega_tas = psych::omega(tas, plot = FALSE)$omega.tot,
+    omega_dif = psych::omega(dif, plot = FALSE)$omega.tot,
+    omega_ddf = psych::omega(ddf, plot = FALSE)$omega.tot,
+    omega_eot = psych::omega(eot, plot = FALSE)$omega.tot
+  ) |> 
+  dplyr::select(!c(vviq, tas, dif, ddf, eot)) |> 
+  knitr::kable(digits = 2)
+```
+
+| study  | omega_vviq | omega_tas | omega_dif | omega_ddf | omega_eot |
+|:-------|-----------:|----------:|----------:|----------:|----------:|
+| burns  |       0.99 |      0.87 |      0.91 |      0.83 |      0.77 |
+| mas    |       0.90 |      0.81 |      0.81 |      0.86 |      0.48 |
+| ruby   |       0.96 |      0.87 |      0.86 |      0.84 |      0.75 |
+| kvamme |       0.98 |      0.90 |      0.92 |      0.86 |      0.69 |
 
 ------------------------------------------------------------------------
 
