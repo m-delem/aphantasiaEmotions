@@ -251,7 +251,7 @@ data-driven estimate of where the relationship actually changes shape turned out
 to say, is one of the more interesting methodological threads in this whole
 project, and gets its own full treatment later in this Extended Online Report.
 
-## Mas & Luminet, completing the pool
+## Mas & Luminet, completing the pool {#mas-story}
 
 The last dataset to arrive, on December 12, 2025, came from Marine Mas and
 Olivier Luminet, collected as part of a preregistered lab study on alexithymia

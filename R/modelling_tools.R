@@ -211,3 +211,96 @@ report_rope <- function(
   
   return(rope_report)
 }
+
+#' Check the internal reliability of the VVIQ, TAS-20 and its sub-scales
+#'
+#' @description
+#' Computes Cronbach's alpha and McDonald's omega for the VVIQ and the
+#' TAS-20 (total score and its three subscales - DIF, DDF, EOT), separately
+#' for each group defined by `...` (e.g. per study). Expects `data` to
+#' contain a list-column named `items`, itself holding, for each group, a
+#' data frame of item-level responses with columns named `vviq_q*` and
+#' `tas_q*`.
+#'
+#' @param data A data frame with one row per group and a list-column named
+#'   `items`, where each element is a data frame of item-level responses
+#'   (columns `vviq_q1`...`vviq_q16`, `tas_q1`...`tas_q20`).
+#' @param ... Grouping variables (e.g. `study`), used to compute reliability
+#'   separately within each group.
+#' @param scales String vector with the names of the scales to examine. Has to 
+#' be one or several among the defaults: "vviq", "tas", "dif", "ddf" and "eot".
+#' @param digits Number of decimal places to round the reliability
+#'   coefficients to. Default is 2.
+#' @param silence Logical. If `TRUE`, suppresses the messages and warnings
+#'   commonly emitted by `psych::alpha()` and `psych::omega()` (e.g. about
+#'   reversed items or factor structure). Default is `FALSE`.
+#'
+#' @returns A tibble with one row per group per scale, and columns
+#'   `Scale`, `Cronbach's alpha`, `McDonald's omega`, plus the grouping
+#'   variables passed via `...`.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' check_scales_reliability(all_data, study)
+#' check_scales_reliability(all_data, study, digits = 3, silence = TRUE)
+#' }
+check_scales_reliability <- function(
+    data, 
+    ...,
+    scales = c("vviq", "tas", "dif", "ddf", "eot"),
+    digits = 2,
+    silence = FALSE
+) {
+  rlang::check_installed("psych", reason = "to compute reliability statistics")
+  
+  if (silence) {
+    hush <- function(x) suppressMessages(suppressWarnings(x))
+  } else hush <- function(x) return(x)
+  
+  reliability_df <-
+    data |>
+    dplyr::select("items", ...) |> 
+    tidyr::unnest("items") |> 
+    dplyr::group_by(...) |> 
+    tidyr::nest(
+      vviq = dplyr::starts_with("vviq_q"),
+      tas  = dplyr::starts_with("tas_q"),
+      dif = c(
+        "tas_q1", "tas_q3", "tas_q6", "tas_q7", "tas_q9", "tas_q13", "tas_q14"),
+      ddf = c("tas_q2", "tas_q4", "tas_q11", "tas_q12", "tas_q17"),
+      eot = c(
+        "tas_q5", "tas_q8", "tas_q10", "tas_q15", 
+        "tas_q16", "tas_q18", "tas_q19", "tas_q20")
+    ) |>
+    dplyr::select(scales) |> 
+    tidyr::pivot_longer(
+      cols = scales,
+      names_to = "Scale",
+      values_to = "items"
+    ) |> 
+    dplyr::mutate(
+      Scale = dplyr::case_match(
+        .data$Scale,
+        "vviq" ~ "VVIQ (16 items)",
+        "tas" ~ "TAS-20, total (20 items)",
+        "dif" ~ "TAS-20, DIF (7 items)",
+        "ddf" ~ "TAS-20, DDF (5 items)",
+        "eot" ~ "TAS-20, EOT (8 items)"
+      )
+    ) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(
+      `Cronbach's alpha` =
+        psych::alpha(.data$items, warnings = FALSE)$total$raw_alpha |>
+        round(digits),
+      `McDonald's omega` =
+        psych::omega(.data$items, plot = FALSE)$omega.tot |>
+        round(digits)
+    ) |>
+    dplyr::select(!"items") |> 
+    dplyr::ungroup() |> 
+    hush()
+  
+  return(reliability_df)
+}

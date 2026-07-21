@@ -236,106 +236,112 @@ property of a sample's responses, not solely of an instrument in the
 abstract, and pooling five studies collected under different conditions is the 
 kind of situation where it is worth checking rather than assuming.
 
-```{r reliability-setup}
-items_flat <- 
-  all_data |>
-  dplyr::select(id, study, items) |>
-  tidyr::unnest(items) |>
-  dplyr::select(
-    study, 
-    dplyr::starts_with("vviq_q"), 
-    dplyr::starts_with("tas_q"))
-```
+```{r reliability-stats}
+sample_reliability <- check_scales_reliability(all_data, silence = TRUE)
 
-```{r reliability-omega}
-#| results: hide
-
-sample_omegas <-
-  items_flat |>
-  dplyr::select(!study) |> 
-  tidyr::nest(
-    vviq = dplyr::starts_with("vviq_q"),
-    tas  = dplyr::starts_with("tas_q"),
-    dif = c(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14),
-    ddf = c(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17),
-    eot = c(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20)
-  ) |>
-  dplyr::rowwise() |> 
-  dplyr::mutate(
-    `VVIQ (16 items)` = psych::omega(vviq, plot = FALSE)$omega.tot,
-    `TAS-20, total (20 items)` = psych::omega(tas, plot = FALSE)$omega.tot,
-    `TAS-20, DIF (7 items)` = psych::omega(dif, plot = FALSE)$omega.tot,
-    `TAS-20, DDF (5 items)` = psych::omega(ddf, plot = FALSE)$omega.tot,
-    `TAS-20, EOT (8 items)` = psych::omega(eot, plot = FALSE)$omega.tot
-  ) |> 
-  dplyr::select(!c(vviq, tas, dif, ddf, eot)) |> 
-  tidyr::pivot_longer(
-    cols = tidyselect::everything(),
-    names_to = "Scale",
-    values_to = "McDonald's omega (total)"
-  )
-```
-
-```{r reliability-display}
-knitr::kable(sample_omegas, digits = 2)
+knitr::kable(sample_reliability)
 ```
 
 ```{r reliability-values}
 #| echo: false
 
-omega_vviq <- as.numeric(sample_omegas[1,2])
-omega_tas <- as.numeric(sample_omegas[2,2])
-omega_dif <- as.numeric(sample_omegas[3,2])
-omega_ddf <- as.numeric(sample_omegas[4,2])
-omega_eot <- as.numeric(sample_omegas[5,2])
+alpha_vviq <- as.numeric(sample_reliability[1,2])
+alpha_tas <- as.numeric(sample_reliability[2,2])
+alpha_dif <- as.numeric(sample_reliability[3,2])
+alpha_ddf <- as.numeric(sample_reliability[4,2])
+alpha_eot <- as.numeric(sample_reliability[5,2])
+
+omega_vviq <- as.numeric(sample_reliability[1,3])
+omega_tas <- as.numeric(sample_reliability[2,3])
+omega_dif <- as.numeric(sample_reliability[3,3])
+omega_ddf <- as.numeric(sample_reliability[4,3])
+omega_eot <- as.numeric(sample_reliability[5,3])
 ```
 
 In the present pooled sample (N = `r nrow(all_data)`), the VVIQ and the
-TAS-20 total score both show excellent internal consistency (McDonald's
-$\omega$ = `r round(omega_vviq, 2)` and
-`r round(omega_tas, 2)`, respectively), comparable to or better
-than the reliabilities reported for the original and French validations
-cited in the manuscript. At the subscale level, DIF ($\omega$ =
-`r round(omega_dif, 2)`) and DDF ($\omega$ =
-`r round(omega_ddf, 2)`) are similarly strong, while EOT
-($\omega$ = `r round(omega_eot, 2)`) is comparatively weaker,
+TAS-20 total score both show excellent internal reliability (VVIQ: Cronbach's
+$\alpha$ = `r alpha_vviq`, McDonald's $\omega$ = `r omega_vviq`; 
+TAS: $\alpha$ = `r alpha_tas`, $\omega$ = `r omega_tas`), comparable to the 
+reliabilities reported for the original and French validations cited in the
+manuscript. At the subscale level, DIF 
+($\alpha$ = `r alpha_dif`, $\omega$ = `r omega_dif`) and DDF ($\alpha$ = 
+`r alpha_ddf`, $\omega$ = `r omega_ddf`) are similarly strong, while EOT
+($\alpha$ = `r alpha_eot`, $\omega$ = `r omega_eot`) is comparatively weaker,
 consistent with the pattern already noted in the manuscript's
 *Questionnaires* section, where EOT is described as the TAS-20's
 least internally consistent facet across the wider literature
 [@schroedersStructureTorontoAlexithymia2022; @bagby2020]. This is not a
-given for a sample pooled across five studies, three languages of data
+given for a sample pooled across five studies, two languages of data
 collection (English and French, see [Recruitment, and why the five
 studies aren't
 interchangeable](#recruitment-and-why-the-five-studies-arent-interchangeable)
 above), and a wide range of recruitment channels: checking it directly,
 rather than assuming it from the instruments' published psychometric
-properties alone, is a small but genuinely useful piece of due diligence
+properties alone, is a small but genuinely useful assessment
 that is not always done in practice.
 
-We can also check McDonald's $\omega$ *per study*, except for @monzelAffectiveProcessingAphantasia2024, who did not provide item-level data in their open dataset:
+We can also check Cronbach's $\alpha$ and McDonald's $\omega \ $ *per study*, except for @monzelAffectiveProcessingAphantasia2024, who did not provide item-level data in their open dataset:
 
-```{r omega-per-study}
-items_flat |>
-  dplyr::group_by(study) |> 
-  tidyr::nest(
-    vviq = dplyr::starts_with("vviq_q"),
-    tas  = dplyr::starts_with("tas_q"),
-    dif = c(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14),
-    ddf = c(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17),
-    eot = c(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20)
-  ) |>
-  dplyr::rowwise() |> 
+```{r reliability-per-study}
+check_scales_reliability(all_data, study, silence = TRUE) |> 
   dplyr::mutate(
-    omega_vviq = psych::omega(vviq, plot = FALSE)$omega.tot,
-    omega_tas = psych::omega(tas, plot = FALSE)$omega.tot,
-    omega_dif = psych::omega(dif, plot = FALSE)$omega.tot,
-    omega_ddf = psych::omega(ddf, plot = FALSE)$omega.tot,
-    omega_eot = psych::omega(eot, plot = FALSE)$omega.tot
+    Study = dplyr::case_match(
+      study,
+      "burns"  ~ "Ale & Burns (2024)",
+      "mas"    ~ "Mas & Luminet (2025)",
+      "ruby"   ~ "Ruby (2025)",
+      "kvamme" ~ "Kvamme et al. (2026)"
+    ),
+    .keep = "unused"
   ) |> 
-  dplyr::select(!c(vviq, tas, dif, ddf, eot)) |> 
-  knitr::kable(digits = 2)
+  dplyr::relocate(Study) |> 
+  knitr::kable()
 ```
 
+We can see that the good internal reliability of all scales and comparatively
+relative weakness of EOT is consistent across studies. EOT's reliability is
+particularly low in Mas & Luminet (2025). One last check we can
+think of is to assess whether the internal coherence of the three TAS-20 
+sub-scales, operationalised as their pairwise correlations, is consistent 
+across studies:
+
+```{r coherence-per-study}
+dplyr::bind_rows(
+  all_data |> dplyr::mutate(study = "Total sample"),
+  all_data |> 
+    dplyr::filter(study != "mas") |> 
+    dplyr::mutate(study = "Total sample without Mas & Luminet"),
+  all_data |> dplyr::mutate(
+    study = dplyr::case_match(
+      study,
+      "burns"  ~ "Ale & Burns (2024)",
+      "monzel" ~ "Monzel et al. (2024)",
+      "mas"    ~ "Mas & Luminet (2025)",
+      "ruby"   ~ "Ruby (2025)",
+      "kvamme" ~ "Kvamme et al. (2026)"
+    )
+  )
+) |>
+  dplyr::group_by(study) |>
+  dplyr::summarise(
+    "DIF-DDF" = cor(tas_identify, tas_describe) |> round(2),
+    "DIF-EOT" = cor(tas_identify, tas_external) |> round(2),
+    "DDF-EOT" = cor(tas_describe, tas_external) |> round(2),
+    n = dplyr::n(),
+    .groups = "drop"
+  ) |> 
+  knitr::kable()
+```
+
+Consistent with the reliability results, the correlations between EOT and 
+DIF/DDF in Mas & Luminet's dataset are weaker. To test this, we added another
+set of correlations on the last line of the table assessing between-scales 
+correlations in the pooled sample without their dataset. Given the small size
+of the reduction in correlations caused by the addition of their dataset, and 
+taking into account the different scope and target population of their study
+(see [the background of their study](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html#mas-story), 
+we ultimately decided that these statistics didn't warrant the entire removal of 
+123 potentially valuable observations.
 
 ---
 

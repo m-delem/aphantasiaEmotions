@@ -44,12 +44,14 @@ Suggests:
     performance,
     psych,
     purrr,
+    quarto,
     rmarkdown,
     see,
     sessioninfo,
     showtext,
     sysfonts,
     testthat (>= 3.0.0),
+    tibble,
     viridis,
     withr
 LazyData: true
