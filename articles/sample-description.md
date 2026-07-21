@@ -239,107 +239,139 @@ rather than assuming.
 
 ``` r
 
-items_flat <- 
-  all_data |>
-  dplyr::select(id, study, items) |>
-  tidyr::unnest(items) |>
-  dplyr::select(
-    study, 
-    dplyr::starts_with("vviq_q"), 
-    dplyr::starts_with("tas_q"))
+sample_reliability <- check_scales_reliability(all_data, silence = TRUE)
+
+knitr::kable(sample_reliability)
 ```
 
-``` r
-
-sample_omegas <-
-  items_flat |>
-  dplyr::select(!study) |> 
-  tidyr::nest(
-    vviq = dplyr::starts_with("vviq_q"),
-    tas  = dplyr::starts_with("tas_q"),
-    dif = c(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14),
-    ddf = c(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17),
-    eot = c(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20)
-  ) |>
-  dplyr::rowwise() |> 
-  dplyr::mutate(
-    `VVIQ (16 items)` = psych::omega(vviq, plot = FALSE)$omega.tot,
-    `TAS-20, total (20 items)` = psych::omega(tas, plot = FALSE)$omega.tot,
-    `TAS-20, DIF (7 items)` = psych::omega(dif, plot = FALSE)$omega.tot,
-    `TAS-20, DDF (5 items)` = psych::omega(ddf, plot = FALSE)$omega.tot,
-    `TAS-20, EOT (8 items)` = psych::omega(eot, plot = FALSE)$omega.tot
-  ) |> 
-  dplyr::select(!c(vviq, tas, dif, ddf, eot)) |> 
-  tidyr::pivot_longer(
-    cols = tidyselect::everything(),
-    names_to = "Scale",
-    values_to = "McDonald's omega (total)"
-  )
-```
-
-``` r
-
-knitr::kable(sample_omegas, digits = 2)
-```
-
-| Scale                    | McDonald’s omega (total) |
-|:-------------------------|-------------------------:|
-| VVIQ (16 items)          |                     0.98 |
-| TAS-20, total (20 items) |                     0.89 |
-| TAS-20, DIF (7 items)    |                     0.91 |
-| TAS-20, DDF (5 items)    |                     0.85 |
-| TAS-20, EOT (8 items)    |                     0.73 |
+| Scale                    | Cronbach’s alpha | McDonald’s omega |
+|:-------------------------|-----------------:|-----------------:|
+| VVIQ (16 items)          |             0.97 |             0.98 |
+| TAS-20, total (20 items) |             0.86 |             0.89 |
+| TAS-20, DIF (7 items)    |             0.86 |             0.91 |
+| TAS-20, DDF (5 items)    |             0.82 |             0.85 |
+| TAS-20, EOT (8 items)    |             0.63 |             0.73 |
 
 In the present pooled sample (N = 1478), the VVIQ and the TAS-20 total
-score both show excellent internal consistency (McDonald’s $`\omega`$ =
-0.98 and 0.89, respectively), comparable to or better than the
-reliabilities reported for the original and French validations cited in
-the manuscript. At the subscale level, DIF ($`\omega`$ = 0.91) and DDF
-($`\omega`$ = 0.85) are similarly strong, while EOT ($`\omega`$ = 0.73)
-is comparatively weaker, consistent with the pattern already noted in
-the manuscript’s *Questionnaires* section, where EOT is described as the
-TAS-20’s least internally consistent facet across the wider literature
-(Bagby et al., 2020; Schroeders et al., 2022). This is not a given for a
-sample pooled across five studies, three languages of data collection
-(English and French, see [Recruitment, and why the five studies aren’t
+score both show excellent internal reliability (VVIQ: Cronbach’s
+$`\alpha`$ = 0.97, McDonald’s $`\omega`$ = 0.98; TAS: $`\alpha`$ = 0.86,
+$`\omega`$ = 0.89), comparable to the reliabilities reported for the
+original and French validations cited in the manuscript. At the subscale
+level, DIF ($`\alpha`$ = 0.86, $`\omega`$ = 0.91) and DDF ($`\alpha`$ =
+0.82, $`\omega`$ = 0.85) are similarly strong, while EOT ($`\alpha`$ =
+0.63, $`\omega`$ = 0.73) is comparatively weaker, consistent with the
+pattern already noted in the manuscript’s *Questionnaires* section,
+where EOT is described as the TAS-20’s least internally consistent facet
+across the wider literature (Bagby et al., 2020; Schroeders et al.,
+2022). This is not a given for a sample pooled across five studies, two
+languages of data collection (English and French, see [Recruitment, and
+why the five studies aren’t
 interchangeable](#recruitment-and-why-the-five-studies-arent-interchangeable)
 above), and a wide range of recruitment channels: checking it directly,
 rather than assuming it from the instruments’ published psychometric
-properties alone, is a small but genuinely useful piece of due diligence
-that is not always done in practice.
+properties alone, is a small but genuinely useful assessment that is not
+always done in practice.
 
-We can also check McDonald’s $`\omega`$*per study*, except for Monzel et
-al. (2024), who did not provide item-level data in their open dataset:
+We can also check Cronbach’s $`\alpha`$ and McDonald’s $`\omega \ `$*per
+study*, except for Monzel et al. (2024), who did not provide item-level
+data in their open dataset:
 
 ``` r
 
-items_flat |>
-  dplyr::group_by(study) |> 
-  tidyr::nest(
-    vviq = dplyr::starts_with("vviq_q"),
-    tas  = dplyr::starts_with("tas_q"),
-    dif = c(tas_q1, tas_q3, tas_q6, tas_q7, tas_q9, tas_q13, tas_q14),
-    ddf = c(tas_q2, tas_q4, tas_q11, tas_q12, tas_q17),
-    eot = c(tas_q5, tas_q8, tas_q10, tas_q15, tas_q16, tas_q18, tas_q19, tas_q20)
-  ) |>
-  dplyr::rowwise() |> 
+check_scales_reliability(all_data, study, silence = TRUE) |> 
   dplyr::mutate(
-    omega_vviq = psych::omega(vviq, plot = FALSE)$omega.tot,
-    omega_tas = psych::omega(tas, plot = FALSE)$omega.tot,
-    omega_dif = psych::omega(dif, plot = FALSE)$omega.tot,
-    omega_ddf = psych::omega(ddf, plot = FALSE)$omega.tot,
-    omega_eot = psych::omega(eot, plot = FALSE)$omega.tot
+    Study = dplyr::case_match(
+      study,
+      "burns"  ~ "Ale & Burns (2024)",
+      "mas"    ~ "Mas & Luminet (2025)",
+      "ruby"   ~ "Ruby (2025)",
+      "kvamme" ~ "Kvamme et al. (2026)"
+    ),
+    .keep = "unused"
   ) |> 
-  dplyr::select(!c(vviq, tas, dif, ddf, eot)) |> 
-  knitr::kable(digits = 2)
+  dplyr::relocate(Study) |> 
+  knitr::kable()
 ```
 
-| study  | omega_vviq | omega_tas | omega_dif | omega_ddf | omega_eot |
-|:-------|-----------:|----------:|----------:|----------:|----------:|
-| burns  |       0.99 |      0.87 |      0.91 |      0.83 |      0.77 |
-| mas    |       0.90 |      0.81 |      0.81 |      0.86 |      0.48 |
-| ruby   |       0.96 |      0.87 |      0.86 |      0.84 |      0.75 |
-| kvamme |       0.98 |      0.90 |      0.92 |      0.86 |      0.69 |
+| Study | Scale | Cronbach’s alpha | McDonald’s omega |
+|:---|:---|---:|---:|
+| Ale & Burns (2024) | VVIQ (16 items) | 0.98 | 0.99 |
+| Ale & Burns (2024) | TAS-20, total (20 items) | 0.87 | 0.87 |
+| Ale & Burns (2024) | TAS-20, DIF (7 items) | 0.86 | 0.91 |
+| Ale & Burns (2024) | TAS-20, DDF (5 items) | 0.80 | 0.83 |
+| Ale & Burns (2024) | TAS-20, EOT (8 items) | 0.61 | 0.77 |
+| Mas & Luminet (2025) | VVIQ (16 items) | 0.87 | 0.90 |
+| Mas & Luminet (2025) | TAS-20, total (20 items) | 0.77 | 0.81 |
+| Mas & Luminet (2025) | TAS-20, DIF (7 items) | 0.74 | 0.81 |
+| Mas & Luminet (2025) | TAS-20, DDF (5 items) | 0.79 | 0.86 |
+| Mas & Luminet (2025) | TAS-20, EOT (8 items) | 0.38 | 0.48 |
+| Ruby (2025) | VVIQ (16 items) | 0.95 | 0.96 |
+| Ruby (2025) | TAS-20, total (20 items) | 0.85 | 0.87 |
+| Ruby (2025) | TAS-20, DIF (7 items) | 0.77 | 0.86 |
+| Ruby (2025) | TAS-20, DDF (5 items) | 0.80 | 0.84 |
+| Ruby (2025) | TAS-20, EOT (8 items) | 0.65 | 0.75 |
+| Kvamme et al. (2026) | VVIQ (16 items) | 0.97 | 0.98 |
+| Kvamme et al. (2026) | TAS-20, total (20 items) | 0.88 | 0.90 |
+| Kvamme et al. (2026) | TAS-20, DIF (7 items) | 0.90 | 0.92 |
+| Kvamme et al. (2026) | TAS-20, DDF (5 items) | 0.83 | 0.86 |
+| Kvamme et al. (2026) | TAS-20, EOT (8 items) | 0.56 | 0.69 |
+
+We can see that the good internal reliability of all scales and
+comparatively relative weakness of EOT is consistent across studies.
+EOT’s reliability is particularly low in Mas & Luminet (2025). One last
+check we can think of is to assess whether the internal coherence of the
+three TAS-20 sub-scales, operationalised as their pairwise correlations,
+is consistent across studies:
+
+``` r
+
+dplyr::bind_rows(
+  all_data |> dplyr::mutate(study = "Total sample"),
+  all_data |> 
+    dplyr::filter(study != "mas") |> 
+    dplyr::mutate(study = "Total sample without Mas & Luminet"),
+  all_data |> dplyr::mutate(
+    study = dplyr::case_match(
+      study,
+      "burns"  ~ "Ale & Burns (2024)",
+      "monzel" ~ "Monzel et al. (2024)",
+      "mas"    ~ "Mas & Luminet (2025)",
+      "ruby"   ~ "Ruby (2025)",
+      "kvamme" ~ "Kvamme et al. (2026)"
+    )
+  )
+) |>
+  dplyr::group_by(study) |>
+  dplyr::summarise(
+    "DIF-DDF" = cor(tas_identify, tas_describe) |> round(2),
+    "DIF-EOT" = cor(tas_identify, tas_external) |> round(2),
+    "DDF-EOT" = cor(tas_describe, tas_external) |> round(2),
+    n = dplyr::n(),
+    .groups = "drop"
+  ) |> 
+  knitr::kable()
+```
+
+| study                              | DIF-DDF | DIF-EOT | DDF-EOT |    n |
+|:-----------------------------------|--------:|--------:|--------:|-----:|
+| Ale & Burns (2024)                 |    0.76 |    0.28 |    0.44 |  192 |
+| Kvamme et al. (2026)               |    0.75 |    0.29 |    0.39 |  833 |
+| Mas & Luminet (2025)               |    0.63 |    0.04 |    0.10 |  123 |
+| Monzel et al. (2024)               |    0.60 |    0.32 |    0.46 |  105 |
+| Ruby (2025)                        |    0.64 |    0.29 |    0.46 |  225 |
+| Total sample                       |    0.71 |    0.20 |    0.35 | 1478 |
+| Total sample without Mas & Luminet |    0.72 |    0.23 |    0.39 | 1355 |
+
+Consistent with the reliability results, the correlations between EOT
+and DIF/DDF in Mas & Luminet’s dataset are weaker. To test this, we
+added another set of correlations on the last line of the table
+assessing between-scales correlations in the pooled sample without their
+dataset. Given the small size of the reduction in correlations caused by
+the addition of their dataset, and taking into account the different
+scope and target population of their study (see [the background of their
+study](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html#mas-story),
+we ultimately decided that these statistics didn’t warrant the entire
+removal of 123 potentially valuable observations.
 
 ------------------------------------------------------------------------
 

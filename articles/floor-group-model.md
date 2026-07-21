@@ -285,23 +285,15 @@ specifically, compared to the rest of the sample.
 
 ``` r
 
-items_flat <- 
+data_for_checks <- 
   all_data |>
-  dplyr::select(id, study, vviq, tas_identify, tas_describe, tas_external, items) |>
-  tidyr::unnest(items) |>
-  dplyr::select(
-    id, study, vviq, tas_identify, tas_describe, tas_external,
-    dplyr::starts_with("tas_q")) |>
   dplyr::mutate(
-    group = dplyr::if_else(vviq == 16, "Complete aphantasia", "Rest of sample")
+    Group = dplyr::if_else(vviq == 16, "Complete aphantasia", "Rest of sample")
   )
-```
 
-``` r
-
-subscale_corr <- 
-  items_flat |>
-  dplyr::group_by(group) |>
+subscale_corr <-
+  data_for_checks |>
+  dplyr::group_by(Group) |>
   dplyr::summarise(
     "DIF-DDF" = cor(tas_identify, tas_describe),
     "DIF-EOT" = cor(tas_identify, tas_external),
@@ -310,56 +302,47 @@ subscale_corr <-
     .groups = "drop"
   )
 
-subscale_corr |> knitr::kable(digits = 3)
+knitr::kable(subscale_corr, digits = 3)
 ```
 
-| group               | DIF-DDF | DIF-EOT | DDF-EOT |    n |
+| Group               | DIF-DDF | DIF-EOT | DDF-EOT |    n |
 |:--------------------|--------:|--------:|--------:|-----:|
-| Complete aphantasia |   0.740 |   0.192 |   0.426 |  127 |
-| Rest of sample      |   0.717 |   0.191 |   0.325 | 1246 |
+| Complete aphantasia |   0.713 |   0.248 |   0.475 |  147 |
+| Rest of sample      |   0.711 |   0.194 |   0.332 | 1331 |
 
 ``` r
 
-alpha_by_group <- 
-  items_flat |>
-  dplyr::group_by(group) |>
-  dplyr::group_map(
-    ~ psych::alpha(
-      dplyr::select(.x, dplyr::starts_with("tas_q")), 
-      warnings = FALSE)
+subscale_stats <-
+  check_scales_reliability(
+    data_for_checks, 
+    Group, 
+    scales = c("tas", "dif", "ddf", "eot"),
+    silence = TRUE
   )
 
-names(alpha_by_group) <- 
-  items_flat |> 
-  dplyr::distinct(group) |> 
-  dplyr::pull(group)
-
-alpha_summary <- purrr::map_dfr(
-  names(alpha_by_group),
-  \(g) tibble::tibble(
-    group = g,
-    "Cronbach's alpha" = alpha_by_group[[g]]$total$raw_alpha,
-    "Items" = 20
-  )
-)
-
-alpha_summary |> knitr::kable(digits = 3)
+knitr::kable(subscale_stats)
 ```
 
-| group               | Cronbach’s alpha | Items |
-|:--------------------|-----------------:|------:|
-| Complete aphantasia |            0.875 |    20 |
-| Rest of sample      |            0.862 |    20 |
+| Group | Scale | Cronbach’s alpha | McDonald’s omega |
+|:---|:---|---:|---:|
+| Complete aphantasia | TAS-20, total (20 items) | 0.88 | 0.91 |
+| Complete aphantasia | TAS-20, DIF (7 items) | 0.88 | 0.93 |
+| Complete aphantasia | TAS-20, DDF (5 items) | 0.83 | 0.87 |
+| Complete aphantasia | TAS-20, EOT (8 items) | 0.64 | 0.74 |
+| Rest of sample | TAS-20, total (20 items) | 0.86 | 0.89 |
+| Rest of sample | TAS-20, DIF (7 items) | 0.86 | 0.90 |
+| Rest of sample | TAS-20, DDF (5 items) | 0.82 | 0.85 |
+| Rest of sample | TAS-20, EOT (8 items) | 0.64 | 0.73 |
 
 Both checks come back clean. The three sub-scales correlate with each
 other in complete aphantasics in essentially the same pattern as in the
-rest of the sample — DIF and DDF move together most strongly, DIF and
-EOT most weakly, in both groups alike — and Cronbach’s alpha across all
-twenty items is, if anything, marginally *higher* in complete
-aphantasics (0.875) than in the rest of the sample (0.862). There is no
-sign here of degraded or incoherent responding in the floor group: their
-answers hang together at least as well as everyone else’s, which is the
-pattern expected of genuine, typical self-report rather than one
+rest of the sample: DIF and DDF move together most strongly, DIF and EOT
+most weakly, in both groups alike. Cronbach’s $`\alpha`$ and McDonald’s
+$`\omega \ `$ across all twenty items is, if anything, marginally
+*higher* in complete aphantasics than in the rest of the sample. There
+is no sign here of degraded or incoherent responding in the floor group:
+their answers hang together at least as well as everyone else’s, which
+is the pattern expected of genuine, typical self-report rather than one
 distorted by an introspective deficit specific to this group.
 
 ### Prior sensitivity

@@ -150,6 +150,9 @@ posterior distributions.
 - [`check_knot_still_matches()`](https://m-delem.github.io/aphantasiaEmotions/reference/check_knot_still_matches.md)
   : Check that a segmented model's cached knot still matches a fresh
   MARS estimate
+- [`check_scales_reliability()`](https://m-delem.github.io/aphantasiaEmotions/reference/check_scales_reliability.md)
+  : Check the internal reliability of the VVIQ, TAS-20 and its
+  sub-scales
 
 ## Visualisation
 

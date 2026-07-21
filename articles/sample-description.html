@@ -411,160 +411,335 @@ solely of an instrument in the abstract, and pooling five studies
 collected under different conditions is the kind of situation where it
 is worth checking rather than assuming.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">items_flat</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">all_data</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">study</span>, <span class="va">items</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">items</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
-<span>    <span class="va">study</span>, </span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"vviq_q"</span><span class="op">)</span>, </span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_omegas</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">items_flat</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span></span>
-<span>    vviq <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"vviq_q"</span><span class="op">)</span>,</span>
-<span>    tas  <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span>,</span>
-<span>    dif <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tas_q1</span>, <span class="va">tas_q3</span>, <span class="va">tas_q6</span>, <span class="va">tas_q7</span>, <span class="va">tas_q9</span>, <span class="va">tas_q13</span>, <span class="va">tas_q14</span><span class="op">)</span>,</span>
-<span>    ddf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tas_q2</span>, <span class="va">tas_q4</span>, <span class="va">tas_q11</span>, <span class="va">tas_q12</span>, <span class="va">tas_q17</span><span class="op">)</span>,</span>
-<span>    eot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tas_q5</span>, <span class="va">tas_q8</span>, <span class="va">tas_q10</span>, <span class="va">tas_q15</span>, <span class="va">tas_q16</span>, <span class="va">tas_q18</span>, <span class="va">tas_q19</span>, <span class="va">tas_q20</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html" class="external-link">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    `VVIQ (16 items)` <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">vviq</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    `TAS-20, total (20 items)` <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">tas</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    `TAS-20, DIF (7 items)` <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">dif</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    `TAS-20, DDF (5 items)` <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">ddf</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    `TAS-20, EOT (8 items)` <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">eot</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">vviq</span>, <span class="va">tas</span>, <span class="va">dif</span>, <span class="va">ddf</span>, <span class="va">eot</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
-<span>    cols <span class="op">=</span> <span class="fu">tidyselect</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    names_to <span class="op">=</span> <span class="st">"Scale"</span>,</span>
-<span>    values_to <span class="op">=</span> <span class="st">"McDonald's omega (total)"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sample_omegas</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sample_reliability</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_scales_reliability.html">check_scales_reliability</a></span><span class="op">(</span><span class="va">all_data</span>, silence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">sample_reliability</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Scale</th>
-<th align="right">McDonald’s omega (total)</th>
+<th align="right">Cronbach’s alpha</th>
+<th align="right">McDonald’s omega</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">VVIQ (16 items)</td>
+<td align="right">0.97</td>
 <td align="right">0.98</td>
 </tr>
 <tr class="even">
 <td align="left">TAS-20, total (20 items)</td>
+<td align="right">0.86</td>
 <td align="right">0.89</td>
 </tr>
 <tr class="odd">
 <td align="left">TAS-20, DIF (7 items)</td>
+<td align="right">0.86</td>
 <td align="right">0.91</td>
 </tr>
 <tr class="even">
 <td align="left">TAS-20, DDF (5 items)</td>
+<td align="right">0.82</td>
 <td align="right">0.85</td>
 </tr>
 <tr class="odd">
 <td align="left">TAS-20, EOT (8 items)</td>
+<td align="right">0.63</td>
 <td align="right">0.73</td>
 </tr>
 </tbody>
 </table>
 <p>In the present pooled sample (N = 1478), the VVIQ and the TAS-20
-total score both show excellent internal consistency (McDonald’s
+total score both show excellent internal reliability (VVIQ: Cronbach’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+= 0.97, McDonald’s
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
-= 0.98 and 0.89, respectively), comparable to or better than the
-reliabilities reported for the original and French validations cited in
-the manuscript. At the subscale level, DIF
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+= 0.98; TAS:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+= 0.86,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+= 0.89), comparable to the reliabilities reported for the original and
+French validations cited in the manuscript. At the subscale level, DIF
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+= 0.86,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
 = 0.91) and DDF
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+= 0.82,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
 = 0.85) are similarly strong, while EOT
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+= 0.63,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
 = 0.73) is comparatively weaker, consistent with the pattern already
 noted in the manuscript’s <em>Questionnaires</em> section, where EOT is
 described as the TAS-20’s least internally consistent facet across the
 wider literature <span class="citation">(Bagby et al., 2020; Schroeders
 et al., 2022)</span>. This is not a given for a sample pooled across
-five studies, three languages of data collection (English and French,
-see <a href="#recruitment-and-why-the-five-studies-arent-interchangeable">Recruitment,
+five studies, two languages of data collection (English and French, see
+<a href="#recruitment-and-why-the-five-studies-arent-interchangeable">Recruitment,
 and why the five studies aren’t interchangeable</a> above), and a wide
 range of recruitment channels: checking it directly, rather than
 assuming it from the instruments’ published psychometric properties
-alone, is a small but genuinely useful piece of due diligence that is
-not always done in practice.</p>
-<p>We can also check McDonald’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math><em>per study</em>, except for <span class="citation">Monzel et al.
+alone, is a small but genuinely useful assessment that is not always
+done in practice.</p>
+<p>We can also check Cronbach’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+and McDonald’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi><mspace width="0.222em"></mspace></mrow><annotation encoding="application/x-tex">\omega \ </annotation></semantics></math><em>per study</em>, except for <span class="citation">Monzel et al.
 (2024)</span>, who did not provide item-level data in their open
 dataset:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">items_flat</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span></span>
-<span>    vviq <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"vviq_q"</span><span class="op">)</span>,</span>
-<span>    tas  <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"tas_q"</span><span class="op">)</span>,</span>
-<span>    dif <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tas_q1</span>, <span class="va">tas_q3</span>, <span class="va">tas_q6</span>, <span class="va">tas_q7</span>, <span class="va">tas_q9</span>, <span class="va">tas_q13</span>, <span class="va">tas_q14</span><span class="op">)</span>,</span>
-<span>    ddf <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tas_q2</span>, <span class="va">tas_q4</span>, <span class="va">tas_q11</span>, <span class="va">tas_q12</span>, <span class="va">tas_q17</span><span class="op">)</span>,</span>
-<span>    eot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tas_q5</span>, <span class="va">tas_q8</span>, <span class="va">tas_q10</span>, <span class="va">tas_q15</span>, <span class="va">tas_q16</span>, <span class="va">tas_q18</span>, <span class="va">tas_q19</span>, <span class="va">tas_q20</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html" class="external-link">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_scales_reliability.html">check_scales_reliability</a></span><span class="op">(</span><span class="va">all_data</span>, <span class="va">study</span>, silence <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    omega_vviq <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">vviq</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    omega_tas <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">tas</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    omega_dif <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">dif</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    omega_ddf <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">ddf</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span>,</span>
-<span>    omega_eot <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/omega.html" class="external-link">omega</a></span><span class="op">(</span><span class="va">eot</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">omega.tot</span></span>
+<span>    Study <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_match.html" class="external-link">case_match</a></span><span class="op">(</span></span>
+<span>      <span class="va">study</span>,</span>
+<span>      <span class="st">"burns"</span>  <span class="op">~</span> <span class="st">"Ale &amp; Burns (2024)"</span>,</span>
+<span>      <span class="st">"mas"</span>    <span class="op">~</span> <span class="st">"Mas &amp; Luminet (2025)"</span>,</span>
+<span>      <span class="st">"ruby"</span>   <span class="op">~</span> <span class="st">"Ruby (2025)"</span>,</span>
+<span>      <span class="st">"kvamme"</span> <span class="op">~</span> <span class="st">"Kvamme et al. (2026)"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    .keep <span class="op">=</span> <span class="st">"unused"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">vviq</span>, <span class="va">tas</span>, <span class="va">dif</span>, <span class="va">ddf</span>, <span class="va">eot</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">Study</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="26%">
+<col width="31%">
+<col width="21%">
+<col width="21%">
+</colgroup>
 <thead><tr class="header">
-<th align="left">study</th>
-<th align="right">omega_vviq</th>
-<th align="right">omega_tas</th>
-<th align="right">omega_dif</th>
-<th align="right">omega_ddf</th>
-<th align="right">omega_eot</th>
+<th align="left">Study</th>
+<th align="left">Scale</th>
+<th align="right">Cronbach’s alpha</th>
+<th align="right">McDonald’s omega</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">burns</td>
+<td align="left">Ale &amp; Burns (2024)</td>
+<td align="left">VVIQ (16 items)</td>
+<td align="right">0.98</td>
 <td align="right">0.99</td>
+</tr>
+<tr class="even">
+<td align="left">Ale &amp; Burns (2024)</td>
+<td align="left">TAS-20, total (20 items)</td>
 <td align="right">0.87</td>
+<td align="right">0.87</td>
+</tr>
+<tr class="odd">
+<td align="left">Ale &amp; Burns (2024)</td>
+<td align="left">TAS-20, DIF (7 items)</td>
+<td align="right">0.86</td>
 <td align="right">0.91</td>
+</tr>
+<tr class="even">
+<td align="left">Ale &amp; Burns (2024)</td>
+<td align="left">TAS-20, DDF (5 items)</td>
+<td align="right">0.80</td>
 <td align="right">0.83</td>
+</tr>
+<tr class="odd">
+<td align="left">Ale &amp; Burns (2024)</td>
+<td align="left">TAS-20, EOT (8 items)</td>
+<td align="right">0.61</td>
 <td align="right">0.77</td>
 </tr>
 <tr class="even">
-<td align="left">mas</td>
+<td align="left">Mas &amp; Luminet (2025)</td>
+<td align="left">VVIQ (16 items)</td>
+<td align="right">0.87</td>
 <td align="right">0.90</td>
+</tr>
+<tr class="odd">
+<td align="left">Mas &amp; Luminet (2025)</td>
+<td align="left">TAS-20, total (20 items)</td>
+<td align="right">0.77</td>
 <td align="right">0.81</td>
+</tr>
+<tr class="even">
+<td align="left">Mas &amp; Luminet (2025)</td>
+<td align="left">TAS-20, DIF (7 items)</td>
+<td align="right">0.74</td>
 <td align="right">0.81</td>
+</tr>
+<tr class="odd">
+<td align="left">Mas &amp; Luminet (2025)</td>
+<td align="left">TAS-20, DDF (5 items)</td>
+<td align="right">0.79</td>
 <td align="right">0.86</td>
+</tr>
+<tr class="even">
+<td align="left">Mas &amp; Luminet (2025)</td>
+<td align="left">TAS-20, EOT (8 items)</td>
+<td align="right">0.38</td>
 <td align="right">0.48</td>
 </tr>
 <tr class="odd">
-<td align="left">ruby</td>
+<td align="left">Ruby (2025)</td>
+<td align="left">VVIQ (16 items)</td>
+<td align="right">0.95</td>
 <td align="right">0.96</td>
+</tr>
+<tr class="even">
+<td align="left">Ruby (2025)</td>
+<td align="left">TAS-20, total (20 items)</td>
+<td align="right">0.85</td>
 <td align="right">0.87</td>
+</tr>
+<tr class="odd">
+<td align="left">Ruby (2025)</td>
+<td align="left">TAS-20, DIF (7 items)</td>
+<td align="right">0.77</td>
 <td align="right">0.86</td>
+</tr>
+<tr class="even">
+<td align="left">Ruby (2025)</td>
+<td align="left">TAS-20, DDF (5 items)</td>
+<td align="right">0.80</td>
 <td align="right">0.84</td>
+</tr>
+<tr class="odd">
+<td align="left">Ruby (2025)</td>
+<td align="left">TAS-20, EOT (8 items)</td>
+<td align="right">0.65</td>
 <td align="right">0.75</td>
 </tr>
 <tr class="even">
-<td align="left">kvamme</td>
+<td align="left">Kvamme et al. (2026)</td>
+<td align="left">VVIQ (16 items)</td>
+<td align="right">0.97</td>
 <td align="right">0.98</td>
+</tr>
+<tr class="odd">
+<td align="left">Kvamme et al. (2026)</td>
+<td align="left">TAS-20, total (20 items)</td>
+<td align="right">0.88</td>
+<td align="right">0.90</td>
+</tr>
+<tr class="even">
+<td align="left">Kvamme et al. (2026)</td>
+<td align="left">TAS-20, DIF (7 items)</td>
 <td align="right">0.90</td>
 <td align="right">0.92</td>
+</tr>
+<tr class="odd">
+<td align="left">Kvamme et al. (2026)</td>
+<td align="left">TAS-20, DDF (5 items)</td>
+<td align="right">0.83</td>
 <td align="right">0.86</td>
+</tr>
+<tr class="even">
+<td align="left">Kvamme et al. (2026)</td>
+<td align="left">TAS-20, EOT (8 items)</td>
+<td align="right">0.56</td>
 <td align="right">0.69</td>
 </tr>
 </tbody>
 </table>
+<p>We can see that the good internal reliability of all scales and
+comparatively relative weakness of EOT is consistent across studies.
+EOT’s reliability is particularly low in Mas &amp; Luminet (2025). One
+last check we can think of is to assess whether the internal coherence
+of the three TAS-20 sub-scales, operationalised as their pairwise
+correlations, is consistent across studies:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
+<span>  <span class="va">all_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>study <span class="op">=</span> <span class="st">"Total sample"</span><span class="op">)</span>,</span>
+<span>  <span class="va">all_data</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">study</span> <span class="op">!=</span> <span class="st">"mas"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>study <span class="op">=</span> <span class="st">"Total sample without Mas &amp; Luminet"</span><span class="op">)</span>,</span>
+<span>  <span class="va">all_data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    study <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_match.html" class="external-link">case_match</a></span><span class="op">(</span></span>
+<span>      <span class="va">study</span>,</span>
+<span>      <span class="st">"burns"</span>  <span class="op">~</span> <span class="st">"Ale &amp; Burns (2024)"</span>,</span>
+<span>      <span class="st">"monzel"</span> <span class="op">~</span> <span class="st">"Monzel et al. (2024)"</span>,</span>
+<span>      <span class="st">"mas"</span>    <span class="op">~</span> <span class="st">"Mas &amp; Luminet (2025)"</span>,</span>
+<span>      <span class="st">"ruby"</span>   <span class="op">~</span> <span class="st">"Ruby (2025)"</span>,</span>
+<span>      <span class="st">"kvamme"</span> <span class="op">~</span> <span class="st">"Kvamme et al. (2026)"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
+<span>    <span class="st">"DIF-DDF"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_identify</span>, <span class="va">tas_describe</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>    <span class="st">"DIF-EOT"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_identify</span>, <span class="va">tas_external</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>    <span class="st">"DDF-EOT"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_describe</span>, <span class="va">tas_external</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">study</th>
+<th align="right">DIF-DDF</th>
+<th align="right">DIF-EOT</th>
+<th align="right">DDF-EOT</th>
+<th align="right">n</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Ale &amp; Burns (2024)</td>
+<td align="right">0.76</td>
+<td align="right">0.28</td>
+<td align="right">0.44</td>
+<td align="right">192</td>
+</tr>
+<tr class="even">
+<td align="left">Kvamme et al. (2026)</td>
+<td align="right">0.75</td>
+<td align="right">0.29</td>
+<td align="right">0.39</td>
+<td align="right">833</td>
+</tr>
+<tr class="odd">
+<td align="left">Mas &amp; Luminet (2025)</td>
+<td align="right">0.63</td>
+<td align="right">0.04</td>
+<td align="right">0.10</td>
+<td align="right">123</td>
+</tr>
+<tr class="even">
+<td align="left">Monzel et al. (2024)</td>
+<td align="right">0.60</td>
+<td align="right">0.32</td>
+<td align="right">0.46</td>
+<td align="right">105</td>
+</tr>
+<tr class="odd">
+<td align="left">Ruby (2025)</td>
+<td align="right">0.64</td>
+<td align="right">0.29</td>
+<td align="right">0.46</td>
+<td align="right">225</td>
+</tr>
+<tr class="even">
+<td align="left">Total sample</td>
+<td align="right">0.71</td>
+<td align="right">0.20</td>
+<td align="right">0.35</td>
+<td align="right">1478</td>
+</tr>
+<tr class="odd">
+<td align="left">Total sample without Mas &amp; Luminet</td>
+<td align="right">0.72</td>
+<td align="right">0.23</td>
+<td align="right">0.39</td>
+<td align="right">1355</td>
+</tr>
+</tbody>
+</table>
+<p>Consistent with the reliability results, the correlations between EOT
+and DIF/DDF in Mas &amp; Luminet’s dataset are weaker. To test this, we
+added another set of correlations on the last line of the table
+assessing between-scales correlations in the pooled sample without their
+dataset. Given the small size of the reduction in correlations caused by
+the addition of their dataset, and taking into account the different
+scope and target population of their study (see <a href="https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html#mas-story">the
+background of their study</a>, we ultimately decided that these
+statistics didn’t warrant the entire removal of 123 potentially valuable
+observations.</p>
 <hr>
 <p><strong>Continuing through the Extended Online Report:</strong> this
 page follows <a href="https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html">how
