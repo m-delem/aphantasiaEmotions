@@ -23,6 +23,7 @@ reference:
       - report_rope
       - check_slope_evidence
       - check_knot_still_matches
+      - check_scales_reliability
   - title: Visualisation
     desc: >
       ggplot2 helpers built for this project's specific figures — raincloud
