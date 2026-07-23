@@ -164,7 +164,9 @@ plot_alexithymia_proportions <- function(
       aes = c("fill", "colour"),
       name = NULL,
       labels = c(
-        "alexithymia" = "Alexithymia (TAS > 60)",
+        # "alexithymia" = "Alexithymia (TAS > 60)",
+        # "alexithymia" = expression("Alexithymia (TAS">="61)"),
+        "alexithymia" = "Alexithymia (TAS \u2265 61)",
         "typical_tas" = "No Alexithymia"
       ),
       values = grDevices::palette.colors()[c(7, 6)]

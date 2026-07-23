@@ -21,6 +21,7 @@ main_panel <-
     floor_group_additive_multilevel, 
     model_data,
     vviq_breaks = seq(16, 80, 16),
+    xbar_label = expression(bar(x)),
     xbar_vjust = 0.3,
     limits = c(7.9, 81),
     stat_label_x = 7.9,

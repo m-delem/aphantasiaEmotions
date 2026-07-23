@@ -18,6 +18,8 @@ plot_floor_group(
   cross_stroke = 0.8,
   violin_width = 3,
   stat_txt_size = 1.75,
+  xbar_label = "Sample\\nmean",
+  xbar_face = "italic",
   xbar_vjust = 0.5,
   colorbar_width = 14,
   mean_line_color = "grey40",
@@ -92,6 +94,12 @@ Default is 2.}
 units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).}
 
 \item{stat_txt_size}{Size for the floor effect text on the left.}
+
+\item{xbar_label}{Right-side "mean" label. Default is "Sample mean" (with a
+linebreak). Another former option was expression(bar(x)) to display a
+mathematical X-bar symbol.}
+
+\item{xbar_face}{Face of the right label. Default is "italic".}
 
 \item{xbar_vjust}{Vertical adjustment for the right-side "mean" label
 (formerly X-bar). Default is 0.5.}

@@ -1,6 +1,6 @@
 bibentry(
   bibtype  = "Misc",
-  title    = "Supplementary materials for 'Complete Aphantasics Are No More Alexithymic Than Anyone Else'",
+  title    = "Supplementary materials for 'Complete Aphantasics Are No More Alexithymic Than Typical Imagers'",
   author   = c(
       person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
              comment = c(ORCID = "0009-0005-8518-1991"))

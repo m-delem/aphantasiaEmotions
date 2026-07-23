@@ -138,11 +138,11 @@ square_abstract <-
   plot_annotation(
     title = paste(
       "Complete aphantasia, as opposed to weak imagery,\nis linked to",
-      "typical meta-emotional functioning"
+      "typical alexithymia levels"
     ),
     subtitle = paste(
       "People with a complete absence of visual imagery show alexithymia",
-      "levels\nindistinguishable from typical imagers \u2014 whereas weak,",
+      "scores\nindistinguishable from typical imagers \u2014 whereas weak,",
       "residual imagery\nis associated with greater difficulty understanding",
       "one's own emotions."
     ),

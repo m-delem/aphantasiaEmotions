@@ -51,6 +51,10 @@
 #' @param cross_size Size of the cross at the end of the regression line.
 #' Default is 2.
 #' @param stat_txt_size Size for the floor effect text on the left.
+#' @param xbar_label Right-side "mean" label. Default is "Sample mean" (with a
+#' linebreak). Another former option was expression(bar(x)) to display a 
+#' mathematical X-bar symbol. 
+#' @param xbar_face Face of the right label. Default is "italic".
 #' @param xbar_vjust Vertical adjustment for the right-side "mean" label
 #' (formerly X-bar). Default is 0.5.
 #' @param colorbar_width Width of the colorbar in the legend in pt. Default is
@@ -139,6 +143,8 @@ plot_floor_group <- function(
     cross_stroke = 0.8,
     violin_width = 3,
     stat_txt_size = 1.75,
+    xbar_label = "Sample\nmean",
+    xbar_face = "italic",
     xbar_vjust = 0.5,
     colorbar_width = 14,
     mean_line_color = "grey40",
@@ -518,8 +524,9 @@ plot_floor_group <- function(
       sec.axis = ggplot2::sec_axis(
         transform = ~.,
         breaks = mean(outcome_vals),
+        labels = xbar_label
         # labels = "Sample\nmean"
-        labels = expression(bar(x))
+        # labels = expression(bar(x))
         # labels = "x\u0304" # Wrong symbol
         # labels = expression(symbol("\xd7"))
       )) +
@@ -535,7 +542,7 @@ plot_floor_group <- function(
       axis.ticks.x = ggplot2::element_line(color = floor_guide_color),
       axis.text.y.right = ggplot2::element_text(
         # family = "sans",
-        # face = "italic",
+        face = xbar_face,
         hjust = 0,
         vjust = xbar_vjust
       ),
