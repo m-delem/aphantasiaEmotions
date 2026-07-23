@@ -203,16 +203,17 @@ genuine limitation of that specific sample, though not one that appears
 to have distorted the pattern this project is built on: the VVIQ-TAS
 relationship in Monzel et al.’s data looks the same as in the other four
 studies. Their data are openly archived on OSF (<a href="https://osf.io/y9c8g/?view_only=1e6bd8670a3f4eacb1cf0f600343205e" class="external-link">osf.io/y9c8g</a>).</p>
-<p><strong>Ruby</strong> collected VVIQ and TAS-20 data as part of a
-study on the sensory and emotional characteristics of autobiographical
-and dream memories. 225 French participants (180 females, 42 males, 3
-other; mean age 36, SD 16.1; range 10-82), recruited by an announcement
-on social media and on mailing lists dedicated to research volunteers in
-Lyon and Paris, completed VVIQ and TAS-20 together with sensory and
-emotional scales to describe the one autobiographical memory from the
-day before and the one dream memory from the night before they had to
-report. The inclusion criterion was to have a memory of a dream from the
-night before when filling in the questionnaire.</p>
+<p><strong>Ruby</strong> (2025) collected VVIQ and TAS-20 data as part
+of a study on the sensory and emotional characteristics of
+autobiographical and dream memories. 225 French participants (180
+females, 42 males, 3 other; mean age 36, SD 16.1; range 10-82),
+recruited by an announcement on social media and on mailing lists
+dedicated to research volunteers in Lyon and Paris, completed VVIQ and
+TAS-20 together with sensory and emotional scales to describe the one
+autobiographical memory from the day before and the one dream memory
+from the night before they had to report. The inclusion criterion was to
+have a memory of a dream from the night before when filling in the
+questionnaire.</p>
 <p><strong>Mas &amp; Luminet</strong> <span class="citation">(2025)</span> collected VVIQ and TAS-20 data as part of
 a preregistered lab experiment on alexithymia and mental
 representations. 123 French-speaking participants (110 females; mean age
@@ -658,10 +659,11 @@ correlations, is consistent across studies:</p>
 <span>      <span class="st">"mas"</span>    <span class="op">~</span> <span class="st">"Mas &amp; Luminet (2025)"</span>,</span>
 <span>      <span class="st">"ruby"</span>   <span class="op">~</span> <span class="st">"Ruby (2025)"</span>,</span>
 <span>      <span class="st">"kvamme"</span> <span class="op">~</span> <span class="st">"Kvamme et al. (2026)"</span></span>
+<span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">study</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="st">"Study"</span> <span class="op">=</span> <span class="st">"study"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Study</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span>
 <span>    <span class="st">"DIF-DDF"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_identify</span>, <span class="va">tas_describe</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>    <span class="st">"DIF-EOT"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">tas_identify</span>, <span class="va">tas_external</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
@@ -672,7 +674,7 @@ correlations, is consistent across studies:</p>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="left">study</th>
+<th align="left">Study</th>
 <th align="right">DIF-DDF</th>
 <th align="right">DIF-EOT</th>
 <th align="right">DDF-EOT</th>

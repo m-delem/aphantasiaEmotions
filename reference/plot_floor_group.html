@@ -99,6 +99,8 @@ function call pattern applies whether <code>model</code> was fit on <code>tas</c
 <span>  cross_stroke <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  violin_width <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  stat_txt_size <span class="op">=</span> <span class="fl">1.75</span>,</span>
+<span>  xbar_label <span class="op">=</span> <span class="st">"Sample\nmean"</span>,</span>
+<span>  xbar_face <span class="op">=</span> <span class="st">"italic"</span>,</span>
 <span>  xbar_vjust <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  colorbar_width <span class="op">=</span> <span class="fl">14</span>,</span>
 <span>  mean_line_color <span class="op">=</span> <span class="st">"grey40"</span>,</span>
@@ -202,6 +204,16 @@ units. Default 3 (i.e. violin extends from VVIQ=16 to VVIQ=13).</p></dd>
 
 <dt id="arg-stat-txt-size">stat_txt_size<a class="anchor" aria-label="anchor" href="#arg-stat-txt-size"></a></dt>
 <dd><p>Size for the floor effect text on the left.</p></dd>
+
+
+<dt id="arg-xbar-label">xbar_label<a class="anchor" aria-label="anchor" href="#arg-xbar-label"></a></dt>
+<dd><p>Right-side "mean" label. Default is "Sample mean" (with a
+linebreak). Another former option was expression(bar(x)) to display a
+mathematical X-bar symbol.</p></dd>
+
+
+<dt id="arg-xbar-face">xbar_face<a class="anchor" aria-label="anchor" href="#arg-xbar-face"></a></dt>
+<dd><p>Face of the right label. Default is "italic".</p></dd>
 
 
 <dt id="arg-xbar-vjust">xbar_vjust<a class="anchor" aria-label="anchor" href="#arg-xbar-vjust"></a></dt>

@@ -1,10 +1,11 @@
 # aphantasiaEmotions
 
-aphantasiaEmotions is a data analysis project wrapped in an R package
-for reproducibility[^1]. It contains the code and data to reproduce the
-analyses presented in the article “*Complete Aphantasics Are No More
-Alexithymic Than Anyone Else: A Discontinuity Where Visual Imagery Is
-Entirely Absent*”. You can read the preprint
+aphantasiaEmotions is a data analysis project and an *Extended Online
+Report* (see below) wrapped in an R package for reproducibility[^1]. It
+contains the code and data to reproduce the analyses presented in the
+article “*The Linear Relationship Between Visual Imagery and Alexithymia
+Breaks When Imagery Is Absent: Complete Aphantasics Are No More
+Alexithymic Than Typical Imagers* ”. You can read the preprint
 [here](https://doi.org/10.31234/osf.io/es425_v1). This repository is
 archived with a permanent DOI on the Open Science Framework
 [here](https://osf.io/b837s/).
@@ -25,14 +26,14 @@ Ale & Burns (2024), Monzel et al. (2024) and Kvamme et al. (2026). The
 package comes with a set of functions for manipulating the data and
 reliably reproducing the analyses presented in the article.
 
-Beyond the article itself, this project’s full analysis is documented as
-an **Extended Online Report (EOR)**: a structure of interlinked,
-executable pages that go well beyond what a traditional paper’s Methods
-and Results sections can show — the reasoning behind each modelling
-choice, the exploratory work that didn’t make it into the manuscript for
-space, and the historical process that produced the finding in the first
-place. Where the article is a summary, the EOR is the full account. It
-is organised as follows:
+Beyond the article itself, this project’s full history and analyses are
+documented as an **Extended Online Report (EOR)**: a structure of
+interlinked, executable pages that go well beyond what a traditional
+paper’s Methods and Results sections can show — the reasoning behind
+each modelling choice, the exploratory work that didn’t make it into the
+manuscript for space, and the historical process that produced the
+finding in the first place. Where the article is a summary, the EOR is
+the full account. It is organised as follows:
 
 - [**How this study found its
   shape**](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html)
@@ -95,7 +96,7 @@ or data in your research, please cite the OSF project with the
 following:
 
 > Delem, M. (2026). “Supplementary materials for ‘Complete Aphantasics
-> Are No More Alexithymic Than Anyone Else’.”
+> Are No More Alexithymic Than Typical Imagers’.”
 > <https://doi.org/10.17605/OSF.IO/B837S>.
 
 ## References

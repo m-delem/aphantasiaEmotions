@@ -151,12 +151,12 @@ or even a simple two-group split, could tell well.
 Perrine Ruby shared her dataset on October 29, 2025, and I ran the same
 analyses that same day, using the package structure that had by then
 already taken shape from the Ale & Burns / Monzel et al. work. Ruby’s
-dataset — 225 French participants (180 females, 42 males, 3 other; mean
-age 36, SD 16.1; range 10-82), collected as part of a study on the
-sensory and emotional characteristics of autobiographical and dream
-memories — also surfaced an incidental relationship between VVIQ and
-dream recall frequency, which sits outside the scope of this study and
-was set aside.
+dataset (later updated in January 2026 with 20 additional participants),
+225 French participants (180 females, 42 males, 3 other; mean age 36, SD
+16.1; range 10-82), collected as part of a study on the sensory and
+emotional characteristics of autobiographical and dream memories, also
+surfaced an incidental relationship between VVIQ and dream recall
+frequency, which sits outside the scope of this study and was set aside.
 
 ``` r
 
@@ -297,9 +297,8 @@ project came together, and because they remain useful references for
 anyone wondering whether earlier work exists on this specific
 combination of measures.
 
-I contacted the authors of three “pre-aphantasia-era” (pre-2015) papers
-that had used both the VVIQ and TAS-20, before the term “aphantasia” was
-in wide use:
+I contacted the authors of three studies unrelated to aphantasia that
+had used both the VVIQ and TAS-20:
 
 - Wang & Yang (2024), *Mental Imagery in the Relationship between
   Alexithymia and Parental Psychological Control*,

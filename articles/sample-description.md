@@ -73,7 +73,7 @@ is built on: the VVIQ-TAS relationship in Monzel et al.’s data looks the
 same as in the other four studies. Their data are openly archived on OSF
 ([osf.io/y9c8g](https://osf.io/y9c8g/?view_only=1e6bd8670a3f4eacb1cf0f600343205e)).
 
-**Ruby** collected VVIQ and TAS-20 data as part of a study on the
+**Ruby** (2025) collected VVIQ and TAS-20 data as part of a study on the
 sensory and emotional characteristics of autobiographical and dream
 memories. 225 French participants (180 females, 42 males, 3 other; mean
 age 36, SD 16.1; range 10-82), recruited by an announcement on social
@@ -338,10 +338,11 @@ dplyr::bind_rows(
       "mas"    ~ "Mas & Luminet (2025)",
       "ruby"   ~ "Ruby (2025)",
       "kvamme" ~ "Kvamme et al. (2026)"
+      )
     )
-  )
-) |>
-  dplyr::group_by(study) |>
+  ) |>
+  dplyr::rename("Study" = "study") |> 
+  dplyr::group_by(Study) |>
   dplyr::summarise(
     "DIF-DDF" = cor(tas_identify, tas_describe) |> round(2),
     "DIF-EOT" = cor(tas_identify, tas_external) |> round(2),
@@ -352,7 +353,7 @@ dplyr::bind_rows(
   knitr::kable()
 ```
 
-| study                              | DIF-DDF | DIF-EOT | DDF-EOT |    n |
+| Study                              | DIF-DDF | DIF-EOT | DDF-EOT |    n |
 |:-----------------------------------|--------:|--------:|--------:|-----:|
 | Ale & Burns (2024)                 |    0.76 |    0.28 |    0.44 |  192 |
 | Kvamme et al. (2026)               |    0.75 |    0.29 |    0.39 |  833 |
