@@ -26,6 +26,8 @@ jobs:
         with:
           extra-packages: any::covr, any::xml2
           needs: coverage
+          system-packages: |
+            libgit2-dev
 
       - name: Test coverage
         run: |
