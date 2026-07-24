@@ -340,7 +340,7 @@ set of correlations on the last line of the table assessing between-scales
 correlations in the pooled sample without their dataset. Given the small size
 of the reduction in correlations caused by the addition of their dataset, and 
 taking into account the different scope and target population of their study
-(see [the background of their study](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html#mas-story), 
+(see [the background of their study](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html#mas-story)), 
 we ultimately decided that these statistics didn't warrant the entire removal of 
 123 potentially valuable observations.
 

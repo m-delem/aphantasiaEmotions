@@ -20,7 +20,11 @@ panel_2group <-
   # with a uniform grey for BOTH groups — deliberately undifferentiated.
   ggplot2::scale_color_manual(values = c("grey50", "grey50"), guide = "none") +
   ggplot2::scale_fill_manual(values = c("grey50", "grey50"), guide = "none") +
-  ggplot2::labs(title = "The common 2-group approach")
+  ggplot2::labs(title = "The common 2-group approach") +
+  ggplot2::theme(
+    panel.border = ggplot2::element_rect(
+      fill = "transparent", color = "grey50")
+  )
 
 # ------------------------------------------------------------------------------
 # 4-group panel — scale_discrete_aphantasia()
@@ -36,7 +40,11 @@ panel_4group <-
   ) +
   scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
-  ggplot2::labs(title = "A finer-grained 4-group alternative")
+  ggplot2::labs(title = "A finer-grained 4-group alternative") +
+  ggplot2::theme(
+    panel.border = ggplot2::element_rect(
+      fill = "transparent", color = "black")
+  )
 
 # ------------------------------------------------------------------------------
 # Compose side by side
