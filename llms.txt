@@ -6,7 +6,7 @@ contains the code and data to reproduce the analyses presented in the
 article “*The Linear Relationship Between Visual Imagery and Alexithymia
 Breaks When Imagery Is Absent: Complete Aphantasics Are No More
 Alexithymic Than Typical Imagers* ”. You can read the preprint
-[here](https://doi.org/10.31234/osf.io/es425_v1). This repository is
+[here](https://doi.org/10.31234/osf.io/es425_v2). This repository is
 archived with a permanent DOI on the Open Science Framework
 [here](https://osf.io/b837s/).
 
