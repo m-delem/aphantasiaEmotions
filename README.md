@@ -46,24 +46,24 @@ finding in the first place. Where the article is a summary, the EOR is
 the full account. It is organised as follows:
 
 - [**How this study found its
-  shape**](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html)
-  — the discovery process, dataset by dataset, told as it actually
+  shape**](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-found-its-shape.html):
+  the discovery process, dataset by dataset, told as it actually
   happened.
 - [**Sample
-  description**](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
-  — a closer look at the five pooled datasets.
+  description**](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html):
+  a closer look at the five pooled datasets.
 - [**Model
-  comparison**](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html)
-  — how a naive threshold, a categorical grouping, and several
-  continuous models were compared, including a direct comparison against
-  Kvamme et al. (2026)’s own published approach.
+  comparison**](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html):
+  how a naive threshold, a categorical grouping, and several continuous
+  models were compared, including a direct comparison against Kvamme et
+  al. (2026)’s own published approach.
 - [**The floor-group model, in
-  depth**](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
-  — the study’s central finding, its statistical evidence, and how it
+  depth**](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html):
+  the study’s central finding, its statistical evidence, and how it
   holds up once study-level heterogeneity is accounted for.
 - [**For those who come
-  after**](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html)
-  — promising directions this project didn’t have time to pursue fully.
+  after**](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html):
+  promising directions this project didn’t have time to pursue fully.
 
 If you’d rather get straight to using the package yourself, the [**Get
 Started**](https://m-delem.github.io/aphantasiaEmotions/articles/aphantasiaEmotions.html)
