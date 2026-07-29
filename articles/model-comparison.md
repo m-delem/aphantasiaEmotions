@@ -610,3 +610,133 @@ Reeder, R. R., Pounder, Z., Figueroa, A., Jüllig, A., & Azañón, E.
 (2024). Non-visual spatial strategies are effective for maintaining
 precise information in visual working memory. *Cognition*, *251*,
 105907. <https://doi.org/10.1016/j.cognition.2024.105907>
+
+------------------------------------------------------------------------
+
+    #> ─ Session info ───────────────────────────────────────────────────────────────
+    #>  setting  value
+    #>  version  R version 4.6.1 (2026-06-24)
+    #>  os       Ubuntu 22.04.5 LTS
+    #>  system   x86_64, linux-gnu
+    #>  ui       X11
+    #>  language en
+    #>  collate  C.UTF-8
+    #>  ctype    C.UTF-8
+    #>  tz       UTC
+    #>  date     2026-07-29
+    #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
+    #>  quarto   NA
+    #> 
+    #> ─ Packages ───────────────────────────────────────────────────────────────────
+    #>  ! package            * version  date (UTC) lib source
+    #>    abind                1.4-8    2024-09-12 [1] RSPM
+    #>    aphantasiaEmotions * 1.0      2026-07-29 [1] local
+    #>    backports            1.5.1    2026-04-03 [1] RSPM
+    #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
+    #>    bayestestR           0.18.1   2026-05-24 [1] RSPM
+    #>    bridgesampling       1.2-1    2025-11-19 [1] RSPM
+    #>    brms                 2.23.0   2025-09-09 [1] RSPM
+    #>    Brobdingnag          1.2-9    2022-10-19 [1] RSPM
+    #>  P bslib                0.11.0   2026-05-16 [?] RSPM
+    #>  P cachem               1.1.0    2024-05-16 [?] RSPM
+    #>    checkmate            2.3.4    2026-02-03 [1] RSPM
+    #>  P cli                  3.6.6    2026-04-09 [?] RSPM
+    #>    coda                 0.19-4.1 2024-01-31 [1] RSPM
+    #>  P codetools            0.2-20   2024-03-31 [?] CRAN (R 4.6.1)
+    #>    collapse             2.1.7    2026-05-19 [1] RSPM
+    #>  P crayon               1.5.3    2024-06-20 [?] RSPM
+    #>  P curl                 7.1.0    2026-04-22 [?] RSPM
+    #>    data.table           1.18.4   2026-05-06 [1] RSPM
+    #>    datawizard           1.3.1    2026-04-26 [1] RSPM
+    #>  P desc                 1.4.3    2023-12-10 [?] RSPM
+    #>  P devtools           * 2.5.2    2026-04-30 [?] RSPM
+    #>  P digest               0.6.39   2025-11-19 [?] RSPM
+    #>    distributional       0.8.1    2026-06-27 [1] RSPM
+    #>    dplyr                1.2.1    2026-04-03 [1] RSPM
+    #>    earth                5.3.5    2026-01-11 [1] RSPM
+    #>  P ellipsis             0.3.3    2026-04-04 [?] RSPM
+    #>  P evaluate             1.0.5    2025-08-27 [?] RSPM
+    #>    farver               2.1.2    2024-05-13 [1] RSPM
+    #>  P fastmap              1.2.0    2024-05-15 [?] RSPM
+    #>    Formula              1.2-5    2023-02-24 [1] RSPM
+    #>  P fs                   2.1.0    2026-04-18 [?] RSPM
+    #>    generics             0.1.4    2025-05-09 [1] RSPM
+    #>    ggplot2            * 4.0.3    2026-04-22 [1] RSPM
+    #>  P glue                 1.8.1    2026-04-17 [?] RSPM
+    #>    gridExtra            2.3.1    2026-06-25 [1] RSPM
+    #>    gtable               0.3.6    2024-10-25 [1] RSPM
+    #>  P htmltools            0.5.9    2025-12-04 [?] RSPM
+    #>  P htmlwidgets          1.6.4    2023-12-06 [?] RSPM
+    #>    inline               0.3.21   2025-01-09 [1] RSPM
+    #>    insight              1.5.2    2026-06-28 [1] RSPM
+    #>  P jquerylib            0.1.4    2021-04-26 [?] RSPM
+    #>  P jsonlite             2.0.0    2025-03-27 [?] RSPM
+    #>  P knitr                1.51     2025-12-20 [?] RSPM
+    #>    labeling             0.4.3    2023-08-29 [1] RSPM
+    #>  P lattice              0.22-9   2026-02-09 [?] CRAN (R 4.6.1)
+    #>  P lifecycle            1.0.5    2026-01-08 [?] RSPM
+    #>    loo                  2.10.1   2026-07-24 [1] RSPM
+    #>  P magrittr             2.0.5    2026-04-04 [?] RSPM
+    #>    marginaleffects      0.32.0   2026-02-14 [1] RSPM
+    #>  P Matrix               1.7-5    2026-03-21 [?] CRAN (R 4.6.1)
+    #>    matrixStats          1.5.0    2025-01-07 [1] RSPM
+    #>  P memoise              2.0.1    2021-11-26 [?] RSPM
+    #>  P mgcv                 1.9-4    2025-11-07 [?] CRAN (R 4.6.1)
+    #>    modelbased           0.16.0   2026-06-30 [1] RSPM
+    #>    mvtnorm              1.4-2    2026-07-12 [1] RSPM
+    #>  P nlme                 3.1-169  2026-03-27 [?] CRAN (R 4.6.1)
+    #>  P otel                 0.2.0    2025-08-29 [?] RSPM
+    #>    parameters           0.29.2   2026-06-28 [1] RSPM
+    #>    patchwork          * 1.3.2    2025-08-25 [1] RSPM
+    #>  P pillar               1.11.1   2025-09-17 [?] RSPM
+    #>  P pkgbuild             1.4.8    2025-05-26 [?] RSPM
+    #>  P pkgconfig            2.0.3    2019-09-22 [?] RSPM
+    #>  P pkgdown              2.2.1    2026-07-07 [?] RSPM
+    #>  P pkgload              1.5.3    2026-06-15 [?] RSPM
+    #>    plotmo               3.7.0    2026-01-09 [1] RSPM
+    #>    plotrix              3.8-14   2026-02-13 [1] RSPM
+    #>    posterior            1.7.0    2026-04-01 [1] RSPM
+    #>  P purrr                1.2.2    2026-04-10 [?] RSPM
+    #>    QuickJSR             1.10.0   2026-05-17 [1] RSPM
+    #>  P R6                   2.6.1    2025-02-15 [?] RSPM
+    #>  P ragg                 1.5.2    2026-03-23 [?] RSPM
+    #>    rbibutils            2.4.1    2026-01-21 [1] RSPM
+    #>    RColorBrewer         1.1-3    2022-04-03 [1] RSPM
+    #>  P Rcpp                 1.1.2    2026-07-05 [?] RSPM
+    #>    RcppParallel         6.1.1    2026-07-27 [1] RSPM
+    #>    Rdpack               2.6.6    2026-02-08 [1] RSPM
+    #>    reformulas           0.4.4    2026-02-02 [1] RSPM
+    #>    renv                 1.1.4    2025-03-20 [1] RSPM (R 4.6.1)
+    #>  P rlang                1.3.0    2026-07-05 [?] RSPM
+    #>  P rmarkdown            2.31     2026-03-26 [?] RSPM
+    #>    rstan                2.32.7   2025-03-10 [1] RSPM
+    #>    rstantools           2.7.0    2026-07-26 [1] RSPM
+    #>    S7                   0.2.2    2026-04-22 [1] RSPM
+    #>  P sass                 0.4.10   2025-04-11 [?] RSPM
+    #>    scales               1.4.0    2025-04-24 [1] RSPM
+    #>    see                  0.14.1   2026-06-29 [1] RSPM
+    #>  P sessioninfo          1.2.4    2026-06-04 [?] RSPM
+    #>    showtext             0.9-8    2026-03-21 [1] RSPM
+    #>    showtextdb           3.0      2020-06-04 [1] RSPM
+    #>    StanHeaders          2.32.10  2024-07-15 [1] RSPM
+    #>  P stringi              1.8.7    2025-03-27 [?] RSPM
+    #>    stringr              1.6.0    2025-11-04 [1] RSPM
+    #>    sysfonts             0.8.9    2024-03-02 [1] RSPM
+    #>  P systemfonts          1.3.2    2026-03-05 [?] RSPM
+    #>    tensorA              0.36.2.1 2023-12-13 [1] RSPM
+    #>  P textshaping          1.0.5    2026-03-06 [?] RSPM
+    #>  P tibble               3.3.1    2026-01-11 [?] RSPM
+    #>    tidyselect           1.2.1    2024-03-11 [1] RSPM
+    #>  P usethis            * 3.2.1    2025-09-06 [?] RSPM
+    #>  P vctrs                0.7.3    2026-04-11 [?] RSPM
+    #>  P withr                3.0.3    2026-06-19 [?] RSPM
+    #>  P xfun                 0.60     2026-07-09 [?] RSPM
+    #>  P yaml                 2.3.12   2025-12-10 [?] RSPM
+    #> 
+    #>  [1] /home/runner/.cache/R/renv/library/aphantasiaEmotions-8f3b5e1f/linux-ubuntu-jammy/R-4.6/x86_64-pc-linux-gnu
+    #>  [2] /home/runner/.cache/R/renv/sandbox/linux-ubuntu-jammy/R-4.6/x86_64-pc-linux-gnu/e7c0fad7
+    #> 
+    #>  * ── Packages attached to the search path.
+    #>  P ── Loaded and on-disk path mismatch.
+    #> 
+    #> ──────────────────────────────────────────────────────────────────────────────

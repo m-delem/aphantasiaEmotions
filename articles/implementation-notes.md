@@ -186,3 +186,5 @@ model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.h
 pages, or see [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
 for convergence and predictive checks.
+
+------------------------------------------------------------------------
