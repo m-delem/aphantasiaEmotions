@@ -564,7 +564,7 @@ covers that model in full, including how it holds up once study-level
 heterogeneity is accounted for, and why the simplicity is the point that makes
 it truly special.
 
---------------------------------------------------------------------------------
+---
 
 **Continuing through the Extended Online Report:** this page follows the [sample
 description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html).
@@ -577,6 +577,17 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
 or [for those who come
 after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).
 
---------------------------------------------------------------------------------
+---
 
 ## References
+
+<div id="refs"></div>
+
+---
+
+```{r}
+#| label: session_info
+#| echo: false
+
+sessioninfo::session_info()
+```

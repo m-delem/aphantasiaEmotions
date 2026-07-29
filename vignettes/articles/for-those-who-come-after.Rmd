@@ -120,7 +120,7 @@ question with a genuinely hard model behind it, but a question worth flagging
 clearly *for those who come after*, including its difficulty, rather than
 downplaying it.
 
---------------------------------------------------------------------------------
+---
 
 **This is the last page of the Extended Online Report's narrative arc.** If
 you've read through from the start, thank you for following the whole story. Two
@@ -138,6 +138,6 @@ shape](https://m-delem.github.io/aphantasiaEmotions/articles/how-this-study-foun
 or return to the [package
 homepage](https://m-delem.github.io/aphantasiaEmotions/).
 
---------------------------------------------------------------------------------
+---
 
 ## References

@@ -205,3 +205,12 @@ start to finish. Return to the
 or [floor-group model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.html)
 pages, or continue to
 [implementation notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html).
+
+---
+
+```{r}
+#| label: session_info
+#| echo: false
+
+sessioninfo::session_info()
+```

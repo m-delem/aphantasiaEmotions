@@ -177,7 +177,7 @@ identical fits (LOO elpd difference of -0.09, well within noise), which is a
 nice cross-validation of both approaches, using two genuinely different methods
 to arrive at essentially the same answer.
 
---------------------------------------------------------------------------------
+---
 
 **Continuing through the Extended Online Report:** this page is a technical
 reference, linked to from the narrative pages rather than meant to be read start
@@ -188,3 +188,12 @@ model](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.h
 pages, or see [model
 diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html)
 for convergence and predictive checks.
+
+---
+
+```{r}
+#| label: session_info
+#| echo: false
+
+sessioninfo::session_info()
+```

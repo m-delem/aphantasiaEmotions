@@ -352,7 +352,7 @@ If you happen to know other studies that used these two questionnaires together,
 feel free to [contact me](mailto:mael.delem@pm.me), I'd be happy to update the
 analyses with new data.
 
---------------------------------------------------------------------------------
+---
 
 **Continuing through the Extended Online Report:** this is the first page. To
 keep reading in order, continue to the [sample
@@ -368,6 +368,17 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
 or [for those who come
 after](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html).
 
---------------------------------------------------------------------------------
+---
 
 ## References
+
+<div id="refs"></div>
+
+---
+
+```{r}
+#| label: session_info
+#| echo: false
+
+sessioninfo::session_info()
+```

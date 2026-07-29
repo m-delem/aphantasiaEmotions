@@ -505,7 +505,7 @@ present for the difficulty-identifying and difficulty-describing facets than for
 externally-oriented thinking specifically — while the floor effect itself, this
 project's central finding, holds with equal force across all three.
 
---------------------------------------------------------------------------------
+---
 
 **Continuing through the Extended Online Report:** this page follows the [model
 comparison](https://m-delem.github.io/aphantasiaEmotions/articles/model-comparison.html).
@@ -516,3 +516,12 @@ diagnostics](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnos
 and [implementation
 notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
 for the technical detail behind this model.
+
+---
+
+```{r}
+#| label: session_info
+#| echo: false
+
+sessioninfo::session_info()
+```
