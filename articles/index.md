@@ -4,6 +4,7 @@
 
 - [Get
   started](https://m-delem.github.io/aphantasiaEmotions/articles/aphantasiaEmotions.md):
+- [Codebook](https://m-delem.github.io/aphantasiaEmotions/articles/codebook.md):
 - [The floor-group model, in
   depth](https://m-delem.github.io/aphantasiaEmotions/articles/floor-group-model.md):
 - [For those who come

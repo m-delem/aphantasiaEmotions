@@ -41,9 +41,6 @@ across various studies. It contains the following:
 - `items`: nested list-column with individual VVIQ and TAS item
   responses when available
 
-- `other_data`: nested list-column with other questionnaire data
-  collected in the studies that are not used in the current analyses
-
 ## Usage
 
 ``` r

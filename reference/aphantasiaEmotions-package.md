@@ -1,4 +1,4 @@
-# aphantasiaEmotions: Data Analysis for "Complete Aphantasics Are No More Alexithymic Than Anyone Else: A Discontinuity Where Visual Imagery Is Entirely Absent"
+# aphantasiaEmotions: Data Analysis for "The Linear Relationship Between Visual Imagery and Alexithymia Breaks When Imagery Is Absent: Complete Aphantasics Are No More Alexithymic Than Typical Imagers"
 
 This project contains the code to analyse VVIQ and TAS data from studies
 on aphantasia and alexithymia.
