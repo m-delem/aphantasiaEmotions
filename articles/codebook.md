@@ -116,12 +116,13 @@ collected both constructs separately, and a small number of participants
 ------------------------------------------------------------------------
 
 **Continuing through the Extended Online Report:** this page is a
-technical reference, linked to from the narrative pages rather than
-meant to be read start to finish. See the [sample
+technical reference, meant to be partially independent from the rest of
+the vignettes. See the [sample
 description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
-page for how the five studies were combined, or [implementation
-notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
-for the modelling code’s conventions.
+page for how the five studies were combined, or get back to the [home
+page](https://m-delem.github.io/aphantasiaEmotions/index.html).
+
+------------------------------------------------------------------------
 
 ## References
 
