@@ -4,7 +4,7 @@
 \name{aphantasiaEmotions-package}
 \alias{aphantasiaEmotions}
 \alias{aphantasiaEmotions-package}
-\title{aphantasiaEmotions: Data Analysis for "Complete Aphantasics Are No More Alexithymic Than Anyone Else: A Discontinuity Where Visual Imagery Is Entirely Absent"}
+\title{aphantasiaEmotions: Data Analysis for "The Linear Relationship Between Visual Imagery and Alexithymia Breaks When Imagery Is Absent: Complete Aphantasics Are No More Alexithymic Than Typical Imagers"}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

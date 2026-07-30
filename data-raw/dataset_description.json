@@ -1,0 +1,498 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "VVIQ and TAS-20 data across five studies (aphantasia / alexithymia)",
+  "description": "Pooled participant-level data from five independent studies, combining responses to the Vividness of Visual Imagery Questionnaire (VVIQ; Marks, 1973) and the 20-item Toronto Alexithymia Scale (TAS-20; Bagby, Parker, & Taylor, 1994). Used to examine the relationship between visual mental imagery vividness (including aphantasia and hyperphantasia) and alexithymia.",
+  "schemaVersion": "Psych-DS 0.4.0",
+  "citation": [
+    "Ale & Burns (2024) - https://doi.org/10.31234/osf.io/kj5d3 (study = \"burns\")",
+    "Monzel et al. (2024) - https://doi.org/10.1016/j.bionps.2024.100106 (study = \"monzel\")",
+    "Ruby (2025) - unpublished, Perrine Ruby, Centre de Recherche en Neurosciences de Lyon (study = \"ruby\")",
+    "Mas & Luminet (2025) - unpublished, Marine Mas and Olivier Luminet, Louvain-la-Neuve (study = \"mas\")",
+    "Kvamme et al. (2026) - https://doi.org/10.1016/j.neuropsychologia.2026.109368 (study = \"kvamme\")"
+  ],
+  "creditText": [
+    "VVIQ item text: Marks, D. F. (1973). Visual imagery differences in the recall of pictures. British Journal of Psychology, 64(1), 17-24. https://doi.org/10.1111/j.2044-8295.1973.tb01322.x",
+    "TAS-20 item text: Bagby, R. M., Parker, J. D. A., & Taylor, G. J. (1994). The twenty-item Toronto Alexithymia Scale-I. Journal of Psychosomatic Research, 38(1), 23-32. https://doi.org/10.1016/0022-3999(94)90005-1"
+  ],
+  "usageInfo": "VVIQ and TAS-20 item wording is copyrighted by the original scale authors and is not reproduced here. Item columns below are identified by their official item number and (for the TAS-20) subscale; consult the source publications above for exact wording.",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "study",
+      "description": "Study of origin.",
+      "dataType": "string",
+      "levels": {
+        "burns": "Ale & Burns (2024)",
+        "monzel": "Monzel et al. (2024)",
+        "ruby": "Ruby (2025), unpublished",
+        "mas": "Mas & Luminet (2025), unpublished",
+        "kvamme": "Kvamme et al. (2026)"
+      },
+      "levelsOrdered": false
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "lang",
+      "description": "Language in which the study was administered.",
+      "dataType": "string",
+      "levels": {
+        "en": "English",
+        "fr": "French"
+      },
+      "levelsOrdered": false
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "id",
+      "description": "Unique participant identifier, of the form \"subj_<study>_<number>\". Unique across the whole pooled dataset (not just within study).",
+      "dataType": "string"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "sex",
+      "description": "Sex assigned at birth, as reported by the participant.",
+      "dataType": "string",
+      "levels": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "levelsOrdered": false,
+      "notes": "Distinct from `gender` below. For most participants sex and gender coincide; the Burns study collected both constructs separately and a small number of participants (n = 4) reported a sex and gender that differ."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "gender",
+      "description": "Gender identity, as reported by the participant, where collected separately from sex.",
+      "dataType": "string",
+      "levels": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "levelsOrdered": false
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "age",
+      "description": "Participant age in years, self-reported.",
+      "dataType": "integer",
+      "unitText": "years",
+      "minValue": 10,
+      "maxValue": 86,
+      "notes": "Missing for 3 participants."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq",
+      "description": "Total score on the Vividness of Visual Imagery Questionnaire (VVIQ; Marks, 1973), summed across all 16 items (see `vviq_q1`-`vviq_q16` below). Lower scores indicate weaker/absent visual imagery.",
+      "dataType": "integer",
+      "minValue": 16,
+      "maxValue": 80
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas",
+      "description": "Total score on the 20-item Toronto Alexithymia Scale (TAS-20; Bagby, Parker, & Taylor, 1994), summed across all 20 items (see `tas_q1`- `tas_q20` below, already reverse-scored where applicable). Higher scores indicate greater alexithymia.",
+      "dataType": "integer",
+      "minValue": 20,
+      "maxValue": 100
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_identify",
+      "description": "Difficulty Identifying Feelings (DIF) subscale of the TAS-20. Sum of items 1, 3, 6, 7, 9, 13, 14 (7 items).",
+      "dataType": "integer",
+      "minValue": 7,
+      "maxValue": 35
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_describe",
+      "description": "Difficulty Describing Feelings (DDF) subscale of the TAS-20. Sum of items 2, 4, 11, 12, 17 (5 items).",
+      "dataType": "integer",
+      "minValue": 5,
+      "maxValue": 25
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_external",
+      "description": "Externally Oriented Thinking (EOT) subscale of the TAS-20. Sum of items 5, 8, 10, 15, 16, 18, 19, 20 (8 items).",
+      "dataType": "integer",
+      "minValue": 8,
+      "maxValue": 40
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_group",
+      "description": "Categorical alexithymia status based on standard TAS-20 cutoff (total score >= 61 = alexithymia).",
+      "dataType": "string",
+      "levels": {
+        "typical_tas": "Total TAS-20 score 20-60 (non-alexithymic)",
+        "alexithymia": "Total TAS-20 score 61-100 (alexithymic)"
+      },
+      "levelsOrdered": true
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_group_4",
+      "description": "Categorical VVIQ group with 4 levels, based on standard VVIQ cutoffs.",
+      "dataType": "string",
+      "levels": {
+        "aphantasia": "VVIQ = 16 (complete absence of visual imagery)",
+        "hypophantasia": "VVIQ 17-32 (reduced visual imagery)",
+        "typical": "VVIQ 33-74 (typical visual imagery)",
+        "hyperphantasia": "VVIQ 75-80 (extremely vivid visual imagery)"
+      },
+      "levelsOrdered": true
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_group_3",
+      "description": "Categorical VVIQ group with 3 levels (typical and hyperphantasia collapsed).",
+      "dataType": "string",
+      "levels": {
+        "aphantasia": "VVIQ = 16",
+        "hypophantasia": "VVIQ 17-32",
+        "typical": "VVIQ 33-80 (typical and hyperphantasia collapsed)"
+      },
+      "levelsOrdered": true
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_group_2",
+      "description": "Categorical VVIQ group with 2 levels (broadest split).",
+      "dataType": "string",
+      "levels": {
+        "aphantasia": "VVIQ 16-32 (aphantasia and hypophantasia collapsed)",
+        "typical": "VVIQ 33-80 (typical and hyperphantasia collapsed)"
+      },
+      "levelsOrdered": true
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q1",
+      "description": "VVIQ item 1 of 16, from the scene \"a relative or friend you often see\" (items 1-4 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q2",
+      "description": "VVIQ item 2 of 16, from the scene \"a relative or friend you often see\" (items 1-4 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q3",
+      "description": "VVIQ item 3 of 16, from the scene \"a relative or friend you often see\" (items 1-4 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q4",
+      "description": "VVIQ item 4 of 16, from the scene \"a relative or friend you often see\" (items 1-4 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q5",
+      "description": "VVIQ item 5 of 16, from the scene \"the rising sun\" (items 5-8 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q6",
+      "description": "VVIQ item 6 of 16, from the scene \"the rising sun\" (items 5-8 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q7",
+      "description": "VVIQ item 7 of 16, from the scene \"the rising sun\" (items 5-8 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q8",
+      "description": "VVIQ item 8 of 16, from the scene \"the rising sun\" (items 5-8 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q9",
+      "description": "VVIQ item 9 of 16, from the scene \"the front of a familiar shop\" (items 9-12 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q10",
+      "description": "VVIQ item 10 of 16, from the scene \"the front of a familiar shop\" (items 9-12 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q11",
+      "description": "VVIQ item 11 of 16, from the scene \"the front of a familiar shop\" (items 9-12 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q12",
+      "description": "VVIQ item 12 of 16, from the scene \"the front of a familiar shop\" (items 9-12 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q13",
+      "description": "VVIQ item 13 of 16, from the scene \"a country scene with trees, mountains, and a lake\" (items 13-16 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q14",
+      "description": "VVIQ item 14 of 16, from the scene \"a country scene with trees, mountains, and a lake\" (items 13-16 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q15",
+      "description": "VVIQ item 15 of 16, from the scene \"a country scene with trees, mountains, and a lake\" (items 13-16 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "vviq_q16",
+      "description": "VVIQ item 16 of 16, from the scene \"a country scene with trees, mountains, and a lake\" (items 13-16 share this scene). Item wording not reproduced; see Marks (1973).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = perfectly clear and as vivid as normal vision; 5 = no image at all. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q1",
+      "description": "TAS-20 item 1 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q2",
+      "description": "TAS-20 item 2 of 20, DDF (Difficulty Describing Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q3",
+      "description": "TAS-20 item 3 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q4",
+      "description": "TAS-20 item 4 of 20, DDF (Difficulty Describing Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. This item is reverse-keyed on the original scale; values in this column are already reverse-scored (i.e. summing tas_q1-tas_q20 directly reproduces `tas`, no further reversal needed). Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q5",
+      "description": "TAS-20 item 5 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. This item is reverse-keyed on the original scale; values in this column are already reverse-scored (i.e. summing tas_q1-tas_q20 directly reproduces `tas`, no further reversal needed). Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q6",
+      "description": "TAS-20 item 6 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q7",
+      "description": "TAS-20 item 7 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q8",
+      "description": "TAS-20 item 8 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q9",
+      "description": "TAS-20 item 9 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q10",
+      "description": "TAS-20 item 10 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. This item is reverse-keyed on the original scale; values in this column are already reverse-scored (i.e. summing tas_q1-tas_q20 directly reproduces `tas`, no further reversal needed). Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q11",
+      "description": "TAS-20 item 11 of 20, DDF (Difficulty Describing Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q12",
+      "description": "TAS-20 item 12 of 20, DDF (Difficulty Describing Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q13",
+      "description": "TAS-20 item 13 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q14",
+      "description": "TAS-20 item 14 of 20, DIF (Difficulty Identifying Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q15",
+      "description": "TAS-20 item 15 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q16",
+      "description": "TAS-20 item 16 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q17",
+      "description": "TAS-20 item 17 of 20, DDF (Difficulty Describing Feelings) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q18",
+      "description": "TAS-20 item 18 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. This item is reverse-keyed on the original scale; values in this column are already reverse-scored (i.e. summing tas_q1-tas_q20 directly reproduces `tas`, no further reversal needed). Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q19",
+      "description": "TAS-20 item 19 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. This item is reverse-keyed on the original scale; values in this column are already reverse-scored (i.e. summing tas_q1-tas_q20 directly reproduces `tas`, no further reversal needed). Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "tas_q20",
+      "description": "TAS-20 item 20 of 20, EOT (Externally Oriented Thinking) subscale. Item wording not reproduced; see Bagby, Parker, & Taylor (1994).",
+      "dataType": "integer",
+      "minValue": 1,
+      "maxValue": 5,
+      "notes": "1 = strongly disagree; 5 = strongly agree. Missing for all 105 participants from the Monzel study, for whom only total/subscale scores were shared."
+    }
+  ]
+}

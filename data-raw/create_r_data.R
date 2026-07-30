@@ -3,7 +3,8 @@ pacman::p_load(
   here,
   tidyr,
   readxl,
-  stringr
+  stringr,
+  openxlsx
 )
 
 # Quick helper
@@ -76,7 +77,7 @@ df_burns <-
     study = "burns",
     lang = "en",
     id = paste0("subj_burns_", row_number()),
-    sex = ifelse(.data$sexatbirth == 1, "male", "female"),
+    sex = ifelse(.data$sexatbirth == 0, "male", "female"),
     gender = case_when(
       .data$currentgender == 1 ~ "male",
       .data$currentgender == 2 ~ "female",

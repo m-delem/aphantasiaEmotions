@@ -52,8 +52,6 @@ contains the following:
 (aphantasia/hypophantasia, typical/hyperphantasia)
 \item \code{items}: nested list-column with individual VVIQ and TAS item responses
 when available
-\item \code{other_data}: nested list-column with other questionnaire data collected
-in the studies that are not used in the current analyses
 }
 }
 \keyword{datasets}

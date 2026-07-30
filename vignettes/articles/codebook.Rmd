@@ -1,0 +1,198 @@
+---
+title: "Codebook"
+output: rmarkdown::html_vignette
+bibliography: ../references.bib
+csl: ../apa.csl
+vignette: >
+  %\VignetteIndexEntry{Codebook}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r setup}
+library(aphantasiaEmotions)
+```
+
+This page documents every column in `all_data`, the pooled dataset described on
+the [sample
+description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
+page. It is meant to serve the same purpose as the data dictionaries shared
+alongside the flat `merged_data.xlsx` file archived on
+[OSF](https://osf.io/), for anyone who wants to reuse the data without also
+pulling in this package.
+
+The tables below are computed directly from `all_data` rather than typed out
+by hand, so they cannot drift out of sync with the data itself. A
+machine-readable version of this same information, following the
+[Psych-DS](https://psych-ds.github.io/) `dataset_description.json`
+convention, is archived alongside the data on OSF.
+
+## Core variables
+
+```{r core-variables}
+core_variables <- tibble::tribble(
+  ~Variable,        ~Description,
+  "study",          "Study of origin.",
+  "lang",           "Language in which the study was administered.",
+  "id",             "Unique participant identifier (\"subj_<study>_<number>\"), unique across the whole pooled dataset.",
+  "sex",            "Sex assigned at birth, as reported by the participant.",
+  "gender",         "Gender identity, as reported by the participant, where collected separately from sex.",
+  "age",            "Participant age in years, self-reported.",
+  "vviq",           "Total score on the VVIQ [@marksVisualImageryDifferences1973], summed across all 16 items. Lower scores indicate weaker/absent visual imagery.",
+  "tas",            "Total score on the TAS-20 [@bagbyTwentyitemTorontoAlexithymia1994], summed across all 20 items (already reverse-scored where applicable). Higher scores indicate greater alexithymia.",
+  "tas_identify",   "Difficulty Identifying Feelings (DIF) subscale of the TAS-20. Sum of items 1, 3, 6, 7, 9, 13, 14.",
+  "tas_describe",   "Difficulty Describing Feelings (DDF) subscale of the TAS-20. Sum of items 2, 4, 11, 12, 17.",
+  "tas_external",   "Externally Oriented Thinking (EOT) subscale of the TAS-20. Sum of items 5, 8, 10, 15, 16, 18, 19, 20.",
+  "tas_group",      "Alexithymia status from the standard TAS-20 cutoff (total >= 61 = alexithymia).",
+  "vviq_group_4",   "VVIQ group, 4 levels: aphantasia, hypophantasia, typical, hyperphantasia.",
+  "vviq_group_3",   "VVIQ group, 3 levels: aphantasia, hypophantasia, typical (typical and hyperphantasia collapsed).",
+  "vviq_group_2",   "VVIQ group, 2 levels: aphantasia, typical (broadest split)."
+)
+
+summarise_column <- function(data, colname) {
+  x <- data[[colname]]
+  n_missing <- sum(is.na(x))
+
+  if (is.numeric(x)) {
+    range_txt <- paste0(min(x, na.rm = TRUE), "-", max(x, na.rm = TRUE))
+    type_txt <- "integer"
+  } else {
+    lvls <- if (colname!="id") sort(unique(x[!is.na(x)])) else "subj_[study]_[number]"
+    range_txt <- paste(lvls, collapse = ", ")
+    type_txt <- "string"
+  }
+
+  tibble::tibble(
+    Variable = colname,
+    Type = type_txt,
+    `Range / levels` = range_txt,
+    `N missing` = n_missing
+  )
+}
+
+core_summary <- purrr::map_dfr(core_variables$Variable, \(v) summarise_column(all_data, v))
+
+core_variables |>
+  dplyr::left_join(core_summary, by = "Variable") |>
+  dplyr::select(Variable, Description, Type, `Range / levels`, `N missing`) |>
+  knitr::kable()
+```
+
+## VVIQ item-level responses (`vviq_q1`-`vviq_q16`)
+
+The VVIQ [@marksVisualImageryDifferences1973] has no subscales; its 16 items
+are grouped into 4 scenes of 4 items each (a relative or friend you often see;
+the rising sun; the front of a familiar shop; a country scene with trees,
+mountains, and a lake), each rated 1 ("perfectly clear and as vivid as normal
+vision") to 5 ("no image at all"). **Item wording is not reproduced here**, as
+it is copyrighted by the scale's author — see @marksVisualImageryDifferences1973
+for the original items.
+
+```{r vviq-items}
+vviq_scenes <- c(
+  "a relative or friend you often see",
+  "the rising sun",
+  "the front of a familiar shop",
+  "a country scene with trees, mountains, and a lake"
+)
+
+vviq_item_table <- tibble::tibble(item = 1:16) |>
+  dplyr::mutate(
+    Variable = paste0("vviq_q", item),
+    Scene = vviq_scenes[ceiling(item / 4)]
+  )
+
+vviq_summary <- purrr::map_dfr(
+  vviq_item_table$Variable,
+  \(v) summarise_column(all_data |> tidyr::unnest(items, keep_empty = TRUE), v)
+)
+
+vviq_item_table |>
+  dplyr::left_join(vviq_summary, by = "Variable") |>
+  dplyr::select(Variable, Scene, Type, `Range / levels`, `N missing`) |>
+  knitr::kable()
+```
+
+Item-level VVIQ data are available for the burns, mas, ruby, and kvamme
+studies. They are missing (`NA`) for all `r sum(all_data$study == "monzel")`
+Monzel participants, for whom only total scores were shared.
+
+
+## TAS-20 item-level responses (`tas_q1`-`tas_q20`)
+
+The TAS-20 [@bagbyTwentyitemTorontoAlexithymia1994] has 20 items rated 1
+("strongly disagree") to 5 ("strongly agree"), assigned to the three
+sub-scales described above. **Item wording is not reproduced here**, as it is
+copyrighted by the scale's authors — see @bagbyTwentyitemTorontoAlexithymia1994
+for the original items.
+
+Five items (4, 5, 10, 18, 19) are reverse-keyed on the original scale.
+**Values in `tas_q4`, `tas_q5`, `tas_q10`, `tas_q18`, and `tas_q19` in
+`all_data`/`merged_data.xlsx` are already reverse-scored** — summing
+`tas_q1`-`tas_q20` directly reproduces the `tas` total column, with no
+further reversal needed.
+
+```{r tas-items}
+tas_subscale_of <- function(i) {
+  dplyr::case_when(
+    i %in% c(1, 3, 6, 7, 9, 13, 14)      ~ "DIF",
+    i %in% c(2, 4, 11, 12, 17)           ~ "DDF",
+    i %in% c(5, 8, 10, 15, 16, 18, 19, 20) ~ "EOT"
+  )
+}
+
+tas_reverse_scored <- c(4, 5, 10, 18, 19)
+
+tas_item_table <- tibble::tibble(item = 1:20) |>
+  dplyr::mutate(
+    Variable = paste0("tas_q", item),
+    Subscale = tas_subscale_of(item),
+    `Reverse-keyed` = ifelse(item %in% tas_reverse_scored, "yes (already reversed)", "")
+  )
+
+tas_summary <- purrr::map_dfr(
+  tas_item_table$Variable,
+  \(v) summarise_column(all_data |> tidyr::unnest(items, keep_empty = TRUE), v)
+)
+
+tas_item_table |>
+  dplyr::left_join(tas_summary, by = "Variable") |>
+  dplyr::select(
+    Variable, Subscale, `Reverse-keyed`, Type, `Range / levels`, `N missing`) |>
+  knitr::kable()
+```
+
+Item-level TAS-20 data are available for the same four studies as the VVIQ
+items above, and missing for the same `r sum(all_data$study == "monzel")`
+Monzel participants.
+
+## A note on `sex` and `gender`
+
+For most participants, `sex` and `gender` coincide. The Burns study collected
+both constructs separately, and a small number of participants
+(n = `r sum(all_data$sex != all_data$gender, na.rm = TRUE)`) reported a sex
+and gender that differ.
+
+--------------------------------------------------------------------------------
+
+**Continuing through the Extended Online Report:** this page is a technical
+reference, linked to from the narrative pages rather than meant to be read
+start to finish. See the [sample
+description](https://m-delem.github.io/aphantasiaEmotions/articles/sample-description.html)
+page for how the five studies were combined, or [implementation
+notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html)
+for the modelling code's conventions.
+
+## References

@@ -25,8 +25,6 @@
 #'   (aphantasia/hypophantasia, typical/hyperphantasia)   
 #' - `items`: nested list-column with individual VVIQ and TAS item responses
 #'   when available
-#' - `other_data`: nested list-column with other questionnaire data collected
-#'   in the studies that are not used in the current analyses 
 #'
 #' @source Data collected by various teams in online experiments:
 #' - Ale & Burns (2024): https://doi.org/10.31234/osf.io/kj5d3 

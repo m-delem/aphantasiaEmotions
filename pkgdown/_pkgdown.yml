@@ -67,6 +67,8 @@ navbar:
           href: articles/for-those-who-come-after.html
         - text: "----"
         - text: "Technical details"
+        - text: "Codebook"
+          href: articles/codebook.html
         - text: "Model diagnostics"
           href: articles/model-diagnostics.html
         - text: "Superseded models"
