@@ -6,7 +6,7 @@ contains the code and data to reproduce the analyses presented in the
 article “*The Linear Relationship Between Visual Imagery and Alexithymia
 Breaks When Imagery Is Absent: Complete Aphantasics Are No More
 Alexithymic Than Typical Imagers* ”. You can read the preprint
-[here](https://doi.org/10.31234/osf.io/es425_v2). This repository is
+[here](https://doi.org/10.31234/osf.io/es425_v3). This repository is
 archived with a permanent DOI on the Open Science Framework
 [here](https://osf.io/b837s/).
 
@@ -14,7 +14,7 @@ Below is the graphical abstract of this study, which summarises the main
 finding that came out of the analyses.
 
 ![Graphical abstract for the
-study.](reference/figures/graphical_abstract_v2_wide.png)
+study.](reference/figures/graphical_abstract_v3_square.png)
 
 ## What exactly is in this R package?
 
@@ -54,6 +54,20 @@ the full account. It is organised as follows:
 - [**For those who come
   after**](https://m-delem.github.io/aphantasiaEmotions/articles/for-those-who-come-after.html):
   promising directions this project didn’t have time to pursue fully.
+- [**Codebook**](https://m-delem.github.io/aphantasiaEmotions/articles/codebook.html):
+  a page documenting every column in `all_data` in depth.
+- [**Model
+  diagnostics**](https://m-delem.github.io/aphantasiaEmotions/articles/model-diagnostics.html):
+  a technical page reporting all diagnostic checks computed on the
+  study’s fitted models.
+- [**Superseded
+  models**](https://m-delem.github.io/aphantasiaEmotions/articles/superseded-models.html):
+  an archive of the results of the 4-group and GAM models that were
+  originally the study’s main models, before model comparison preferred
+  new models inspired by peers.
+- [**Implementation
+  notes**](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-notes.html):
+  technical details about model design, fitting and reporting.
 
 If you’d rather get straight to using the package yourself, the [**Get
 Started**](https://m-delem.github.io/aphantasiaEmotions/articles/aphantasiaEmotions.html)

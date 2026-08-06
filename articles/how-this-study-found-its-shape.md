@@ -399,16 +399,16 @@ facilitates the recognition of emotions in oneself and others.
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-07-30
+    #>  date     2026-08-06
     #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version date (UTC) lib source
-    #>    aphantasiaEmotions * 1.0     2026-07-30 [1] local
+    #>    aphantasiaEmotions * 1.0     2026-08-06 [1] local
     #>    backports            1.5.1   2026-04-03 [1] RSPM
     #>    bayestestR           0.18.1  2026-05-24 [1] RSPM
-    #>  P bslib                0.11.0  2026-05-16 [?] RSPM
+    #>  P bslib                0.12.0  2026-08-04 [?] RSPM
     #>  P cachem               1.1.0   2024-05-16 [?] RSPM
     #>    checkmate            2.3.4   2026-02-03 [1] RSPM
     #>  P cli                  3.6.6   2026-04-09 [?] RSPM

@@ -227,20 +227,20 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-07-30
+    #>  date     2026-08-06
     #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-07-30 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-08-06 [1] local
     #>    backports            1.5.1    2026-04-03 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bridgesampling       1.2-1    2025-11-19 [1] RSPM
     #>    brms                 2.23.0   2025-09-09 [1] RSPM
     #>    Brobdingnag          1.2-9    2022-10-19 [1] RSPM
-    #>  P bslib                0.11.0   2026-05-16 [?] RSPM
+    #>  P bslib                0.12.0   2026-08-04 [?] RSPM
     #>  P cachem               1.1.0    2024-05-16 [?] RSPM
     #>    checkmate            2.3.4    2026-02-03 [1] RSPM
     #>  P cli                  3.6.6    2026-04-09 [?] RSPM
@@ -295,7 +295,7 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
     #>  P ragg                 1.5.2    2026-03-23 [?] RSPM
     #>    RColorBrewer         1.1-3    2022-04-03 [1] RSPM
     #>  P Rcpp                 1.1.2    2026-07-05 [?] RSPM
-    #>    RcppParallel         6.1.1    2026-07-27 [1] RSPM
+    #>    RcppParallel         6.2.0    2026-07-30 [1] RSPM
     #>    renv                 1.1.4    2025-03-20 [1] RSPM (R 4.6.1)
     #>  P rlang                1.3.0    2026-07-05 [?] RSPM
     #>  P rmarkdown            2.31     2026-03-26 [?] RSPM
@@ -309,7 +309,7 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
     #>    showtext             0.9-8    2026-03-21 [1] RSPM
     #>    showtextdb           3.0      2020-06-04 [1] RSPM
     #>    StanHeaders          2.32.10  2024-07-15 [1] RSPM
-    #>  P stringi              1.8.7    2025-03-27 [?] RSPM
+    #>  P stringi              1.8.9    2026-08-04 [?] RSPM
     #>    stringr              1.6.0    2025-11-04 [1] RSPM
     #>    sysfonts             0.8.9    2024-03-02 [1] RSPM
     #>  P systemfonts          1.3.2    2026-03-05 [?] RSPM
