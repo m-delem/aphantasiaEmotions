@@ -202,11 +202,13 @@ p_contr_2g_tot <- plot_posterior_contrasts(
 p_2g_tot <- plot_group_violins(
   tas ~ vviq_group_2,
   y_lab = "Total TAS Score",
-  base_size = 12
+  base_size = 12,
+  violin_flip = 1,
+  violin_nudge = c(-0.2, 0.2)
   ) +
   plot_alexithymia_cutoff(txt_size = 2, txt_x = 1.4, label = "Alexithymia") +
   scale_discrete_aphantasia() +
-  scale_x_aphantasia(add = c(0.4, 0.7))
+  scale_x_aphantasia(add = c(0.7, 0.7))
 
 p_2g_tot + p_contr_2g_tot
 ```

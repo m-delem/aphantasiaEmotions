@@ -35,6 +35,8 @@ baseline_panel <-
     title = "The common approach",
     x_lab = "Visual imagery group",
     y_lab = "Alexithymia score",
+    violin_flip = 1,
+    violin_nudge = c(-0.2, 0.2),
     dot_size = 0.1,
     middle.linewidth = 0.3,
     base_size = base_size,
@@ -59,7 +61,7 @@ baseline_panel <-
       size = ggplot2::rel(ax_titles), 
       margin = ggplot2::margin(r = ax_margins)),
     axis.text.x.bottom = ggplot2::element_text(
-      hjust = 0.25,
+      hjust = 0.5,
       margin = ggplot2::margin(t = ax_margins)),
     axis.text.y.left = ggplot2::element_text(
       margin = ggplot2::margin(r = ax_margins)),
@@ -78,7 +80,7 @@ baseline_panel <-
     labels = c(
       "aphantasia" = "Aphantasics\n(VVIQ \u2264 32)\nN = 288", 
       "typical" = "Imagers\n(VVIQ > 32)\nN = 1190"),
-    expand = ggplot2::expansion(mult = 0, add = c(0.4, 0.7))
+    expand = ggplot2::expansion(mult = 0, add = c(0.7, 0.7))
   )
 
 # ----------------------------------------------------------------------

@@ -13,9 +13,11 @@ panel_2group <-
     data = all_data,
     y_lab = "Total TAS score",
     x_lab = NULL,
-    base_size = 8
+    base_size = 8,
+    violin_flip = 1,
+    violin_nudge = c(-0.2, 0.2)
   ) +
-  scale_x_aphantasia(add = c(0.4, 0.7)) +
+  scale_x_aphantasia(add = c(0.7, 0.7)) +
   # Override plot_group_violins()'s default discrete colour/fill mapping
   # with a uniform grey for BOTH groups — deliberately undifferentiated.
   ggplot2::scale_color_manual(values = c("grey50", "grey50"), guide = "none") +
