@@ -94,9 +94,11 @@ p_2g <-
     tas ~ vviq_group_2,
     data = all_data,
     y_lab = "Total TAS score",
-    base_size = 16
+    base_size = 16,
+    violin_flip = 1,
+    violin_nudge = c(-0.2, 0.2)
   ) +
-  scale_x_aphantasia() +
+  scale_x_aphantasia(add = c(0.7, 0.7)) +
   ggplot2::scale_color_manual(values = c("grey50", "grey50"), guide = "none") +
   ggplot2::scale_fill_manual(values = c("grey50", "grey50"), guide = "none") +
   ggplot2::labs(title = "The common approach")
@@ -108,7 +110,7 @@ p_4g <-
     y_lab = NULL,
     base_size = 16
   ) +
-  scale_x_aphantasia() +
+  scale_x_aphantasia(add = c(0.4, 0.7)) +
   scale_discrete_aphantasia() +
   ggplot2::labs(title = "A finer-grained 4-group alternative")
 
@@ -623,14 +625,14 @@ precise information in visual working memory. *Cognition*, *251*,
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-08-06
+    #>  date     2026-08-07
     #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-08-06 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-08-07 [1] local
     #>    backports            1.5.1    2026-04-03 [1] RSPM
     #>    bayesplot            1.15.0   2025-12-12 [1] RSPM
     #>    bayestestR           0.18.1   2026-05-24 [1] RSPM

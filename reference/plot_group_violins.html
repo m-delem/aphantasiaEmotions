@@ -72,6 +72,8 @@ intervals.</p>
 <span>  box.linewidth <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  middle.linewidth <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  violin_width <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  violin_flip <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  violin_nudge <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  subtitle <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  caption <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -113,6 +115,28 @@ Default is 0.5.</p></dd>
 
 <dt id="arg-violin-width">violin_width<a class="anchor" aria-label="anchor" href="#arg-violin-width"></a></dt>
 <dd><p>Width of the half-violins. Default is 0.7.</p></dd>
+
+
+<dt id="arg-violin-flip">violin_flip<a class="anchor" aria-label="anchor" href="#arg-violin-flip"></a></dt>
+<dd><p>Option passed to <code><a href="https://easystats.github.io/see/reference/geom_violinhalf.html" class="external-link">see::geom_violinhalf()</a></code>'s <code>flip</code> argument.
+Should the half-violin plot switch directions?
+By default, this is FALSE and all half-violin geoms will have the flat-side
+on facing leftward.
+If flip = TRUE, then all flat-sides will face rightward.
+Optionally, a numeric vector can be supplied indicating which specific geoms
+should be flipped (matches <code><a href="https://easystats.github.io/see/reference/geom_violinhalf.html" class="external-link">see::geom_violinhalf()</a></code>'s own semantics: the
+vector gives the 1-indexed group numbers, in level order, to flip).</p></dd>
+
+
+<dt id="arg-violin-nudge">violin_nudge<a class="anchor" aria-label="anchor" href="#arg-violin-nudge"></a></dt>
+<dd><p>Signed horizontal distance to move the half-violins
+away from the group's x tick (negative moves left, positive moves right).
+Can be a single value (applied to every group) or a vector with one signed
+value per group (in level order). This is independent from <code>violin_flip</code>:
+flip controls which side the violin's flat edge faces, nudge controls how
+far and which direction it is displaced from the tick. Each group is drawn
+as its own layer internally, so flip and nudge can be combined freely
+without one throwing off the other.</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>

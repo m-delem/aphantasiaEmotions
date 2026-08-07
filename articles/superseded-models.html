@@ -839,11 +839,13 @@ diagnostics §GAM</a>.)</p>
 <span><span class="va">p_2g_tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_group_violins.html">plot_group_violins</a></span><span class="op">(</span></span>
 <span>  <span class="va">tas</span> <span class="op">~</span> <span class="va">vviq_group_2</span>,</span>
 <span>  y_lab <span class="op">=</span> <span class="st">"Total TAS Score"</span>,</span>
-<span>  base_size <span class="op">=</span> <span class="fl">12</span></span>
+<span>  base_size <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>  violin_flip <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  violin_nudge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.2</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/plot_alexithymia_cutoff.html">plot_alexithymia_cutoff</a></span><span class="op">(</span>txt_size <span class="op">=</span> <span class="fl">2</span>, txt_x <span class="op">=</span> <span class="fl">1.4</span>, label <span class="op">=</span> <span class="st">"Alexithymia"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/scale_discrete_aphantasia.html">scale_discrete_aphantasia</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/scale_x_aphantasia.html">scale_x_aphantasia</a></span><span class="op">(</span>add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.7</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_2g_tot</span> <span class="op">+</span> <span class="va">p_contr_2g_tot</span></span></code></pre></div>
 <p><img src="superseded-models_files/figure-html/categorical-2g-tot-1.png" class="r-plt" alt="Left: violin plots of total TAS score by 2-group VVIQ split (aphantasia, VVIQ &lt;= 32, vs. typical), with the clinical alexithymia cutoff marked. Right: posterior contrast between the two groups, with ROPE-based evidence annotation." width="768"></p>
@@ -873,14 +875,14 @@ page</a>.</p>
 <span><span class="co">#&gt;  collate  C.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    C.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       UTC</span></span>
-<span><span class="co">#&gt;  date     2026-08-06</span></span>
+<span><span class="co">#&gt;  date     2026-08-07</span></span>
 <span><span class="co">#&gt;  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt;  quarto   NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">!</span> <span style="color: #555555; font-style: italic;">package           </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
 <span><span class="co">#&gt;    abind                1.4-8    <span style="color: #555555;">2024-09-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
-<span><span class="co">#&gt;    aphantasiaEmotions * 1.0      <span style="color: #555555;">2026-08-06</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;    aphantasiaEmotions * 1.0      <span style="color: #555555;">2026-08-07</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;    backports            1.5.1    <span style="color: #555555;">2026-04-03</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bayesplot            1.15.0   <span style="color: #555555;">2025-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>
 <span><span class="co">#&gt;    bayestestR           0.18.1   <span style="color: #555555;">2026-05-24</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">RSPM</span></span></span>

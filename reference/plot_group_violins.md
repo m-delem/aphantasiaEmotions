@@ -14,6 +14,8 @@ plot_group_violins(
   box.linewidth = 0.1,
   middle.linewidth = 0.5,
   violin_width = 0.7,
+  violin_flip = FALSE,
+  violin_nudge = 0.2,
   title = NULL,
   subtitle = NULL,
   caption = NULL,
@@ -53,6 +55,30 @@ plot_group_violins(
 - violin_width:
 
   Width of the half-violins. Default is 0.7.
+
+- violin_flip:
+
+  Option passed to
+  [`see::geom_violinhalf()`](https://easystats.github.io/see/reference/geom_violinhalf.html)'s
+  `flip` argument. Should the half-violin plot switch directions? By
+  default, this is FALSE and all half-violin geoms will have the
+  flat-side on facing leftward. If flip = TRUE, then all flat-sides will
+  face rightward. Optionally, a numeric vector can be supplied
+  indicating which specific geoms should be flipped (matches
+  [`see::geom_violinhalf()`](https://easystats.github.io/see/reference/geom_violinhalf.html)'s
+  own semantics: the vector gives the 1-indexed group numbers, in level
+  order, to flip).
+
+- violin_nudge:
+
+  Signed horizontal distance to move the half-violins away from the
+  group's x tick (negative moves left, positive moves right). Can be a
+  single value (applied to every group) or a vector with one signed
+  value per group (in level order). This is independent from
+  `violin_flip`: flip controls which side the violin's flat edge faces,
+  nudge controls how far and which direction it is displaced from the
+  tick. Each group is drawn as its own layer internally, so flip and
+  nudge can be combined freely without one throwing off the other.
 
 - title:
 
