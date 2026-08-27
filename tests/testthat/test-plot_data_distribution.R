@@ -18,9 +18,16 @@ test_that("ggplot2 wrappers work properly", {
       base_size = 12
     ) +
     scale_x_aphantasia(add = c(0.4, 0.7))
+  p4 <- 
+    plot_group_violins(
+      tas ~ vviq_group_4, 
+      violin_flip = c(1, 2),
+      violin_nudge = c(0.1, 0.1, 0.1, 0.1)
+    )
   
   expect_contains(class(p1), c("gg", "ggplot"))
   expect_contains(class(p2), c("gg", "ggplot"))
   expect_contains(class(p3), c("gg", "ggplot"))
+  expect_error(plot_group_violins(tas ~ vviq_group_4, violin_nudge = c(1, 1)))
 })
 

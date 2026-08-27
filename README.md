@@ -8,18 +8,19 @@
 <a href="https://osf.io/b837s/" target="_blank"><img src="https://img.shields.io/badge/OSF-https://osf.io/b837s/-337AB7?logo=osf" alt="OSF badge"/></a>
 <a href="https://m-delem.github.io/aphantasiaEmotions/" target="_blank"><img alt="Docs badge" src="https://img.shields.io/badge/Documentation-website-009e73?style=flat&logo=Google%20Docs&logoColor=009e73&logoSize=auto"/></a>
 <a href="https://app.codecov.io/gh/m-delem/aphantasiaEmotions" target="_blank"><img alt="Codecov test coverage" src="https://codecov.io/gh/m-delem/aphantasiaEmotions/graph/badge.svg" /></a>
-<a href="https://doi.org/10.31234/osf.io/es425_v3" target="_blank"><img alt="DOI badge" src="https://img.shields.io/badge/Preprint-white?style=flat&logo=osf&logoColor=337AB7&logoSize=auto"/></a>
+<a href="https://doi.org/10.24072/pcjournal.772" target="_blank"><img alt="DOI badge" src="https://img.shields.io/badge/Published%20in%20PCJ-white?style=flat&logo=openaccess&logoColor=F68212&logoSize=auto"/></a>
 <!-- badges: end -->
 
 aphantasiaEmotions is a data analysis project and an *Extended Online
 Report* (see below) wrapped in an R package for reproducibility[^1]. It
 contains the code and data to reproduce the analyses presented in the
-article “*The Linear Relationship Between Visual Imagery and Alexithymia
-Breaks When Imagery Is Absent: Complete Aphantasics Are No More
-Alexithymic Than Typical Imagers* ”. You can read the preprint
-<a href="https://doi.org/10.31234/osf.io/es425_v3" target="_blank">here</a>.
-This repository is archived with a permanent DOI on the Open Science
-Framework <a href="https://osf.io/b837s/" target="_blank">here</a>.
+article
+<a href="https://doi.org/10.24072/pcjournal.772" target="_blank">“*The
+Linear Relationship Between Visual Imagery and Alexithymia Breaks When
+Imagery Is Absent: Complete Aphantasics Are No More Alexithymic Than
+Typical Imagers* ”</a>. This repository is archived with a permanent DOI
+on the Open Science Framework
+<a href="https://osf.io/b837s/" target="_blank">here</a>.
 
 Below is the graphical abstract of this study, which summarises the main
 finding that came out of the analyses.
