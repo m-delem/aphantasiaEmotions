@@ -3,11 +3,11 @@
 aphantasiaEmotions is a data analysis project and an *Extended Online
 Report* (see below) wrapped in an R package for reproducibility[^1]. It
 contains the code and data to reproduce the analyses presented in the
-article “*The Linear Relationship Between Visual Imagery and Alexithymia
-Breaks When Imagery Is Absent: Complete Aphantasics Are No More
-Alexithymic Than Typical Imagers* ”. You can read the preprint
-[here](https://doi.org/10.31234/osf.io/es425_v3). This repository is
-archived with a permanent DOI on the Open Science Framework
+article [“*The Linear Relationship Between Visual Imagery and
+Alexithymia Breaks When Imagery Is Absent: Complete Aphantasics Are No
+More Alexithymic Than Typical Imagers*
+”](https://doi.org/10.24072/pcjournal.772). This repository is archived
+with a permanent DOI on the Open Science Framework
 [here](https://osf.io/b837s/).
 
 Below is the graphical abstract of this study, which summarises the main

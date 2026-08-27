@@ -435,14 +435,14 @@ Analysis. *Assessment*, *29*(8), 1806–1823.
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-08-07
+    #>  date     2026-08-27
     #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-08-07 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-08-27 [1] local
     #>    backports            1.5.1    2026-04-03 [1] RSPM
     #>    broom                1.0.13   2026-05-14 [1] RSPM
     #>  P bslib                0.12.0   2026-08-04 [?] RSPM
@@ -452,7 +452,7 @@ Analysis. *Assessment*, *29*(8), 1806–1823.
     #>  P cli                  3.6.6    2026-04-09 [?] RSPM
     #>    cowplot              1.2.0    2025-07-07 [1] RSPM
     #>  P crayon               1.5.3    2024-06-20 [?] RSPM
-    #>  P curl                 7.1.0    2026-04-22 [?] RSPM
+    #>  P curl                 8.0.0    2026-08-25 [?] RSPM
     #>  P desc                 1.4.3    2023-12-10 [?] RSPM
     #>  P devtools           * 2.5.2    2026-04-30 [?] RSPM
     #>  P digest               0.6.39   2025-11-19 [?] RSPM
@@ -468,7 +468,7 @@ Analysis. *Assessment*, *29*(8), 1806–1823.
     #>    ggpubr             * 1.0.0    2026-07-06 [1] RSPM
     #>    ggsignif             0.6.4    2022-10-13 [1] RSPM
     #>  P glue                 1.8.1    2026-04-17 [?] RSPM
-    #>    GPArotation          2026.8-1 2026-08-03 [1] RSPM
+    #>    GPArotation          2026.8-2 2026-08-22 [1] RSPM
     #>    gtable               0.3.6    2024-10-25 [1] RSPM
     #>  P htmltools            0.5.9    2025-12-04 [?] RSPM
     #>  P htmlwidgets          1.6.4    2023-12-06 [?] RSPM
