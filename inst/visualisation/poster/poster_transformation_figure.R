@@ -149,6 +149,10 @@ p_hist <-
     base_size       = base_size,
     floor_linewidth = 0.2 * s
   ) +
+  scale_x_vviq(
+    limits = c(6, 81), 
+    breaks = NULL,
+    expand = ggplot2::expansion(mult = c(0.02, 0))) +
   ggplot2::annotate(
     "text",
     x = 31, y = 112, hjust = 0, lineheight = 0.95,
@@ -163,6 +167,7 @@ p_hist <-
     arrow = grid::arrow(length = grid::unit(0.45 * s, "mm"), type = "closed")
   ) +
   ggplot2::labs(title = "What is actually there") +
+  ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.1 * s) +
   ggplot2::theme(
     legend.position = "none",
     plot.title = ggplot2::element_text(
@@ -179,6 +184,8 @@ p_floor <-
     y_lab       = "Alexithymia score (TAS-20)",
     x_lab       = "Visual imagery vividness (VVIQ)",
     vviq_breaks = seq(16, 80, 8),
+    limits = c(6, 81),
+    stat_label_x = 7,
     tas_breaks  = tas_breaks,
     xbar_label  = "Sample\nmean",
     base_size   = base_size,
@@ -206,7 +213,7 @@ p_floor <-
 # hunt for a legend. Replaces the colourbar, which said nothing the x-axis
 # was not already saying.
 key_x <- 20
-key_y <- c(94, 88.5, 83.2)
+key_y <- c(94, 88.5, 85.2)
 
 p_floor <-
   p_floor +
@@ -243,10 +250,10 @@ p_floor <-
     size = 2.0 * s, colour = grey_dark
   ) +
   ggplot2::labs(caption = paste0(
-    "Above-floor slope: -0.27 [-0.35, -0.19], pd = 99.9%.   ",
-    "Floor-group shift: -8.41 [-11.15, -5.66].\n",
-    "Best of six models by cross-validation; the runner-up, ",
-    "free to break anywhere, broke there too."
+    "Floor-group shift: -8.41 [-11.15, -5.66].    ",
+    "Above-floor slope: -0.27 [-0.35, -0.19], pd = 99.9%.\n",
+    "Best of six models by cross-validation; the runner-up,",
+    "free to break anywhere, also broke the relationship close to the floor."
   )) +
   ggplot2::theme(
     legend.position = "none",
@@ -261,11 +268,13 @@ p_floor <-
 # A and S occupy the same rows, which is what makes patchwork align their
 # panels and therefore their alexithymia scales. Q is the QR void.
 design <- c(
-  patchwork::area( 5,  1, 16,  9),   # A  common approach
-  patchwork::area( 9, 10, 11, 12),   # R  arrow
+  # patchwork::area( 5,  1, 16,  9),   # A  common approach v1
+  patchwork::area( 3,  1, 14,  9),   # A  common approach v2
+  patchwork::area( 5, 10, 9, 12),   # R  arrow
   patchwork::area( 1, 13,  4, 30),   # H  histogram
   patchwork::area( 5, 13, 16, 30),   # S  floor-group model
-  patchwork::area( 1,  1,  4,  9)    # Q  QR void
+  # patchwork::area( 1,  1,  4,  9)    # Q  QR void v1
+  patchwork::area( 15,  1,  16,  9)    # Q  QR void v2
 )
 
 poster_figure <-
@@ -283,7 +292,7 @@ out_dir <- here::here("inst/visualisation/poster")
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Set preview <- TRUE while tuning: same layout, same millimetres, small file.
-preview <- FALSE
+preview <- TRUE
 res     <- if (preview) 60 else 300
 file    <- file.path(
   out_dir,
