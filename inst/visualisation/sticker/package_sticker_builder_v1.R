@@ -18,7 +18,7 @@ p_base <-
 
 save_ggplot(
   p_base,
-  path = here::here("inst/visualisation/package_sticker_base.jpg"),
+  path = here::here("inst/visualisation/sticker/package_sticker_base.jpg"),
   width = 1200,
   height = 1200,
   dpi = 600,
@@ -28,7 +28,7 @@ save_ggplot(
 
 base_cropped <- 
   cropcircles::hex_crop(
-    images = "inst/visualisation/package_sticker_base.jpg",
+    images = "inst/visualisation/sticker/package_sticker_base.jpg",
     border_colour = "#394049",
     border_size = 7
   )
@@ -53,12 +53,12 @@ p <-
   ggplot2::theme_void()
 
 ggplot2::ggsave(
-  filename = "inst/visualisation/package_sticker.png",
+  filename = "inst/visualisation/sticker/package_sticker.png",
   plot = p,
   width = 5.18,
   height = 6,
   dpi = 300
 )
 
-usethis::use_logo(here::here("inst/visualisation/package_sticker.png"))
+usethis::use_logo(here::here("inst/visualisation/sticker/package_sticker.png"))
 pkgdown::build_favicons()

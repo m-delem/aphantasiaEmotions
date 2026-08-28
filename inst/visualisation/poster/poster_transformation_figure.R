@@ -82,33 +82,39 @@ p_common <-
     dot_size  = 0.5 * s,
     base_size = base_size,
     box.linewidth    = 0.1 * s,
-    middle.linewidth = 0.5 * s
+    middle.linewidth = 0.5 * s,
+    violin_flip = 1,
+    violin_nudge = c(-0.2, 0.2),
   ) +
-  ggplot2::scale_colour_manual(values = c(grey_dark, grey_dark)) +
-  ggplot2::scale_fill_manual(values = c(grey_mid, grey_mid)) +
-  ggplot2::scale_x_discrete(labels = c(
-    aphantasia = glue::glue("Aphantasics\n(VVIQ \u2264 32)\nN = {n_aph}"),
-    typical    = glue::glue("Imagers\n(VVIQ > 32)\nN = {n_typ}")
-  )) +
-  ggplot2::coord_cartesian(ylim = tas_limits) +
-  ggplot2::labs(
+  scale_colour_manual(values = c(grey_dark, grey_dark)) +
+  scale_fill_manual(values = c(grey_mid, grey_mid)) +
+  scale_x_discrete(
+    labels = c(
+      aphantasia = glue::glue("Aphantasics\n(VVIQ \u2264 32)\nN = {n_aph}"),
+      typical    = glue::glue("Imagers\n(VVIQ > 32)\nN = {n_typ}")
+    ),
+    expand = expansion(mult = 0.7)
+  ) +
+  coord_cartesian(ylim = tas_limits) +
+  labs(
     title   = "The common approach",
     caption = glue::glue(
       "Conclusion: aphantasics are\nmore alexithymic ",
       "(\u0394 = {sprintf('%.1f', delta_2g)} points)"
     )
   ) +
-  ggplot2::theme(
+  theme(
     legend.position = "none",
-    plot.title = ggplot2::element_text(
-      colour = grey_dark, hjust = 0.5, face = "bold", size = ggplot2::rel(1.15)
+    plot.title = element_text(
+      colour = grey_dark, hjust = 0.5, face = "bold", size = rel(1.15)
     ),
-    plot.caption = ggplot2::element_text(
-      colour = grey_dark, hjust = 0.5, size = ggplot2::rel(0.85)
+    plot.caption = element_text(
+      colour = grey_dark, hjust = 0.5, size = rel(0.85)
     ),
-    panel.border = ggplot2::element_rect(
+    panel.border = element_rect(
       colour = "grey85", fill = NA, linewidth = 0.2 * s
-    )
+    ),
+    axis.title.x = element_text(margin = margin(t = 5 * s))
   )
 
 # plot_group_violins() hardcodes alphas tuned for a small figure; at A0 the
@@ -120,22 +126,22 @@ p_common$layers[[3]]$aes_params$alpha <- 0.50   # half violin
 # 4. Panel B: the turn ----
 
 p_arrow <-
-  ggplot2::ggplot() +
-  ggplot2::annotate(
+  ggplot() +
+  annotate(
     "segment",
     x = 0.12, xend = 0.88, y = 0.42, yend = 0.42,
     linewidth = 0.45 * s, colour = grey_mid,
     arrow = grid::arrow(length = grid::unit(0.5 * s, "mm"), type = "closed")
   ) +
-  ggplot2::annotate(
+  annotate(
     "text",
     x = 0.5, y = 0.56, label = "Unless\u2026",
     family = "Montserrat", fontface = "italic",
     size = 2.2 * s, colour = grey_dark
   ) +
-  ggplot2::xlim(0, 1) +
-  ggplot2::ylim(0, 1) +
-  ggplot2::theme_void()
+  xlim(0, 1) +
+  ylim(0, 1) +
+  theme_void()
 
 # 5. Panel C: the distribution ----
 
@@ -152,26 +158,26 @@ p_hist <-
   scale_x_vviq(
     limits = c(6, 81), 
     breaks = NULL,
-    expand = ggplot2::expansion(mult = c(0.02, 0))) +
-  ggplot2::annotate(
+    expand = expansion(mult = c(0.02, 0))) +
+  annotate(
     "text",
     x = 31, y = 112, hjust = 0, lineheight = 0.95,
     label = glue::glue("Complete aphantasia (VVIQ = 16)\nN = {n_flr}"),
     family = "Montserrat", fontface = "bold",
     size = 2.3 * s, colour = floor_dk
   ) +
-  ggplot2::annotate(
+  annotate(
     "curve",
     x = 29.5, xend = 17.8, y = 118, yend = 126,
     curvature = 0.32, linewidth = 0.35 * s, colour = floor_dk,
     arrow = grid::arrow(length = grid::unit(0.45 * s, "mm"), type = "closed")
   ) +
-  ggplot2::labs(title = "What is actually there") +
-  ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.1 * s) +
-  ggplot2::theme(
+  labs(title = "What is actually there") +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.2 * s) +
+  theme(
     legend.position = "none",
-    plot.title = ggplot2::element_text(
-      colour = violet, hjust = 0.5, face = "bold", size = ggplot2::rel(1.15)
+    plot.title = element_text(
+      colour = violet, hjust = 0.5, face = "bold", size = rel(1.15)
     )
   )
 
@@ -207,60 +213,61 @@ p_floor <-
     mean_line_width   = 0.2 * s,
     floor_label_color = "transparent"
   ) +
-  ggplot2::coord_cartesian(ylim = tas_limits)
+  coord_cartesian(ylim = tas_limits)
 
 # Predicted/observed key, using the panel's own two markers so nobody has to
 # hunt for a legend. Replaces the colourbar, which said nothing the x-axis
 # was not already saying.
 key_x <- 20
-key_y <- c(94, 88.5, 85.2)
+key_y <- c(93.5, 89, 85.7)
 
 p_floor <-
   p_floor +
-  ggplot2::annotate(
+  annotate(
     "rect",
-    xmin = 17.4, xmax = 47, ymin = 80.4, ymax = 97,
+    xmin = 17.4, xmax = 47, ymin = 84.4, ymax = 97,
     fill = "white", alpha = 0.95
   ) +
-  ggplot2::annotate(
+  annotate(
     "point", x = key_x, y = key_y[1],
     shape = 4, size = 2 * s, stroke = 0.8 * s, colour = "black"
   ) +
-  ggplot2::annotate(
+  annotate(
     "text", x = key_x + 2.2, y = key_y[1], hjust = 0,
     label = "Predicted: 59",
     family = "Montserrat", fontface = "bold",
     size = 2.6 * s, colour = "black"
   ) +
-  ggplot2::annotate(
+  annotate(
     "point", x = key_x, y = key_y[2],
     shape = 21, size = 1.5 * s, stroke = 0.5 * s,
     fill = floor_red, colour = floor_dk
   ) +
-  ggplot2::annotate(
+  annotate(
     "text", x = key_x + 2.2, y = key_y[2], hjust = 0,
     label = "Observed: 51",
     family = "Montserrat", fontface = "bold",
     size = 2.6 * s, colour = "black"
   ) +
-  ggplot2::annotate(
+  annotate(
     "text", x = key_x + 2.2, y = key_y[3], hjust = 0,
-    label = "the level of an ordinary imager",
+    label = "the level of a typical imager",
     family = "Montserrat", fontface = "italic",
     size = 2.0 * s, colour = grey_dark
   ) +
-  ggplot2::labs(caption = paste0(
+  labs(caption = paste0(
     "Floor-group shift: -8.41 [-11.15, -5.66].    ",
     "Above-floor slope: -0.27 [-0.35, -0.19], pd = 99.9%.\n",
-    "Best of six models by cross-validation; the runner-up,",
-    "free to break anywhere, also broke the relationship close to the floor."
+    "Best of six models by cross-validation; the runner-up, ",
+    "free to break anywhere,\nalso broke the relationship close to the floor."
   )) +
-  ggplot2::theme(
+  theme(
     legend.position = "none",
-    plot.caption = ggplot2::element_text(
+    plot.caption = element_text(
       hjust = 1, face = "italic", colour = "grey35",
-      size = ggplot2::rel(0.72), lineheight = 1.2
-    )
+      size = rel(0.72), lineheight = 1.1
+    ),
+    axis.title.x = element_text(margin = margin(t = 5 * s))
   )
 
 # 7. Assembly ----
@@ -268,41 +275,45 @@ p_floor <-
 # A and S occupy the same rows, which is what makes patchwork align their
 # panels and therefore their alexithymia scales. Q is the QR void.
 design <- c(
-  # patchwork::area( 5,  1, 16,  9),   # A  common approach v1
-  patchwork::area( 3,  1, 14,  9),   # A  common approach v2
-  patchwork::area( 5, 10, 9, 12),   # R  arrow
-  patchwork::area( 1, 13,  4, 30),   # H  histogram
-  patchwork::area( 5, 13, 16, 30),   # S  floor-group model
-  # patchwork::area( 1,  1,  4,  9)    # Q  QR void v1
-  patchwork::area( 15,  1,  16,  9)    # Q  QR void v2
+  # area( 5,  1, 16,  9),   # A  common approach v1 (aligned with floor-group)
+  area( 4,  1, 17,  9),   # A  common approach v2 (vertically in the middle)
+  area( 6, 10, 10, 12),   # R  arrow
+  area( 1, 13,  5, 30),   # H  histogram
+  area( 6, 13, 19, 30),   # S  floor-group model
+  # area( 1,  1,  4,  9)    # Q  QR void v1
+  area( 18, 1, 19, 9)    # Q  QR void v2
 )
 
 poster_figure <-
-  p_common + p_arrow + p_hist + p_floor + patchwork::plot_spacer() +
-  patchwork::plot_layout(design = design)
+  p_common + p_arrow + p_hist + p_floor + plot_spacer() +
+  plot_layout(design = design)
 
 # 8. Export ----
 
-# ragg renders Montserrat natively through systemfonts, so showtext is turned
-# back off after theme_pdf() switched it on. That sidesteps showtext's
-# nominal-DPI trap entirely: no showtext_opts() dance, no wrongly-scaled type.
-showtext::showtext_auto(FALSE)
+# theme_pdf() registers Montserrat with showtext, not with systemfonts, so
+# ragg cannot resolve it on its own. Keep showtext on and align its nominal
+# resolution with the device: showtext converts point sizes to pixels at
+# showtext_opts(dpi), and any mismatch with the device's res silently
+# rescales every piece of type in the figure.
 
 out_dir <- here::here("inst/visualisation/poster")
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Set preview <- TRUE while tuning: same layout, same millimetres, small file.
-preview <- TRUE
+preview <- FALSE
 res     <- if (preview) 60 else 300
 file    <- file.path(
   out_dir,
   if (preview) "preview.png" else "fig_poster_transformation.png"
 )
 
+showtext::showtext_opts(dpi = res)
+
 ragg::agg_png(file, width = fig_width, height = fig_height,
               units = "mm", res = res, background = "white")
 print(poster_figure)
 invisible(dev.off())
+
+showtext::showtext_opts(dpi = 96)
 
 cat("wrote", file, "\n")
 cat("QR void:", round(fig_width * 9 / 30), "x", round(fig_height * 4 / 16), "mm\n")
