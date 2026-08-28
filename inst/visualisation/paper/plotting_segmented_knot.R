@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Segmented model figure — fitted curve, Kvamme reference lines, knot
 # posterior half-eye
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Requires: ggdist (for stat_halfeye), already-fitted segmented_estimated,
 # and the validated Kvamme replication coefficients from
 # kvamme_analysis_replication.R (sourced below).
@@ -11,29 +11,32 @@ devtools::load_all()
 segmented_estimated <- readRDS("inst/analysis/models_comparison/segmented_estimated_knot_tot.rds")
 source("inst/analysis/kvamme_analysis_replication.R")  # provides kvamme_aphant_grid, kvamme_typical_grid
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Fitted curve ----
 # Segmented model's fitted curve — same mechanism already validated in
 # plotting_model_overlay.R and probe_segmented_prediction_curve.R.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 pred_grid <- data.frame(vviq = seq(16, 80, length.out = 200))
 pred_segmented <- as.data.frame(marginaleffects::predictions(segmented_estimated, newdata = pred_grid))
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Knot posterior draws ----
 # Knot posterior draws, for the half-eye — same extraction as
 # parameter_evidence.R.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 knot_draws <- brms::as_draws_df(segmented_estimated, variable = "b_k_Intercept")
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Half-eye placement ----
 # y-position for the half-eye: placing it just above the curve's peak (where
 # there's naturally empty space, since the curve peaks near the knot
 # itself) to kept it close to the feature it describes.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 halfeye_y_position <- max(pred_segmented$estimate) + 1.5
 
-# ------------------------------------------------------------------------------
-# Assemble the plot
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Assemble the plot ----
+# ---------------------------------------------------------------------------- #
 p_segmented <-
   ggplot2::ggplot() +
   # Raw scatter, faint 

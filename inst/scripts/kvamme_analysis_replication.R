@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Kvamme et al. replication — split-sample regressions on THEIR actual data
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Purpose: Kvamme et al. (2026, Neuropsychologia) report Pearson correlations
 # between VVIQ and TAS separately for their aphantasia group (VVIQ 16-32,
@@ -33,19 +33,20 @@ kvamme_data <- all_data |> dplyr::filter(study == "kvamme")
 kvamme_aphant  <- kvamme_data |> dplyr::filter(vviq_group_2 == "aphantasia")
 kvamme_typical <- kvamme_data |> dplyr::filter(vviq_group_2 != "aphantasia")
 
-# ------------------------------------------------------------------------------
-# Fit the two split-sample regressions
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Fit the two split-sample regressions ----
+# ---------------------------------------------------------------------------- #
 lm_kvamme_aphant  <- lm(tas ~ vviq, data = kvamme_aphant)
 lm_kvamme_typical <- lm(tas ~ vviq, data = kvamme_typical)
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Validation against reported r ----
 # VALIDATION — check recovered r against Kvamme et al.'s reported values
 # BEFORE trusting these lines for any figure. If these don't closely match
 # 0.186 / -0.236, investigate before proceeding (see script header for the
 # two most likely causes: TAS scoring version, or a subtly different
 # aphantasia/non-aphantasia boundary than intended).
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 r_aphant  <- sqrt(summary(lm_kvamme_aphant)$r.squared) * sign(coef(lm_kvamme_aphant)["vviq"])
 r_typical <- sqrt(summary(lm_kvamme_typical)$r.squared) * sign(coef(lm_kvamme_typical)["vviq"])
 
@@ -59,22 +60,24 @@ cat("scoring differences), these lines can be captioned as Kvamme et al.'s\n")
 cat("actual reported analysis. If they diverge meaningfully, investigate\n")
 cat("before using these lines in any figure.\n\n")
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Coefficients for the figure ----
 # Coefficients, for direct use in a figure (e.g. geom_abline() or a
 # prediction grid matching the segmented-model figure's approach)
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 cat("=== Coefficients ===\n")
 cat("Aphantasia line (VVIQ 16-32):\n")
 print(coef(lm_kvamme_aphant))
 cat("\nNon-aphantasia line (VVIQ 33-80):\n")
 print(coef(lm_kvamme_typical))
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Prediction grids ----
 # Prediction grids, matching the style already used in plotting_model_overlay.R
 # and plot_floor_group.R (separate grids per regime, restricted to each
 # regime's own real VVIQ range — no extrapolation beyond what Kvamme et al.
 # themselves would have shown).
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 kvamme_aphant_grid <- data.frame(vviq = seq(16, 32, length.out = 50))
 kvamme_aphant_grid$estimate <- predict(lm_kvamme_aphant, newdata = kvamme_aphant_grid)
 

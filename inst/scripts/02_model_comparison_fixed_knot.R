@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Model fitting — segmented model with a FIXED knot from earth::earth()
 # Outcome: total TAS-20 score. Single-level (no study random effects yet).
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # This script FITS ONLY. All comparison, diagnostics, and PPCs live in
 # model_diagnostics_and_comparison.R.
@@ -24,9 +24,9 @@
 
 source("inst/scripts/00_model_comparison_setup.R")
 
-# ------------------------------------------------------------------------------
-# A. Find the knot with earth
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# A. Find the knot with earth ----
+# ---------------------------------------------------------------------------- #
 mars <- earth::earth(tas ~ vviq, data = all_data)
 # print(summary(mars))
 
@@ -50,15 +50,15 @@ if (length(unique(vviq_cuts_nonzero)) != 1) {
 knot <- unique(vviq_cuts_nonzero)
 cat(sprintf("\nKnot extracted from earth::earth(): %.2f\n", knot))
 
-# ------------------------------------------------------------------------------
-# B. Fixed-knot segmented brms model
+# ---------------------------------------------------------------------------- #
+# B. Fixed-knot segmented brms model ----
 #
 # Hinge predictors added to a copy of all_data (not modifying the package's
 # canonical data object), mirroring earth's own h(knot-vviq) / h(vviq-knot)
 # basis exactly:
 #   h_lo = max(knot - vviq, 0)   -> active (and increasing) for vviq < knot
 #   h_hi = max(vviq - knot, 0)   -> active (and increasing) for vviq > knot
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 model_data <- all_data
 model_data$h_lo <- pmax(knot - model_data$vviq, 0)
 model_data$h_hi <- pmax(model_data$vviq - knot, 0)
@@ -76,7 +76,8 @@ segmented_fixed <-
     file = paste0(COMPARISON_MODEL_DIR, "segmented_fixed_knot_tot.rds")
   )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Sign convention ----
 # NOTE on sign convention (relevant when interpreting output later):
 # h_lo = knot - vviq, so an INCREASE in vviq DECREASES h_lo. This means the
 # sign of the h_lo coefficient is flipped relative to what you'd read as
@@ -85,7 +86,7 @@ segmented_fixed <-
 # versa. Double-check this against summary(segmented_fixed) before writing
 # anything up; getting this backwards was flagged as a risk earlier and is
 # worth actively verifying, not assuming.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 
 cat("---------------------------------------------------------------------------------\n")
 cat("Script 02 done: segmented_fixed fit and saved to", COMPARISON_MODEL_DIR, "\n")

@@ -3,7 +3,7 @@ pacman::p_load(brms, patchwork)
 
 refit <- "never"
 
-# Models -------------------------------------
+# Models ----
 lm_dif <- 
   fit_brms_model(
     formula = tas_identify ~ vviq_group_4, 
@@ -29,7 +29,7 @@ lm_eot <-
     file = here::here("inst/models/lm_eot.rds")
   )
 
-# Contrasts -----------------------------------
+# Contrasts ----
 contr_dif <- 
   marginaleffects::comparisons(
     lm_dif,
@@ -49,7 +49,7 @@ contr_eot <-
     draw_ids = 1:4000
   )
   
-# Visualisation -------------------------------
+# Visualisation ----
 p_dif <- 
   plot_group_violins(
     tas_identify ~ vviq_group_4, 

@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Parameter evidence — pd/ROPE for floor_group_additive multilevel and
 # segmented_estimated
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Compute the evidence for the two new models of interest using the pd/ROPE
 # method (see Makowski et al., 2019).
@@ -37,7 +37,8 @@ library(bayestestR)
 floor_group_additive_multilevel <- readRDS("inst/models/floor_group_additive_multilevel_tot.rds")
 segmented_estimated  <- readRDS("inst/models/segmented_estimated_knot_tot.rds")
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# ROPE ranges ----
 # ROPE ranges — TWO DIFFERENT CONVENTIONS NEEDED, NOT ONE.
 #
 # rope_range_tas (0.1 x SD(tas)) is appropriate for the floor-group
@@ -61,7 +62,7 @@ segmented_estimated  <- readRDS("inst/models/segmented_estimated_knot_tot.rds")
 # actually expressed in, via SD(tas)/SD(vviq). This correctly answers "what 
 # raw-scale slope CORRESPONDS TO a standardized slope of 0.2", rather than 
 # reusing a formula meant for group contrasts.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 rope_range_tas <- bayestestR::rope_range(floor_group_additive_multilevel)
 cat(sprintf("ROPE range for the FLOOR-GROUP CONTRAST (0.1 x SD of TAS): [%.3f, %.3f]\n",
             rope_range_tas[1], rope_range_tas[2]))
@@ -75,9 +76,10 @@ cat(sprintf(
   -rope_range_slope, rope_range_slope
 ))
 
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
+# 1. Floor-group model ----
 # 1. floor_group_additive_multilevel — the headline floor effect
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 cat("=== floor_group_additive_multilevel: floor-group effect ===\n\n")
 
 floor_effect_summary <- bayestestR::describe_posterior(
@@ -99,12 +101,13 @@ vviq_slope_summary <- bayestestR::describe_posterior(
 )
 print(vviq_slope_summary)
 
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
+# 2. Segmented model ----
 # 2. segmented_estimated — knot location, below-knot slope, above-knot slope
 #
 # All computed via MANUAL posterior draw extraction (confirmed-safe path),
 # not describe_posterior() directly on the model object.
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 cat("\n=== segmented_estimated: knot location, below/above-knot slopes ===\n\n")
 
 draws <- brms::as_draws_df(
@@ -148,7 +151,8 @@ knot_ci <- stats::quantile(knot_location, probs = c(0.025, 0.5, 0.975))
 cat(sprintf("knot_location        Median = %.2f  [%.2f, %.2f]  pd = %s\n",
             knot_ci[2], knot_ci[1], knot_ci[3], format(knot_pd$pd * 100, digits = 4)))
 
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
+# 3. Knot vs reference thresholds ----
 # 3. Knot vs. reference thresholds — a deliberate, substantive comparison
 #
 # Rather than a generic ROPE-around-zero (meaningless for a location
@@ -157,7 +161,7 @@ cat(sprintf("knot_location        Median = %.2f  [%.2f, %.2f]  pd = %s\n",
 # operationalises the "hints at redefining the aphantasia/hypophantasia
 # boundary" observation with actual evidence, rather than an eyeballed CI
 # comparison.
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 cat("\n=== Knot location vs. Kvamme et al.'s manual threshold ===\n\n")
 
 KVAMME_THRESHOLD <- 32  # CONFIRM against Kvamme et al. before using in write-up

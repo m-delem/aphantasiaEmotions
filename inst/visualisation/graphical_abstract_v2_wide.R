@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Graphical abstract — WIDE version, for GitHub README and OSF
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Two panels: the naive 2-group baseline (grey — "the common approach"), and the
 # floor-group model (the actual finding), composed with its own VVIQ marginal
@@ -18,17 +18,18 @@ ax_rel_y <- 0.7
 ax_margins <- 1.25
 lw <- 0.1
 
-# ------------------------------------------------------------------------------
-# Load the canonical multilevel model directly
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Load the canonical multilevel model directly ----
+# ---------------------------------------------------------------------------- #
 floor_group_additive_multilevel <- readRDS(
   "inst/models/floor_group_additive_multilevel_tot.rds"
 )
 model_data <- floor_group_additive_multilevel$data
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Left panel: the common approach ----
 # Left panel: the naive 2-group baseline, grey, "the common approach"
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 baseline_panel <-
   plot_group_violins(
     tas ~ vviq_group_2,
@@ -81,9 +82,10 @@ baseline_panel <-
     expand = ggplot2::expansion(mult = 0, add = c(0.4, 0.7))
   )
 
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Progression arrow ----
 # Progression arrow: axis-free ggplot containing only a horizontal arrow
-# ----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 mid_arrow <-
   ggplot2::ggplot() +
   ggplot2::annotate(
@@ -98,11 +100,12 @@ mid_arrow <-
   ggplot2::ylim(0, 1) +
   ggplot2::theme_void()
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Right panel: the floor-group finding ----
 # Right panel: the floor-group finding, with its marginal-histogram strip,
 # reusing the real plot_floor_group() function (not a simplified rebuild —
 # the floor-effect stats and X-bar annotation are worth keeping).
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 hist_panel <-
   plot_vviq_marginal_histogram(
     model_data, 
@@ -210,9 +213,9 @@ main_panel <-
     size = 5, lineheight = 0.2
   )
 
-# ------------------------------------------------------------------------------
-# Compose with patchwork's amazing "design" layout tool
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Compose with patchwork's amazing "design" layout tool ----
+# ---------------------------------------------------------------------------- #
 wide_abstract <-
   baseline_panel + mid_arrow + hist_panel + main_panel +
   plot_layout(

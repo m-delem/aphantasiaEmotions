@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Multilevel floor-group additive model — random intercept + slope by study
 # Outcome: total TAS-20 score.
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Formula: tas ~ vviq + complete_aphant + (vviq | study)
 #
@@ -40,9 +40,9 @@ floor_group_additive_multilevel <-
     file = paste0(COMPARISON_MODEL_DIR, "floor_group_additive_multilevel_tot.rds")
   )
 
-# ------------------------------------------------------------------------------
-# Diagnostics
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Diagnostics ----
+# ---------------------------------------------------------------------------- #
 cat("=== floor_group_additive_multilevel: Rhat / ESS ===\n")
 print(brms::rhat(floor_group_additive_multilevel))
 cat(sprintf("\nMin bulk ESS ~ %.0f\n",
@@ -57,14 +57,15 @@ cat("study heterogeneity is accounted for? A meaningful shift here would be\n")
 cat("worth understanding before treating this as the headline manuscript\n")
 cat("model.\n")
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Floor group across studies ----
 # NOTE: worth checking how floor-group participants are distributed across
 # studies before over-interpreting this model's random slope estimates —
 # the floor group being concentrated in only 3 studies (the aphantasia-focused
 # datasets), the interaction between the (vviq | study) random effects and the 
 # floor-group contrast could behave in ways worth a closer look, not assumed to 
 # be clean.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 cat("\n=== Floor-group participants per study (context for interpretation) ===\n")
 print(table(model_data$study, model_data$complete_aphant))
 

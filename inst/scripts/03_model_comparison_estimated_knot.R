@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Model fitting — segmented model with an ESTIMATED (not fixed) knot location
 # Outcome: total TAS-20 score. Single-level (no study random effects yet).
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # This script FITS ONLY. All comparison, diagnostics, and PPCs live in
 # model_diagnostics_and_comparison.R.
@@ -31,8 +31,8 @@
 
 source("inst/scripts/00_model_comparison_setup.R")
 
-# ------------------------------------------------------------------------------
-# Nonlinear formula design
+# ---------------------------------------------------------------------------- #
+# Nonlinear formula design ----
 #
 #   tas = a + b1 * vviq + b2 * (vviq - k) * step(vviq - k)
 #
@@ -40,7 +40,7 @@ source("inst/scripts/00_model_comparison_setup.R")
 #   - b1 = slope of tas on vviq BELOW the knot (step() = 0 there)
 #   - b1 + b2 = slope of tas on vviq ABOVE the knot (step() = 1 there)
 #   - b2 = the CHANGE in slope at the knot (not a segment slope on its own)
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 segmented_formula <- brms::bf(
   tas ~ a + b1 * vviq + b2 * (vviq - k) * step(vviq - k),
   a  ~ 1,
@@ -50,13 +50,13 @@ segmented_formula <- brms::bf(
   nl = TRUE
 )
 
-# ------------------------------------------------------------------------------
-# Priors for the nonlinear parameters.
+# ---------------------------------------------------------------------------- #
+# Priors for the nonlinear parameters ----
 #   a, b1, b2: normal(0, 20), matching the package's general convention.
 #     (b2 is a slope-DIFFERENCE, not a raw slope)
 #   k (knot location): normal(24, 10), centred near the earth-derived value
 #     from script 02, wide enough for the data to override it.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 segmented_priors <- c(
   brms::prior(normal(0, 20), nlpar = "a"),
   brms::prior(normal(0, 20), nlpar = "b1"),
@@ -64,10 +64,11 @@ segmented_priors <- c(
   brms::prior(normal(24, 10), nlpar = "k")
 )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Sanity check ----
 # SANITY CHECK — run this FIRST if re-verifying after any change. Does not
 # fit anything, just generates Stan code.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 # stan_check <- brms::make_stancode(
 #   segmented_formula,
 #   data = all_data,
@@ -75,12 +76,13 @@ segmented_priors <- c(
 # )
 # cat(stan_check)
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Initial values ----
 # Explicit initial values for the nonlinear parameters — REQUIRED. Without
 # this, the sampler previously found a nonsensical knot location (see note
 # above). Centred on sensible starting guesses (matching the priors' own
 # centres, not fitted values).
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 segmented_inits <- function() {
   list(
     b_a  = array(mean(all_data$tas)), # intercept ~ near sample mean of TAS
@@ -90,11 +92,11 @@ segmented_inits <- function() {
   )
 }
 
-# ------------------------------------------------------------------------------
-# Full fit
+# ---------------------------------------------------------------------------- #
+# Full fit ----
 # adapt_delta raised to 0.99 and max_treedepth to 15 as precautions for this
 # nonlinear/hinge model's potentially trickier posterior geometry.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 segmented_estimated <-
   fit_brms_model(
     formula = segmented_formula,

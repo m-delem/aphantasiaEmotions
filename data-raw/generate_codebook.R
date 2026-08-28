@@ -3,9 +3,9 @@
 #   - dataset_description.json  (Psych-DS compliant data dictionary)
 #   - codebook.md               (human-readable Markdown table)
 #   
-# -----------------------------------------------------------------------
-# 0. Dataset-level metadata
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 0. Dataset-level metadata ----
+# ---------------------------------------------------------------------------- #
 
 dataset_info <- list(
   name = "VVIQ and TAS-20 data across five studies (aphantasia / alexithymia)",
@@ -36,9 +36,9 @@ dataset_info <- list(
   )
 )
 
-# -----------------------------------------------------------------------
-# 1. Variable definitions
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 1. Variable definitions ----
+# ---------------------------------------------------------------------------- #
 # Each variable is a named list. Common fields:
 #   name         - exact column header
 #   description  - plain-language explanation
@@ -220,9 +220,9 @@ variables <- list(
   )
 )
 
-# -----------------------------------------------------------------------
-# 1a. VVIQ item columns (vviq_q1-vviq_q16)
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 1a. VVIQ item columns (vviq_q1-vviq_q16) ----
+# ---------------------------------------------------------------------------- #
 # The VVIQ has no sub-scales; its 16 items are organised into 4 scenes of 4
 # items each (familiar person, sunrise, shop, natural scene), each rated
 # 1 (perfectly clear and vivid) to 5 (no image at all). Item text is not
@@ -255,9 +255,9 @@ vviq_items <- lapply(1:16, function(i) {
   )
 })
 
-# -----------------------------------------------------------------------
-# 1b. TAS-20 item columns (tas_q1-tas_q20)
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 1b. TAS-20 item columns (tas_q1-tas_q20) ----
+# ---------------------------------------------------------------------------- #
 # Subscale assignment and reverse-scored items per Bagby, Parker, & Taylor
 # (1994). Item wording not reproduced here for copyright reasons.
 
@@ -296,9 +296,9 @@ tas_items <- lapply(1:20, function(i) {
 
 all_variables <- c(variables, vviq_items, tas_items)
 
-# -----------------------------------------------------------------------
-# 2. Render: Psych-DS dataset_description.json
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 2. Render: Psych-DS dataset_description.json ----
+# ---------------------------------------------------------------------------- #
 
 variable_to_property_value <- function(v) {
   pv <- list(
@@ -342,9 +342,9 @@ write_json_codebook <- function(all_variables, dataset_info, path) {
   invisible(json_text)
 }
 
-# -----------------------------------------------------------------------
-# 3. Render: human-readable Markdown codebook
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 3. Render: human-readable Markdown codebook ----
+# ---------------------------------------------------------------------------- #
 
 # Markdown table cells break on literal "|" and newlines, so escape/strip them.
 md_escape <- function(x) {
@@ -451,9 +451,9 @@ write_markdown_codebook <- function(variables, vviq_items, tas_items, dataset_in
   invisible(header)
 }
 
-# -----------------------------------------------------------------------
-# 4. Run
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 4. Run ----
+# ---------------------------------------------------------------------------- #
 
 write_json_codebook(all_variables, dataset_info, "data-raw/dataset_description.json")
 write_markdown_codebook(variables, vviq_items, tas_items, dataset_info, "data-raw/codebook.md")

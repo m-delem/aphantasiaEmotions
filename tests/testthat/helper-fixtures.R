@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Shared test fixture — one tiny brms model, reused across test files
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # This model is NOT fit at test time. Compiling a Stan model requires a real,
 # working Boost/g++ toolchain, which is a recurring source of CI breakage

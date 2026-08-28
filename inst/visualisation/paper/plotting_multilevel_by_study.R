@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Per-study slopes/intercepts — floor_group_additive_multilevel
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # PURPOSE: directly answers a reviewer comment along the lines of "does the
 # finding hold across studies" — visualises each study's own fitted line
 # (intercept + vviq slope, from the multilevel model's per-study
@@ -21,11 +21,12 @@ floor_group_additive_multilevel <-
   readRDS("inst/models/floor_group_additive_multilevel_tot.rds")
 model_data <- floor_group_additive_multilevel$data  # already has complete_aphant, study, vviq, tas
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Per-study coefficients ----
 # Per-study coefficients — brms::coef() (NOT fixef()) gives each study's
 # own intercept + slope directly (population-level effect + that study's
 # deviation, already summed) — no manual addition needed.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 study_coefs <- coef(floor_group_additive_multilevel)$study
 # study_coefs is a 3D array [study, stat, parameter] — reshape to a plain
 # data frame for ggplot.
@@ -40,12 +41,13 @@ pooled_coefs <- brms::fixef(floor_group_additive_multilevel)
 pooled_intercept <- pooled_coefs["Intercept", "Estimate"]
 pooled_slope     <- pooled_coefs["vviq", "Estimate"]
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Per-study prediction lines ----
 # Per-study prediction lines, EACH RESTRICTED TO THAT STUDY'S OWN OBSERVED
 # VVIQ RANGE — same no-extrapolation principle already used for Kvamme's
 # reference lines in plotting_segmented_knot.R. A study's line should only
 # be shown where that study actually has data.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 study_lines <- do.call(rbind, lapply(unique(model_data$study), function(s) {
   study_range <- range(model_data$vviq[model_data$study == s])
   coefs <- study_coefs_df[study_coefs_df$study == s, ]
@@ -60,13 +62,14 @@ study_lines <- do.call(rbind, lapply(unique(model_data$study), function(s) {
 pooled_line <- data.frame(vviq = seq(16, 80, length.out = 100))
 pooled_line$estimate <- pooled_intercept + pooled_slope * pooled_line$vviq
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Muted floor-group element ----
 # Muted floor-group element — single pooled violin + mean point, NOT
 # per-study (no complete_aphant | study random effect was fit, so a per-study
 # breakdown here would visualise something the model doesn't actually estimate —
 # reserved for the optional ridgeline block below instead, clearly marked as
 # descriptive-only).
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 floor_raw <- model_data[model_data$complete_aphant == "floor", ]
 dens <- stats::density(floor_raw$tas, from = 20, to = 100, n = 200)
 dens_scaled <- dens$y / max(dens$y) * 2  # smaller/more muted than the headline figure's violin
@@ -74,9 +77,9 @@ violin_df <- data.frame(x = 16 - dens_scaled, xend = 16, y = dens$x)
 
 floor_mean <- mean(floor_raw$tas)
 
-# ------------------------------------------------------------------------------
-# Assemble the plot
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Assemble the plot ----
+# ---------------------------------------------------------------------------- #
 study_colors <- c(
   burns = "#E69F00", monzel = "#56B4E9", mas = "#009E73",
   ruby = "#D55E00", kvamme = "#CC79A7"

@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # PROBE — segmented_estimated prediction-curve compatibility
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Purpose: the linear/GAM/segmented overlay figure needs a full prediction
 # CURVE (across a range of vviq values) from all three models, not just a
@@ -23,11 +23,12 @@ library(modelbased)
 
 segmented_estimated <- readRDS("inst/models/segmented_estimated_knot_tot.rds")
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Test 1: marginaleffects::predictions() ----
 # TEST 1: marginaleffects::predictions() across a full vviq range —
 # the same mechanism plot_floor_group() already uses successfully on a
 # LINEAR model. Testing here on the nl=TRUE segmented model specifically.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 cat("=== TEST 1: marginaleffects::predictions(), full range ===\n")
 pred_grid <- data.frame(vviq = seq(16, 80, length.out = 50))
 
@@ -45,12 +46,13 @@ if (!is.null(test1)) {
   print(test1_df[test1_df$vviq > 15 & test1_df$vviq < 30, c("vviq", "estimate")])
 }
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Test 2: modelbased::estimate_means() ----
 # TEST 2: modelbased::estimate_means() — the alternative mechanism used by
 # plot_gam_means() for the previous manuscript's GAM figure. Testing whether 
 # this ALSO works on the nl=TRUE model, as a second option in case Test 1 has 
 # issues.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 cat("\n=== TEST 2: modelbased::estimate_means(), full range ===\n")
 test2 <- tryCatch({
   modelbased::estimate_means(segmented_estimated, by = "vviq", length = 50)
@@ -63,12 +65,13 @@ if (!is.null(test2)) {
   print(head(as.data.frame(test2)))
 }
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Test 3: sanity cross-check ----
 # TEST 3: sanity cross-check — does Test 1's curve, if it worked, actually
 # match the known coefficients (b1=2.46 below knot, b1+b2=-0.28 above,
 # knot~19.5)? A working function call that produces WRONG numbers would be
 # worse than an honest error — checking the shape, not just "did it run".
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 if (!is.null(test1)) {
   cat("\n=== TEST 3: sanity-check curve shape against known coefficients ===\n")
   test1_df <- as.data.frame(test1)

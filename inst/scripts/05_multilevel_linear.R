@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Multilevel linear model — random intercept + slope by study
 # Outcome: total TAS-20 score.
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Formula: tas ~ vviq + (vviq | study)
 #
@@ -35,12 +35,13 @@ lm_linear_multilevel <-
     file = paste0(COMPARISON_MODEL_DIR, "lm_linear_multilevel_tot.rds")
   )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Diagnostics ----
 # Diagnostics — check BEFORE trusting this model. Multilevel models can
 # show poor Rhat/ESS specifically on the group-level SD/correlation terms
 # even when fixed effects look fine — check those parameters explicitly,
 # not just the overall max/min summary.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 cat("=== lm_linear_multilevel: Rhat / ESS ===\n")
 print(brms::rhat(lm_linear_multilevel))
 cat(sprintf("\nMin bulk ESS ~ %.0f\n",

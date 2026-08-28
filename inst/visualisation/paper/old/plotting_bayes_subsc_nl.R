@@ -1,7 +1,7 @@
 devtools::load_all()
 pacman::p_load(brms, patchwork)
 
-# Models -------------------------------------
+# Models ----
 gam_dif <- fit_brms_model(
   formula = tas_identify ~ s(vviq), 
   data = all_data,
@@ -31,7 +31,7 @@ slopes_ddf <-
 slopes_eot <-
   modelbased::estimate_slopes(gam_eot, trend = "vviq", by = "vviq", length = 75)
 
-# Visualisation -------------------------------
+# Visualisation ----
 p_gam_dif <-
   plot_gam_means(
     gam_dif,

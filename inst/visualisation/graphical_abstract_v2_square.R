@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Graphical abstract — SQUARE version, for PCJ article-page display
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # PCJ's display locks THUMBNAIL WIDTH but not height — a "long" image is fine,
 # even advantageous, on the article-list thumbnail; a "wide" image gets shrunk
@@ -18,9 +18,9 @@ ax_rel_y <- 0.7
 ax_margins <- 1.25
 lw <- 0.1
 
-# ------------------------------------------------------------------------------
-# Load the canonical multilevel model directly
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Load the canonical multilevel model directly ----
+# ---------------------------------------------------------------------------- #
 floor_group_additive_multilevel <- readRDS(
   "inst/models/floor_group_additive_multilevel_tot.rds"
 )

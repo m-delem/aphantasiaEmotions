@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Model comparison setup — shared across all model-fitting scripts
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # This script defines the shared priors, iteration/warmup/chain constants used
 # by scripts 01-04. Comparison and diagnostics logic itself lives in
@@ -13,12 +13,14 @@
 devtools::load_all()  # for fit_brms_model(), all_data
 library(brms)
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Priors ----
 # Priors — wide normal(0, 20) on all fixed effects, brms defaults elsewhere. 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 priors <- c(brms::prior(normal(0, 20), class = "b"))
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Sampling budget ----
 # Iteration / warmup / chain budget for this comparison cycle.
 #
 # fit_brms_model() takes `iterations` as POST-WARMUP DRAWS PER CHAIN directly,
@@ -30,7 +32,7 @@ priors <- c(brms::prior(normal(0, 20), class = "b"))
 # extra convergence confidence on newer model forms (segmented, floor-group
 # interaction) at low extra cost given the 24-core machine (available to yours
 # truly).
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 CHAINS_COMPARISON     <- 6
 ITERATIONS_COMPARISON <- 2000 # post-warmup draws PER CHAIN
 WARMUP_COMPARISON     <- 1000

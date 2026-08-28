@@ -61,7 +61,7 @@ select_and_sum_scales <- function(df) {
   return(df)
 }
 
-# Burns -------------------------------------------------------------
+# Burns ----
 df_burns <-
   bind_cols(
     read_xlsx(here("data-raw/data_burns.xlsx")),
@@ -94,7 +94,7 @@ df_burns <-
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age")
 
-# Monzel -------------------------------------------------------------
+# Monzel ----
 df_monzel <-
   read_xlsx(here("data-raw/data_monzel.xlsx"), sheet = "raw_data") |>
   mutate(
@@ -122,7 +122,7 @@ df_monzel <-
     "items"
   )
 
-# Ruby -------------------------------------------------------------
+# Ruby ----
 df_ruby <-
   read_xlsx(here("data-raw/data_ruby.xlsx")) |>
   select(
@@ -208,7 +208,7 @@ df_ruby <-
   relocate("vviq":"tas_external", "items", .after = "age") |>
   suppressMessages()
 
-# Kvamme -----------------------------------------------------------
+# Kvamme ----
 df_kvamme <-
   read_xlsx(here("data-raw/data_kvamme.xlsx")) |>
   rename_with(.fn = ~ .x |> str_replace_all("tas_", "tas_q")) |>
@@ -251,7 +251,7 @@ df_kvamme <-
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age")
 
-# Mas -----------------------------------------------------
+# Mas ----
 df_mas <-
   read_xlsx(here("data-raw/data_mas.xlsx")) |>
   mutate(
@@ -294,7 +294,7 @@ df_mas <-
   nest(items = c(starts_with("vviq_q"), starts_with("tas_q"))) |>
   relocate("vviq":"tas_external", "items", .after = "age")
 
-# Merging and creating groups ---------------------------------------------
+# Merging and creating groups ----
 all_data <-
   bind_rows(df_burns, df_monzel, df_mas, df_ruby, df_kvamme) |>
   filter(vviq >= 16 & vviq <= 80) |>

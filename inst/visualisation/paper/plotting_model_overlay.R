@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Linear / GAM / segmented / floor-group / Kvamme overlay — model comparison 
 # figure
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 devtools::load_all()
 
 lm_linear           <- readRDS("inst/models/lm_linear_tot.rds")
@@ -16,10 +16,11 @@ kvamme_typical <- kvamme_data |> dplyr::filter(vviq_group_2 != "aphantasia")
 lm_kvamme_aphant  <- lm(tas ~ vviq, data = kvamme_aphant)
 lm_kvamme_typical <- lm(tas ~ vviq, data = kvamme_typical)
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Prediction curves ----
 # Prediction curves, one consistent mechanism (marginaleffects::predictions())
 # across all four models, on the same vviq grid.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 pred_grid <- 
   data.frame(vviq = seq(16, 80, length.out = 200)) |> 
   dplyr::mutate(
@@ -38,9 +39,10 @@ pred_floor     <- as.data.frame(
   marginaleffects::predictions(
     floor_group_model, newdata = pred_grid, re_formula = NA))
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Kvamme composite predictions ----
 # Kvamme's predictions are a composite of two model predictions
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 pred_kvamme_aphant  <- as.data.frame(
   marginaleffects::predictions(lm_kvamme_aphant, newdata = pred_grid)) |> 
   dplyr::filter(vviq <= 32)
@@ -97,7 +99,8 @@ end_labels["Segmented",]$estimate <- end_labels["Segmented",]$estimate + 0.5
 end_labels["Floor-group",]$estimate <- end_labels["Floor-group",]$estimate - 0.4
 end_labels["GAM",]$estimate <- end_labels["GAM",]$estimate - 1.4
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# LOO stats for the caption ----
 # LOO comparison stats for the caption (hardcoded from the already-computed
 # comparison table — CONSIDER replacing with a live read of
 # comparison_all_models_tot.rds if you want this to stay auto-updating;
@@ -106,12 +109,12 @@ end_labels["GAM",]$estimate <- end_labels["GAM",]$estimate - 1.4
 # The real table:
 #   comp_table <- readRDS(
 #     "inst/results/comparison_all_models_tot.rds")
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 overlay_caption <- "elpd (relative to segmented): Floor-group \u22121.9 (SE 3.2); GAM \u22124.6 (SE 2.3); linear \u221222.4 (SE 7.5)"
 
-# ------------------------------------------------------------------------------
-# Assemble the plot
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Assemble the plot ----
+# ---------------------------------------------------------------------------- #
 lw <- 0.4
 
 p_overlay <-
@@ -186,7 +189,8 @@ save_ggplot(
 
 plot(p_overlay)
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Superseded alternative ----
 # SUPERSEDED ALTERNATIVE, kept for reference: stacking this overlay below
 # the 2-group/4-group baseline-comparison figure (plotting_baseline_
 # comparison.R), with a combined 4-model caption. Dropped because the two
@@ -196,7 +200,7 @@ plot(p_overlay)
 # the side-by-side pairing with plotting_segmented_knot.R below instead,
 # which shares a consistent grammar (line plots + matching scatter) across
 # both panels.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 # source("inst/visualisation/paper/plotting_baseline_comparison.R")
 # 
 # overlay_caption <- "elpd (relative to segmented): GAM \u22124.6 (SE 2.3); linear \u221222.4 (SE 7.5); 4-groups \u221229.7 (SE 8.2); 2-groups \u221248.5 (SE 10.2)"
@@ -214,7 +218,8 @@ plot(p_overlay)
 #   ncol = 2, height = 150
 # )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Final composition ----
 # FINAL: side-by-side composition with the segmented-knot figure.
 #
 # IMPORTANT FRAMING NOTE: these two panels make DIFFERENT KINDS of
@@ -232,7 +237,7 @@ plot(p_overlay)
 # consider more explicitly distinguishing wording, e.g. "Choosing among
 # our models" (left) vs. "Testing an external threshold" (right), so the
 # distinction is visible in the titles themselves, not just in prose.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 # source("inst/visualisation/paper/plotting_segmented_knot.R")
 # library(patchwork)
 # 

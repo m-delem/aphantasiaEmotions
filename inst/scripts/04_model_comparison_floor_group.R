@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Model fitting — floor-group additive model
 # Outcome: total TAS-20 score. Single-level (no study random effects yet).
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # This script FITS ONLY. All comparison, diagnostics, and PPCs live in
 # model_diagnostics_and_comparison.R.
@@ -22,9 +22,10 @@
 
 source("inst/scripts/00_model_comparison_setup.R")
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Floor-group indicator ----
 # Floor-group indicator, derived from the existing vviq_group_4 factor
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 model_data <- all_data
 model_data$complete_aphant <- factor(
   ifelse(model_data$vviq_group_4 == "aphantasia", "floor", "above_floor"),
@@ -34,11 +35,12 @@ model_data$complete_aphant <- factor(
 cat("Floor group sizes:\n")
 print(table(model_data$complete_aphant))
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Additive model ----
 # Additive model: floor group gets its own intercept-shift only. This is
 # the estimable quantity given the floor group has zero within-group VVIQ
 # variance — see specification history note above.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 floor_group_additive <-
   fit_brms_model(
     formula = tas ~ vviq + complete_aphant,
@@ -52,7 +54,8 @@ floor_group_additive <-
     file = paste0(COMPARISON_MODEL_DIR, "floor_group_additive_tot.rds")
   )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Reading the coefficients ----
 # NOTE on reading coefficients: with above_floor as the reference level,
 #   - `vviq` coefficient = slope of tas on vviq for the ABOVE-FLOOR group
 #     (the only group with within-group VVIQ variance to estimate a slope
@@ -67,7 +70,7 @@ floor_group_additive <-
 #   complete_aphantfloor: -8.75 [-11.38, -6.11] — floor group's mean TAS
 #   sits about 8.75 points BELOW the continuous relationship's extrapolated
 #   prediction at vviq=16, a tight, clearly non-zero effect.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 
 cat("---------------------------------------------------------------------------------\n")
 cat("Script 04 done: floor_group_additive fit and saved to", COMPARISON_MODEL_DIR, "\n")

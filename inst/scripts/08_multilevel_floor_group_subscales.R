@@ -1,6 +1,6 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Multilevel floor-group model — TAS-20 subscales
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # Extends the validated floor_group_additive_multilevel model (script 06,
 # canonical formula: tas ~ vviq + complete_aphant + (vviq | study)) from
@@ -26,9 +26,9 @@ model_data$complete_aphant <- factor(
   levels = c("above_floor", "floor")
 )
 
-# ------------------------------------------------------------------------------
-# Fit all three subscale models
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Fit all three subscale models ----
+# ---------------------------------------------------------------------------- #
 floor_group_additive_multilevel_dif <-
   fit_brms_model(
     formula = tas_identify ~ vviq + complete_aphant + (vviq | study),
@@ -77,11 +77,12 @@ subscale_models <- list(
   EOT = floor_group_additive_multilevel_eot
 )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Diagnostics ----
 # Diagnostics — same pattern as script 06. Check BEFORE trusting these
 # models; multilevel models can show poor Rhat/ESS on group-level SD/
 # correlation terms even when fixed effects look fine.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 cat("=== Subscale models: Rhat / ESS ===\n\n")
 for (nm in names(subscale_models)) {
   m <- subscale_models[[nm]]
@@ -93,7 +94,8 @@ for (nm in names(subscale_models)) {
   ))
 }
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Consolidated results table ----
 # Consolidated results table — floor-group coefficient (complete_aphantfloor)
 # and above-floor vviq slope for each subscale, using describe_posterior()
 # to match parameter_evidence.R's established approach. ROPE ranges use the
@@ -102,7 +104,7 @@ for (nm in names(subscale_models)) {
 # rope_range() default for the floor-group CONTRAST, a Cohen-rescaled range
 # for the SLOPE. Each subscale has its OWN SD, so both ROPE ranges are
 # recomputed per subscale rather than reused from the total-TAS model.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
 subscale_outcomes <- list(
   DIF = "tas_identify",
   DDF = "tas_describe",

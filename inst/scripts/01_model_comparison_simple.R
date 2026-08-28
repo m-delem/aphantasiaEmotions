@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Model fitting — simple candidates (linear, categorical, GAM)
 # Outcome: total TAS-20 score. Single-level (no study random effects yet).
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # This script FITS ONLY. All comparison, diagnostics, and PPCs live in
 # model_diagnostics_and_comparison.R, which loads every fitted model from
@@ -17,9 +17,9 @@
 
 source("inst/scripts/00_model_comparison_setup.R")
 
-# ------------------------------------------------------------------------------
-# 1. Linear model
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 1. Linear model ----
+# ---------------------------------------------------------------------------- #
 lm_linear <-
   fit_brms_model(
     formula = tas ~ vviq,
@@ -33,9 +33,9 @@ lm_linear <-
     file = paste0(COMPARISON_MODEL_DIR, "lm_linear_tot.rds")
   )
 
-# ------------------------------------------------------------------------------
-# 2. Categorical model (4-group VVIQ factor)
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 2. Categorical model (4-group VVIQ factor) ----
+# ---------------------------------------------------------------------------- #
 lm_categorical_4g <-
   fit_brms_model(
     formula = tas ~ vviq_group_4,
@@ -61,9 +61,9 @@ lm_categorical_2g <-
     file = paste0(COMPARISON_MODEL_DIR, "lm_categorical_2g_tot.rds")
   )
 
-# ------------------------------------------------------------------------------
-# 3. GAM
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# 3. GAM ----
+# ---------------------------------------------------------------------------- #
 # Note: gam_tot needed adapt_delta = 0.99 in practice (13 divergent
 # transitions at the package default of 0.95). Set directly here rather
 # than relying on ADAPT_DELTA_DEFAULT, since this is now a KNOWN

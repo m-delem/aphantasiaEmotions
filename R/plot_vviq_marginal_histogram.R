@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # VVIQ marginal distribution plot — standalone, composable with
 # plot_floor_group() via patchwork
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # DESIGN RATIONALE: this visualises the empirical
 # fact that originally motivated the floor-group modelling approach — VVIQ's
@@ -155,7 +155,8 @@ plot_vviq_marginal_histogram <- function(
   return(p)
 }
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #
+# Example composition ----
 # EXAMPLE COMPOSITION (requires patchwork):
 #
 #   library(patchwork)
@@ -179,4 +180,4 @@ plot_vviq_marginal_histogram <- function(
 #    histogram was made specifically to avoid width mismatches with
 #    plot_floor_group()'s colorbar legend; if plot_floor_group()'s legend
 #    width changes, re-check this alignment.
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------- #

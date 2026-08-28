@@ -3,7 +3,7 @@ pacman::p_load(patchwork)
 
 refit <- "never"
 
-# Models -------------------------------------
+# Models ----
 lm_tot <-
   fit_brms_model(
     formula = tas ~ vviq_group_4,
@@ -24,7 +24,7 @@ gam_tot <-
 slopes_tot <-
   modelbased::estimate_slopes(gam_tot, trend = "vviq", by = "vviq", length = 75)
 
-# Visualisation -------------------------------
+# Visualisation ----
 p_group <-
   plot_group_violins(
     tas ~ vviq_group_4,

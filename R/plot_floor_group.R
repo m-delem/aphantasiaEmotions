@@ -1,7 +1,7 @@
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 # Floor-group plot — first attempt, following existing ggplot_tools.R /
 # plot_bayesian_results.R conventions
-# ==============================================================================
+# ---------------------------------------------------------------------------- #
 #
 # DESIGN NOTE: plot_gam_means() uses modelbased::estimate_means() + plot()
 # on the result, leaning on modelbased's own plotting method. That pattern
