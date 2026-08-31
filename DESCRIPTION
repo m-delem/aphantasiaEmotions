@@ -1,5 +1,5 @@
 Package: aphantasiaEmotions
-Title: Data Analysis for "The Linear Relationship Between Visual Imagery and Alexithymia Breaks When Imagery Is Absent: Complete Aphantasics Are No More Alexithymic Than Typical Imagers"
+Title: Extended Online Report for "The Linear Relationship Between Visual Imagery and Alexithymia Breaks When Imagery Is Absent: Complete Aphantasics Are No More Alexithymic Than Typical Imagers"
 Version: 1.0
 Authors@R: 
     person("Maël", "Delem", , "mael.delem@pm.me", role = c("aut", "cre"),
