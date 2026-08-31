@@ -625,14 +625,14 @@ precise information in visual working memory. *Cognition*, *251*,
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-08-28
+    #>  date     2026-08-31
     #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-08-28 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-08-31 [1] local
     #>    backports            1.5.1    2026-04-03 [1] RSPM
     #>    bayesplot            1.16.0   2026-08-25 [1] RSPM
     #>    bayestestR           0.18.1   2026-05-24 [1] RSPM
@@ -645,7 +645,7 @@ precise information in visual working memory. *Cognition*, *251*,
     #>  P cli                  3.6.6    2026-04-09 [?] RSPM
     #>    coda                 0.19-4.1 2024-01-31 [1] RSPM
     #>  P codetools            0.2-20   2024-03-31 [?] CRAN (R 4.6.1)
-    #>    collapse             2.1.7    2026-05-19 [1] RSPM
+    #>    collapse             2.1.8    2026-08-30 [1] RSPM
     #>  P crayon               1.5.3    2024-06-20 [?] RSPM
     #>  P curl                 8.0.0    2026-08-25 [?] RSPM
     #>    data.table           1.18.6.1 2026-08-24 [1] RSPM
@@ -684,7 +684,7 @@ precise information in visual working memory. *Cognition*, *251*,
     #>    matrixStats          1.5.0    2025-01-07 [1] RSPM
     #>  P memoise              2.0.1    2021-11-26 [?] RSPM
     #>  P mgcv                 1.9-4    2025-11-07 [?] CRAN (R 4.6.1)
-    #>    modelbased           0.16.0   2026-06-30 [1] RSPM
+    #>    modelbased           0.17.0   2026-08-28 [1] RSPM
     #>    mvtnorm              1.4-2    2026-07-12 [1] RSPM
     #>  P nlme                 3.1-169  2026-03-27 [?] CRAN (R 4.6.1)
     #>  P otel                 0.2.0    2025-08-29 [?] RSPM
@@ -712,7 +712,7 @@ precise information in visual working memory. *Cognition*, *251*,
     #>  P rlang                1.3.0    2026-07-05 [?] RSPM
     #>  P rmarkdown            2.31     2026-03-26 [?] RSPM
     #>    rstan                2.32.7   2025-03-10 [1] RSPM
-    #>    rstantools           2.7.0    2026-07-26 [1] RSPM
+    #>    rstantools           2.7.1    2026-08-29 [1] RSPM
     #>    S7                   0.2.2    2026-04-22 [1] RSPM
     #>  P sass                 0.4.10   2025-04-11 [?] RSPM
     #>    scales               1.4.0    2025-04-24 [1] RSPM

@@ -227,14 +227,14 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
     #>  collate  C.UTF-8
     #>  ctype    C.UTF-8
     #>  tz       UTC
-    #>  date     2026-08-28
+    #>  date     2026-08-31
     #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
     #>  quarto   NA
     #> 
     #> ─ Packages ───────────────────────────────────────────────────────────────────
     #>  ! package            * version  date (UTC) lib source
     #>    abind                1.4-8    2024-09-12 [1] RSPM
-    #>    aphantasiaEmotions * 1.0      2026-08-28 [1] local
+    #>    aphantasiaEmotions * 1.0      2026-08-31 [1] local
     #>    backports            1.5.1    2026-04-03 [1] RSPM
     #>    bayesplot            1.16.0   2026-08-25 [1] RSPM
     #>    bridgesampling       1.2-1    2025-11-19 [1] RSPM
@@ -282,7 +282,7 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
     #>    mvtnorm              1.4-2    2026-07-12 [1] RSPM
     #>  P nlme                 3.1-169  2026-03-27 [?] CRAN (R 4.6.1)
     #>  P otel                 0.2.0    2025-08-29 [?] RSPM
-    #>    performance        * 0.17.1   2026-06-30 [1] RSPM
+    #>    performance        * 0.18.0   2026-08-28 [1] RSPM
     #>  P pillar               1.11.1   2025-09-17 [?] RSPM
     #>  P pkgbuild             1.4.8    2025-05-26 [?] RSPM
     #>  P pkgconfig            2.0.3    2019-09-22 [?] RSPM
@@ -300,7 +300,7 @@ notes](https://m-delem.github.io/aphantasiaEmotions/articles/implementation-note
     #>  P rlang                1.3.0    2026-07-05 [?] RSPM
     #>  P rmarkdown            2.31     2026-03-26 [?] RSPM
     #>    rstan                2.32.7   2025-03-10 [1] RSPM
-    #>    rstantools           2.7.0    2026-07-26 [1] RSPM
+    #>    rstantools           2.7.1    2026-08-29 [1] RSPM
     #>    S7                   0.2.2    2026-04-22 [1] RSPM
     #>  P sass                 0.4.10   2025-04-11 [?] RSPM
     #>    scales               1.4.0    2025-04-24 [1] RSPM
